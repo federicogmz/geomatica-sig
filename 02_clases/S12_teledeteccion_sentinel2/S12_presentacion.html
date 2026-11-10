@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 12</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Teledetección en QGIS I: ¿Qué es una Imagen Multiespectral y Cómo Descargarla?</h1>
+    <p class="sub">Sesión 22 de Octubre (Parte B) · Bandas Visibles e Infrarrojas de Sentinel-2 y Descarga en QGIS para la Zona de Interés</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 12 (Parte B) · Directo al grano para Ingeniería Civil y Diseño Urbano</p>
+      <h2 class="slide__title">Lo que aprenderemos hoy en 3 pasos sencillos</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--sky)">01</div><h3>¿Qué es Multiespectral?</h3><p>Diferencia entre una foto normal (RGB) y un satélite que ve en el infrarrojo</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">02</div><h3>Las 3 Bandas Clave</h3><p><b>Rojo (B04)</b>, <b>Infrarrojo Cercano (B08)</b> e <b>Infrarrojo de Onda Corta (B11)</b></p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Descargar en QGIS</h3><p>Bajar y recortar la imagen de <b>La Iguaná</b> dentro de QGIS para calcular índices</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ¿Qué es una imagen multiespectral? -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Concepto clave · Más allá del ojo humano</p>
+      <h2 class="slide__title">¿Qué significa que una imagen sea «Multiespectral»?</h2>
+      <p class="slide__desc">Una cámara normal (o una ortofoto) solo toma 3 colores que ve el ojo humano: <b>Azul, Verde y Rojo</b>. Un satélite <b>multiespectral</b> como <b>Sentinel-2</b> toma además fotos en el <b>Infrarrojo</b>, donde las plantas y el cemento se comportan de forma totalmente distinta.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">Banda 4 · Rojo (B04 · 10 m)</span>
+          <h3>Lo que absorben las plantas</h3>
+          <p>Las hojas sanas usan la luz roja para hacer fotosíntesis, por eso <b>absorben el Rojo (B04)</b> y se ven muy oscuras (valor bajo ≈ <code>0.03</code>).</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Banda 8 · Infrarrojo Cercano (B08 · 10 m)</span>
+          <h3>¡El detector de vegetación!</h3>
+          <p>Aunque no lo vemos, las hojas sanas <b>rebotan muchísimo Infrarrojo Cercano (NIR)</b>. En la banda <code>B08</code> los bosques brillan intensamente (≈ <code>0.42</code>).</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Banda 11 · Infrarrojo Onda Corta (B11)</span>
+          <h3>¡El detector de ciudad y cemento!</h3>
+          <p>Los techos, el concreto, el asfalto y el suelo seco <b>reflejan mucho en <code>B11 (SWIR)</code></b> (≈ <code>0.32</code>), mientras que las plantas húmedas y el agua lo absorben.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Gráfica sencilla de por qué funcionan las bandas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Comparación visual entre Bosque, Ciudad y Agua</p>
+      <h2 class="slide__title">¿Cómo responde cada cobertura en las bandas del satélite?</h2>
+    </div>
+    <div class="slide__body">
+      <svg viewBox="0 0 860 155" style="width:100%;max-height:155px;margin:0 auto 0.6em auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <rect x="60" y="10" width="210" height="118" fill="#F0F7FF" stroke="#D0E3F7" stroke-width="1"/>
+        <rect x="270" y="10" width="210" height="118" fill="#EEFBF4" stroke="#C2EBD6" stroke-width="1"/>
+        <rect x="480" y="10" width="220" height="118" fill="#FFF7EE" stroke="#F5DEC2" stroke-width="1"/>
+        <text x="165" y="25" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#005596" text-anchor="middle">VISIBLE (B02 Azul · B03 Verde · B04 Rojo)</text>
+        <text x="375" y="25" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#008855" text-anchor="middle">NIR · Infrarrojo Cercano (B08)</text>
+        <text x="590" y="25" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#C26100" text-anchor="middle">SWIR · Infrarrojo Onda Corta (B11)</text>
+        <line x1="60" y1="128" x2="700" y2="128" stroke="#000066" stroke-width="1.5"/>
+        <line x1="60" y1="10" x2="60" y2="128" stroke="#000066" stroke-width="1.5"/>
+        <text x="52" y="128" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.0</text>
+        <text x="52" y="75" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.25</text>
+        <text x="52" y="30" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.50</text>
+        <line x1="235" y1="30" x2="235" y2="128" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="375" y1="30" x2="375" y2="128" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="590" y1="30" x2="590" y2="128" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="235" y="142" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#F0142C" text-anchor="middle">B04 Rojo</text>
+        <text x="375" y="142" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#008855" text-anchor="middle">B08 NIR</text>
+        <text x="590" y="142" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#C26100" text-anchor="middle">B11 SWIR</text>
+        <polyline points="100,122 165,111 235,122 375,38 590,94" fill="none" stroke="#008855" stroke-width="3"/>
+        <circle cx="235" cy="122" r="4" fill="#008855"/><circle cx="375" cy="38" r="4.5" fill="#008855"/><circle cx="590" cy="94" r="4" fill="#008855"/>
+        <text x="305" y="68" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#008855" text-anchor="middle">¡Sube en B08! ↑</text>
+        <polyline points="100,94 165,88 235,80 375,82 590,57" fill="none" stroke="#F0142C" stroke-width="2.6" stroke-dasharray="5,2"/>
+        <circle cx="235" cy="80" r="3.5" fill="#F0142C"/><circle cx="375" cy="82" r="3.5" fill="#F0142C"/><circle cx="590" cy="57" r="4" fill="#F0142C"/>
+        <polyline points="100,115 165,117 235,122 375,126 590,127" fill="none" stroke="#00A9E0" stroke-width="2.2"/>
+        <rect x="712" y="18" width="140" height="95" rx="6" fill="#FFFFFF" stroke="#DCE0EB" stroke-width="1"/>
+        <line x1="720" y1="38" x2="742" y2="38" stroke="#008855" stroke-width="3"/>
+        <text x="748" y="41" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#008855">Bosque sano</text>
+        <line x1="720" y1="64" x2="742" y2="64" stroke="#F0142C" stroke-width="2.6" stroke-dasharray="4,2"/>
+        <text x="748" y="67" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#F0142C">Ciudad / Cemento</text>
+        <line x1="720" y1="90" x2="742" y2="90" stroke="#00A9E0" stroke-width="2.2"/>
+        <text x="748" y="93" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#00A9E0">Agua</text>
+      </svg>
+      <table class="data-table">
+        <thead>
+          <tr><th>¿Qué hay en el suelo?</th><th>Rojo (<code>B04</code>)</th><th>NIR (<code>B08</code>)</th><th>SWIR (<code>B11</code>)</th><th>Idea clave para calcular los índices en S13</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Bosque sano (Boquerón)</b></td><td>Bajo (~0.03)</td><td><b>Muy alto (~0.42)</b></td><td>Bajo (~0.15)</td><td>Como <code>B08</code> es mucho mayor que <code>B04</code> → <b>NDVI alto</b>.</td></tr>
+          <tr><td><b>Ciudad / Concreto (Robledo)</b></td><td>Medio (~0.21)</td><td>Medio (~0.20)</td><td><b>Alto (~0.31)</b></td><td>Como <code>B11</code> es mayor que <code>B08</code> → <b>NDBI positivo</b>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. Cómo descargar la imagen en QGIS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sin salir de QGIS · Buscador gratuito STAC API Browser</p>
+      <h2 class="slide__title">Cómo descargar las bandas de nuestra Zona de Interés en QGIS</h2>
+      <p class="slide__desc">El satélite <b>Sentinel-2</b> pasa cada 5 días por Medellín y es 100% gratuito. Podemos buscar y descargar la imagen directamente dentro de QGIS usando el polígono de <b>La Iguaná</b>.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Abrir STAC API Browser</h3>
+          <p>1. Cargar en QGIS <code>limite_iguana.geojson</code>.<br/>
+             2. Ir a <b>Complementos → STAC API Browser</b>.<br/>
+             3. Elegir el catálogo libre <b>Earth Search</b> y marcar <b><code>Sentinel-2 Level-2A</code></b>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Filtrar por La Iguaná</h3>
+          <p>1. Marcar <b>Filter by Extent → Use Map Canvas Extent</b> (usa el recuadro de nuestra cuenca).<br/>
+             2. Elegir una fecha sin nubes y abrir <b>View Assets</b>.<br/>
+             3. Cargar las bandas <b><code>red (B04)</code></b>, <b><code>nir (B08)</code></b> y <b><code>swir16 (B11)</code></b>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Recortar a la Cuenca</h3>
+          <p>En <b>Ráster → Extracción → Cortar ráster por capa de máscara</b>:<br/>
+             • Máscara: <code>limite_iguana</code><br/>
+             • SRC destino: <b><code>EPSG:9377</code></b> (10 m).<br/>
+             <i>(En <code>capas_practica/</code> ya están listas por si el internet falla).</i></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Práctica rápida en QGIS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Manos a la obra en QGIS · 10 minutos</p>
+      <h2 class="slide__title">Exploremos las bandas de La Iguaná antes de calcular los índices</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Ejercicio Rápido en Clase</span>
+        <ol style="margin:0.5em 0 0 1.2em;line-height:1.6">
+          <li>Carguen en QGIS el límite de la cuenca (<code>limite_iguana.geojson</code>) y las bandas recortadas <b><code>s2_b04_rojo.tif</code></b>, <b><code>s2_b08_nir.tif</code></b> y <b><code>s2_b11_swir1.tif</code></b>.</li>
+          <li>Apaguen y enciendan <code>s2_b08_nir</code> y <code>s2_b11_swir1</code>: vean cómo en <b>B08</b> brilla el bosque de San Cristóbal y en <b>B11</b> brilla la zona urbana de Robledo.</li>
+          <li>Con la herramienta <b>Identificar objetos espaciales (<code>i</code>)</b> hagan clic sobre un bosque y sobre un barrio urbano para ver sus números reales. ¡Ahora pasemos a <b>S13</b> para computar los índices!</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>
+

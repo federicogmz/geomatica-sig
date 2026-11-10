@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 1</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Geomática, Ingeniería y SIG</h1>
+    <p class="sub">Federico Gómez<br />Ingeniería Civil · Diseño Urbano · Semestre 2026-2</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda de hoy -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 1</p>
+      <h2 class="slide__title">Lo que haremos hoy</h2>
+      <p class="slide__desc">Dos bloques, dos salones: el aula para conocernos y presentar el curso, el laboratorio para el primer contacto con mapas digitales.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead>
+          <tr><th>Bloque 1 · Aula, 12:00–3:00 p.m.</th><th>Min.</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Bienvenida, presentación docente</td><td class="pct-col">15</td></tr>
+          <tr><td>Conozcámonos + formación de grupos</td><td class="pct-col">30</td></tr>
+          <tr><td>Pacto pedagógico, evaluación y reglas</td><td class="pct-col">45</td></tr>
+          <tr><td>Actividad: ¿qué es (y no es) un mapa?</td><td class="pct-col">15</td></tr>
+          <tr><td>¿Qué es la geomática? + geomática en la práctica</td><td class="pct-col">20</td></tr>
+          <tr><td>Contenido del curso, módulo a módulo</td><td class="pct-col">30</td></tr>
+          <tr><td>Proyecto territorial, su área + actividad de ladera</td><td class="pct-col">20</td></tr>
+          <tr><td>Herramientas y transición al laboratorio</td><td class="pct-col">15</td></tr>
+          <tr><td><strong>Total (incluye colchón para preguntas)</strong></td><td class="pct-col"><strong>190</strong></td></tr>
+        </tbody>
+      </table>
+      <p class="slide__desc" style="margin-top:1em">Bloque 2 · Laboratorio, 4:30–6:00 p.m.: Taller G01, primer contacto con visores digitales y verificación de acceso a Teams.</p>
+    </div>
+  </section>
+
+  <!-- 3. Docente -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Presentación docente</p>
+      <h2 class="slide__title">¿Quién los acompaña?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="docente">
+        <div class="docente__avatar">FG</div>
+        <div class="docente__info">
+          <h3 class="name">Federico Gómez</h3>
+          <p class="headline">Ingeniero Geólogo · M.Eng. en Recursos Hidráulicos, Universidad Nacional de Colombia</p>
+          <p class="role">Geocientífico en SIATA (sistema de alerta temprana de Medellín) · Docente de Geomática, Ingeniería y SIG</p>
+          <p class="bio">Trabajé en la Universidad Nacional (2017-2022) en mapas de susceptibilidad y análisis satelital de deslizamientos e inundaciones en los Andes tropicales.</p>
+          <p class="bio">Mi enfoque en este curso: empezamos desde cero absoluto, sin asumir que ya conocen SIG. Durante las primeras clases de QGIS, ninguna pregunta es demasiado básica.</p>
+          <span class="docente__contact">Contacto: fjgomezc@eafit.edu.co · Chat de Teams</span>
+          <span class="docente__contact" style="margin-left:0.6em">Asesorías: martes 10:00 a.m. – 12:00 m.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Conozcámonos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Conozcámonos</p>
+      <h2 class="slide__title">Ahora ustedes</h2>
+      <p class="slide__desc">Cuéntennos en una frase cada cosa. Esto ayuda a que los ejercicios usen ejemplos de su propio pregrado y ciudad.</p>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Su nombre</li>
+        <li>¿Ingeniería Civil o Diseño Urbano?</li>
+        <li>¿De qué zona de la ciudad/región vienen?</li>
+        <li>¿Han usado algún mapa o software SIG antes?</li>
+        <li>¿Qué esperan de la asignatura?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4b. Formación de grupos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Su compañero o compañera de todo el semestre</p>
+      <h2 class="slide__title">Formación de grupos</h2>
+      <p class="slide__desc">El mismo grupo trabaja el Taller G01 de hoy, el Taller G02, y las entregas grupales (I1 e IF) hasta la Semana 16.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Tamaño</h3><p>2 o 3 personas: lo definimos ahora mismo, según cuántos son en el salón.</p></div>
+        <div><h3>Criterio</h3><p>Ustedes arman los grupos mezclando, en lo posible, Ingeniería Civil con Diseño Urbano: cada informe se enriquece con las dos miradas.</p></div>
+        <div><h3>Fijo todo el semestre</h3><p>No hay cambios de grupo a mitad de curso, salvo situación excepcional que se hable directamente con el profesor.</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.2em">Primer acuerdo: intercambien contacto (Teams/WhatsApp) con su grupo antes de salir del aula. Lo necesitan para el Bloque 2 de hoy mismo.</p>
+    </div>
+  </section>
+
+  <!-- 5. Pacto pedagógico -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Las reglas del juego</p>
+      <h2 class="slide__title">Pacto pedagógico</h2>
+      <p class="slide__desc">Es el acuerdo del semestre, exigido por el Reglamento Académico de Pregrado (Art. 63.l). Lo revisamos hoy y queda disponible en Teams.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Contenidos</h3><p>Qué temas veremos y en qué orden, módulo a módulo.</p></div>
+        <div><h3>Evaluación</h3><p>Quices, informes y parciales, con sus pesos exactos.</p></div>
+        <div><h3>Reglas y entregas</h3><p>Nomenclatura, formatos, penalidades y entregas por Teams.</p></div>
+        <div><h3>Canales</h3><p>Teams y correo institucional para comunicarnos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b. Pacto en números -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Para que no haya sorpresas</p>
+      <h2 class="slide__title">El pacto en números</h2>
+      <p class="slide__desc">Los valores que más preguntan, todos en un solo lugar.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>−0.5</h3><p>Sobre la nota del trabajo por archivo incompleto o mal enviado. Sin excepciones por desconocimiento.</p></div>
+        <div><h3>3 días hábiles</h3><p>Plazo para solicitar segundo evaluador después de publicada una nota.</p></div>
+        <div><h3>15 días hábiles</h3><p>Plazo máximo para que publiquemos sus notas después de una entrega.</p></div>
+        <div><h3>−5% por día</h3><p>Penalidad por entrega tardía, hasta un máximo de 5 días calendario.</p></div>
+        <div><h3>5%–20%</h3><p>Rango permitido por reglamento para el peso de cada actividad evaluativa.</p></div>
+        <div><h3>USB - OneDrive</h3><p>Traigan memoria o disco externo desde la primera práctica en el laboratorio.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Estructura de la sesión -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cómo funciona cada clase</p>
+      <h2 class="slide__title">Dos bloques, dos salones</h2>
+      <p class="slide__desc">Asignatura de <strong>3 Créditos Académicos · 5 UMEs</strong> (144 h totales: 72 h presenciales + 72 h de trabajo independiente). Cada sesión de 4.5 horas se divide en dos bloques separados por un descanso:</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Bloque 1 · 12:00–3:00 p.m. (aula)</h3><p>Teoría, discusión y evaluaciones conceptuales. No se garantiza computador para todos.</p></div>
+        <div><h3>Bloque 2 · 4:30–6:00 p.m. (laboratorio)</h3><p>Práctica con PC de la Universidad: QGIS y ArcGIS Pro. Todos tienen computador garantizado, tengan o no laptop propia lista.</p></div>
+        <div><h3>¿Por qué así?</h3><p>Ningún módulo de software depende de que su laptop personal funcione ese día: el laboratorio nivela el acceso desde la primera semana.</p></div>
+        <div><h3>¿Y las evaluaciones?</h3><p>Los quices y los parciales prácticos se desarrollan en el laboratorio en QGIS.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Contenido del curso -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Contenido del curso</p>
+      <h2 class="slide__title">¿Qué veremos este semestre?</h2>
+      <p class="slide__desc">Un recorrido que termina en un análisis geoespacial integrado sobre un mismo territorio.</p>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--sky)">0</div><h3>Cartografía y geodesia</h3></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">1</div><h3>SIG vectorial (QGIS)</h3></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">2</div><h3>SIG ráster y terreno</h3></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">3</div><h3>GNSS en gabinete</h3></div>
+        <div class="num-item"><div class="num" style="color:var(--brick)">4</div><h3>Teledetección Sentinel-2</h3></div>
+        <div class="num-item"><div class="num" style="color:var(--olive)">5</div><h3>ArcGIS Pro y automatización</h3></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7b. Módulo 0 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--sky)">Módulo 0 · Semanas 1–3</p>
+      <h2 class="slide__title">Fundamentos cartográficos y geodesia</h2>
+      <p class="slide__desc">Empezamos desde cero: qué es una escala, qué es un datum, cómo se lee un mapa.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>Lectura de mapas, escala y cálculo de áreas/distancias, píxel y resolución, Datum Bogotá → Magna Sirgas, coordenadas geográficas y planas (CTM12).</p></div>
+        <div><h3>Herramienta</h3><p>Visores digitales, mapas de La Iguaná y cálculos analíticos en el laboratorio.</p></div>
+        <div><h3>Producto</h3><p>Quiz 1: Fundamentos cartográficos y CTM12 (8%).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7c. Módulo 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--orange)">Módulo 1 · Semanas 4–7 (y S10)</p>
+      <h2 class="slide__title">SIG vectorial con QGIS</h2>
+      <p class="slide__desc">Desde cero absoluto en QGIS. Primeras 3 clases guiadas; después, regla de las tres clases y depuración topológica.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>Interfaz de QGIS, contenedor GeoPackage (.gpkg), digitalización con auto-ensamblado (*snapping*), atributos, geoprocesamiento (Buffer 30 m) y comprobador de topología.</p></div>
+        <div><h3>Herramienta</h3><p>QGIS 3.x LTR + Geoservicios WMS/WFS de GeoMedellín.</p></div>
+        <div><h3>Producto</h3><p>Quiz 2 (8%) · Informe 1: Lámina digital A3 + .gpkg limpio (12%) · Parcial 1 (15%).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7d. Módulo 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--teal)">Módulo 2 · Semanas 8–10</p>
+      <h2 class="slide__title">SIG ráster y análisis del relieve</h2>
+      <p class="slide__desc">Modelación tridimensional y continua del territorio sobre la Cuenca de La Iguaná.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>Estructura matricial ráster, DEM ALOS PALSAR 12.5 m, pendientes (° y %), sombreado 3D, curvas de nivel cada 25 m, álgebra de mapas condicional y perfil longitudinal.</p></div>
+        <div><h3>Herramienta</h3><p>Calculadora Ráster y GDAL en QGIS.</p></div>
+        <div><h3>Producto</h3><p>Quiz 3: Terreno y Álgebra Ráster (8%) · Base del Informe Final (IF).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7e. Módulo 3 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--navy)">Módulo 3 · Semana 11</p>
+      <h2 class="slide__title">GNSS y geodesia satelital en gabinete</h2>
+      <p class="slide__desc">Auditoría espacial y procesamiento de datos satelitales en laboratorio sin necesidad de trabajo de campo.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>Trilateración satelital, constelaciones GNSS, fuentes de error (multipath, DOP), importación de archivos crudos .gpx y .csv en QGIS y reproyección CTM12.</p></div>
+        <div><h3>Herramienta</h3><p>QGIS + datos crudos Garmin y smartphone suministrados.</p></div>
+        <div><h3>Producto</h3><p>Quiz 4: Posicionamiento GNSS en Gabinete (8%).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7f. Módulo 4 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--brick)">Módulo 4 · Semanas 12–13</p>
+      <h2 class="slide__title">Teledetección satelital e índices espectrales en QGIS</h2>
+      <p class="slide__desc">Procesamiento multiespectral de escenas Sentinel-2 sobre la Cuenca de La Iguaná.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>Física óptica (Visible, NIR, SWIR), Sentinel-2 MSI (10 m y 20 m), compuestos RGB/Falso Color y cálculo de NDVI y NDBI en la Calculadora Ráster de QGIS (EPSG:9377).</p></div>
+        <div><h3>Herramienta</h3><p>QGIS + Bandas Sentinel-2 L2A (Copernicus).</p></div>
+        <div><h3>Producto</h3><p>Índices espectrales para el Parcial 2 (P2) y el Informe Final (IF).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7g. Módulo 5 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--olive)">Módulo 5 · Semanas 14–15</p>
+      <h2 class="slide__title">SIG corporativo y automatización espacial</h2>
+      <p class="slide__desc">Entorno corporativo, integración de geodatabases y automatización de flujos analíticos.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>File Geodatabase (.gdb), Feature Datasets en EPSG:9377, dominios, consumo de capas ArcGIS REST en vivo y geoprocesamiento encadenado con ModelBuilder y el Diseñador Gráfico de Modelos de QGIS.</p></div>
+        <div><h3>Herramienta</h3><p>ArcGIS Pro y QGIS.</p></div>
+        <div><h3>Producto</h3><p>Modelo automatizado (.model3) y Quiz 4 (8%).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7h. Módulo 6 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker" style="color:var(--navy)">Módulo 6 · Semana 16</p>
+      <h2 class="slide__title">Cierre integrador y consultoría territorial</h2>
+      <p class="slide__desc">Síntesis acumulativa del proyecto sobre La Iguaná (Ingeniería Civil + Diseño Urbano).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Aprenderán</h3><p>Toma de decisiones con evidencia geoespacial combinada: retiros hídricos, laderas de alta pendiente, NDVI/NDBI y modelos automatizados.</p></div>
+        <div><h3>Herramienta</h3><p>QGIS.</p></div>
+        <div><h3>Producto</h3><p>Parcial 2 (P2 · 15%) + Entrega y Sustentación del Informe Final (IF · 26%).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Evaluación -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Evaluación</p>
+      <h2 class="slide__title">¿Cómo se evalúa?</h2>
+      <p class="slide__desc">Evaluación continua durante las 16 semanas, no se acumula para el final.</p>
+    </div>
+    <div class="slide__body">
+      <div class="stat-row">
+        <div class="stat-card stat-card--sky">
+          <div class="pct">32%</div>
+          <div class="label">Quices</div>
+          <div class="detail">Q1 8% · Q2 8% · Q3 8% · Q4 8%</div>
+        </div>
+        <div class="stat-card stat-card--teal">
+          <div class="pct">38%</div>
+          <div class="label">Informes</div>
+          <div class="detail">I1 12% · IF 26%</div>
+        </div>
+        <div class="stat-card stat-card--navy">
+          <div class="pct">30%</div>
+          <div class="label">Parciales</div>
+          <div class="detail">P1 15% · P2 15%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Evaluación en detalle -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Las evaluaciones del curso</p>
+      <h2 class="slide__title">Evaluación en detalle</h2>
+      <p class="slide__desc">Guarden esta tabla: está completa en el Pacto Pedagógico y en el Sílabo.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead>
+          <tr><th>Código</th><th>Actividad</th><th>%</th><th>Modalidad</th><th>Semana</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Q1</td><td>Quiz 1: Fundamentos cartográficos y CTM12</td><td class="pct-col">8%</td><td>Individual, presencial</td><td>3</td></tr>
+          <tr><td>Q2</td><td>Quiz 2: SIG vectorial y atributos en QGIS</td><td class="pct-col">8%</td><td>Individual, en laboratorio</td><td>6</td></tr>
+          <tr><td>I1</td><td>Informe 1: Diagnóstico Cartográfico y Propuesta A3</td><td class="pct-col">12%</td><td>Grupal (.gpkg + lámina A3)</td><td>10</td></tr>
+          <tr><td>P1</td><td>Parcial 1: SIG Vectorial y Topología (PC)</td><td class="pct-col">15%</td><td>Individual, práctico en PC</td><td>11</td></tr>
+          <tr><td>Q3</td><td>Quiz 3: Terreno y Álgebra Ráster</td><td class="pct-col">8%</td><td>Individual, en laboratorio</td><td>13</td></tr>
+          <tr><td>Q4</td><td>Quiz 4: Posicionamiento GNSS en Gabinete</td><td class="pct-col">8%</td><td>Individual, práctico en PC</td><td>15</td></tr>
+          <tr><td>P2</td><td>Parcial 2: Índices Sentinel-2, Modelo .model3 y Mapa en QGIS</td><td class="pct-col">15%</td><td>Individual, práctico en PC (1h30m)</td><td>16</td></tr>
+          <tr><td>IF</td><td>Informe Final: Análisis Territorial, Propuesta A3 y Sustentación Oral en QGIS</td><td class="pct-col">26%</td><td>Grupal (20% Entrega + 6% Sustentación)</td><td>16</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. Reglas del curso -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Para que todo fluya</p>
+      <h2 class="slide__title">Reglas del curso</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2x3">
+        <div><h3>Nomenclatura y formatos</h3><p><code>apellido_codigo_trabajoX</code>: shapefile completo, GeoJSON o GPKG.</p></div>
+        <div><h3>Archivos incompletos</h3><p><span class="emph">−0.5 sobre la nota</span> del trabajo. No hay excepciones por desconocimiento.</p></div>
+        <div><h3>Informe 1</h3><p>Mapa impreso obligatorio + sustentación oral corta.</p></div>
+        <div><h3>Parciales</h3><p>Captura con fecha y hora visible + documento de proceso paso a paso.</p></div>
+        <div><h3>Entregas tardías</h3><p>−5% por día calendario de atraso, hasta un máximo de 5 días.</p></div>
+        <div><h3>Almacenamiento</h3><p>USB o disco externo, posiblemente OneDrive.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10b. Actividad: qué es un mapa -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Actividad en grupo, 15 minutos</p>
+      <h2 class="slide__title">¿Qué es (y no es) un mapa?</h2>
+      <p class="slide__desc">Antes de definir geomática, discutan estos tres casos con su grupo y anoten qué tienen en común y qué los distingue.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>El mapa del metro</h3><p>Ninguna distancia ni ángulo es real, pero nadie se pierde. ¿Qué información sacrificó para ganar claridad?</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Google Maps</h3><p>Se ve "como una foto real" a cierto zoom. ¿Deja de ser un mapa por eso, o sigue siendo una representación con reglas propias?</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>El plano de un lote (escritura pública)</h3><p>Un dibujo técnico con medidas exactas, sin colores ni fotos. ¿Para quién está hecho, y qué preguntas no puede responder?</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.2em">Compartan una conclusión con el resto del salón: un mapa siempre elige qué mostrar y qué omitir, según para quién y para qué se hizo. Esa es la idea que vamos a usar todo el semestre.</p>
+    </div>
+  </section>
+
+  <!-- 11. SECCIÓN: proyecto territorial -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 2</p>
+    <h1>El proyecto territorial</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 12. Proyecto territorial continuo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Un proyecto que crece todo el semestre</p>
+      <h2 class="slide__title">Proyecto territorial continuo</h2>
+      <p class="slide__desc">Cada grupo toma un área de estudio y la analiza módulo a módulo. Cada informe agrega una capa sobre la misma área.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>I1: Diagnóstico vectorial</h3><p>Capas base .gpkg + Lámina digital A3 + sustentación oral (Semana 10 · 12%).</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Relieve y Teledetección</h3><p>DEM CTM12 + pendientes + perfil longitudinal + índices Sentinel-2 (NDVI/NDBI) en QGIS (Semanas 11–14).</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Informe Final (IF)</h3><p>Análisis territorial multicriterio, propuesta de intervención, Lámina A3 y sustentación oral en QGIS (Semana 16 · 26%).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. El territorio -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El territorio</p>
+      <h2 class="slide__title">Su área de estudio: una ladera completa</h2>
+      <p class="slide__desc">Datos base: Portal de Datos Abiertos del Área Metropolitana del Valle de Aburrá (división política + modelo de elevación digital).</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--navy)">⛰️</div><h3>Parte alta: boscosa/rural</h3><p>Cobertura vegetal real y NDVI (Módulo 4), y el nacimiento de la quebrada que van a usar para cuencas (Módulo 2).</p></div>
+        <div class="step-card"><div class="num" style="color:var(--sky)">🏘️</div><h3>Parte baja: urbanizada</h3><p>Cartografía urbana densa (Módulo 1): vías, manzanas, predios, espacio público.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">🌊</div><h3>Una sola cuenca</h3><p>La misma quebrada conecta ambas mitades: un único análisis de terreno, no dos áreas separadas.</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.2em">Todos los grupos reciben este mismo tipo de área. Los polígonos exactos se asignan en la Semana 3.</p>
+    </div>
+  </section>
+
+  <!-- 13b. Actividad: su ladera imaginada -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Actividad en grupo, 10 minutos</p>
+      <h2 class="slide__title">Su ladera imaginada</h2>
+      <p class="slide__desc">Todavía no saben cuál ladera les toca, pero ya pueden anticipar qué van a encontrar.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Si son de Civil</h3><p>Piensen en una ladera de Medellín que conozcan. ¿Qué problemas de terreno esperarían encontrar en la parte alta? ¿Y en las vías de la parte baja?</p></div>
+        <div><h3>Si son de Diseño Urbano</h3><p>¿Cómo cambia el espacio público entre la parte baja consolidada y la parte alta? ¿Dónde esperarían más densidad, y dónde más informalidad?</p></div>
+        <div><h3>Compárenlo dentro de su grupo</h3><p>Si tienen integrantes de Civil y de Diseño Urbano, un mismo civil y un mismo diseñador urbano ven la ladera distinto. Esa diferencia es exactamente lo que este curso quiere que aprovechen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Herramientas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cada una resuelve un problema distinto</p>
+      <h2 class="slide__title">Las tecnologías que usaremos</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid">
+        <div class="icon-card icon-card--cyan">
+          <div class="icon-circle icon-circle--sky"><img src="../_plantilla/assets/qgis-logo.png" alt="QGIS" /></div>
+          <div><h3>QGIS (Vector &amp; Ráster)</h3><p>Organizar, digitalizar y cruzar capas vectoriales y Modelos Digitales de Elevación (DEM). Núcleo del curso, Módulos 1 y 2.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender">
+          <div class="icon-circle icon-circle--blue">📡</div>
+          <div><h3>GNSS &amp; Posicionamiento</h3><p>Auditar trazas satelitales (GPX/CSV), filtrar por HDOP y contrastar contra vértices geodésicos IGAC. Módulo 3.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint">
+          <div class="icon-circle icon-circle--teal">🛰️</div>
+          <div><h3>Sentinel-2 en QGIS</h3><p>Procesar bandas satelitales multiespectrales y calcular índices de vegetación y urbanización (NDVI y NDBI). Módulo 4.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach">
+          <div class="icon-circle icon-circle--orange">🌐</div>
+          <div><h3>ArcGIS Pro &amp; Automatización</h3><p>Geodatabases corporativas y flujos encadenados en el Diseñador Gráfico de Modelos / ModelBuilder. Módulo 5.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. SECCIÓN: qué es la geomática -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 3</p>
+    <h1>¿Qué es la geomática?</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 16. Cuatro términos que se confunden -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de seguir, aclaremos el vocabulario</p>
+      <h2 class="slide__title">Cartografía, SIG, geomática y teledetección</h2>
+      <p class="slide__desc">Se usan como sinónimos en el lenguaje común, pero no son lo mismo.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Cartografía</h3><p>La técnica de representar el territorio en un mapa. Existe desde mucho antes que las computadoras.</p></div>
+        <div><h3>SIG</h3><p>El software para almacenar, analizar y visualizar datos geoespaciales: QGIS, ArcGIS.</p></div>
+        <div><h3>Teledetección</h3><p>Obtener información del territorio a distancia, típicamente desde satélites. La vemos en el Módulo 5.</p></div>
+        <div><h3>Geomática</h3><p>El campo que integra todo lo anterior: cartografía, SIG, GNSS y teledetección. El nombre de este curso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. La idea en una frase -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La idea en una frase</p>
+      <h2 class="slide__title">GEO + MÁTICA + SIG</h2>
+      <p class="slide__desc">Capturar, analizar y representar información del territorio.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Capturar</h3><p>Tomar datos del terreno: un punto GNSS, una imagen satelital, un mapa.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Analizar</h3><p>Cruzar y procesar esa información para responder preguntas.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Representar</h3><p>Convertirla en mapas y productos que se entienden de un vistazo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Geomática en la práctica -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Por qué les sirve a ambos pregrados</p>
+      <h2 class="slide__title">Geomática en la práctica</h2>
+      <p class="slide__desc">El mismo SIG responde preguntas distintas según de dónde vengan.</p>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid">
+        <div class="icon-card icon-card--cyan">
+          <div class="icon-circle icon-circle--sky">🏗️</div>
+          <div><h3>Ingeniería Civil</h3><p>Diseñar una vía nueva requiere saber la pendiente del terreno, las curvas de nivel, dónde hay riesgo de deslizamiento y cómo se conecta con la red vial existente. Todo eso sale de un SIG.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach">
+          <div class="icon-circle icon-circle--orange">🏙️</div>
+          <div><h3>Diseño Urbano</h3><p>Proponer una intervención de espacio público requiere entender la densidad poblacional, los usos del suelo actuales, la accesibilidad peatonal y la cobertura vegetal existente. También sale de un SIG.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Transición a Bloque 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ahora vamos al laboratorio</p>
+      <h2 class="slide__title">Bloque 2: primer contacto con mapas digitales</h2>
+      <p class="slide__desc">Taller G01, ya con su grupo. No hay que instalar nada, solo necesitan un navegador.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Objetivo</h3><p>Familiarizarse con Google Maps/OpenStreetMap y el visor oficial IGAC Colombia en Mapas antes del Taller G02 de la Semana 2.</p></div>
+        <div><h3>Verificación</h3><p>Confirmar acceso a Teams y descargar el Pacto Pedagógico que acabamos de revisar.</p></div>
+        <div><h3>Nada que instalar</h3><p>QGIS llega en la Semana 4. Hoy trabajamos solo con el navegador del PC del laboratorio.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre</p>
+      <h2 class="slide__title">Para la próxima clase</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%; grid-template-columns: repeat(3, 1fr)">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Semana 2</h3><p>Bloque 1: teoría de escalas y coordenadas. Bloque 2: Taller G02 con mapas digitales.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Lectura</h3><p><em>Scale and Resolution</em> (cap. 7, <em>Making Effective Maps</em>) — corta, 10 min. Léanla antes de la Semana 2, la vamos a usar directamente en la teoría de escalas.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Recordatorios</h3><p>QGIS última versión LTR, instálenlo antes de la Semana 4. Memoria USB desde la primera práctica.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

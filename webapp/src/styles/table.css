@@ -1,0 +1,102 @@
+/* Attribute Table Drawer (Bottom Panel) */
+
+.attribute-drawer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 280px;
+  background-color: var(--bg-surface-glass);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  z-index: 850;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.4);
+  transition: transform 0.25s ease;
+}
+
+.attribute-drawer.collapsed {
+  transform: translateY(100%);
+}
+
+.drawer-header {
+  padding: 8px 16px;
+  background-color: var(--bg-surface-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.drawer-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.table-filter-input {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--text-primary);
+  outline: none;
+  width: 220px;
+}
+.table-filter-input:focus {
+  border-color: var(--primary);
+}
+
+.table-stats-badge {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+.table-content-scroll {
+  flex: 1;
+  overflow: auto;
+}
+
+.gis-attr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.gis-attr-table th {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-surface);
+  border-bottom: 2px solid var(--border-subtle);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #38BDF8;
+  z-index: 10;
+  user-select: none;
+}
+
+.gis-attr-table td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.gis-attr-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+}

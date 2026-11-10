@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 3</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Datum, Magna Sirgas y CTM12</h1>
+    <p class="sub">Semana 3 · Módulo 0: Fundamentos cartográficos y geodesia</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 3</p>
+      <h2 class="slide__title">Lo que haremos hoy</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Validación + lecturas</h3><p>Solución del Taller G02 (Partes 1-2) y verificación de las lecturas asignadas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>CRS y Datum</h3><p>Elipsoide, geoide, punto de amarre, Bogotá → Magna Sirgas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>CTM12</h3><p>De varios orígenes a uno solo, con ejercicios de conversión</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Su cuenca</h3><p>La Quebrada La Iguaná: el área de estudio de todo el semestre</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Quiz 1 y Taller G02</h3><p>Quiz 1 cierra el aula; Taller G02 (Partes 3–4) en el laboratorio</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Repaso -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de seguir</p>
+      <h2 class="slide__title">¿Qué vimos la semana pasada?</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Escala: numérica vs. gráfica, y cómo hallarla sin que la den</li>
+        <li>El área se escala al cuadrado (1:N → ×N²)</li>
+        <li>Píxel y resolución espacial: el detalle de un raster</li>
+        <li>Coordenadas geográficas: latitud, longitud, GMS ↔ decimales</li>
+        <li>1° ≈ 111 km en el Ecuador — la conversión que usamos hoy</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Intro validación taller -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de la teoría nueva</p>
+      <h2 class="slide__title">Validemos el Taller G02: Partes 1 y 2</h2>
+      <p class="slide__desc">La semana pasada cada grupo trabajó con un mapa distinto. Revisemos las respuestas correctas antes de seguir.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Parte 1: Escala</h3><p>Cada mapa tiene una escala real conocida — la comparamos con lo que calculó cada grupo.</p></div>
+        <div><h3>Parte 2: Coordenadas</h3><p>GMS ↔ decimal tenía puntos fijos: A, B, C y D — esos sí tienen una única respuesta correcta.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Solución Parte 1: escala real de los mapas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Parte 1, Ejercicio 1.1</p>
+      <h2 class="slide__title">Solución: la escala real de cada mapa</h2>
+      <p class="slide__desc">¿A qué grupo le tocó cuál? Comparen su escala calculada contra la real.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Mapa</th><th>Elemento de referencia</th><th>Escala real</th></tr></thead>
+        <tbody>
+          <tr><td>A — Atanasio Girardot</td><td>Terreno de juego del estadio (110 × 73.5 m)</td><td>1 : 5 000</td></tr>
+          <tr><td>B — Unidad Deportiva Belén</td><td>Pista atlética (400 m) o piscina olímpica (50 × 25 m)</td><td>1 : 5 000</td></tr>
+          <tr><td>C — Envigado</td><td>Manzana típica (~80-100 m de lado)</td><td>1 : 10 000</td></tr>
+          <tr><td>D — Itagüí</td><td>Manzana típica (~80-100 m de lado)</td><td>1 : 10 000</td></tr>
+          <tr><td>E — Sabaneta</td><td>Manzana típica alrededor del Parque Principal</td><td>1 : 10 000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. Cómo validar distancia y área -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Parte 1, Ejercicios 1.2 y 1.3</p>
+      <h2 class="slide__title">Distancia y área: no hay un número único</h2>
+      <p class="slide__desc">Cada grupo eligió sus propios puntos y su propio polígono — por diseño, no por error.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Cómo saber si está bien</h3><p>Si su escala de 1.1 quedó cerca de la real (tabla anterior), su método está bien: la distancia y el área que calcularon con esa escala también lo están.</p></div>
+        <div><h3>Señal de alerta</h3><p>Un resultado absurdamente grande o pequeño casi siempre es una unidad mal convertida (mm↔cm↔m), o escala lineal aplicada al área en vez de escala².</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Solución Parte 2: GMS -> decimal -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Parte 2, Ejercicio 2.1</p>
+      <h2 class="slide__title">Solución: GMS → decimal</h2>
+      <p class="slide__desc">Estos puntos sí eran iguales para todos los grupos.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Punto</th><th>GMS</th><th>Decimal</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>6° 12' 02" N, 75° 34' 40" O</td><td>6.2006° N, −75.5778°</td></tr>
+          <tr><td>B</td><td>4° 35' 53" N, 74° 04' 54" O</td><td>4.5981° N, −74.0817°</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 8. Solución Parte 2: decimal -> GMS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Parte 2, Ejercicio 2.2</p>
+      <h2 class="slide__title">Solución: decimal → GMS</h2>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Punto</th><th>Decimal</th><th>GMS</th></tr></thead>
+        <tbody>
+          <tr><td>C</td><td>6.2006° N, −75.5779° O</td><td>6° 12' 02.2" N, 75° 34' 40.4" O</td></tr>
+          <tr><td>D</td><td>−75.581° (solo longitud)</td><td>75° 34' 51.6" O</td></tr>
+        </tbody>
+      </table>
+      <p class="slide__desc" style="margin-top:1em">Si su resultado difiere en el último dígito de los segundos, es casi siempre redondeo — revisen si difiere en los minutos o los grados, eso sí es un error de método.</p>
+    </div>
+  </section>
+
+  <!-- 9. Verificación de lectura -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 4 minutos</p>
+      <h2 class="slide__title">¿Qué recuerdan de las lecturas?</h2>
+      <p class="slide__desc">Tres situaciones prácticas. Respóndanlas con lo que leyeron (IGAC-DANE secciones 8-9, y Rodolfo Franco secciones 1-3) antes de que sigamos con la teoría.</p>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Les entregan una capa antigua de predios (probablemente en Datum Bogotá) para sobreponerla con las capas nuevas del curso, sin que nadie la reproyecte antes. ¿Qué van a ver al abrir las dos capas juntas en QGIS, y por qué?</li>
+        <li>Antes de 2020, un proyecto de vía que cruzaba dos municipios con orígenes cartográficos distintos necesitaba un paso extra que hoy ya no hace falta. ¿Cuál era ese paso, y por qué CTM12 lo elimina?</li>
+        <li>Si miden 100 km en un mapa CTM12, muy lejos del meridiano central (73° O), ¿esa distancia medida sale un poco mayor o un poco menor que la distancia real? (Pista: el factor k₀.)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10. Qué es un CRS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de Datum y CTM12</p>
+      <h2 class="slide__title">¿Qué es un Sistema de Referencia de Coordenadas?</h2>
+      <p class="slide__desc">La semana pasada usamos latitud y longitud como si fueran obvias. Hoy vemos qué las hace válidas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>El problema</h3><p>El par (6.24° N, 75.58° O) no significa nada por sí solo: hace falta saber <strong>respecto a qué</strong> se midió.</p></div>
+        <div><h3>La respuesta: un CRS</h3><p>Un Sistema de Referencia de Coordenadas (CRS) define el elipsoide, el datum y, si aplica, la proyección. QGIS lo pregunta cada vez que cargan una capa.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Tres superficies -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La base de todo CRS</p>
+      <h2 class="slide__title">Tres superficies, un solo territorio</h2>
+      <p class="slide__desc">Ningún elipsoide coincide exactamente con la forma real de la Tierra — y no tiene por qué.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <path d="M0,70 L50,45 L90,75 L150,25 L210,60 L270,38 L330,68 L390,32 L450,62 L510,28 L600,55" fill="none" stroke="#5A5A6E" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M0,130 C100,108 150,150 250,122 C350,96 450,138 600,112" fill="none" stroke="#00A9E0" stroke-width="4"/>
+  <path d="M0,168 Q300,148 600,168" fill="none" stroke="#FF8F1B" stroke-width="4" stroke-dasharray="10 6"/>
+  <line x1="150" y1="25" x2="150" y2="150" stroke="#B7B7B7" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="150" y1="150" x2="150" y2="152" stroke="#B7B7B7" stroke-width="1"/>
+  <rect x="385" y="8" width="10" height="10" fill="#5A5A6E"/>
+  <text x="399" y="17" font-size="12.5" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif" font-weight="700">Superficie real (terreno)</text>
+  <rect x="385" y="203" width="10" height="10" fill="#00A9E0"/>
+  <text x="399" y="212" font-size="12.5" fill="#00A9E0" font-family="Calibri, Arial, sans-serif" font-weight="700">Geoide (nivel del mar)</text>
+  <rect x="385" y="228" width="10" height="10" fill="#FF8F1B"/>
+  <text x="399" y="237" font-size="12.5" fill="#FF8F1B" font-family="Calibri, Arial, sans-serif" font-weight="700">Elipsoide (modelo)</text>
+</svg></div>
+        <p class="figure__caption">La superficie real es irregular; el geoide sigue el nivel medio del mar; el elipsoide es la aproximación matemática lisa que se usa para calcular.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Qué es un datum -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La base invisible de todo mapa</p>
+      <h2 class="slide__title">¿Qué es un datum?</h2>
+      <p class="slide__desc">Las coordenadas no significan nada sin decir desde dónde se miden.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Elipsoide</h3><p>Un modelo matemático de la forma de la Tierra (achatada en los polos): la superficie de referencia sobre la que se calculan las coordenadas.</p></div>
+        <div><h3>Punto de amarre</h3><p>El punto exacto donde ese elipsoide se ancla a la Tierra real. Dos datums pueden usar el mismo elipsoide pero anclado distinto, y dar coordenadas distintas para el mismo lugar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Mismo punto, coordenadas distintas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La consecuencia práctica</p>
+      <h2 class="slide__title">Mismo lugar, coordenadas distintas</h2>
+      <p class="slide__desc">El mismo punto real, leído con dos anclas distintas, da dos coordenadas ligeramente distintas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;height:auto;display:block">
+  <circle cx="280" cy="160" r="130" fill="#EAF0FF" stroke="#000066" stroke-width="2.5"/>
+  <circle cx="280" cy="160" r="5" fill="#000066"/>
+  <text x="280" y="145" font-size="12.5" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Centro de masa</text>
+  <text x="280" y="300" font-size="12" fill="#000066" text-anchor="middle" font-family="Calibri, Arial, sans-serif">Ancla de MAGNA-SIRGAS (geocéntrico)</text>
+  <circle cx="230" cy="120" r="5" fill="#F0142C"/>
+  <text x="140" y="108" font-size="12.5" fill="#F0142C" font-weight="700" font-family="Calibri, Arial, sans-serif">Observatorio</text>
+  <text x="140" y="124" font-size="12.5" fill="#F0142C" font-weight="700" font-family="Calibri, Arial, sans-serif">de Bogotá</text>
+  <text x="60" y="60" font-size="12" fill="#F0142C" font-family="Calibri, Arial, sans-serif">Ancla del Datum Bogotá (local)</text>
+  <circle cx="390" cy="90" r="7" fill="#46C69F" stroke="#fff" stroke-width="1.5"/>
+  <text x="404" y="80" font-size="13" fill="#242433" font-weight="700" font-family="Calibri, Arial, sans-serif">Mismo punto real</text>
+  <line x1="280" y1="160" x2="390" y2="90" stroke="#000066" stroke-width="2" stroke-dasharray="6 4"/>
+  <line x1="230" y1="120" x2="390" y2="90" stroke="#F0142C" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="384" y="98" width="185" height="52" rx="8" fill="#ffffff" stroke="#B7B7B7" stroke-width="1"/>
+  <text x="392" y="115" font-size="11.5" fill="#000066" font-weight="700" font-family="Calibri, Arial, sans-serif">Magna-Sirgas: 6.2442°N</text>
+  <text x="392" y="130" font-size="11.5" fill="#F0142C" font-weight="700" font-family="Calibri, Arial, sans-serif">Datum Bogotá: 6.2439°N</text>
+  <text x="392" y="145" font-size="11" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">↳ diferencia de varios metros</text>
+</svg></div>
+        <p class="figure__caption">Datum Bogotá ancla al observatorio; Magna-Sirgas ancla al centro de masa de la Tierra. La diferencia se nota al mezclar capas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Datum Bogotá -> Magna Sirgas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Un cambio con nombre y fecha</p>
+      <h2 class="slide__title">Datum Bogotá → Magna Sirgas</h2>
+      <p class="slide__desc">IGAC-DANE, 2004: Colombia adopta Magna Sirgas como marco de referencia geocéntrico.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">Antes</div><h3>Datum Bogotá</h3><p>Amarrado a un punto local (observatorio de Bogotá), 1941: coherente para Colombia, pero incompatible con GPS y estándares globales.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">Ahora</div><h3>Magna Sirgas</h3><p>Geocéntrico, amarrado al centro de masa de la Tierra, compatible con GPS y con la red continental SIRGAS.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">Por qué</div><h3>Precisión + compatibilidad</h3><p>Mezclar datums sin reproyectar produce un desfase visible de varios metros entre capas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Practica: desfase entre datums -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 2 minutos</p>
+      <h2 class="slide__title">Practiquen: ¿por qué no calzan las capas?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <p>Un compañero digitalizó los predios de su cuenca usando una capa base en <strong>Datum Bogotá</strong>. Ustedes cargan una capa de vías descargada en <strong>Magna-Sirgas (EPSG:4326)</strong>, sin reproyectar. ¿Qué van a ver al abrir ambas capas juntas en QGIS? ¿Un error de software, o algo distinto?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Solución -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: el desfase silencioso</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <p>No es un error de software: QGIS carga las dos capas sin quejarse. Lo que ven es un <strong>desplazamiento sistemático de varios metros</strong> entre las vías y los predios — se ven "corridas" unas respecto a otras, aunque representen el mismo lugar real. La única forma de arreglarlo es reproyectar explícitamente una de las dos al datum de la otra.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. De geográficas a planas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El siguiente problema</p>
+      <h2 class="slide__title">De coordenadas geográficas a coordenadas planas</h2>
+      <p class="slide__desc">Grados no se pueden medir con una cinta métrica. Para diseño y construcción, se necesitan metros en un plano.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Coordenadas geográficas</h3><p>Latitud/longitud sobre la superficie curva del elipsoide. Buenas para ubicar, difíciles para medir distancias y áreas directamente.</p></div>
+        <div><h3>Coordenadas planas</h3><p>Este/Norte en metros, sobre una proyección. Malas para el planeta completo, perfectas para un país o una obra.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Cilindro secante -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cómo se aplana una esfera</p>
+      <h2 class="slide__title">Proyección Transversa de Mercator</h2>
+      <p class="slide__desc">Un cilindro imaginario envuelve la Tierra, secante (no tangente) a lo largo de dos líneas paralelas al meridiano central.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;height:auto;display:block">
+  <circle cx="340" cy="195" r="115" fill="#EAF0FF" stroke="#000066" stroke-width="2.5"/>
+  <line x1="225" y1="195" x2="455" y2="195" stroke="#B9C6E8" stroke-width="1.5"/>
+
+  <rect x="255" y="45" width="170" height="290" fill="#FFE9CC" opacity="0.6"/>
+
+  <ellipse cx="340" cy="45" rx="85" ry="14" fill="#ffffff" fill-opacity="0.6" stroke="#5A5A6E" stroke-width="2.5"/>
+  <ellipse cx="340" cy="335" rx="85" ry="14" fill="none" stroke="#5A5A6E" stroke-width="2.5" stroke-dasharray="5 4"/>
+  <line x1="255" y1="45" x2="255" y2="335" stroke="#5A5A6E" stroke-width="2.5"/>
+  <line x1="425" y1="45" x2="425" y2="335" stroke="#5A5A6E" stroke-width="2.5"/>
+
+  <line x1="340" y1="80" x2="340" y2="310" stroke="#FF8F1B" stroke-width="3" stroke-dasharray="9 5"/>
+
+  <path d="M 470 45 C 500 45 505 60 490 68" fill="none" stroke="#5A5A6E" stroke-width="1.5" marker-end="url(#cylArrow)"/>
+  <defs><marker id="cylArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5A5A6E"/></marker></defs>
+  <text x="505" y="30" font-size="13.5" fill="#5A5A6E" text-anchor="start" font-weight="700" font-family="Calibri, Arial, sans-serif">Cilindro transverso</text>
+  <text x="505" y="48" font-size="13.5" fill="#5A5A6E" text-anchor="start" font-weight="700" font-family="Calibri, Arial, sans-serif">(secante)</text>
+
+  <text x="340" y="365" font-size="13.5" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Elipsoide (la Tierra)</text>
+  <text x="340" y="18" font-size="14" fill="#FF8F1B" text-anchor="middle" font-weight="800" font-family="Calibri, Arial, sans-serif">Meridiano central 73° O</text>
+  <text x="340" y="100" font-size="13.5" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">k₀ = 0.9992</text>
+  <text x="340" y="200" font-size="14" fill="#8a5a00" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">k &lt; 1</text>
+  <text x="150" y="200" font-size="14" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">k &gt; 1</text>
+  <text x="530" y="200" font-size="14" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">k &gt; 1</text>
+</svg></div>
+        <p class="figure__caption">En las líneas secantes la escala es exacta (k=1). Entre ellas se reduce (k&lt;1); fuera, se amplía (k&gt;1). Por eso CTM12 usa k₀ = 0.9992 en su meridiano central: reparte la deformación en vez de concentrarla.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Múltiples orígenes -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El problema antes de 2020</p>
+      <h2 class="slide__title">Más de mil orígenes distintos</h2>
+      <p class="slide__desc">Colombia usaba 6 orígenes regionales para zonas rurales, y más de 1 000 orígenes locales para zonas urbanas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <circle cx="120" cy="115" r="100" fill="#EAEAF3" stroke="#000066" stroke-width="2"/>
+  <text x="120" y="20" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">territorio nacional (esquema)</text>
+  <text x="120" y="245" font-size="13" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Antes: +1 000 orígenes locales</text>
+  <g fill="#F0142C">
+    <circle cx="90" cy="60" r="4"/><circle cx="130" cy="55" r="4"/><circle cx="155" cy="80" r="4"/>
+    <circle cx="70" cy="90" r="4"/><circle cx="110" cy="100" r="4"/><circle cx="165" cy="110" r="4"/>
+    <circle cx="60" cy="120" r="4"/><circle cx="100" cy="125" r="4"/><circle cx="145" cy="135" r="4"/>
+    <circle cx="175" cy="145" r="4"/><circle cx="80" cy="155" r="4"/><circle cx="120" cy="165" r="4"/>
+    <circle cx="150" cy="180" r="4"/><circle cx="95" cy="190" r="4"/><circle cx="135" cy="195" r="4"/>
+    <circle cx="105" cy="80" r="4"/><circle cx="65" cy="145" r="4"/>
+  </g>
+
+  <circle cx="480" cy="115" r="100" fill="#E9F8F2" stroke="#000066" stroke-width="2"/>
+  <text x="480" y="20" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">territorio nacional (esquema)</text>
+  <text x="480" y="245" font-size="13" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Ahora: 1 Origen Nacional</text>
+  <circle cx="480" cy="115" r="7" fill="#46C69F" stroke="#000066" stroke-width="1.5"/>
+
+  <path d="M230,130 L360,130" stroke="#5A5A6E" stroke-width="2" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#5A5A6E"/></marker></defs>
+</svg></div>
+        <p class="figure__caption">Un proyecto que cruzaba dos orígenes necesitaba conversiones manuales propensas a error, y las planchas cartográficas no siempre coincidían en los bordes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. La solución CTM12 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Resolución IGAC 471 de 2020</p>
+      <h2 class="slide__title">CTM12: un solo Origen Nacional</h2>
+      <p class="slide__desc">MAGNA-SIRGAS 2018 / Origen-Nacional (EPSG:9377), cerca de Puerto López, Meta — equidistante entre los extremos oriental y occidental del país continental.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Un solo sistema</h3><p>Todo el territorio continental en una única base de datos de coordenadas planas, sin fronteras internas que reconciliar.</p></div>
+        <div><h3>Obligatorio desde 2020</h3><p>Para toda cartografía oficial y gestores catastrales, según la Resolución 471 de 2020 (actualizada por la 529).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. CTM12 en números -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">MAGNA-SIRGAS 2018 / Origen-Nacional</p>
+      <h2 class="slide__title">CTM12 en números</h2>
+      <p class="slide__desc">Los parámetros que usa QGIS internamente cuando eligen este sistema de coordenadas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Proyección</h3><p>Transversa de Mercator, meridiano central 73° O, latitud de origen 4° N.</p></div>
+        <div><h3>Factor de escala (k₀)</h3><p>0.9992: corrige la deformación de la proyección lejos del meridiano central.</p></div>
+        <div><h3>Falso Este</h3><p>5 000 000 m: evita coordenadas Este negativas al oeste del meridiano central.</p></div>
+        <div><h3>Falso Norte</h3><p>2 000 000 m: evita coordenadas Norte negativas al sur del origen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Falso este/norte -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Por qué esos dos números tan grandes</p>
+      <h2 class="slide__title">Falso Este y Falso Norte</h2>
+      <p class="slide__desc">Sin ellos, medio país tendría coordenadas negativas — incómodo para calcular y fácil de confundir con un error.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <line x1="20" y1="130" x2="230" y2="130" stroke="#B7B7B7" stroke-width="1.5"/>
+  <line x1="125" y1="20" x2="125" y2="240" stroke="#B7B7B7" stroke-width="1.5"/>
+  <rect x="60" y="60" width="90" height="130" fill="#FDE7EA" stroke="#F0142C" stroke-width="2"/>
+  <text x="105" y="30" font-size="11.5" fill="#F0142C" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Este y Norte</text>
+  <text x="105" y="44" font-size="11.5" fill="#F0142C" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">negativos aquí</text>
+  <circle cx="125" cy="130" r="4" fill="#000066"/>
+  <text x="132" y="145" font-size="11" fill="#000066" font-family="Calibri, Arial, sans-serif">origen (0,0)</text>
+  <text x="125" y="252" font-size="12" fill="#242433" text-anchor="middle" font-family="Calibri, Arial, sans-serif">Sin falso origen</text>
+
+  <path d="M255,130 L345,130" stroke="#5A5A6E" stroke-width="2" marker-end="url(#arrow2)"/>
+  <defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#5A5A6E"/></marker></defs>
+  <text x="300" y="120" font-size="11" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">+5 000 000 Este</text>
+  <text x="300" y="150" font-size="11" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">+2 000 000 Norte</text>
+
+  <line x1="380" y1="220" x2="590" y2="220" stroke="#000066" stroke-width="1.5"/>
+  <line x1="380" y1="220" x2="380" y2="40" stroke="#000066" stroke-width="1.5"/>
+  <rect x="410" y="80" width="90" height="130" fill="#E9F8F2" stroke="#46C69F" stroke-width="2"/>
+  <circle cx="380" cy="220" r="4" fill="#000066"/>
+  <text x="386" y="235" font-size="11" fill="#000066" font-family="Calibri, Arial, sans-serif">origen (5 000 000, 2 000 000)</text>
+  <text x="455" y="60" font-size="11.5" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Todo positivo</text>
+  <text x="485" y="252" font-size="12" fill="#242433" text-anchor="middle" font-family="Calibri, Arial, sans-serif">Con falso Este/Norte</text>
+</svg></div>
+        <p class="figure__caption">Sumar 5 000 000 m al Este y 2 000 000 m al Norte desplaza el origen fuera del territorio: todas las coordenadas de Colombia quedan positivas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. La fórmula simplificada -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Para calcular a mano (aproximación esférica)</p>
+      <h2 class="slide__title">De decimal a Este/Norte</h2>
+      <p class="slide__desc">La fórmula real usa el elipsoide y series matemáticas (eso lo hace QGIS). Esta aproximación esférica alcanza para entender el concepto.</p>
+    </div>
+    <div class="slide__body">
+      <div class="calc-box">
+        <div class="calc-step"><div class="n">N</div><div class="expr">Norte ≈ 2 000 000 + (lat − 4) × 111 320 × 0.9992</div></div>
+        <div class="calc-step"><div class="n">E</div><div class="expr">Este ≈ 5 000 000 + (lon − (−73)) × 111 320 × cos(lat) × 0.9992</div></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">Se queda a menos de 1 km del valor exacto — suficiente para entender el método, no para trabajo profesional.</p>
+    </div>
+  </section>
+
+  <!-- 24. Ejemplo resuelto Parque Berrío -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ejemplo resuelto</p>
+      <h2 class="slide__title">Medellín, Parque Berrío</h2>
+      <p class="slide__desc">Coordenadas aproximadas: 6.2442° N, −75.5812°</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Ejemplo</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">Norte ≈ 2 000 000 + (6.2442 − 4) × 111 320 × 0.9992 ≈ 2 249 624 m</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Este ≈ 5 000 000 + (−75.5812 + 73) × 111 320 × cos(6.2442°) × 0.9992 ≈ 4 714 594 m</div></div>
+        </div>
+        <div class="calc-answer">Este ≈ 4 714 594 m · Norte ≈ 2 249 624 m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25. Practica: punto de la cuenca -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 4 minutos</p>
+      <h2 class="slide__title">Practiquen: la desembocadura de su cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <p>La Quebrada La Iguaná desemboca en el Río Medellín en, aproximadamente, <strong>6.2596° N, −75.5750°</strong>. Calculen su Este y Norte en CTM12 con la fórmula simplificada, paso a paso, antes de ver la solución.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26. Solución -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: la desembocadura en CTM12</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">Norte ≈ 2 000 000 + (6.2596 − 4) × 111 320 × 0.9992 ≈ 2 251 337 m</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Este ≈ 5 000 000 + (−75.5750 + 73) × 111 320 × cos(6.2596°) × 0.9992 ≈ 4 715 287 m</div></div>
+        </div>
+        <div class="calc-answer">Este ≈ 4 715 287 m · Norte ≈ 2 251 337 m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27. Quiz rápido de repaso -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Quiz rápido, en voz alta</p>
+      <h2 class="slide__title">¿Datum o proyección?</h2>
+      <p class="slide__desc">Para cada situación, digan si el problema es de datum o de proyección.</p>
+    </div>
+    <div class="slide__body">
+      <div class="quiz-row">
+        <div class="quiz-opt"><div class="letter">A</div><div class="txt">Dos capas del mismo lugar quedan desplazadas varias metros entre sí.</div></div>
+        <div class="quiz-opt"><div class="letter">B</div><div class="txt">Un país entero necesita medir distancias en metros sobre un plano, no en grados.</div></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em"><span class="emph">A = Datum</span> (anclas distintas) · <span class="emph">B = Proyección</span> (pasar de esfera a plano).</p>
+    </div>
+  </section>
+
+  <!-- 28. SECCIÓN: territorio -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 2</p>
+    <h1>Su territorio para todo el semestre</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 29. Por qué una sola cuenca -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Un cambio de diseño</p>
+      <h2 class="slide__title">Todo el curso, una sola cuenca</h2>
+      <p class="slide__desc">En vez de una ladera distinta por grupo, todos trabajan sobre la misma cuenca real: la Quebrada La Iguaná.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Por qué</h3><p>Permite preparar datos y ejemplos mucho más a fondo para una sola área, y comparar resultados entre grupos en vez de que cada uno vea algo distinto.</p></div>
+        <div><h3>Qué no cambia</h3><p>Sigue siendo un proyecto de grupo con entregas propias — lo que cambia es que ya no hay sub-polígonos por grupo: todos delinean y trabajan la cuenca completa.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30. La quebrada: overview -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El occidente de Medellín</p>
+      <h2 class="slide__title">La Quebrada La Iguaná</h2>
+      <p class="slide__desc">La corriente de agua más importante del occidente de la ciudad.</p>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__visual"><img src="assets/cuenca_iguana_general.png" alt="Cuenca de la Quebrada La Iguaná" style="width:100%;border-radius:12px;display:block"/></div>
+        <div class="split__text">
+          <h3>Nacimiento</h3>
+          <p>Alto de Boquerón, Cerro de Las Repetidoras (corregimiento San Cristóbal), ≈2 950 msnm.</p>
+          <h3 style="margin-top:0.6em">Desembocadura</h3>
+          <p>Río Medellín, frente a Quebrada Santa Elena y Plaza Minorista, ≈1 453 msnm.</p>
+          <h3 style="margin-top:0.6em">Longitud</h3>
+          <p>15 km, atravesando San Cristóbal, San Javier, Robledo y Laureles-Estadio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 31. Gradiente urbano-rural real -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El patrón que van a analizar</p>
+      <h2 class="slide__title">Un gradiente urbano-rural real, con números</h2>
+      <p class="slide__desc">La cuenca completa mide ≈46.25 km², dividida de forma muy desigual entre sus dos mitades.</p>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__visual"><img src="assets/cuenca_iguana_transicion.png" alt="Transición urbano-rural en la cuenca" style="width:100%;border-radius:12px;display:block"/></div>
+        <div class="split__text">
+          <h3>Parte rural (alta)</h3>
+          <p><strong>38.73 km²</strong> — San Cristóbal, cobertura boscosa, más de 20 afluentes menores (San Franciscana, La Seca, Los Amigos, La Popa, entre otros).</p>
+          <h3 style="margin-top:0.6em">Parte urbana (baja)</h3>
+          <p><strong>7.52 km²</strong> — Robledo, Doce de Octubre, Laureles-Estadio: cartografía urbana densa, cerca del Cerro El Volador.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 32. Una cuenca con historia -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Por qué es una cuenca interesante</p>
+      <h2 class="slide__title">Una cuenca con historia de riesgo</h2>
+      <p class="slide__desc">No es un polígono arbitrario: tiene antecedentes reales que van a aparecer en varios módulos del curso.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>1880</h3><p>Una creciente catastrófica el 23 de abril destruyó gran parte del entonces pueblo de Robledo y desvió el curso de la quebrada.</p></div>
+        <div><h3>Hoy</h3><p>Vecinos siguen reportando crecientes súbitas; es una de las quebradas urbanas más monitoreadas de Medellín.</p></div>
+        <div><h3>Manejo</h3><p>Azud de control de sedimentos (Carrera 80) y presa de laminación con disipación de energía (Carrera 70).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 33. Qué van a hacer con esta cuenca -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Un solo territorio, todo el semestre</p>
+      <h2 class="slide__title">Qué van a hacer con esta cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Módulo 1-2</h3><p>Cartografía urbana densa en la parte baja; cuencas y pendientes reales bajando de San Cristóbal.</p></div>
+        <div><h3>Módulo 3-5</h3><p>Datos secundarios GNSS/topográficos; NDVI comparando cobertura boscosa vs. urbanizada.</p></div>
+        <div><h3>Transversal</h3><p>Riesgo de crecientes (Civil) y espacio público en la franja urbana (Diseño Urbano).</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">Datos base: Portal de Datos Abiertos AMVA (división política + DEM). <span class="pendiente">confirmar cobertura del DEM para toda la cuenca</span> antes del Módulo 1.</p>
+    </div>
+  </section>
+
+  <!-- 34. Más práctica: dos puntos nuevos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ronda rápida, individual</p>
+      <h2 class="slide__title">Más práctica: dos puntos de la cuenca</h2>
+      <p class="slide__desc">Uno en cada sentido de conversión — no se repite el mismo paso dos veces.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div class="example-box example-box--problem">
+          <span class="tag">Punto A · GMS → decimal</span>
+          <p><strong>Nacimiento</strong> (Alto de Boquerón): 6° 20' 00.6" N, 75° 39' 14.4" O. Conviertan a decimal.</p>
+        </div>
+        <div class="example-box example-box--problem">
+          <span class="tag">Punto B · decimal → GMS</span>
+          <p><strong>Punto medio</strong> de la quebrada: 6.29655° N, −75.61450°. Conviertan a GMS.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 35. Solución: dos puntos nuevos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: dos puntos de la cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div class="example-box example-box--solution">
+          <span class="tag">Punto A</span>
+          <div class="calc-answer">6.3335° N, −75.6540°</div>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Punto B</span>
+          <div class="calc-answer">6° 17' 47.6" N, 75° 36' 52.2" O</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 36. Practica: CTM12 con los mismos puntos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, con la fórmula simplificada</p>
+      <h2 class="slide__title">Ahora en CTM12: los mismos dos puntos</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <p>Calculen Este y Norte para el <strong>Punto A</strong> (6.3335° N, −75.6540°) y el <strong>Punto B</strong> (6.29655° N, −75.61450°), con la misma fórmula del ejemplo de Parque Berrío.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 37. Solución CTM12 + gancho de sinuosidad -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución + un dato que no cuadra</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div class="example-box example-box--solution">
+          <span class="tag">Punto A</span>
+          <div class="calc-answer">Este ≈ 4 706 595 m · Norte ≈ 2 259 557 m</div>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Punto B</span>
+          <div class="calc-answer">Este ≈ 4 710 941 m · Norte ≈ 2 255 447 m</div>
+        </div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">Con Pitágoras entre el Punto A (nacimiento) y la desembocadura (Este ≈ 4 715 288, Norte ≈ 2 251 337), la línea recta da <strong>≈12 km</strong> — pero la quebrada recorrida mide 15 km. <span class="emph">¿Por qué la diferencia?</span> El cauce serpentea: la línea recta ignora las curvas que sí van a digitalizar en QGIS.</p>
+    </div>
+  </section>
+
+  <!-- 38. Por qué el coseno -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Volviendo a la fórmula de Este</p>
+      <h2 class="slide__title">Por qué el coseno, en números</h2>
+      <p class="slide__desc">Metros que representa 1° de longitud, según la latitud — por eso Norte no lo necesita y Este sí.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Latitud</th><th>Metros por 1° de longitud</th></tr></thead>
+        <tbody>
+          <tr><td>0° (Ecuador)</td><td>111 320 m</td></tr>
+          <tr><td>6.29° (Medellín / La Iguaná)</td><td>110 650 m</td></tr>
+          <tr><td>12.5° (punto más al norte de Colombia)</td><td>108 681 m</td></tr>
+          <tr><td>45° (referencia, Europa)</td><td>78 715 m</td></tr>
+        </tbody>
+      </table>
+      <p class="slide__desc" style="margin-top:1em">Los meridianos miden siempre lo mismo (por eso Norte usa un factor fijo); los paralelos se encogen hacia los polos (por eso Este necesita cos(lat)).</p>
+    </div>
+  </section>
+
+  <!-- 39. Ronda conceptual V/F -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Verdadero o falso, en voz alta</p>
+      <h2 class="slide__title">¿Entendieron bien el concepto?</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Si dos capas están en el mismo datum pero proyecciones distintas, siempre calzan sin reproyectar. — <strong>Falso</strong></li>
+        <li>Un grado de latitud siempre mide lo mismo en metros, sin importar dónde estés. — <strong>Verdadero</strong></li>
+        <li>El factor k₀ = 0.9992 existe porque el cilindro de la proyección es secante, no tangente. — <strong>Verdadero</strong></li>
+        <li>El falso este y el falso norte cambian la escala del mapa. — <strong>Falso</strong> (solo desplazan el origen)</li>
+        <li>Antes de 2020, todos los mapas catastrales de Colombia usaban el mismo origen de coordenadas planas. — <strong>Falso</strong> (más de 1000 orígenes locales)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 40. Quiz 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierra el Módulo 0</p>
+      <h2 class="slide__title">Quiz 1: Fundamentos cartográficos</h2>
+      <p class="slide__desc">8% de la nota final. Cubre todo lo visto en las Semanas 1 a 3.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Modalidad</h3><p>Individual, presencial, en clase, sin excepción.</p></div>
+        <div><h3>Contenido</h3><p>Escala, píxel/resolución, coordenadas geográficas, datum, CTM12.</p></div>
+        <div><h3>Conexión con su proyecto</h3><p>Una de las preguntas pide las coordenadas aproximadas de un punto de la cuenca Iguaná.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 41. Taller G02 partes 3-4 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ahora en grupo, en el laboratorio</p>
+      <h2 class="slide__title">Taller G02: Partes 3 y 4</h2>
+      <p class="slide__desc">Terminamos el taller que empezamos la semana pasada, ya sobre la cuenca de La Iguaná.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Parte 3</h3><p>Coordenadas planas CTM12: calculan a mano las coordenadas de un punto de la cuenca compartida, igual que en el ejercicio de la desembocadura.</p></div>
+        <div><h3>Parte 4</h3><p>Datum: responden en grupo, conectando con las dos lecturas asignadas la semana pasada.</p></div>
+        <div><h3>Guarden todo</h3><p>Retoman este taller completo (Partes 1–4) en el Módulo 1 para verificar con QGIS.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 42. Cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre</p>
+      <h2 class="slide__title">Para la próxima clase</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Semana 4: Módulo 1</h3><p>Empieza QGIS: entorno, interfaz, CRS de proyecto, carga de capas.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Instalar QGIS</h3><p>Última versión LTR, en su laptop personal, antes de la Semana 4 (guía G03).</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

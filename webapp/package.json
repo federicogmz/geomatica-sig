@@ -1,0 +1,23 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "@turf/turf": "^7.4.0",
+    "canvas-confetti": "^1.9.4",
+    "jspdf": "^4.2.1",
+    "katex": "^0.18.9",
+    "leaflet": "^1.9.4",
+    "proj4": "^2.22.0"
+  }
+}

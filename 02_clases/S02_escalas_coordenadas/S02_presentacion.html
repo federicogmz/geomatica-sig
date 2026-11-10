@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 2</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Escalas, píxeles y coordenadas geográficas</h1>
+    <p class="sub">Semana 2 · Módulo 0: Fundamentos cartográficos y geodesia</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 2</p>
+      <h2 class="slide__title">Lo que haremos hoy</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--sky)">01</div><h3>Repaso</h3><p>Lo que quedó pendiente de la Semana 1</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">02</div><h3>Escala</h3><p>Numérica, gráfica, distancia y área real — con ejemplos que resuelven ustedes</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">03</div><h3>Píxel y resolución</h3><p>La otra forma de medir el detalle de un mapa</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">04</div><h3>Coordenadas geográficas</h3><p>Latitud, longitud, GMS y decimales — con conversión guiada</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.4em">El Bloque 2 (laboratorio, 4:30–6:00 p.m.) es el <span class="emph">Taller G02</span> en grupo, con mapas digitales en PC. Hoy vamos a practicar en el aula los mismos cálculos que después resuelven con su propio mapa.</p>
+    </div>
+  </section>
+
+  <!-- 3. Repaso S1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de seguir</p>
+      <h2 class="slide__title">¿Qué vimos la semana pasada?</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>El curso gira alrededor de un proyecto territorial continuo</li>
+        <li>Trabajaremos sobre una misma área durante todo el semestre</li>
+        <li>Geomática = capturar + analizar + representar el territorio</li>
+        <li>El pacto pedagógico ya quedó acordado y publicado en Teams</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Verificación de lectura -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 3 minutos</p>
+      <h2 class="slide__title">¿Qué recuerdan de la lectura?</h2>
+      <p class="slide__desc"><em>Scale and Resolution</em> (cap. 7 de <em>Making Effective Maps</em>), asignada al cierre de la Semana 1. Discutan estas tres preguntas antes de que sigamos.</p>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>La lectura menciona tres formas de indicar la escala de un mapa. ¿Cuáles son, y cuál sigue funcionando aunque el mapa se agrande o se reduzca?</li>
+        <li>Según la lectura, ¿de qué depende que un mapa sea de "escala grande" o "escala pequeña"? (pista: no es un valor fijo)</li>
+        <li>Para datos raster (imágenes), la lectura no habla de "escala" sino de otro concepto. ¿Cuál es, y qué mide?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Qué es una escala -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El primer problema de todo mapa</p>
+      <h2 class="slide__title">¿Qué es una escala?</h2>
+      <p class="slide__desc">Un mapa es siempre una versión reducida de la realidad. La escala dice cuánto se redujo, y se puede expresar de dos formas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__text">
+          <h3>Escala numérica</h3>
+          <p>Una razón como <strong>1:5 000</strong>: 1 unidad en el papel equivale a 5 000 en el terreno. No depende de cómo se imprima el mapa.</p>
+          <h3 style="margin-top:0.6em">Escala gráfica</h3>
+          <p>Una barra dibujada en el mapa con distancias reales marcadas. Sigue siendo válida aunque el mapa se fotocopie o se reduzca — la numérica no.</p>
+        </div>
+        <div class="split__visual">
+          <div class="svg-frame"><svg viewBox="0 0 400 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;height:auto">
+  <rect x="40" y="30" width="140" height="18" fill="#000066"/>
+  <rect x="180" y="30" width="140" height="18" fill="#ffffff" stroke="#000066" stroke-width="2"/>
+  <rect x="40" y="30" width="280" height="18" fill="none" stroke="#000066" stroke-width="2"/>
+  <line x1="40" y1="22" x2="40" y2="56" stroke="#000066" stroke-width="2"/>
+  <line x1="180" y1="22" x2="180" y2="56" stroke="#000066" stroke-width="2"/>
+  <line x1="320" y1="22" x2="320" y2="56" stroke="#000066" stroke-width="2"/>
+  <text x="40" y="75" font-size="15" fill="#242433" text-anchor="middle" font-family="Calibri, Arial, sans-serif">0</text>
+  <text x="180" y="75" font-size="15" fill="#242433" text-anchor="middle" font-family="Calibri, Arial, sans-serif">250 m</text>
+  <text x="320" y="75" font-size="15" fill="#242433" text-anchor="middle" font-family="Calibri, Arial, sans-serif">500 m</text>
+  <text x="200" y="14" font-size="13" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif" font-weight="700">ESCALA GRÁFICA</text>
+</svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. El mapa de trabajo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Vamos a usar este mapa toda la sesión</p>
+      <h2 class="slide__title">Su mapa de ejemplo</h2>
+      <p class="slide__desc">Un lote, un río, una vía y dos puntos (A y B) a escala <strong>1:5 000</strong>. Con este mismo mapa vamos a calcular distancia real, área real y coordenadas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <rect x="0" y="0" width="600" height="400" fill="#F4F6F0"/>
+  <path d="M0,330 C120,290 150,350 260,305 C360,265 430,330 600,275" fill="none" stroke="#00A9E0" stroke-width="9" stroke-linecap="round" opacity="0.75"/>
+  <line x1="10" y1="70" x2="590" y2="118" stroke="#FF8F1B" stroke-width="4" stroke-dasharray="12 8" opacity="0.85"/>
+  <rect x="380" y="70" width="150" height="95" rx="6" fill="#FFF1E1" stroke="#000066" stroke-width="2"/>
+  <text x="455" y="123" font-size="17" fill="#000066" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">Lote</text>
+  <line x1="150" y1="150" x2="430" y2="260" stroke="#5A5A6E" stroke-width="2" stroke-dasharray="7 7"/>
+  <circle cx="150" cy="150" r="15" fill="#000066"/>
+  <text x="150" y="156" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" font-family="Calibri, Arial, sans-serif">A</text>
+  <circle cx="430" cy="260" r="15" fill="#000066"/>
+  <text x="430" y="266" font-size="15" fill="#fff" text-anchor="middle" font-weight="800" font-family="Calibri, Arial, sans-serif">B</text>
+  <rect x="235" y="188" width="110" height="34" rx="8" fill="#ffffff" stroke="#5A5A6E" stroke-width="1.5"/>
+  <text x="290" y="210" font-size="15" fill="#242433" text-anchor="middle" font-weight="700" font-family="Calibri, Arial, sans-serif">3.4 cm</text>
+  <g transform="translate(548,46)">
+    <polygon points="0,-20 10,6 0,0 -10,6" fill="#F0142C"/>
+    <text x="0" y="26" font-size="15" fill="#000066" text-anchor="middle" font-weight="800" font-family="Calibri, Arial, sans-serif">N</text>
+  </g>
+  <g transform="translate(30,330)">
+    <rect x="0" y="0" width="90" height="12" fill="#000066"/>
+    <rect x="90" y="0" width="90" height="12" fill="#ffffff" stroke="#000066" stroke-width="1.5"/>
+    <text x="0" y="30" font-size="12" fill="#242433" font-family="Calibri, Arial, sans-serif">0</text>
+    <text x="82" y="30" font-size="12" fill="#242433" font-family="Calibri, Arial, sans-serif">250 m</text>
+    <text x="160" y="30" font-size="12" fill="#242433" font-family="Calibri, Arial, sans-serif">500 m</text>
+    <text x="0" y="-8" font-size="13" fill="#000066" font-weight="800" font-family="Calibri, Arial, sans-serif">1 : 5 000</text>
+  </g>
+</svg></div>
+        <p class="figure__caption">Mapa ilustrativo del ejercicio (no es un mapa oficial). La escala gráfica de abajo confirma 1:5 000.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Escala → distancia real (teoría) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">De la regla al terreno</p>
+      <h2 class="slide__title">Escala → distancia real</h2>
+      <p class="slide__desc">Tres pasos, siempre en el mismo orden.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Medir en el mapa</h3><p>Con regla, la distancia entre los dos puntos que les interesan.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Aplicar la escala</h3><p>Multiplicar esa medida por el denominador de la escala (1:N → ×N).</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Convertir unidades</h3><p>El resultado queda en las unidades de la regla: pasarlo a metros.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Practica ahora: problema distancia -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 3 minutos</p>
+      <h2 class="slide__title">Practiquen: distancia real</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <h3>¿Qué distancia real hay entre A y B?</h3>
+        <p>En el mapa de la diapositiva anterior, la distancia medida entre A y B es de <strong>3.4 cm</strong>. La escala del mapa es <strong>1:5 000</strong>. Calculen la distancia real en metros, con lápiz y calculadora, antes de ver la solución.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Solución distancia -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: distancia real</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">3.4 cm medidos en el mapa</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">3.4 cm × 5 000 = 17 000 cm</div></div>
+          <div class="calc-step"><div class="n">3</div><div class="expr">17 000 cm ÷ 100 = 170 m</div></div>
+        </div>
+        <div class="calc-answer">Distancia real A–B ≈ 170 m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Escala y área (teoría) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Un error frecuente</p>
+      <h2 class="slide__title">Escala → área real</h2>
+      <p class="slide__desc">El área no se escala igual que la distancia.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Escala lineal</h3><p>Si la escala es 1:N, una distancia se multiplica por <strong>N</strong> para volverla real.</p></div>
+        <div><h3>Escala de área</h3><p>Un área se multiplica por <strong>N²</strong>, porque tiene dos dimensiones. El error más común es olvidar el cuadrado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Practica ahora: problema área -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 3 minutos</p>
+      <h2 class="slide__title">Practiquen: área real del lote</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <h3>¿Qué área real tiene el lote?</h3>
+        <p>El lote marcado en el mapa mide <strong>2 cm × 1.5 cm</strong> en papel. La escala sigue siendo <strong>1:5 000</strong>. Calculen primero cada lado en metros, y luego el área real en m². ¿A cuántas hectáreas equivale?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Solución área -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: área real</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">Lado 1: 2 cm × 5 000 = 10 000 cm = 100 m</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Lado 2: 1.5 cm × 5 000 = 7 500 cm = 75 m</div></div>
+          <div class="calc-step"><div class="n">3</div><div class="expr">Área: 100 m × 75 m = 7 500 m²</div></div>
+        </div>
+        <div class="calc-answer">Área real ≈ 7 500 m² = 0.75 ha</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Píxel y resolución (teoría) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La otra forma de medir detalle</p>
+      <h2 class="slide__title">Píxel y resolución espacial</h2>
+      <p class="slide__desc">Además de escala, las imágenes y datos raster se miden por resolución. Lo veremos a fondo en el Módulo 2.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Píxel</h3><p>La celda más pequeña de una imagen o raster. Cada píxel representa un valor único (color, elevación, temperatura...).</p></div>
+        <div><h3>Resolución espacial</h3><p>El tamaño real que representa cada píxel en el terreno, ej. una imagen Sentinel-2 tiene píxeles de 10×10 m.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Comparación visual de resolución -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El mismo objeto, dos resoluciones</p>
+      <h2 class="slide__title">A menor tamaño de píxel, más detalle</h2>
+      <p class="slide__desc">Las dos cuadrículas representan el mismo lago circular, capturado con dos tamaños de píxel distintos.</p>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__visual" style="flex-direction:column;gap:0.6em">
+          <div class="svg-frame"><svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;height:auto;display:block"><style>.on{fill:#46C69F}.off{fill:#EAEAF3}rect{stroke:#fff;stroke-width:1.4}</style><rect x="0.00" y="0.00" width="43.33" height="43.33" class="off"/><rect x="43.33" y="0.00" width="43.33" height="43.33" class="off"/><rect x="86.67" y="0.00" width="43.33" height="43.33" class="off"/><rect x="130.00" y="0.00" width="43.33" height="43.33" class="off"/><rect x="173.33" y="0.00" width="43.33" height="43.33" class="off"/><rect x="216.67" y="0.00" width="43.33" height="43.33" class="off"/><rect x="0.00" y="43.33" width="43.33" height="43.33" class="off"/><rect x="43.33" y="43.33" width="43.33" height="43.33" class="on"/><rect x="86.67" y="43.33" width="43.33" height="43.33" class="on"/><rect x="130.00" y="43.33" width="43.33" height="43.33" class="on"/><rect x="173.33" y="43.33" width="43.33" height="43.33" class="on"/><rect x="216.67" y="43.33" width="43.33" height="43.33" class="off"/><rect x="0.00" y="86.67" width="43.33" height="43.33" class="off"/><rect x="43.33" y="86.67" width="43.33" height="43.33" class="on"/><rect x="86.67" y="86.67" width="43.33" height="43.33" class="on"/><rect x="130.00" y="86.67" width="43.33" height="43.33" class="on"/><rect x="173.33" y="86.67" width="43.33" height="43.33" class="on"/><rect x="216.67" y="86.67" width="43.33" height="43.33" class="off"/><rect x="0.00" y="130.00" width="43.33" height="43.33" class="off"/><rect x="43.33" y="130.00" width="43.33" height="43.33" class="on"/><rect x="86.67" y="130.00" width="43.33" height="43.33" class="on"/><rect x="130.00" y="130.00" width="43.33" height="43.33" class="on"/><rect x="173.33" y="130.00" width="43.33" height="43.33" class="on"/><rect x="216.67" y="130.00" width="43.33" height="43.33" class="off"/><rect x="0.00" y="173.33" width="43.33" height="43.33" class="off"/><rect x="43.33" y="173.33" width="43.33" height="43.33" class="on"/><rect x="86.67" y="173.33" width="43.33" height="43.33" class="on"/><rect x="130.00" y="173.33" width="43.33" height="43.33" class="on"/><rect x="173.33" y="173.33" width="43.33" height="43.33" class="on"/><rect x="216.67" y="173.33" width="43.33" height="43.33" class="off"/><rect x="0.00" y="216.67" width="43.33" height="43.33" class="off"/><rect x="43.33" y="216.67" width="43.33" height="43.33" class="off"/><rect x="86.67" y="216.67" width="43.33" height="43.33" class="off"/><rect x="130.00" y="216.67" width="43.33" height="43.33" class="off"/><rect x="173.33" y="216.67" width="43.33" height="43.33" class="off"/><rect x="216.67" y="216.67" width="43.33" height="43.33" class="off"/></svg></div>
+          <p class="figure__caption">Resolución gruesa (píxel grande) — borde en escalones</p>
+        </div>
+        <div class="split__visual" style="flex-direction:column;gap:0.6em">
+          <div class="svg-frame"><svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;height:auto;display:block"><style>.on{fill:#46C69F}.off{fill:#EAEAF3}rect{stroke:#fff;stroke-width:1.4}</style><rect x="0.00" y="0.00" width="16.25" height="16.25" class="off"/><rect x="16.25" y="0.00" width="16.25" height="16.25" class="off"/><rect x="32.50" y="0.00" width="16.25" height="16.25" class="off"/><rect x="48.75" y="0.00" width="16.25" height="16.25" class="off"/><rect x="65.00" y="0.00" width="16.25" height="16.25" class="off"/><rect x="81.25" y="0.00" width="16.25" height="16.25" class="off"/><rect x="97.50" y="0.00" width="16.25" height="16.25" class="off"/><rect x="113.75" y="0.00" width="16.25" height="16.25" class="off"/><rect x="130.00" y="0.00" width="16.25" height="16.25" class="off"/><rect x="146.25" y="0.00" width="16.25" height="16.25" class="off"/><rect x="162.50" y="0.00" width="16.25" height="16.25" class="off"/><rect x="178.75" y="0.00" width="16.25" height="16.25" class="off"/><rect x="195.00" y="0.00" width="16.25" height="16.25" class="off"/><rect x="211.25" y="0.00" width="16.25" height="16.25" class="off"/><rect x="227.50" y="0.00" width="16.25" height="16.25" class="off"/><rect x="243.75" y="0.00" width="16.25" height="16.25" class="off"/><rect x="0.00" y="16.25" width="16.25" height="16.25" class="off"/><rect x="16.25" y="16.25" width="16.25" height="16.25" class="off"/><rect x="32.50" y="16.25" width="16.25" height="16.25" class="off"/><rect x="48.75" y="16.25" width="16.25" height="16.25" class="off"/><rect x="65.00" y="16.25" width="16.25" height="16.25" class="off"/><rect x="81.25" y="16.25" width="16.25" height="16.25" class="off"/><rect x="97.50" y="16.25" width="16.25" height="16.25" class="off"/><rect x="113.75" y="16.25" width="16.25" height="16.25" class="on"/><rect x="130.00" y="16.25" width="16.25" height="16.25" class="on"/><rect x="146.25" y="16.25" width="16.25" height="16.25" class="off"/><rect x="162.50" y="16.25" width="16.25" height="16.25" class="off"/><rect x="178.75" y="16.25" width="16.25" height="16.25" class="off"/><rect x="195.00" y="16.25" width="16.25" height="16.25" class="off"/><rect x="211.25" y="16.25" width="16.25" height="16.25" class="off"/><rect x="227.50" y="16.25" width="16.25" height="16.25" class="off"/><rect x="243.75" y="16.25" width="16.25" height="16.25" class="off"/><rect x="0.00" y="32.50" width="16.25" height="16.25" class="off"/><rect x="16.25" y="32.50" width="16.25" height="16.25" class="off"/><rect x="32.50" y="32.50" width="16.25" height="16.25" class="off"/><rect x="48.75" y="32.50" width="16.25" height="16.25" class="off"/><rect x="65.00" y="32.50" width="16.25" height="16.25" class="on"/><rect x="81.25" y="32.50" width="16.25" height="16.25" class="on"/><rect x="97.50" y="32.50" width="16.25" height="16.25" class="on"/><rect x="113.75" y="32.50" width="16.25" height="16.25" class="on"/><rect x="130.00" y="32.50" width="16.25" height="16.25" class="on"/><rect x="146.25" y="32.50" width="16.25" height="16.25" class="on"/><rect x="162.50" y="32.50" width="16.25" height="16.25" class="on"/><rect x="178.75" y="32.50" width="16.25" height="16.25" class="on"/><rect x="195.00" y="32.50" width="16.25" height="16.25" class="off"/><rect x="211.25" y="32.50" width="16.25" height="16.25" class="off"/><rect x="227.50" y="32.50" width="16.25" height="16.25" class="off"/><rect x="243.75" y="32.50" width="16.25" height="16.25" class="off"/><rect x="0.00" y="48.75" width="16.25" height="16.25" class="off"/><rect x="16.25" y="48.75" width="16.25" height="16.25" class="off"/><rect x="32.50" y="48.75" width="16.25" height="16.25" class="off"/><rect x="48.75" y="48.75" width="16.25" height="16.25" class="on"/><rect x="65.00" y="48.75" width="16.25" height="16.25" class="on"/><rect x="81.25" y="48.75" width="16.25" height="16.25" class="on"/><rect x="97.50" y="48.75" width="16.25" height="16.25" class="on"/><rect x="113.75" y="48.75" width="16.25" height="16.25" class="on"/><rect x="130.00" y="48.75" width="16.25" height="16.25" class="on"/><rect x="146.25" y="48.75" width="16.25" height="16.25" class="on"/><rect x="162.50" y="48.75" width="16.25" height="16.25" class="on"/><rect x="178.75" y="48.75" width="16.25" height="16.25" class="on"/><rect x="195.00" y="48.75" width="16.25" height="16.25" class="on"/><rect x="211.25" y="48.75" width="16.25" height="16.25" class="off"/><rect x="227.50" y="48.75" width="16.25" height="16.25" class="off"/><rect x="243.75" y="48.75" width="16.25" height="16.25" class="off"/><rect x="0.00" y="65.00" width="16.25" height="16.25" class="off"/><rect x="16.25" y="65.00" width="16.25" height="16.25" class="off"/><rect x="32.50" y="65.00" width="16.25" height="16.25" class="on"/><rect x="48.75" y="65.00" width="16.25" height="16.25" class="on"/><rect x="65.00" y="65.00" width="16.25" height="16.25" class="on"/><rect x="81.25" y="65.00" width="16.25" height="16.25" class="on"/><rect x="97.50" y="65.00" width="16.25" height="16.25" class="on"/><rect x="113.75" y="65.00" width="16.25" height="16.25" class="on"/><rect x="130.00" y="65.00" width="16.25" height="16.25" class="on"/><rect x="146.25" y="65.00" width="16.25" height="16.25" class="on"/><rect x="162.50" y="65.00" width="16.25" height="16.25" class="on"/><rect x="178.75" y="65.00" width="16.25" height="16.25" class="on"/><rect x="195.00" y="65.00" width="16.25" height="16.25" class="on"/><rect x="211.25" y="65.00" width="16.25" height="16.25" class="on"/><rect x="227.50" y="65.00" width="16.25" height="16.25" class="off"/><rect x="243.75" y="65.00" width="16.25" height="16.25" class="off"/><rect x="0.00" y="81.25" width="16.25" height="16.25" class="off"/><rect x="16.25" y="81.25" width="16.25" height="16.25" class="off"/><rect x="32.50" y="81.25" width="16.25" height="16.25" class="on"/><rect x="48.75" y="81.25" width="16.25" height="16.25" class="on"/><rect x="65.00" y="81.25" width="16.25" height="16.25" class="on"/><rect x="81.25" y="81.25" width="16.25" height="16.25" class="on"/><rect x="97.50" y="81.25" width="16.25" height="16.25" class="on"/><rect x="113.75" y="81.25" width="16.25" height="16.25" class="on"/><rect x="130.00" y="81.25" width="16.25" height="16.25" class="on"/><rect x="146.25" y="81.25" width="16.25" height="16.25" class="on"/><rect x="162.50" y="81.25" width="16.25" height="16.25" class="on"/><rect x="178.75" y="81.25" width="16.25" height="16.25" class="on"/><rect x="195.00" y="81.25" width="16.25" height="16.25" class="on"/><rect x="211.25" y="81.25" width="16.25" height="16.25" class="on"/><rect x="227.50" y="81.25" width="16.25" height="16.25" class="off"/><rect x="243.75" y="81.25" width="16.25" height="16.25" class="off"/><rect x="0.00" y="97.50" width="16.25" height="16.25" class="off"/><rect x="16.25" y="97.50" width="16.25" height="16.25" class="off"/><rect x="32.50" y="97.50" width="16.25" height="16.25" class="on"/><rect x="48.75" y="97.50" width="16.25" height="16.25" class="on"/><rect x="65.00" y="97.50" width="16.25" height="16.25" class="on"/><rect x="81.25" y="97.50" width="16.25" height="16.25" class="on"/><rect x="97.50" y="97.50" width="16.25" height="16.25" class="on"/><rect x="113.75" y="97.50" width="16.25" height="16.25" class="on"/><rect x="130.00" y="97.50" width="16.25" height="16.25" class="on"/><rect x="146.25" y="97.50" width="16.25" height="16.25" class="on"/><rect x="162.50" y="97.50" width="16.25" height="16.25" class="on"/><rect x="178.75" y="97.50" width="16.25" height="16.25" class="on"/><rect x="195.00" y="97.50" width="16.25" height="16.25" class="on"/><rect x="211.25" y="97.50" width="16.25" height="16.25" class="on"/><rect x="227.50" y="97.50" width="16.25" height="16.25" class="off"/><rect x="243.75" y="97.50" width="16.25" height="16.25" class="off"/><rect x="0.00" y="113.75" width="16.25" height="16.25" class="off"/><rect x="16.25" y="113.75" width="16.25" height="16.25" class="on"/><rect x="32.50" y="113.75" width="16.25" height="16.25" class="on"/><rect x="48.75" y="113.75" width="16.25" height="16.25" class="on"/><rect x="65.00" y="113.75" width="16.25" height="16.25" class="on"/><rect x="81.25" y="113.75" width="16.25" height="16.25" class="on"/><rect x="97.50" y="113.75" width="16.25" height="16.25" class="on"/><rect x="113.75" y="113.75" width="16.25" height="16.25" class="on"/><rect x="130.00" y="113.75" width="16.25" height="16.25" class="on"/><rect x="146.25" y="113.75" width="16.25" height="16.25" class="on"/><rect x="162.50" y="113.75" width="16.25" height="16.25" class="on"/><rect x="178.75" y="113.75" width="16.25" height="16.25" class="on"/><rect x="195.00" y="113.75" width="16.25" height="16.25" class="on"/><rect x="211.25" y="113.75" width="16.25" height="16.25" class="on"/><rect x="227.50" y="113.75" width="16.25" height="16.25" class="on"/><rect x="243.75" y="113.75" width="16.25" height="16.25" class="off"/><rect x="0.00" y="130.00" width="16.25" height="16.25" class="off"/><rect x="16.25" y="130.00" width="16.25" height="16.25" class="on"/><rect x="32.50" y="130.00" width="16.25" height="16.25" class="on"/><rect x="48.75" y="130.00" width="16.25" height="16.25" class="on"/><rect x="65.00" y="130.00" width="16.25" height="16.25" class="on"/><rect x="81.25" y="130.00" width="16.25" height="16.25" class="on"/><rect x="97.50" y="130.00" width="16.25" height="16.25" class="on"/><rect x="113.75" y="130.00" width="16.25" height="16.25" class="on"/><rect x="130.00" y="130.00" width="16.25" height="16.25" class="on"/><rect x="146.25" y="130.00" width="16.25" height="16.25" class="on"/><rect x="162.50" y="130.00" width="16.25" height="16.25" class="on"/><rect x="178.75" y="130.00" width="16.25" height="16.25" class="on"/><rect x="195.00" y="130.00" width="16.25" height="16.25" class="on"/><rect x="211.25" y="130.00" width="16.25" height="16.25" class="on"/><rect x="227.50" y="130.00" width="16.25" height="16.25" class="on"/><rect x="243.75" y="130.00" width="16.25" height="16.25" class="off"/><rect x="0.00" y="146.25" width="16.25" height="16.25" class="off"/><rect x="16.25" y="146.25" width="16.25" height="16.25" class="off"/><rect x="32.50" y="146.25" width="16.25" height="16.25" class="on"/><rect x="48.75" y="146.25" width="16.25" height="16.25" class="on"/><rect x="65.00" y="146.25" width="16.25" height="16.25" class="on"/><rect x="81.25" y="146.25" width="16.25" height="16.25" class="on"/><rect x="97.50" y="146.25" width="16.25" height="16.25" class="on"/><rect x="113.75" y="146.25" width="16.25" height="16.25" class="on"/><rect x="130.00" y="146.25" width="16.25" height="16.25" class="on"/><rect x="146.25" y="146.25" width="16.25" height="16.25" class="on"/><rect x="162.50" y="146.25" width="16.25" height="16.25" class="on"/><rect x="178.75" y="146.25" width="16.25" height="16.25" class="on"/><rect x="195.00" y="146.25" width="16.25" height="16.25" class="on"/><rect x="211.25" y="146.25" width="16.25" height="16.25" class="on"/><rect x="227.50" y="146.25" width="16.25" height="16.25" class="off"/><rect x="243.75" y="146.25" width="16.25" height="16.25" class="off"/><rect x="0.00" y="162.50" width="16.25" height="16.25" class="off"/><rect x="16.25" y="162.50" width="16.25" height="16.25" class="off"/><rect x="32.50" y="162.50" width="16.25" height="16.25" class="on"/><rect x="48.75" y="162.50" width="16.25" height="16.25" class="on"/><rect x="65.00" y="162.50" width="16.25" height="16.25" class="on"/><rect x="81.25" y="162.50" width="16.25" height="16.25" class="on"/><rect x="97.50" y="162.50" width="16.25" height="16.25" class="on"/><rect x="113.75" y="162.50" width="16.25" height="16.25" class="on"/><rect x="130.00" y="162.50" width="16.25" height="16.25" class="on"/><rect x="146.25" y="162.50" width="16.25" height="16.25" class="on"/><rect x="162.50" y="162.50" width="16.25" height="16.25" class="on"/><rect x="178.75" y="162.50" width="16.25" height="16.25" class="on"/><rect x="195.00" y="162.50" width="16.25" height="16.25" class="on"/><rect x="211.25" y="162.50" width="16.25" height="16.25" class="on"/><rect x="227.50" y="162.50" width="16.25" height="16.25" class="off"/><rect x="243.75" y="162.50" width="16.25" height="16.25" class="off"/><rect x="0.00" y="178.75" width="16.25" height="16.25" class="off"/><rect x="16.25" y="178.75" width="16.25" height="16.25" class="off"/><rect x="32.50" y="178.75" width="16.25" height="16.25" class="on"/><rect x="48.75" y="178.75" width="16.25" height="16.25" class="on"/><rect x="65.00" y="178.75" width="16.25" height="16.25" class="on"/><rect x="81.25" y="178.75" width="16.25" height="16.25" class="on"/><rect x="97.50" y="178.75" width="16.25" height="16.25" class="on"/><rect x="113.75" y="178.75" width="16.25" height="16.25" class="on"/><rect x="130.00" y="178.75" width="16.25" height="16.25" class="on"/><rect x="146.25" y="178.75" width="16.25" height="16.25" class="on"/><rect x="162.50" y="178.75" width="16.25" height="16.25" class="on"/><rect x="178.75" y="178.75" width="16.25" height="16.25" class="on"/><rect x="195.00" y="178.75" width="16.25" height="16.25" class="on"/><rect x="211.25" y="178.75" width="16.25" height="16.25" class="on"/><rect x="227.50" y="178.75" width="16.25" height="16.25" class="off"/><rect x="243.75" y="178.75" width="16.25" height="16.25" class="off"/><rect x="0.00" y="195.00" width="16.25" height="16.25" class="off"/><rect x="16.25" y="195.00" width="16.25" height="16.25" class="off"/><rect x="32.50" y="195.00" width="16.25" height="16.25" class="off"/><rect x="48.75" y="195.00" width="16.25" height="16.25" class="on"/><rect x="65.00" y="195.00" width="16.25" height="16.25" class="on"/><rect x="81.25" y="195.00" width="16.25" height="16.25" class="on"/><rect x="97.50" y="195.00" width="16.25" height="16.25" class="on"/><rect x="113.75" y="195.00" width="16.25" height="16.25" class="on"/><rect x="130.00" y="195.00" width="16.25" height="16.25" class="on"/><rect x="146.25" y="195.00" width="16.25" height="16.25" class="on"/><rect x="162.50" y="195.00" width="16.25" height="16.25" class="on"/><rect x="178.75" y="195.00" width="16.25" height="16.25" class="on"/><rect x="195.00" y="195.00" width="16.25" height="16.25" class="on"/><rect x="211.25" y="195.00" width="16.25" height="16.25" class="off"/><rect x="227.50" y="195.00" width="16.25" height="16.25" class="off"/><rect x="243.75" y="195.00" width="16.25" height="16.25" class="off"/><rect x="0.00" y="211.25" width="16.25" height="16.25" class="off"/><rect x="16.25" y="211.25" width="16.25" height="16.25" class="off"/><rect x="32.50" y="211.25" width="16.25" height="16.25" class="off"/><rect x="48.75" y="211.25" width="16.25" height="16.25" class="off"/><rect x="65.00" y="211.25" width="16.25" height="16.25" class="on"/><rect x="81.25" y="211.25" width="16.25" height="16.25" class="on"/><rect x="97.50" y="211.25" width="16.25" height="16.25" class="on"/><rect x="113.75" y="211.25" width="16.25" height="16.25" class="on"/><rect x="130.00" y="211.25" width="16.25" height="16.25" class="on"/><rect x="146.25" y="211.25" width="16.25" height="16.25" class="on"/><rect x="162.50" y="211.25" width="16.25" height="16.25" class="on"/><rect x="178.75" y="211.25" width="16.25" height="16.25" class="on"/><rect x="195.00" y="211.25" width="16.25" height="16.25" class="off"/><rect x="211.25" y="211.25" width="16.25" height="16.25" class="off"/><rect x="227.50" y="211.25" width="16.25" height="16.25" class="off"/><rect x="243.75" y="211.25" width="16.25" height="16.25" class="off"/><rect x="0.00" y="227.50" width="16.25" height="16.25" class="off"/><rect x="16.25" y="227.50" width="16.25" height="16.25" class="off"/><rect x="32.50" y="227.50" width="16.25" height="16.25" class="off"/><rect x="48.75" y="227.50" width="16.25" height="16.25" class="off"/><rect x="65.00" y="227.50" width="16.25" height="16.25" class="off"/><rect x="81.25" y="227.50" width="16.25" height="16.25" class="off"/><rect x="97.50" y="227.50" width="16.25" height="16.25" class="off"/><rect x="113.75" y="227.50" width="16.25" height="16.25" class="on"/><rect x="130.00" y="227.50" width="16.25" height="16.25" class="on"/><rect x="146.25" y="227.50" width="16.25" height="16.25" class="off"/><rect x="162.50" y="227.50" width="16.25" height="16.25" class="off"/><rect x="178.75" y="227.50" width="16.25" height="16.25" class="off"/><rect x="195.00" y="227.50" width="16.25" height="16.25" class="off"/><rect x="211.25" y="227.50" width="16.25" height="16.25" class="off"/><rect x="227.50" y="227.50" width="16.25" height="16.25" class="off"/><rect x="243.75" y="227.50" width="16.25" height="16.25" class="off"/><rect x="0.00" y="243.75" width="16.25" height="16.25" class="off"/><rect x="16.25" y="243.75" width="16.25" height="16.25" class="off"/><rect x="32.50" y="243.75" width="16.25" height="16.25" class="off"/><rect x="48.75" y="243.75" width="16.25" height="16.25" class="off"/><rect x="65.00" y="243.75" width="16.25" height="16.25" class="off"/><rect x="81.25" y="243.75" width="16.25" height="16.25" class="off"/><rect x="97.50" y="243.75" width="16.25" height="16.25" class="off"/><rect x="113.75" y="243.75" width="16.25" height="16.25" class="off"/><rect x="130.00" y="243.75" width="16.25" height="16.25" class="off"/><rect x="146.25" y="243.75" width="16.25" height="16.25" class="off"/><rect x="162.50" y="243.75" width="16.25" height="16.25" class="off"/><rect x="178.75" y="243.75" width="16.25" height="16.25" class="off"/><rect x="195.00" y="243.75" width="16.25" height="16.25" class="off"/><rect x="211.25" y="243.75" width="16.25" height="16.25" class="off"/><rect x="227.50" y="243.75" width="16.25" height="16.25" class="off"/><rect x="243.75" y="243.75" width="16.25" height="16.25" class="off"/></svg></div>
+          <p class="figure__caption">Resolución fina (píxel pequeño) — borde más suave</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Quiz rápido resolución -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Quiz rápido, en voz alta</p>
+      <h2 class="slide__title">¿Cuál conviene para mapear una fisura pequeña?</h2>
+      <p class="slide__desc">Piensen en las dos cuadrículas anteriores antes de responder.</p>
+    </div>
+    <div class="slide__body">
+      <div class="quiz-row">
+        <div class="quiz-opt"><div class="letter">A</div><div class="txt">La de píxel grande (resolución gruesa), porque cubre más área con menos datos.</div></div>
+        <div class="quiz-opt"><div class="letter">B</div><div class="txt">La de píxel pequeño (resolución fina), porque distingue detalles de menor tamaño.</div></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em"><span class="emph">Respuesta: B</span> — pero a mayor resolución, más peso de archivo y más costo de procesamiento. Esa es la compensación (trade-off) que van a manejar todo el semestre.</p>
+    </div>
+  </section>
+
+  <!-- 16. SECCIÓN: coordenadas geográficas -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 2</p>
+    <h1>Coordenadas geográficas</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 17. Qué son -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ubicar cualquier punto del planeta</p>
+      <h2 class="slide__title">Latitud y longitud</h2>
+      <p class="slide__desc">El sistema de referencia global, antes de llegar a los sistemas propios de Colombia en la próxima clase.</p>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__text">
+          <h3>Latitud</h3>
+          <p>Distancia angular al norte o sur del Ecuador (0° a 90°). Colombia está cerca de 0° a 12° N.</p>
+          <h3 style="margin-top:0.6em">Longitud</h3>
+          <p>Distancia angular al este u oeste del meridiano de Greenwich (0° a 180°). Medellín está cerca de −75.5°.</p>
+        </div>
+        <div class="split__visual"><div class="svg-frame"><svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <rect x="0" y="0" width="600" height="340" fill="#EAF0FF" stroke="#000066" stroke-width="2"/>
+  <line x1="100" y1="0" x2="100" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="200" y1="0" x2="200" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="400" y1="0" x2="400" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="500" y1="0" x2="500" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="300" y1="0" x2="300" y2="340" stroke="#000066" stroke-width="2.5"/>
+  <line x1="0" y1="56.7" x2="600" y2="56.7" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="113.3" x2="600" y2="113.3" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="226.7" x2="600" y2="226.7" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="283.3" x2="600" y2="283.3" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="170" x2="600" y2="170" stroke="#000066" stroke-width="2.5"/>
+  <text x="580" y="163" font-size="13" fill="#000066" text-anchor="end" font-weight="800" font-family="Calibri, Arial, sans-serif">Ecuador (0°)</text>
+  <text x="300" y="16" font-size="13" fill="#000066" text-anchor="middle" font-weight="800" font-family="Calibri, Arial, sans-serif">Meridiano de Greenwich (0°)</text>
+  <text x="8" y="20" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">60°N</text>
+  <text x="8" y="118" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">30°N</text>
+  <text x="8" y="231" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">30°S</text>
+  <text x="8" y="333" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">60°S</text>
+  <text x="100" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">120°O</text>
+  <text x="200" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">60°O</text>
+  <text x="400" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">60°E</text>
+  <text x="500" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">120°E</text>
+  <circle cx="174" cy="158" r="8" fill="#F0142C"/>
+  <text x="184" y="145" font-size="14" fill="#000066" font-weight="800" font-family="Calibri, Arial, sans-serif">Medellín</text>
+  <text x="184" y="163" font-size="12.5" fill="#242433" font-family="Calibri, Arial, sans-serif">6.24° N, 75.58° O</text>
+</svg></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Figura grande de la cuadrícula -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Esquema, no proyección exacta</p>
+      <h2 class="slide__title">Paralelos, meridianos y un punto</h2>
+      <p class="slide__desc">Cada línea equivale a 30°. El punto marcado es Medellín: 6.24° al norte del Ecuador, 75.58° al oeste de Greenwich.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <rect x="0" y="0" width="600" height="340" fill="#EAF0FF" stroke="#000066" stroke-width="2"/>
+  <line x1="100" y1="0" x2="100" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="200" y1="0" x2="200" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="400" y1="0" x2="400" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="500" y1="0" x2="500" y2="340" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="300" y1="0" x2="300" y2="340" stroke="#000066" stroke-width="2.5"/>
+  <line x1="0" y1="56.7" x2="600" y2="56.7" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="113.3" x2="600" y2="113.3" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="226.7" x2="600" y2="226.7" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="283.3" x2="600" y2="283.3" stroke="#B9C6E8" stroke-width="1.5"/>
+  <line x1="0" y1="170" x2="600" y2="170" stroke="#000066" stroke-width="2.5"/>
+  <text x="580" y="163" font-size="13" fill="#000066" text-anchor="end" font-weight="800" font-family="Calibri, Arial, sans-serif">Ecuador (0°)</text>
+  <text x="300" y="16" font-size="13" fill="#000066" text-anchor="middle" font-weight="800" font-family="Calibri, Arial, sans-serif">Meridiano de Greenwich (0°)</text>
+  <text x="8" y="20" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">60°N</text>
+  <text x="8" y="118" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">30°N</text>
+  <text x="8" y="231" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">30°S</text>
+  <text x="8" y="333" font-size="12" fill="#5A5A6E" font-family="Calibri, Arial, sans-serif">60°S</text>
+  <text x="100" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">120°O</text>
+  <text x="200" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">60°O</text>
+  <text x="400" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">60°E</text>
+  <text x="500" y="333" font-size="12" fill="#5A5A6E" text-anchor="middle" font-family="Calibri, Arial, sans-serif">120°E</text>
+  <circle cx="174" cy="158" r="8" fill="#F0142C"/>
+  <text x="184" y="145" font-size="14" fill="#000066" font-weight="800" font-family="Calibri, Arial, sans-serif">Medellín</text>
+  <text x="184" y="163" font-size="12.5" fill="#242433" font-family="Calibri, Arial, sans-serif">6.24° N, 75.58° O</text>
+</svg></div>
+        <p class="figure__caption">Con dos números (latitud, longitud) se ubica cualquier punto del planeta sin ambigüedad.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. GMS vs decimales (teoría) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Dos formas de escribir lo mismo</p>
+      <h2 class="slide__title">Grados-minutos-segundos ↔ decimales</h2>
+      <p class="slide__desc">QGIS y GPS suelen trabajar en decimales; la cartografía tradicional casi siempre trae GMS.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">GMS</div><h3>6° 15' 32" N</h3><p>Grados, minutos (1/60°) y segundos (1/3600°): formato tradicional de cartografía impresa.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">→</div><h3>Conversión</h3><p>Decimal = grados + minutos/60 + segundos/3600. El hemisferio S u O se vuelve signo negativo.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">Decimal</div><h3>6.258889° N</h3><p>Formato que usan GPS, QGIS y casi todo el software SIG moderno.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Practica ahora: GMS -> decimal -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Individual, 2 minutos</p>
+      <h2 class="slide__title">Practiquen: GMS → decimal</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <h3>Convierte a decimal</h3>
+        <p>Un punto GNSS quedó registrado como <strong>3° 30' 36" N</strong>. Aplica la fórmula grados + minutos/60 + segundos/3600 y escribe el resultado en decimal antes de ver la solución.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Solución GMS -> decimal -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: GMS → decimal</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">30' ÷ 60 = 0.5°</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">36" ÷ 3600 = 0.01°</div></div>
+          <div class="calc-step"><div class="n">3</div><div class="expr">3° + 0.5° + 0.01° = 3.51°</div></div>
+        </div>
+        <div class="calc-answer">3° 30' 36" N = 3.51° N</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Practica ahora: decimal -> GMS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Individual, 2 minutos — el camino inverso</p>
+      <h2 class="slide__title">Practiquen: decimal → GMS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <h3>Convierte a GMS</h3>
+        <p>QGIS les muestra la longitud <strong>−75.5°</strong>. Separen la parte entera (grados), conviertan el decimal restante a minutos, y si sobra decimal, conviertan a segundos. No olviden el hemisferio (el signo negativo es Oeste).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. Solución decimal -> GMS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: decimal → GMS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">Grados: 75° (parte entera, signo → Oeste)</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">0.5° × 60 = 30' exactos, 0" restantes</div></div>
+        </div>
+        <div class="calc-answer">−75.5° = 75° 30' 00" O</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24. Y si no me dan la escala -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El otro sentido del problema</p>
+      <h2 class="slide__title">¿Y si no me dan la escala?</h2>
+      <p class="slide__desc">En el Taller de hoy, ningún mapa trae la escala impresa: ustedes la calculan con un elemento de referencia.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>El método</h3><p>Busquen en el mapa algo cuyo tamaño real conozcan (una cancha, el ancho de una vía, una manzana típica). Midan ese mismo elemento en el mapa.</p></div>
+        <div><h3>La fórmula</h3><p>Escala = distancia en el mapa ÷ distancia real, en las <strong>mismas unidades</strong>, simplificada como 1 : N.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22b2. Tabla de referencias comunes -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Su caja de herramientas para hoy</p>
+      <h2 class="slide__title">Referencias comunes (tamaño real típico)</h2>
+      <p class="slide__desc">En el mapa de su grupo, busquen si aparece alguno de estos elementos. No hace falta que sea exacto: sirve como buena aproximación.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Elemento</th><th>Tamaño real típico</th></tr></thead>
+        <tbody>
+          <tr><td>Cancha de fútbol reglamentaria</td><td>105 × 68 m</td></tr>
+          <tr><td>Piscina olímpica</td><td>50 × 25 m</td></tr>
+          <tr><td>Pista atlética (carril interior)</td><td>400 m de circunferencia</td></tr>
+          <tr><td>Cancha de baloncesto</td><td>28 × 15 m</td></tr>
+          <tr><td>Vía principal (ancho por carril)</td><td>~3.5 m</td></tr>
+          <tr><td>Manzana típica (cuadrícula colonial)</td><td>~80 – 100 m de lado</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 25. Ejemplo: hallar la escala -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ejemplo resuelto</p>
+      <h2 class="slide__title">Una cancha como referencia</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Ejemplo</span>
+        <h3>Una cancha reglamentaria (105 m de largo) mide 2.1 cm en el mapa</h3>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">105 m = 10 500 cm (misma unidad)</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Escala = 2.1 cm ÷ 10 500 cm = 1 / 5 000</div></div>
+        </div>
+        <div class="calc-answer">Ese mapa está a escala 1 : 5 000</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26. Practica ahora: hallar la escala -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">En parejas, 3 minutos</p>
+      <h2 class="slide__title">Practiquen: hallar la escala</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <h3>¿A qué escala está este mapa?</h3>
+        <p>Una manzana típica de cuadrícula colonial (<strong>100 m de lado</strong> real) mide <strong>2.5 cm</strong> en el mapa. Calculen la escala, simplificada como 1:N, antes de ver la solución.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27. Solución: hallar la escala -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución: hallar la escala</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">100 m = 10 000 cm (misma unidad)</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Escala = 2.5 cm ÷ 10 000 cm = 1 / 4 000</div></div>
+        </div>
+        <div class="calc-answer">Ese mapa está a escala 1 : 4 000</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 28. Precisión de coordenadas decimales -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de ir al laboratorio</p>
+      <h2 class="slide__title">¿Cuántos decimales necesito en una coordenada?</h2>
+      <p class="slide__desc">Cada cifra decimal de un grado cambia cuánto representa en el terreno — importa para el Módulo 3 (GNSS).</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Decimales</th><th>Precisión aproximada</th><th>Ejemplo de uso</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>~111 km</td><td>País o continente</td></tr>
+          <tr><td>1</td><td>~11.1 km</td><td>Una ciudad</td></tr>
+          <tr><td>2</td><td>~1.1 km</td><td>Un barrio</td></tr>
+          <tr><td>3</td><td>~111 m</td><td>Una manzana</td></tr>
+          <tr><td>4</td><td>~11 m</td><td>Un lote o edificio</td></tr>
+          <tr><td>5</td><td>~1.1 m</td><td>Posición GPS típica</td></tr>
+          <tr><td>6</td><td>~0.11 m</td><td>GPS de precisión (RTK)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 22g1. Google Earth: convertir y ubicar, Parte A -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ejercicio con Google Earth / Google Maps</p>
+      <h2 class="slide__title">Conviertan y ubiquen: ¿importa cuántos decimales usen?</h2>
+      <p class="slide__desc">Coordenada dada: <strong>6° 11' 59.04" N, 75° 34' 43.27" W</strong>. Conviértanla a decimal — elijan ustedes cuántas cifras decimales usar.</p>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__text">
+          <h3>Parte A: a nivel de continente</h3>
+          <p>Busquen su coordenada convertida en Google Maps con el mapa <strong>alejado</strong>, a nivel de continente. Comparen con sus compañeros de al lado.</p>
+          <p>¿El punto cae en un lugar muy distinto según cuántos decimales usó cada quien, o se ve prácticamente igual?</p>
+        </div>
+        <div class="split__visual" style="flex-direction:column;gap:0.5em">
+          <div class="svg-frame"><img src="assets/nivel_continente.png" alt="Vista a nivel continente" style="width:100%;display:block;border-radius:8px"/></div>
+          <p class="figure__caption">Vista a nivel continente</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22g2. Google Earth: convertir y ubicar, Parte B -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Parte B: acerquen el zoom</p>
+      <h2 class="slide__title">Ahora busquen el mismo punto en la portería de EAFIT</h2>
+    </div>
+    <div class="slide__body">
+      <div class="split">
+        <div class="split__text">
+          <h3>Mismo punto, mismo dato convertido</h3>
+          <p>Ubiquen la misma coordenada que acaban de convertir, pero ahora hagan zoom hasta el nivel de la portería/campus de EAFIT.</p>
+          <p>¿Ahora sí notan diferencia entre las respuestas de sus compañeros? Quien redondeó a 2 cifras puede caer a más de 1 km; quien usó 4-6 cifras debería caer casi exacto en el campus.</p>
+        </div>
+        <div class="split__visual" style="flex-direction:column;gap:0.5em">
+          <div class="svg-frame"><img src="assets/nivel_porteria.png" alt="Vista a nivel portería EAFIT" style="width:100%;display:block;border-radius:8px"/></div>
+          <p class="figure__caption">Vista a nivel portería EAFIT</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22g3. Factor de conversión de grados a km -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El número que van a usar todo el semestre</p>
+      <h2 class="slide__title">De grados a metros: el factor de conversión</h2>
+      <p class="slide__desc">En el Ecuador, un grado equivale a unos 111 km sobre el terreno.</p>
+    </div>
+    <div class="slide__body">
+      <div class="calc-answer" style="font-size:clamp(1.3rem, 3vw, 2rem)">1° ≈ 111 km ≈ 111 000 m</div>
+      <p class="slide__desc" style="margin-top:1em">Con este factor pueden convertir cualquier cifra decimal de una coordenada a metros — es exactamente lo que van a hacer en el Taller G02 de hoy y en el Taller G03 de la próxima semana.</p>
+    </div>
+  </section>
+
+  <!-- 22g4. Tabla: resolución/error según decimales -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El mismo factor, aplicado a cada cifra decimal</p>
+      <h2 class="slide__title">¿Cuánto error meten según cuántos decimales usen?</h2>
+      <p class="slide__desc">Aplicando 111 km por grado sobre el valor de cada cifra decimal:</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>Decimales</th><th>Valor de la cifra</th><th>Resolución / error en el terreno</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>0.1°</td><td>≈ 11.1 km</td></tr>
+          <tr><td>2</td><td>0.01°</td><td>≈ 1.11 km</td></tr>
+          <tr><td>3</td><td>0.001°</td><td>≈ 111 m</td></tr>
+          <tr><td>4</td><td>0.0001°</td><td>≈ 11.1 m</td></tr>
+          <tr><td>5</td><td>0.00001°</td><td>≈ 1.11 m</td></tr>
+          <tr><td>6</td><td>0.000001°</td><td>≈ 11.1 cm</td></tr>
+          <tr><td>7</td><td>0.0000001°</td><td>≈ 1.11 cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 29. Discusión: por qué 4 cifras -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Para discutir en parejas, 2 minutos</p>
+      <h2 class="slide__title">¿Por qué el taller pide 4 cifras decimales?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Discusión</span>
+        <p>El Ejercicio de Coordenadas del Taller G02 pide convertir a decimal con 4 cifras. Con lo que acaban de ver en Google Maps, ¿por qué esa precisión alcanza para ubicar un lote pero no para un levantamiento GNSS de precisión?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30. Transición al taller -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ahora en grupo, en el laboratorio</p>
+      <h2 class="slide__title">Taller G02: Escalas y Coordenadas</h2>
+      <p class="slide__desc">Papel, calculadora y el mapa digital de su grupo, abierto en el PC: el cálculo sigue siendo manual, igual al que acaban de practicar.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Grupos</h3><p>Su grupo fijo del proyecto territorial (2 o 3 personas), con el mapa digital asignado a su PC.</p></div>
+        <div><h3>Hoy resuelven</h3><p>Parte 1: Escala (distancia y área), igual al ejercicio de A y B. Parte 2: Coordenadas geográficas (GMS ↔ decimal).</p></div>
+        <div><h3>Guarden sus respuestas</h3><p>Las retomamos en el Módulo 1 para verificar con QGIS si el cálculo manual se acercó al valor exacto.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 31. Antes de empezar en el laboratorio: checklist + validación ArcGIS Pro -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Bloque 2 · rutina de laboratorio, 5 minutos</p>
+      <h2 class="slide__title">Antes de empezar: validemos accesos</h2>
+      <p class="slide__desc">Tres cosas rápidas al sentarse en el PC, antes de abrir el taller.</p>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="grid-template-columns: repeat(3, 1fr)">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Inicien sesión</h3><p>Usuario y contraseña institucional en el PC del laboratorio.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Verifiquen ArcGIS Pro</h3><p>Ábranlo y confirmen que inicia sesión con su cuenta institucional. Lo usamos hasta la Semana 15, pero la licencia se pidió desde el inicio del semestre — si falla, avísenme <strong>hoy</strong>, así hay tiempo de resolverlo con TI.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Abran su mapa asignado</h3><p>El archivo digital de su grupo, compartido por Teams, listo para el Taller G02.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 32. Si terminan antes de tiempo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Para los grupos que vayan más rápido</p>
+      <h2 class="slide__title">¿Terminaron la Parte 1 antes de tiempo?</h2>
+      <p class="slide__desc">No se adelanten a la Parte 3 (es de la próxima semana): usen el tiempo para verificar lo que ya calcularon.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Cómo verificar</h3><p>Abran la misma zona de su mapa en un visor georreferenciado (IGAC <em>Colombia en Mapas</em> o Google Maps/OpenStreetMap) y comparen su escala calculada a mano contra la escala gráfica que muestra el visor.</p></div>
+        <div><h3>Qué no reemplaza</h3><p>Es solo verificación, no cambia lo que ya escribieron. Si la diferencia es grande, revisen primero las unidades (cm vs. m) antes de tocar el resultado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 33. Cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre</p>
+      <h2 class="slide__title">Para la próxima clase</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Semana 3</h3><p>Datum, Magna Sirgas, CTM12 · Taller G03 · Asignación de áreas de estudio · Quiz 1.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>2 lecturas cortas</h3><p>IGAC-DANE (secciones 8-9) y Rodolfo Franco, "Origen Nacional" (secciones 1-3) — las usamos directamente en la Parte 4 del taller.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 11</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Cápsula Esencial: Sistemas GNSS y Posicionamiento Satelital</h1>
+    <p class="sub">Sesión 22 de Octubre (Parte A) · Módulo 3: Constelaciones, Trilateración, DOP, RTK e Integración Demostrativa en QGIS</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 11 (Cápsula Esencial · 45 min) · De la constelación orbital a la verificación en gabinete</p>
+      <h2 class="slide__title">Ruta de la Cápsula GNSS Esencial</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Arquitectura</h3><p>Los 3 segmentos y constelaciones (GPS, GLONASS, Galileo, BeiDou)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Trilateración 3D</h3><p>Mínimo 4 satélites y sincronización de reloj atómico (Δt)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Errores & DOP</h3><p>Refracción atmosférica, multitrayectoria (Multipath) y geometría</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Niveles de Precisión</h3><p>Navegación (3–5 m) vs DGPS (submétrico) vs RTK (1–2 cm)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Demostración QGIS</h3><p>Importación rápida de GPX/CSV y reproyección a CTM12 (EPSG:9377)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Por qué el control terrestre importa -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El cable a tierra del analista geoespacial</p>
+      <h2 class="slide__title">La verdad del terreno frente a la pantalla</h2>
+      <p class="slide__desc">Ningún modelo SIG es confiable sin control terrestre. En consultoría e ingeniería recibimos coordenadas capturadas con diferentes receptores: nuestro rol es auditar su precisión e incertidumbre.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>La Ilusión del Monitor</h3><p>En QGIS un punto se dibuja con precisión milimétrica en pantalla, pero su captura pudo tener 8 metros de incertidumbre por rebote de señal o pobre geometría.</p></div>
+        <div><h3>Control de Calidad (QC)</h3><p>El rigor técnico exige conocer el método de medición (autónomo, DGPS, RTK), el valor de DOP y la elipse de error antes de validar cualquier diseño.</p></div>
+        <div><h3>Enfoque de Gabinete</h3><p>Trabajaremos con datasets reales suministrados (Garmin y smartphones) para contrastar mediciones contra ortofotos y vértices oficiales del IGAC.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DIVISOR BLOQUE 1 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 1 · Fundamentos</p>
+    <h1>Constelaciones y Arquitectura GNSS</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 5. GNSS vs GPS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">No todo es GPS</p>
+      <h2 class="slide__title">GNSS: Global Navigation Satellite Systems</h2>
+      <p class="slide__desc">GNSS es el término genérico que agrupa a todas las constelaciones satelitales de navegación orbital que operan sobre la Tierra.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Las 4 Grandes Constelaciones Globales</span>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.6">
+            <li><b>GPS (EE.UU.):</b> 31 satélites operativos, altitud ~20 200 km. La red pionera de referencia mundial.</li>
+            <li><b>GLONASS (Rusia):</b> 24 satélites, órbitas polares de gran cobertura en altas latitudes (~19 100 km).</li>
+            <li><b>Galileo (Unión Europea):</b> 26 satélites civiles, diseñado para máxima interoperabilidad y precisión métrica.</li>
+            <li><b>BeiDou (China):</b> 35 satélites, cobertura global masiva de última generación con enlaces GEO/MEO.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Características Técnicas Clave</span>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.6">
+            <li><b>Órbitas MEO:</b> Altitud media (~20 000 km) con periodo orbital de aproximadamente 12 horas.</li>
+            <li><b>Visibilidad Simultánea:</b> En cualquier punto despejado de la Tierra hay entre 8 y 16 satélites a la vista.</li>
+            <li><b>Frecuencias de Radio:</b> Transmisión en microondas (Banda L: L1/1575 MHz, L2/1227 MHz, L5/1176 MHz).</li>
+            <li><b>Receptores Multifrecuencia:</b> Los equipos modernos combinan señales de las 4 redes simultáneamente.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. DIAGRAMA: Los 3 Segmentos GNSS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Infografía técnica · Arquitectura del sistema</p>
+      <h2 class="slide__title">Diagrama: Los 3 Segmentos del Sistema GNSS</h2>
+    </div>
+    <div class="slide__body">
+      <svg viewBox="0 0 860 250" style="width:100%;max-height:250px;margin:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradSky" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E7F6FC"/>
+            <stop offset="100%" stop-color="#D0EDF9"/>
+          </linearGradient>
+          <linearGradient id="gradControl" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF1E1"/>
+            <stop offset="100%" stop-color="#FFE3C7"/>
+          </linearGradient>
+          <linearGradient id="gradUser" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#E9F8F2"/>
+            <stop offset="100%" stop-color="#CEF2E2"/>
+          </linearGradient>
+        </defs>
+        <!-- Cards -->
+        <rect x="10" y="5" width="840" height="90" rx="8" fill="url(#gradSky)" stroke="#00A9E0" stroke-width="1.5"/>
+        <rect x="10" y="130" width="405" height="115" rx="8" fill="url(#gradControl)" stroke="#FF8F1B" stroke-width="1.5"/>
+        <rect x="445" y="130" width="405" height="115" rx="8" fill="url(#gradUser)" stroke="#46C69F" stroke-width="1.5"/>
+
+        <!-- Segmento Espacial -->
+        <text x="30" y="32" font-family="Calibri, sans-serif" font-weight="700" font-size="16" fill="#000066">1. SEGMENTO ESPACIAL (Órbitas MEO ~20.200 km)</text>
+        <text x="30" y="52" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">Constelaciones satelitales (GPS, GLONASS, Galileo, BeiDou) emitiendo señales L1/L2/L5 continuas.</text>
+        <text x="30" y="68" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">Sincronización ultra-precisa con 4 relojes atómicos de cesio/rubidio a bordo de cada satélite.</text>
+
+        <!-- Satellites -->
+        <g transform="translate(680, 18)">
+          <line x1="30" y1="20" x2="30" y2="40" stroke="#00A9E0" stroke-width="2"/>
+          <rect x="18" y="24" width="24" height="16" rx="2" fill="#000066"/>
+          <rect x="0" y="26" width="14" height="12" rx="1" fill="#00A9E0"/>
+          <rect x="46" y="26" width="14" height="12" rx="1" fill="#00A9E0"/>
+          <line x1="14" y1="32" x2="18" y2="32" stroke="#000066" stroke-width="2"/>
+          <line x1="42" y1="32" x2="46" y2="32" stroke="#000066" stroke-width="2"/>
+        </g>
+        <g transform="translate(770, 18)">
+          <line x1="30" y1="20" x2="30" y2="40" stroke="#00A9E0" stroke-width="2"/>
+          <rect x="18" y="24" width="24" height="16" rx="2" fill="#000066"/>
+          <rect x="0" y="26" width="14" height="12" rx="1" fill="#00A9E0"/>
+          <rect x="46" y="26" width="14" height="12" rx="1" fill="#00A9E0"/>
+          <line x1="14" y1="32" x2="18" y2="32" stroke="#000066" stroke-width="2"/>
+          <line x1="42" y1="32" x2="46" y2="32" stroke="#000066" stroke-width="2"/>
+        </g>
+
+        <!-- Segmento Control -->
+        <text x="30" y="156" font-family="Calibri, sans-serif" font-weight="700" font-size="15" fill="#FF8F1B">2. SEGMENTO DE CONTROL (Tierra)</text>
+        <text x="30" y="178" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">• Estación de Control Maestro (MCS) y antenas globales.</text>
+        <text x="30" y="194" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">• Monitorea órbitas exactas, deriva de relojes y efemérides.</text>
+        <text x="30" y="210" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">• Sube datos de navegación actualizados (enlace ascendente).</text>
+
+        <!-- Segmento Usuario -->
+        <text x="465" y="156" font-family="Calibri, sans-serif" font-weight="700" font-size="15" fill="#46C69F">3. SEGMENTO DE USUARIO (Receptores)</text>
+        <text x="465" y="178" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">• Receptores pasivos (solo escuchan la señal satelital).</text>
+        <text x="465" y="194" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">• Navegación (smartphones, GPS de mano): 3–5 metros.</text>
+        <text x="465" y="210" font-family="Calibri, sans-serif" font-size="12" fill="#5A5A6E">• Geodésico / RTK (antenas doble frecuencia): 1–2 cm.</text>
+
+        <!-- Arrows -->
+        <path d="M 210 130 L 210 100" stroke="#FF8F1B" stroke-width="2" stroke-dasharray="4,3"/>
+        <text x="100" y="116" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#FF8F1B">▲ Enlace Ascendente (Uplink)</text>
+
+        <path d="M 645 95 L 645 125" stroke="#00A9E0" stroke-width="2" stroke-dasharray="4,3"/>
+        <text x="655" y="116" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#00A9E0">▼ Enlace Descendente (Downlink)</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 7. DIVISOR BLOQUE 2 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 2 · Principios Físicos</p>
+    <h1>Trilateración y Fuentes de Error</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 8. DIAGRAMA: Trilateración 3D y el 4° Satélite -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Geometría de intersección espacial</p>
+      <h2 class="slide__title">Trilateración 3D: ¿Por qué mínimo 4 satélites?</h2>
+      <p class="slide__desc">El receptor mide tiempos de viaje de señal de radio (distancia = tiempo × c). Se necesitan 4 ecuaciones independientes para resolver 4 incógnitas: posición 3D (X, Y, Z) y el sesgo de reloj del receptor (Δt).</p>
+    </div>
+    <div class="slide__body">
+      <!-- Diagrama Panorámico Progresivo: De 1 a 4 Satélites -->
+      <svg viewBox="0 0 860 250" style="width:100%;height:auto;margin:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#F4F8FD"/>
+            <stop offset="100%" stop-color="#E8F1FB"/>
+          </linearGradient>
+          <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#F0FAF6"/>
+            <stop offset="100%" stop-color="#E0F5EC"/>
+          </linearGradient>
+          <linearGradient id="cardGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFF8F0"/>
+            <stop offset="100%" stop-color="#FFEED9"/>
+          </linearGradient>
+          <linearGradient id="cardGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FDF3F4"/>
+            <stop offset="100%" stop-color="#FCE4E7"/>
+          </linearGradient>
+        </defs>
+
+        <!-- BANNER SUPERIOR: ECUACIÓN DE PSEUDODISTANCIA -->
+        <rect x="6" y="2" width="848" height="26" rx="5" fill="#EAF0FF" stroke="#1C5FE0" stroke-width="1"/>
+        <text x="20" y="19" font-family="Calibri, sans-serif" font-size="11.5" font-weight="700" fill="#000066">
+          Ecuación fundamental:  ρᵢ = √[(Xᵢ - X)² + (Yᵢ - Y)² + (Zᵢ - Z)²] + c · Δt
+        </text>
+        <text x="540" y="19" font-family="Calibri, sans-serif" font-size="10.5" font-weight="700" fill="#1C5FE0">
+          4 incógnitas: X, Y, Z (posición) + Δt (sesgo de reloj)
+        </text>
+
+        <!-- ================= CARD 1: 1 SATÉLITE ================= -->
+        <rect x="6" y="34" width="204" height="212" rx="7" fill="url(#cardGrad1)" stroke="#00A9E0" stroke-width="1.3"/>
+        <rect x="12" y="40" width="134" height="18" rx="3" fill="#000066"/>
+        <text x="18" y="53" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF">PASO 1 · 1 SATÉLITE</text>
+        <text x="12" y="72" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#000066">1 Esfera 3D</text>
+        <g transform="translate(108, 116)">
+          <circle cx="0" cy="0" r="36" fill="rgba(0,169,224,0.08)" stroke="#00A9E0" stroke-width="1.6"/>
+          <ellipse cx="0" cy="0" rx="36" ry="11" fill="none" stroke="#00A9E0" stroke-width="1" stroke-dasharray="3,2"/>
+          <circle cx="0" cy="0" r="5" fill="#000066"/>
+          <rect x="-11" y="-2.5" width="4" height="5" fill="#00A9E0"/>
+          <rect x="7" y="-2.5" width="4" height="5" fill="#00A9E0"/>
+          <line x1="0" y1="0" x2="31" y2="-18" stroke="#FF8F1B" stroke-width="1.6"/>
+          <circle cx="31" cy="-18" r="2.5" fill="#FF8F1B"/>
+          <rect x="4" y="-23" width="44" height="13" rx="2" fill="#FFFFFF" opacity="0.9"/>
+          <text x="6" y="-13" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#FF8F1B">R₁ = c·t₁</text>
+        </g>
+        <text x="14" y="172" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">• Lugar geométrico:</text>
+        <text x="22" y="185" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">Superficie esférica 3D centrada</text>
+        <text x="22" y="197" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">en el satélite (radio R₁).</text>
+        <text x="14" y="213" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#00A9E0">• Incertidumbre:</text>
+        <text x="22" y="226" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#000066">Infinitos puntos posibles</text>
+        <text x="22" y="238" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">sobre la superficie esférica.</text>
+
+        <!-- ================= CARD 2: 2 SATÉLITES ================= -->
+        <rect x="218" y="34" width="204" height="212" rx="7" fill="url(#cardGrad2)" stroke="#46C69F" stroke-width="1.3"/>
+        <rect x="224" y="40" width="138" height="18" rx="3" fill="#000066"/>
+        <text x="230" y="53" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF">PASO 2 · 2 SATÉLITES</text>
+        <text x="224" y="72" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#000066">Circunferencia (Anillo)</text>
+        <g transform="translate(320, 114)">
+          <circle cx="-20" cy="0" r="30" fill="none" stroke="#00A9E0" stroke-width="1.3" opacity="0.7"/>
+          <circle cx="-20" cy="0" r="3.5" fill="#000066"/><text x="-28" y="-7" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#000066">S1</text>
+          <circle cx="20" cy="0" r="30" fill="none" stroke="#46C69F" stroke-width="1.3" opacity="0.7"/>
+          <circle cx="20" cy="0" r="3.5" fill="#000066"/><text x="14" y="-7" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#000066">S2</text>
+          <ellipse cx="0" cy="0" rx="5.5" ry="22.36" fill="rgba(70,198,159,0.35)" stroke="#008855" stroke-width="2.2"/>
+          <rect x="-35" y="24" width="70" height="13" rx="2" fill="#FFFFFF" opacity="0.9"/>
+          <text x="-31" y="34" font-family="Calibri, sans-serif" font-size="7.8" font-weight="700" fill="#008855">Anillo circular 3D</text>
+        </g>
+        <text x="226" y="172" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">• Intersección:</text>
+        <text x="234" y="185" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">El corte de 2 esferas produce</text>
+        <text x="234" y="197" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">una circunferencia en el espacio.</text>
+        <text x="226" y="213" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#008855">• Incertidumbre:</text>
+        <text x="234" y="226" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#000066">Infinitos puntos</text>
+        <text x="234" y="238" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">a lo largo de ese anillo.</text>
+
+        <!-- ================= CARD 3: 3 SATÉLITES ================= -->
+        <rect x="430" y="34" width="204" height="212" rx="7" fill="url(#cardGrad3)" stroke="#FF8F1B" stroke-width="1.3"/>
+        <rect x="436" y="40" width="138" height="18" rx="3" fill="#000066"/>
+        <text x="442" y="53" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF">PASO 3 · 3 SATÉLITES</text>
+        <text x="436" y="72" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#000066">2 Puntos Discretos</text>
+        <g transform="translate(532, 114)">
+          <!-- Curva Tierra con paso exacto por P1 en y=22.36 (control y=10.72) -->
+          <path d="M -80 34 Q 0 10.72 80 34 L 80 48 L -80 48 Z" fill="#FBF7EE" opacity="0.6"/>
+          <path d="M -80 34 Q 0 10.72 80 34" fill="none" stroke="#000066" stroke-width="2"/>
+          
+          <!-- Esferas en el fondo -->
+          <circle cx="-20" cy="0" r="30" fill="none" stroke="#00A9E0" stroke-width="0.8" opacity="0.35"/>
+          <circle cx="20" cy="0" r="30" fill="none" stroke="#46C69F" stroke-width="0.8" opacity="0.35"/>
+          <circle cx="6" cy="0" r="23.15" fill="none" stroke="#FF8F1B" stroke-width="1.1" stroke-dasharray="3,2" opacity="0.8"/>
+
+          <!-- 3 Satélites dibujados SOBRE las esferas con etiquetas despejadas -->
+          <circle cx="-20" cy="0" r="3.5" fill="#000066"/><text x="-29" y="-6" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#000066">S1</text>
+          <circle cx="20" cy="0" r="3.5" fill="#000066"/><text x="26" y="-6" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#000066">S2</text>
+          
+          <!-- S3 con etiqueta compacta elevada (y=-17..-7) sin tocar el satélite (y=-3.5) ni solapar S2 (x=26) -->
+          <circle cx="6" cy="0" r="3.5" fill="#FF8F1B"/>
+          <rect x="0" y="-17" width="12" height="10" rx="2" fill="#FFFFFF" opacity="0.95" stroke="#FF8F1B" stroke-width="0.7"/>
+          <text x="6" y="-9.5" font-family="Calibri, sans-serif" font-size="7" font-weight="700" fill="#C26100" text-anchor="middle">S3</text>
+          
+          <!-- P1 exactamente sobre la cúspide terrestre (0, 22.36) -->
+          <circle cx="0" cy="22.36" r="4.5" fill="#28A745" stroke="#FFFFFF" stroke-width="1.5"/>
+          <!-- Pastilla P1 compacta (x=4..44, y=28.5..40) estrictamente bajo el trazo de la Tierra (que a x=44 está en y=25.88) -->
+          <rect x="4" y="28.5" width="40" height="11.5" rx="2" fill="#FFFFFF" stroke="#28A745" stroke-width="0.8" opacity="0.95"/>
+          <text x="24" y="37" font-family="Calibri, sans-serif" font-size="7.2" font-weight="700" fill="#28A745" text-anchor="middle">P₁ (Tierra) ✓</text>
+          
+          <!-- P2 en el espacio: simétrico en (0, -22.36), pastilla en x=14..76 para no solapar la caja de S3 (x=0..12) -->
+          <circle cx="0" cy="-22.36" r="4" fill="#F0142C" stroke="#FFFFFF" stroke-width="1.2"/>
+          <rect x="14" y="-28" width="62" height="13" rx="2.5" fill="#FFFFFF" stroke="#F0142C" stroke-width="0.8" opacity="0.95"/>
+          <text x="45" y="-18.5" font-family="Calibri, sans-serif" font-size="7.5" font-weight="700" fill="#F0142C" text-anchor="middle">P₂ (Espacio) ✗</text>
+        </g>
+        <text x="438" y="172" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">• Intersección:</text>
+        <text x="446" y="185" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">La 3ª esfera (S3 fuera de plano)</text>
+        <text x="446" y="197" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">corta el anillo en 2 puntos discretos.</text>
+        <text x="438" y="213" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#C26100">• Descarte de P₂:</text>
+        <text x="446" y="226" font-family="Calibri, sans-serif" font-size="8.5" fill="#000066">P₂ queda en el espacio</text>
+        <text x="446" y="238" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">a altitud imposible (se desecha).</text>
+
+        <!-- ================= CARD 4: 4° SATÉLITE OBLIGATORIO ================= -->
+        <rect x="642" y="34" width="212" height="212" rx="7" fill="url(#cardGrad4)" stroke="#F0142C" stroke-width="1.4"/>
+        <rect x="648" y="40" width="168" height="18" rx="3" fill="#F0142C"/>
+        <text x="654" y="53" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#FFFFFF">PASO 4 · 4° SATÉLITE</text>
+        <text x="648" y="72" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#F0142C">Sincroniza Reloj (Δt)</text>
+        <g transform="translate(748, 116)">
+          <!-- Arco Terrestre con vértice exacto en (0, 24): Q -80 34 0 14 80 34 -->
+          <path d="M -80 34 Q 0 14 80 34 L 80 48 L -80 48 Z" fill="#FCECEE" opacity="0.7"/>
+          <path d="M -80 34 Q 0 14 80 34" fill="none" stroke="#000066" stroke-width="2"/>
+          
+          <!-- Satélites posicionados a altura segura con etiquetas laterales -->
+          <circle cx="-58" cy="-18" r="3.5" fill="#000066"/><text x="-72" y="-15" font-family="Calibri, sans-serif" font-size="7.8" font-weight="700" fill="#000066">S1</text>
+          <circle cx="-20" cy="-24" r="3.5" fill="#000066"/><text x="-13" y="-27" font-family="Calibri, sans-serif" font-size="7.8" font-weight="700" fill="#000066">S2</text>
+          <circle cx="20" cy="-24" r="3.5" fill="#000066"/><text x="26" y="-27" font-family="Calibri, sans-serif" font-size="7.8" font-weight="700" fill="#000066">S3</text>
+          <circle cx="58" cy="-18" r="3.5" fill="#F0142C"/><text x="64" y="-15" font-family="Calibri, sans-serif" font-size="7.8" font-weight="700" fill="#F0142C">S4</text>
+          
+          <!-- Polígono de incertidumbre delimitado (sin auto-intersección) -->
+          <line x1="-58" y1="-18" x2="-10" y2="20" stroke="#00A9E0" stroke-width="1" stroke-dasharray="3,2" opacity="0.45"/>
+          <line x1="-20" y1="-24" x2="8" y2="22" stroke="#46C69F" stroke-width="1" stroke-dasharray="3,2" opacity="0.45"/>
+          <line x1="20" y1="-24" x2="2" y2="11" stroke="#FF8F1B" stroke-width="1" stroke-dasharray="3,2" opacity="0.45"/>
+          <line x1="58" y1="-18" x2="10" y2="18" stroke="#F0142C" stroke-width="1" stroke-dasharray="3,2" opacity="0.45"/>
+          <polygon points="-10,20 2,11 10,18 8,22" fill="rgba(240,20,44,0.18)" stroke="#F0142C" stroke-width="1.2" stroke-dasharray="2,2"/>
+          
+          <!-- Pastilla protectora para incertidumbre de reloj: con puntero directo al vértice (-10, 20) sin cruzar rayos -->
+          <rect x="-92" y="-3" width="50" height="19" rx="3" fill="#FFFFFF" stroke="#F0142C" stroke-width="0.8" opacity="0.95"/>
+          <text x="-67" y="5" font-family="Calibri, sans-serif" font-size="7.5" font-weight="700" fill="#F0142C" text-anchor="middle">Sin corregir Δt</text>
+          <text x="-67" y="13.5" font-family="Calibri, sans-serif" font-size="6.8" fill="#F0142C" text-anchor="middle">(incertidumbre)</text>
+          <line x1="-42" y1="6" x2="-10" y2="20" stroke="#F0142C" stroke-width="0.9" stroke-dasharray="2,2"/>
+          <circle cx="-10" cy="20" r="1.5" fill="#F0142C"/>
+
+          <!-- Rayos corregidos (ρ - c·Δt) colapsando al punto único exacto P(0, 24) -->
+          <line x1="-58" y1="-18" x2="0" y2="24" stroke="#00A9E0" stroke-width="1.2"/>
+          <line x1="-20" y1="-24" x2="0" y2="24" stroke="#46C69F" stroke-width="1.2"/>
+          <line x1="20" y1="-24" x2="0" y2="24" stroke="#FF8F1B" stroke-width="1.2"/>
+          <line x1="58" y1="-18" x2="0" y2="24" stroke="#F0142C" stroke-width="1.8"/>
+          
+          <!-- Punto P exactamente sobre la superficie terrestre (0, 24) -->
+          <circle cx="0" cy="24" r="4.5" fill="#000066" stroke="#28A745" stroke-width="1.8"/>
+
+          <!-- Pastilla Punto Único iniciando en y=35 para dejar visible la Tierra bajo P -->
+          <rect x="-58" y="35" width="116" height="13" rx="2" fill="#FFFFFF" stroke="#000066" stroke-width="0.8" opacity="0.95"/>
+          <text x="0" y="44.5" font-family="Calibri, sans-serif" font-size="7.5" font-weight="700" fill="#000066" text-anchor="middle">Punto Único P(X, Y, Z, Δt) ✓</text>
+        </g>
+        <text x="650" y="172" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">• Reloj Cuarzo vs Atómico:</text>
+        <text x="658" y="185" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">El reloj del receptor tiene sesgo Δt.</text>
+        <text x="658" y="197" font-family="Calibri, sans-serif" font-size="8.5" fill="#F0142C">¡1 µs de error = ~300 m en distancia!</text>
+        <text x="650" y="213" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#F0142C">• Solución del 4° Satélite:</text>
+        <text x="658" y="226" font-family="Calibri, sans-serif" font-size="8.5" fill="#5A5A6E">Aporta la 4ª ecuación independiente.</text>
+        <text x="658" y="238" font-family="Calibri, sans-serif" font-size="8.5" fill="#000066">Fija X, Y, Z y sincroniza el tiempo.</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 9. DIAGRAMA: Fuentes de Error y Multitrayectoria -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Fenómenos físicos de degradación de señal</p>
+      <h2 class="slide__title">Diagrama: Fuentes de Error y Multitrayectoria (Multipath)</h2>
+    </div>
+    <div class="slide__body">
+      <!-- Diagrama Modular Split-View: Atmósfera (Izq) y Multitrayectoria Local (Der) -->
+      <svg viewBox="0 0 860 252" style="width:100%;height:auto;margin:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradIono" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F0F9FD"/>
+            <stop offset="100%" stop-color="#E1F3FB"/>
+          </linearGradient>
+          <linearGradient id="gradTropo" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF9F2"/>
+            <stop offset="100%" stop-color="#FFF0E0"/>
+          </linearGradient>
+          <linearGradient id="bldgGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3A3D52"/>
+            <stop offset="100%" stop-color="#252736"/>
+          </linearGradient>
+          <linearGradient id="glassGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#D8EEF8"/>
+            <stop offset="50%" stop-color="#B5E0F4"/>
+            <stop offset="100%" stop-color="#8CCDEE"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ====================================================================
+             PANEL IZQUIERDO: ERRORES DE PROPAGACIÓN ATMOSFÉRICA (x: 8..422)
+             ==================================================================== -->
+        <rect x="8" y="4" width="414" height="244" rx="8" fill="#F8FAFD" stroke="#00A9E0" stroke-width="1.4"/>
+        <rect x="14" y="10" width="402" height="23" rx="4" fill="#000066"/>
+        <text x="24" y="26" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">1. FUENTES DE ERROR EN LA PROPAGACIÓN</text>
+
+        <!-- CAPA 1: ESPACIO -->
+        <rect x="14" y="37" width="402" height="61" rx="5" fill="#FFFFFF" stroke="#B0C4DE" stroke-width="1"/>
+        <!-- Icono Satélite -->
+        <g transform="translate(36, 67)">
+          <circle cx="0" cy="0" r="6" fill="#000066"/>
+          <rect x="-12" y="-2.5" width="5" height="5" rx="1" fill="#00A9E0"/>
+          <rect x="7" y="-2.5" width="5" height="5" rx="1" fill="#00A9E0"/>
+          <path d="M 0 8 A 12 12 0 0 1 12 16" fill="none" stroke="#00A9E0" stroke-width="1" opacity="0.7"/>
+        </g>
+        <text x="60" y="51" font-family="Calibri, sans-serif" font-size="10.5" font-weight="700" fill="#000066">Espacio (~20.200 km) · Satélite GNSS</text>
+        <text x="60" y="65" font-family="Calibri, sans-serif" font-size="8.8" fill="#242433">• Error efemérides (órbita transmitida): <tspan font-weight="700" fill="#000066">±1 a 2 m</tspan></text>
+        <text x="60" y="77" font-family="Calibri, sans-serif" font-size="8.8" fill="#242433">• Deriva de reloj atómico: controlada por segmento de control</text>
+        <text x="60" y="90" font-family="Calibri, sans-serif" font-size="8.2" fill="#007DA8"><tspan font-weight="700">Mitigación:</tspan> Efemérides transmitidas + órbitas precisas IGS</text>
+
+        <!-- Trayectoria física continua de señal GNSS descendente (columna izquierda x=36 sin interferir con texto en x>=60) -->
+        <line x1="36" y1="73" x2="36" y2="120" stroke="#00A9E0" stroke-width="1.8" stroke-dasharray="3,2"/>
+        <polygon points="34,120 38,120 36,123" fill="#00A9E0"/>
+        
+        <!-- CAPA 2: IONOSFERA -->
+        <rect x="14" y="102" width="402" height="68" rx="5" fill="url(#gradIono)" stroke="#8ED0EF" stroke-width="1"/>
+        <!-- Badge Ionosfera e- -->
+        <circle cx="36" cy="136" r="13" fill="#00A9E0" opacity="0.15"/>
+        <circle cx="36" cy="136" r="9" fill="#007DA8"/>
+        <text x="30" y="139.5" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#FFFFFF">e⁻</text>
+        <text x="60" y="116" font-family="Calibri, sans-serif" font-size="10.5" font-weight="700" fill="#007DA8">Ionosfera (60–1.000 km) · Medio Dispersivo</text>
+        <text x="60" y="130" font-family="Calibri, sans-serif" font-size="8.8" fill="#242433">• Refracción en electrones libres: <tspan font-weight="700" fill="#007DA8">retardo código (+2 a 15 m)</tspan></text>
+        <text x="60" y="142" font-family="Calibri, sans-serif" font-size="8.8" fill="#242433">• Avance de fase portadora (efecto inverso al código: ∝ 1/f²)</text>
+        <text x="60" y="155" font-family="Calibri, sans-serif" font-size="8.2" fill="#008855"><tspan font-weight="700">Mitigación:</tspan> Doble frecuencia L1/L2 (~99,9 %) o Klobuchar</text>
+
+        <!-- Señal continuando hacia troposfera -->
+        <line x1="36" y1="149" x2="36" y2="190" stroke="#007DA8" stroke-width="1.8" stroke-dasharray="3,2"/>
+        <polygon points="34,190 38,190 36,193" fill="#007DA8"/>
+
+        <!-- CAPA 3: TROPOSFERA -->
+        <rect x="14" y="174" width="402" height="62" rx="5" fill="url(#gradTropo)" stroke="#F9C69D" stroke-width="1"/>
+        <!-- Badge Troposfera -->
+        <circle cx="36" cy="205" r="13" fill="#FF8F1B" opacity="0.15"/>
+        <circle cx="36" cy="205" r="9" fill="#C26100"/>
+        <text x="36" y="207.5" font-family="Calibri, sans-serif" font-size="7" font-weight="700" fill="#FFFFFF" text-anchor="middle">H₂O</text>
+        <text x="60" y="188" font-family="Calibri, sans-serif" font-size="10.5" font-weight="700" fill="#C26100">Troposfera (0–16 km) · Medio Neutro</text>
+        <text x="60" y="201" font-family="Calibri, sans-serif" font-size="8.8" fill="#242433">• Retardo neutro (no dispersivo): seco 90% + húmedo 10%</text>
+        <text x="60" y="213" font-family="Calibri, sans-serif" font-size="8.8" fill="#242433">• Magnitud: <tspan font-weight="700" fill="#C26100">~2,3 m cenital</tspan> (hasta ~20 m en horizonte)</text>
+        <text x="60" y="226" font-family="Calibri, sans-serif" font-size="8.2" fill="#C26100"><tspan font-weight="700">Mitigación:</tspan> Modelo Saastamoinen / Hopfield + filtro &gt;15°</text>
+
+        <!-- Señal emergiendo hacia la superficie terrestre -->
+        <line x1="36" y1="218" x2="36" y2="242" stroke="#C26100" stroke-width="1.8" stroke-dasharray="3,2"/>
+        <polygon points="34,242 38,242 36,245" fill="#C26100"/>
+        
+        <!-- Nota conceptual didáctica en panel izquierdo -->
+        <text x="44" y="244" font-family="Calibri, sans-serif" font-size="7.8" fill="#7A7A8E">* Esquema conceptual no a escala (distancias y ángulos optimizados para docencia).</text>
+
+        <!-- ====================================================================
+             PANEL DERECHO: MULTITRAYECTORIA (MULTIPATH) LOCAL (x: 432..852)
+             ==================================================================== -->
+        <rect x="432" y="4" width="420" height="244" rx="8" fill="#FFF9F9" stroke="#F0142C" stroke-width="1.4"/>
+        <rect x="438" y="10" width="408" height="23" rx="4" fill="#F0142C"/>
+        <text x="448" y="26" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">2. MULTITRAYECTORIA (MULTIPATH) EN ENTORNO LOCAL</text>
+
+        <!-- SUELO URBANO (y: 154..166) CON ETIQUETAS DESPEJADAS -->
+        <rect x="440" y="154" width="404" height="12" fill="#ECECF4"/>
+        <line x1="440" y1="154" x2="844" y2="154" stroke="#444455" stroke-width="2"/>
+        <text x="475" y="163" font-family="Calibri, sans-serif" font-size="8" fill="#5A5A6E" text-anchor="middle">Suelo Reflectante</text>
+        <!-- Etiqueta Antena GNSS ubicada junto a la base del jalón (x=610) con holgura respecto al rebote en x=579.3 -->
+        <text x="610" y="163" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#000066" text-anchor="start">Antena GNSS</text>
+        <text x="789" y="163" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#242433" text-anchor="middle">Fachada Vidrio</text>
+
+        <!-- EDIFICIO CON FACHADA DE VIDRIO (x: 740..838, y: 38..154) -->
+        <g transform="translate(740, 38)">
+          <rect x="0" y="0" width="98" height="116" fill="url(#bldgGrad2)" rx="2"/>
+          <rect x="0" y="0" width="14" height="116" fill="url(#glassGrad2)"/>
+          <line x1="14" y1="0" x2="14" y2="116" stroke="#444455" stroke-width="1.2"/>
+          <rect x="22" y="12" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="46" y="12" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="70" y="12" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="22" y="38" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="46" y="38" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="70" y="38" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="22" y="64" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="46" y="64" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="70" y="64" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="22" y="90" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="46" y="90" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+          <rect x="70" y="90" width="16" height="16" fill="#EAF5FC" opacity="0.8"/>
+        </g>
+
+        <!-- ================= TRAYECTORIAS ÓPTICAS EN EL FONDO (LOS RAYOS SE PINTAN PRIMERO) ================= -->
+        <!-- RAYO 1: SEÑAL DIRECTA (LOS LIMPIA) -->
+        <line x1="470" y1="52" x2="605" y2="130" stroke="#008855" stroke-width="2.6"/>
+        <!-- Badge 1 centrado sobre el Rayo 1 (x=530, y=86.6) -->
+        <circle cx="530" cy="86.6" r="6.5" fill="#008855" stroke="#FFFFFF" stroke-width="1"/>
+        <text x="530" y="89.5" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+
+        <!-- RAYO 2: REBOTE ESPECULAR EN FACHADA (θi = θr = 10.9°) -->
+        <!-- Línea normal de referencia en fachada -->
+        <line x1="714" y1="104" x2="740" y2="104" stroke="#888899" stroke-width="0.8" stroke-dasharray="2,2"/>
+        <line x1="470" y1="52" x2="740" y2="104" stroke="#F0142C" stroke-width="1.8" stroke-dasharray="4,2.5"/>
+        <line x1="740" y1="104" x2="605" y2="130" stroke="#F0142C" stroke-width="1.8" stroke-dasharray="4,2.5"/>
+        <!-- Badge 2 en el punto de impacto de fachada -->
+        <circle cx="740" cy="104" r="6.5" fill="#F0142C" stroke="#FFFFFF" stroke-width="1"/>
+        <text x="740" y="107" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+
+        <!-- RAYO 3: REBOTE ESPECULAR EN SUELO -->
+        <line x1="470" y1="52" x2="579.3" y2="154" stroke="#FF8F1B" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="579.3" y1="154" x2="605" y2="130" stroke="#FF8F1B" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <!-- Badge 3 ubicado sobre el rayo incidente 3 en (534, 112) armónico con Badge 1 -->
+        <circle cx="534" cy="112" r="6.5" fill="#FF8F1B" stroke="#FFFFFF" stroke-width="1"/>
+        <text x="534" y="115" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+        <!-- Punto de rebote en suelo -->
+        <circle cx="579.3" cy="154" r="3.5" fill="#FF8F1B"/>
+
+        <!-- SATÉLITE GNSS Y ANTENA RECEPTORA DIBUJADOS SOBRE LOS RAYOS (Z-INDEX SUPERIOR) -->
+        <g transform="translate(470, 52)">
+          <circle cx="0" cy="0" r="6.5" fill="#000066" stroke="#FFFFFF" stroke-width="1"/>
+          <rect x="-13" y="-2.5" width="5.5" height="5" rx="1" fill="#00A9E0"/>
+          <rect x="7.5" y="-2.5" width="5.5" height="5" rx="1" fill="#00A9E0"/>
+          <text x="-32" y="-10" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#000066">Satélite GNSS</text>
+        </g>
+
+        <!-- ANTENA GNSS (x: 605, y: 130) sobre jalón (base y: 154) SOBRE LOS RAYOS -->
+        <g transform="translate(605, 130)">
+          <line x1="0" y1="0" x2="0" y2="24" stroke="#FF8F1B" stroke-width="2.5"/>
+          <line x1="0" y1="7" x2="0" y2="16" stroke="#FFFFFF" stroke-width="2.5"/>
+          <ellipse cx="0" cy="0" rx="8" ry="3" fill="#000066" stroke="#FFFFFF" stroke-width="0.8"/>
+          <circle cx="0" cy="-2.5" r="4" fill="#F0142C" stroke="#FFFFFF" stroke-width="0.8"/>
+        </g>
+
+        <!-- TARJETA INFERIOR: LEYENDA + IMPACTO CUANTITATIVO Y MITIGACIÓN (y: 171..243) -->
+        <rect x="438" y="171" width="408" height="72" rx="5" fill="#FFFFFF" stroke="#F0142C" stroke-width="1"/>
+        
+        <!-- Fila Superior de la Tarjeta: Leyenda de Rayos -->
+        <rect x="442" y="173" width="400" height="15" rx="3" fill="#F8F9FA" stroke="#E2E8F0" stroke-width="0.8"/>
+        <circle cx="452" cy="180.5" r="5" fill="#008855"/><text x="452" y="183.2" font-family="Calibri, sans-serif" font-size="7" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+        <text x="461" y="183.5" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#008855">Directa (LOS t₀)</text>
+        
+        <circle cx="550" cy="180.5" r="5" fill="#F0142C"/><text x="550" y="183.2" font-family="Calibri, sans-serif" font-size="7" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+        <text x="559" y="183.5" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#F0142C">Rebote Fachada (θ=10.9°)</text>
+        
+        <circle cx="690" cy="180.5" r="5" fill="#FF8F1B"/><text x="690" y="183.2" font-family="Calibri, sans-serif" font-size="7" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+        <text x="699" y="183.5" font-family="Calibri, sans-serif" font-size="8" font-weight="700" fill="#FF8F1B">Rebote Suelo (rasante)</text>
+
+        <!-- Dos Columnas Inferiores -->
+        <text x="446" y="201" font-family="Calibri, sans-serif" font-size="8.8" font-weight="700" fill="#F0142C">Impacto del Multipath:</text>
+        <text x="446" y="213" font-family="Calibri, sans-serif" font-size="8.5" fill="#242433">• Camino más largo: <tspan font-weight="700" fill="#F0142C">d<tspan font-size="7">rebote</tspan> &gt; d<tspan font-size="7">directo</tspan></tspan></text>
+        <text x="446" y="224" font-family="Calibri, sans-serif" font-size="8.5" fill="#242433">• Error en código C/A: <tspan font-weight="700" fill="#F0142C">1 a 15+ metros</tspan></text>
+        <text x="446" y="235" font-family="Calibri, sans-serif" font-size="8.5" fill="#242433">• Error en fase (RTK): <tspan font-weight="700" fill="#F0142C">hasta ~5 cm (λ/4)</tspan></text>
+
+        <line x1="640" y1="193" x2="640" y2="238" stroke="#E5E5EF" stroke-width="1"/>
+
+        <text x="648" y="201" font-family="Calibri, sans-serif" font-size="8.8" font-weight="700" fill="#000066">Mitigación en Campo:</text>
+        <text x="648" y="213" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#000066">1. Antena Choke-Ring / Ground Plane</text>
+        <text x="656" y="222" font-family="Calibri, sans-serif" font-size="8" fill="#5A5A6E">Anillos concéntricos atenúan ondas del suelo</text>
+        <text x="648" y="233" font-family="Calibri, sans-serif" font-size="8.5" font-weight="700" fill="#000066">2. Máscara de elevación &gt; 15°</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 10. DIAGRAMA: Geometría Satelital y Dilución de Precisión (DOP) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Distribución angular de la constelación</p>
+      <h2 class="slide__title">Diagrama: Dilución de la Precisión (DOP)</h2>
+    </div>
+    <div class="slide__body">
+      <svg viewBox="0 0 860 235" style="width:100%;max-height:235px;margin:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <!-- Box Left: Buen DOP -->
+        <rect x="20" y="5" width="395" height="225" rx="8" fill="#E9F8F2" stroke="#46C69F" stroke-width="1.5"/>
+        <text x="40" y="30" font-family="Calibri, sans-serif" font-weight="700" font-size="15" fill="#000066">BUEN DOP (Bajo: PDOP &lt; 2.0)</text>
+        <text x="40" y="47" font-family="Calibri, sans-serif" font-size="11" fill="#5A5A6E">Satélites dispersos en toda la bóveda celeste (ángulos ~90°)</text>
+
+        <!-- Sky dome left -->
+        <path d="M 60 160 A 150 95 0 0 1 370 160 Z" fill="#ffffff" stroke="#46C69F" stroke-width="1" stroke-dasharray="3,3"/>
+        <circle cx="215" cy="160" r="4" fill="#000066"/>
+        <text x="205" y="176" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#000066">Receptor</text>
+
+        <circle cx="90" cy="120" r="6" fill="#000066"/><text x="75" y="115" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">S1</text>
+        <circle cx="165" cy="80" r="6" fill="#000066"/><text x="155" y="72" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">S2</text>
+        <circle cx="265" cy="80" r="6" fill="#000066"/><text x="265" y="72" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">S3</text>
+        <circle cx="340" cy="120" r="6" fill="#000066"/><text x="345" y="115" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#000066">S4</text>
+
+        <line x1="90" y1="120" x2="215" y2="160" stroke="#46C69F" stroke-width="1.4"/>
+        <line x1="340" y1="120" x2="215" y2="160" stroke="#46C69F" stroke-width="1.4"/>
+        <!-- Small error circle -->
+        <ellipse cx="215" cy="160" rx="9" ry="5" fill="#46C69F" opacity="0.6" stroke="#000066" stroke-width="1"/>
+        <text x="135" y="205" font-family="Calibri, sans-serif" font-size="12" font-weight="700" fill="#46C69F">Incertidumbre Mínima (± 1.5 m)</text>
+
+        <!-- Box Right: Mal DOP -->
+        <rect x="445" y="5" width="395" height="225" rx="8" fill="#FDE7EA" stroke="#F0142C" stroke-width="1.5"/>
+        <text x="465" y="30" font-family="Calibri, sans-serif" font-weight="700" font-size="15" fill="#F0142C">MAL DOP (Alto: PDOP &gt; 6.0)</text>
+        <text x="465" y="47" font-family="Calibri, sans-serif" font-size="11" fill="#5A5A6E">Satélites alineados o bloqueados por cañón urbano</text>
+
+        <!-- Sky dome right with obstacles -->
+        <path d="M 485 160 A 150 95 0 0 1 795 160 Z" fill="#ffffff" stroke="#F0142C" stroke-width="1" stroke-dasharray="3,3"/>
+        <rect x="485" y="105" width="55" height="55" fill="#5A5A6E"/>
+        <rect x="740" y="95" width="55" height="65" fill="#5A5A6E"/>
+        <text x="492" y="98" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E">Edificio</text>
+        <text x="748" y="88" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E">Edificio</text>
+
+        <circle cx="640" cy="160" r="4" fill="#000066"/>
+        <text x="630" y="176" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#000066">Receptor</text>
+
+        <!-- Clustered satellites -->
+        <circle cx="625" cy="80" r="6" fill="#F0142C"/><text x="613" y="73" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#F0142C">S1</text>
+        <circle cx="640" cy="73" r="6" fill="#F0142C"/><text x="638" y="65" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#F0142C">S2</text>
+        <circle cx="655" cy="80" r="6" fill="#F0142C"/><text x="658" y="73" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#F0142C">S3</text>
+
+        <line x1="625" y1="80" x2="640" y2="160" stroke="#F0142C" stroke-width="1.4"/>
+        <line x1="655" y1="80" x2="640" y2="160" stroke="#F0142C" stroke-width="1.4"/>
+        <!-- Huge elongated error ellipse -->
+        <ellipse cx="640" cy="160" rx="34" ry="6" fill="#F0142C" opacity="0.6" stroke="#F0142C" stroke-width="1"/>
+        <text x="555" y="205" font-family="Calibri, sans-serif" font-size="12" font-weight="700" fill="#F0142C">Gran Incertidumbre Métrica (± 12 m)</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 11. DIVISOR BLOQUE 3 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 3 · Métodos de Medición</p>
+    <h1>Niveles de Precisión en Geomática</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 12. Tabla de métodos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La herramienta adecuada para cada proyecto</p>
+      <h2 class="slide__title">Tres niveles de precisión GNSS</h2>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead>
+          <tr><th>Método de Medición</th><th>Tecnología / Receptor</th><th>Error Típico (RMS)</th><th>Aplicación en Ingeniería</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Autónomo (Navegación)</b></td><td>Smartphone, Garmin eTrex, reloj deportivo</td><td><b>3 a 5 metros</b> (hasta 15 m con árboles)</td><td>Rutas de campo, senderismo, georreferenciación preliminar no legal.</td></tr>
+          <tr><td><b>Diferencial (DGPS)</b></td><td>Receptores submétricos con estación base fija</td><td><b>0.5 a 1.0 metro</b></td><td>Inventario forestal, catastro de redes de acueducto y postes eléctricos.</td></tr>
+          <tr><td><b>RTK / Post-Proceso (PPK)</b></td><td>Receptores geodésicos doble frecuencia (L1/L2)</td><td><b>1 a 2 centímetros</b></td><td>Topografía de precisión, replanteo de obras, puentes, túneles y límites de predio.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 13. DIAGRAMA: Cómo funciona DGPS y RTK -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Principio de corrección diferencial</p>
+      <h2 class="slide__title">Diagrama: Funcionamiento de RTK y DGPS (Base y Móvil)</h2>
+    </div>
+    <div class="slide__body">
+      <svg viewBox="0 0 860 235" style="width:100%;max-height:235px;margin:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gradGround" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#EAEAF3"/>
+            <stop offset="100%" stop-color="#D7D7E5"/>
+          </linearGradient>
+        </defs>
+        <!-- Satélites -->
+        <g transform="translate(430, 20)">
+          <circle cx="0" cy="0" r="10" fill="#000066"/>
+          <rect x="-18" y="-4" width="8" height="8" fill="#00A9E0"/>
+          <rect x="10" y="-4" width="8" height="8" fill="#00A9E0"/>
+          <text x="-50" y="-12" font-family="Calibri, sans-serif" font-size="12" font-weight="700" fill="#000066">Satélites GNSS (L1 / L2 / L5)</text>
+        </g>
+
+        <!-- Terreno -->
+        <rect x="0" y="185" width="860" height="50" fill="url(#gradGround)"/>
+        <line x1="0" y1="185" x2="860" y2="185" stroke="#5A5A6E" stroke-width="2"/>
+
+        <!-- Base Fija -->
+        <g transform="translate(180, 140)">
+          <line x1="0" y1="0" x2="-22" y2="45" stroke="#FF8F1B" stroke-width="2.5"/>
+          <line x1="0" y1="0" x2="22" y2="45" stroke="#FF8F1B" stroke-width="2.5"/>
+          <line x1="0" y1="0" x2="0" y2="45" stroke="#FF8F1B" stroke-width="1.8"/>
+          <rect x="-12" y="-14" width="24" height="14" rx="3" fill="#000066"/>
+          <line x1="0" y1="-14" x2="0" y2="-22" stroke="#000066" stroke-width="2"/>
+          <polygon points="-7,45 7,45 0,55" fill="#F0142C"/>
+        </g>
+        <text x="80" y="206" font-family="Calibri, sans-serif" font-size="12" font-weight="700" fill="#000066">ESTACIÓN BASE FIJA</text>
+        <text x="65" y="222" font-family="Calibri, sans-serif" font-size="11" fill="#5A5A6E">Vértice geodésico oficial conocido (IGAC / CORS)</text>
+
+        <!-- Rover Móvil -->
+        <g transform="translate(680, 140)">
+          <line x1="0" y1="-18" x2="0" y2="45" stroke="#242433" stroke-width="2.5"/>
+          <rect x="-12" y="-32" width="24" height="14" rx="3" fill="#46C69F"/>
+          <rect x="-10" y="4" width="20" height="18" rx="2" fill="#000066"/>
+        </g>
+        <text x="610" y="206" font-family="Calibri, sans-serif" font-size="12" font-weight="700" fill="#000066">MÓVIL (ROVER) EN OBRA</text>
+        <text x="590" y="222" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#46C69F">Precisión en tiempo real: ± 1 a 2 cm</text>
+
+        <!-- Señales satélite a base y rover -->
+        <line x1="430" y1="20" x2="180" y2="125" stroke="#00A9E0" stroke-width="1.8" stroke-dasharray="4,2"/>
+        <line x1="430" y1="20" x2="680" y2="115" stroke="#00A9E0" stroke-width="1.8" stroke-dasharray="4,2"/>
+        <text x="250" y="65" font-family="Calibri, sans-serif" font-size="11" fill="#00A9E0">Señal Satelital</text>
+        <text x="540" y="65" font-family="Calibri, sans-serif" font-size="11" fill="#00A9E0">Señal Satelital</text>
+
+        <!-- Enlace Diferencial -->
+        <path d="M 195 130 Q 430 95 665 130" fill="none" stroke="#FF8F1B" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <rect x="330" y="95" width="200" height="24" rx="4" fill="#FFF1E1" stroke="#FF8F1B" stroke-width="1"/>
+        <text x="340" y="112" font-family="Calibri, sans-serif" font-size="11" font-weight="700" fill="#FF8F1B">Corrección en Tiempo Real (Radio / NTRIP)</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 14. DIVISOR BLOQUE 4 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 4 · Enfoque de Consultoría</p>
+    <h1>Auditoría y Control de Calidad de Datos GNSS</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 15. Anatomía de Datasets Crudos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Estructura de la información de campo</p>
+      <h2 class="slide__title">Anatomía de los Datasets GNSS Suministrados</h2>
+      <p class="slide__desc">En consultoría recibimos datos crudos capturados por cuadrillas de topografía o sensores móviles. Debemos auditar su consistencia antes de integrarlos al SIG.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Datos Crudos Suministrados</span>
+          <h3>¿Qué contiene el archivo de trabajo?</h3>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.5;font-size:0.92em">
+            <li><b>Traza Continua (Track):</b> Recorrido peatonal por el campus EAFIT con muestreo temporal cada 2 segundos.</li>
+            <li><b>Waypoints Fijos:</b> Puntos de control sobre esquinas de edificios, placas geodésicas y puentes.</li>
+            <li><b>Entornos Mixtos:</b> Tramos a cielo abierto despejado vs. tramos bajo cañones urbanos de edificios altos.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Atributos Clave a Evaluar</span>
+          <h3>Campos obligatorios en la tabla</h3>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.5;font-size:0.92em">
+            <li><code>time</code>: Marca de tiempo UTC para verificar intervalo y velocidad.</li>
+            <li><code>ele</code>: Altitud elipsoidal WGS 84 (en metros).</li>
+            <li><code>hdop</code>: Dilución de precisión horizontal (filtro de calidad).</li>
+            <li><code>sat</code>: Número de satélites en uso durante cada instante.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Protocolo de Auditoría y Filtrado -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Filtros de control de calidad (QC)</p>
+      <h2 class="slide__title">Metodología de Auditoría Espacial en Gabinete</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Filtrado por HDOP</h3>
+          <p>Descartar automáticamente registros con <b>HDOP &gt; 2.5</b>. Asegura que solo entren al análisis mediciones con buena geometría satelital.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Detección de Saltos (Spikes)</h3>
+          <p>Identificar desplazamientos anómalos repentinos causados por <b>multitrayectoria</b> (rebote en fachadas) o pérdida temporal de señal.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Contrastación Oficial</h3>
+          <p>Superponer los datos sobre la <b>ortofoto de alta resolución del AMVA</b> y verificar la discrepancia métrica real contra el terreno.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Práctica 1: Depuración de datos en QGIS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 1 · Todos en su computador de laboratorio</p>
+      <h2 class="slide__title">Práctica en vivo: inspección y depuración de la traza GNSS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad de Laboratorio (15 minutos)</span>
+        <p>Abran el dataset suministrado y apliquen los criterios de control de calidad:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Carguen el archivo <code>capas_practica/traza_cruda_eafit.gpx</code> en QGIS.</li>
+          <li>Abran la tabla de atributos de la capa <i>track_points</i> e inspeccionen los valores de <code>hdop</code>.</li>
+          <li>Apliquen un filtro de selección: <code>"hdop" &lt;= 2.0</code> y exporten la selección como <code>traza_depurada</code>.</li>
+          <li><b>Inspección visual:</b> Observen cómo los puntos aberrantes que caían dentro de los edificios desaparecen tras el filtrado por calidad geométrica.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. DIVISOR BLOQUE 5 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 5 · Trabajo de Laboratorio</p>
+    <h1>Integración en QGIS y Reproyección a CTM12</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 19. Formatos GPX y CSV -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Estructura del archivo de intercambio</p>
+      <h2 class="slide__title">Formatos de intercambio: GPX y CSV</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Formato GPX (XML)</span>
+          <h3>GPS Exchange Format</h3>
+          <p>Estándar abierto XML para navegación orbital. Estructura jerárquica:</p>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.5">
+            <li><code>&lt;wpt&gt;</code>: Waypoints puntuales con nombre y elevación.</li>
+            <li><code>&lt;trk&gt;</code>: Track continuo con segmentos <code>&lt;trkpt&gt;</code> ordenados por tiempo.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Formato CSV (Tabular)</span>
+          <h3>Texto delimitado por comas</h3>
+          <p>Tabla plana procesable en hojas de cálculo y SIG:</p>
+          <p style="font-family:monospace;font-size:0.95em;color:var(--blue);margin-top:0.4em">
+            id, nombre, lon, lat, elevacion_m, hdop
+          </p>
+          <p class="small text-muted">Coordenadas en grados decimales (Datum WGS 84, EPSG:4326).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Mecánica QGIS: Importar GPX y CTM12 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en el laboratorio</p>
+      <h2 class="slide__title">Importar archivos GPX y reproyectar a CTM12</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Añadir capa GPX</h3>
+          <p>Menú <b>Capa → Añadir capa → Añadir capa vectorial…</b> → Seleccionar el archivo <code>.gpx</code> suministrado.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Seleccionar geometrías</h3>
+          <p>Seleccionar en el cuadro de diálogo: <b>waypoints</b> (puntos de control) y <b>tracks</b> (líneas) → Aceptar.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Reproyectar a CTM12</h3>
+          <p>Clic derecho → <b>Exportar → Guardar entidades como…</b> → CRS de destino: <b>EPSG:9377</b> en el GeoPackage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Práctica 2: Auditoría métrica frente a ortofoto -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 2 · En el laboratorio de cómputo</p>
+      <h2 class="slide__title">Práctica en vivo: auditen las discrepancias frente a la ortofoto</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (12 minutos)</span>
+        <p>Evalúen la exactitud posicional de los datos frente a la cartografía oficial del AMVA:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Carguen la ortofoto de alta resolución de Medellín (servicio WMS del AMVA o GeoMedellín).</li>
+          <li>Superpongan los waypoints correspondientes a las esquinas de los bloques universitarios.</li>
+          <li>Con la herramienta <b>Medir línea</b> (en metros CTM12), midan la distancia horizontal entre la coordenada GNSS y la esquina real visible en la foto aérea.</li>
+          <li><b>Pregunta técnica:</b> ¿Cuál es el error promedio en metros? ¿En qué zonas el error fue mayor por cercanía a edificios altos?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Checklist Cápsula GNSS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Control de aprendizajes de la Cápsula Esencial</p>
+      <h2 class="slide__title">Checklist de Fundamentos GNSS (Módulo 3)</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>[ ] <b>Fundamento teórico:</b> Claridad en los 3 segmentos GNSS (Espacial, Control y Usuario) y por qué se requieren mínimo 4 satélites para resolver (X, Y, Z, Δt).</li>
+        <li>[ ] <b>Comprensión de errores:</b> Identificación de refracción ionosférica/troposférica, multitrayectoria (Multipath) en cañones urbanos y geometría de dilución (DOP).</li>
+        <li>[ ] <b>Métodos de medición:</b> Diferenciación clara entre precisión de navegación autónoma (3–5 m), DGPS submétrico y RTK centimétrico (1–2 cm).</li>
+        <li>[ ] <b>Integración demostrativa en QGIS:</b> Importación de trazas GPX y tablas CSV en WGS84 y reproyección a MAGNA-SIRGAS CTM12 (EPSG:9377).</li>
+        <li>[ ] <b>Alcance evaluativo claro:</b> Cápsula conceptual y demostrativa; <b>no se exige entregable de GNSS en los informes del curso</b>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 23. Cierre y continuación inmediata -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Continuación inmediata en esta misma sesión (Jueves 22 de octubre)</p>
+      <h2 class="slide__title">A continuación: Teledetección Satelital e Índices Espectrales en QGIS (S12 y S13)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Parte B · Espectro & Sentinel-2</h3><p>Física de la teledetección, firmas espectrales y bandas de 10 m y 20 m en QGIS (S12).</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Ráster Virtual & RGB/CIR</h3><p>Construcción de <i>Build Virtual Raster</i> y combinaciones 4-3-2 y 8-4-3 sobre La Iguaná.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Parte C · Índices NDVI / NDBI</h3><p>Cálculo directo en la Calculadora Ráster de QGIS, máscaras booleanas y fusión con Hillshade (S13).</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Sin Entregable GNSS</h3><p>Los informes finales se enfocan 100% en Relieve Ráster + Teledetección Satelital en QGIS y Modelo Automatizado.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>Pasemos de inmediato a la Parte B: Teledetección Satelital en QGIS I (S12)</h3>
+        <p><span class="accent">Docente:</span> fjgomezc@eafit.edu.co · Mantengan abierto su proyecto de QGIS en EPSG:9377</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

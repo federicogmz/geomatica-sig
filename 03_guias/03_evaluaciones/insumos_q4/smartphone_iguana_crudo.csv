@@ -1,0 +1,7 @@
+id,estacion,nombre,lon,lat,elevacion_m,hdop,pdop,sat,h_acc_m,entorno,dispositivo
+1,IGU-01,Placa Puente Calle 65 (Sector El Pesebre),-75.588139,6.265439,1530.3,1.2,1.8,13,3.0,Cielo abierto,Smartphone Receptor L1 C/A
+2,IGU-02,Mojon Explanada Facultad de Minas (Mirador Sur),-75.590431,6.266196,1542.7,1.1,1.7,14,2.6,Cielo abierto,Smartphone Receptor L1 C/A
+3,IGU-03,Muro de Contencion Viaducto Metro (Sector Blanquizal),-75.593052,6.267254,1565.4,4.6,6.5,5,13.8,Canon urbano / Viaducto,Smartphone Receptor L1 C/A
+4,IGU-04,Estribo Pasarela Peatonal La Iguana (Dosel Ripario),-75.596147,6.268085,1564.3,2.6,3.9,7,6.6,Dosel arboreo,Smartphone Receptor L1 C/A
+5,IGU-05,Callejon Torres de San German (Canon Urbano Estrecho),-75.598727,6.268798,1596.5,5.5,7.9,4,17.2,Canon urbano,Smartphone Receptor L1 C/A
+6,IGU-06,Placa Confluencia Quebrada La Gomez (Terraza Aluvial),-75.601623,6.269758,1597.8,1.3,1.9,12,3.3,Cielo abierto,Smartphone Receptor L1 C/A

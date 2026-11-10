@@ -1,0 +1,9 @@
+id,vertice,nombre,tipo,entorno,este_ctm12,norte_ctm12,cota_msnm,lat_wgs84,lon_wgs84,origen
+1,EST-01,Placa Porteria Las Vegas (Acceso Peatonal),Placa geodesica,Cielo abierto,4714842.14,2243812.72,1496.40,6.200282,-75.577796,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+2,EST-02,Placa Cancha Sintetica (Esquina NE),Placa geodesica,Cielo abierto,4714792.11,2243654.45,1492.80,6.198849,-75.578241,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+3,EST-03,Esquina NE Bloque 19 (Edificio Ingenierias),Esquina de edificio,Canon urbano,4714654.91,2243578.47,1491.50,6.198156,-75.579477,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+4,EST-04,Esquina SE Bloque Argos (Centro Innovacion),Esquina de edificio,Canon urbano,4714699.46,2243678.80,1493.90,6.199065,-75.579079,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+5,EST-05,Puente Peatonal Quebrada La Volcana (Estribo Norte),Puente peatonal,Dosel arboreo,4714783.86,2243793.06,1495.10,6.200102,-75.578322,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+6,EST-06,Placa Control Plazoleta del Estudiante,Placa geodesica,Cielo abierto,4714773.70,2243837.34,1497.50,6.200502,-75.578415,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+7,EST-07,Esquina SE Bloque 29 (Pasillo Bloques 28-29),Esquina de edificio,Canon urbano,4714755.44,2243809.37,1496.80,6.200248,-75.578579,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)
+8,EST-08,Esquina SO Biblioteca Luis Echavarria Villegas (Bloque 32),Esquina de edificio,Canon urbano,4714731.84,2243889.20,1499.60,6.200969,-75.578796,Red Control Topografico EAFIT / IGAC CTM12 (EPSG:9377)

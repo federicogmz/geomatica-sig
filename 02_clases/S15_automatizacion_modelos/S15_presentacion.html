@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 15</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Automatización Espacial: ModelBuilder y Diseñador de Modelos</h1>
+    <p class="sub">Sesión 29 de Octubre (Parte B) · Módulo 5: Flujos Encadenados en ArcGIS Pro / QGIS y Quiz 4 (8%)</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 15 (Parte B) · Automatización gráfica multiplataforma, Layouts y Quiz 4</p>
+      <h2 class="slide__title">Lo que construiremos hoy (ModelBuilder / Modelos QGIS y Quiz 4)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Anatomía del Modelo</h3><p>Entradas, algoritmos encadenados y salidas en ArcGIS Pro y QGIS</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Parámetros Dinámicos</h3><p>Creación de herramientas reutilizables con parámetros de usuario</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Flujo Encadenado & Python</h3><p>Zonificación de amenaza y traducción a Python (<code>ArcPy</code> / <code>PyQGIS</code>)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Layouts Profesionales</h3><p>Planchas A3 con grillas CTM12, escala y leyenda dinámica</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Quiz 4 Oficial (8%)</h3><p>Evaluación práctica individual: Teledetección e Índices Espectrales en QGIS</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Por qué automatizar -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El salto de operario a diseñador de flujos reproducibles</p>
+      <h2 class="slide__title">¿Por qué automatizar en proyectos territoriales?</h2>
+      <p class="slide__desc">En un estudio de impacto ambiental o plan de cuenca, los datos se actualizan permanentemente. Si el trazado de una vía o el umbral de pendiente cambia, un modelo automatizado recalcula todo en un clic.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>1. Cero Errores Manuales</h3><p>Elimina el riesgo de olvidar un parámetro, usar un CRS incorrecto o equivocarse en el orden de capas.</p></div>
+        <div><h3>2. Trazabilidad Contractual</h3><p>El diagrama del modelo sirve como memoria técnica visual y demostración ante interventorías y autoridades ambientales.</p></div>
+        <div><h3>3. Equivalencia Total QGIS / ArcGIS Pro</h3><p>El concepto de Grafo Acíclico Dirigido (DAG) es idéntico en <b>ModelBuilder</b> (<code>.atbx</code>) y en el <b>Diseñador Gráfico de Modelos de QGIS</b> (<code>.model3</code>). Pueden elegir cualquiera de los dos para su Entrega Final.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DIVISOR BLOQUE 1 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 1 · Lenguaje Visual</p>
+    <h1>Anatomía de ModelBuilder y Equivalencia en QGIS</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 5. Los 3 elementos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La gramática visual del geoprocesamiento (ArcGIS Pro & QGIS)</p>
+      <h2 class="slide__title">Los tres elementos de un modelo espacial automatizado</h2>
+      <p class="slide__desc">Tanto en <b>ModelBuilder</b> como en el <b>Diseñador Gráfico de Modelos de QGIS</b> (<i>Procesos → Diseñador de modelos</i>), los datos fluyen a través de algoritmos conectados.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">1. Entradas (Óvalos Azules / Inputs)</span>
+          <h3>Datos y Parámetros Iniciales</h3>
+          <p>Capas vectoriales (<code>drenajes</code>), rásteres del terreno (<code>DEM_12m.tif</code>, <code>NDVI.tif</code>) o valores numéricos (distancia de retiro de 30 m).</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">2. Algoritmos (Rectángulos Amarillos / Blancos)</span>
+          <h3>Herramientas de Proceso</h3>
+          <p>Geoprocesos que transforman datos: <b>Buffer</b>, <b>Clip</b>, <b>Slope</b>, <b>Calculadora Ráster</b>, <b>Polygonize</b> e <b>Intersect</b>.</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">3. Salidas (Óvalos Verdes / Outputs)</span>
+          <h3>Productos Derivados</h3>
+          <p>Nuevas capas espaciales generadas por cada eslabón que alimentan automáticamente el siguiente paso hasta producir la capa final.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Estados de los elementos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El código de colores en pantalla</p>
+      <h2 class="slide__title">Estados de un modelo en ModelBuilder</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="step-card">
+          <div class="num" style="color:var(--gray)">Blanco</div>
+          <h3>Incompleto / No Listo</h3>
+          <p>La herramienta aún no tiene todos los parámetros obligatorios configurados. No se puede ejecutar.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">Con Color</div>
+          <h3>Listo para Ejecutar</h3>
+          <p>Azul, amarillo y verde brillantes. Todos los parámetros están validados y el modelo está listo para correr.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--navy)">Con Sombra</div>
+          <h3>Ya Ejecutado con Éxito</h3>
+          <p>El rectángulo amarillo y el óvalo verde muestran una sombra gris proyectada. El dato ya fue creado físicamente en el disco.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. DIVISOR BLOQUE 2 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 2 · Flexibilidad y Reutilización</p>
+    <h1>Parámetros de Modelo y Variables Dinámicas</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 8. Parámetros P -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">De diagrama rígido a herramienta interactiva</p>
+      <h2 class="slide__title">Convertir variables en parámetros de usuario (P)</h2>
+      <p class="slide__desc">Si dejan las rutas quemadas dentro del modelo, solo servirá para ese archivo exacto. Al marcar una variable como parámetro, se convierte en un campo interactivo.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">¿Cómo se activa?</span>
+          <h3>Clic derecho → Model Parameter</h3>
+          <p>Aparecerá una letra <b>P</b> mayúscula sobre el óvalo azul o verde. Esto indica que la variable se expondrá hacia el usuario final.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">El Resultado Profesional</span>
+          <h3>Caja de Diálogo Estándar</h3>
+          <p>Al hacer doble clic en el modelo desde el panel Catalog, se abrirá como cualquier herramienta nativa de ArcGIS Pro, pidiendo al usuario:</p>
+          <p class="small text-muted" style="margin-top:0.4em">• Capa de entrada de drenaje.<br/>• Distancia del retiro en metros.<br/>• Ubicación de la capa final.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. DIVISOR BLOQUE 3 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 3 · El Caso de Estudio</p>
+    <h1>Flujo Encadenado de Riesgo en La Iguaná</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 10. Arquitectura del Flujo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Integración híbrida vectorial + ráster</p>
+      <h2 class="slide__title">La tubería de geoprocesamiento de amenaza</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Buffer Hidrológico</h3>
+          <p><code>drenajes_iguana</code> → <b>Buffer (30 m)</b> → <code>retiro_hidrico_30m</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Pendientes de Ladera</h3>
+          <p><code>DEM_Iguana_CTM12</code> → <b>Slope (grados)</b> → <code>pendiente_grados</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Reclasificación a Polígonos</h3>
+          <p>Pendiente → <b>Reclassify (&gt;30°)</b> → <b>Raster to Polygon</b> → <code>laderas_criticas</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--navy)">4</div>
+          <h3>Intersección Crítica</h3>
+          <p>Retiros + Laderas → <b>Intersect</b> → <code>zonas_alta_amenaza_final</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Mecánica QGIS / ArcGIS Pro -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso técnico</p>
+      <h2 class="slide__title">Construir y conectar el modelo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Crear Nuevo Modelo</h3>
+          <p>Pestaña superior <b>Analysis → ModelBuilder</b> (en QGIS: <i>Procesos → Diseñador de modelos</i>).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Arrastrar Herramientas</h3>
+          <p>Arrastrar desde Geoprocessing: <i>Buffer</i>, <i>Slope</i>, <i>Raster to Polygon</i> e <i>Intersect</i> hacia el lienzo.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Conectar con la Flecha</h3>
+          <p>Usar la herramienta <b>Connect</b> para arrastrar flechas desde los óvalos verdes hacia las cajitas amarillas como entradas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Práctica 1: Construir el Modelo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 1 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: armen el modelo de amenaza</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (15 minutos)</span>
+        <p>Construyan el modelo automatizado de zonificación de amenaza para La Iguaná:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Abran ModelBuilder y creen el flujo conectando: Buffer de drenajes → Slope del DEM → Intersección de amenaza.</li>
+          <li>Pulsen el botón <b>Auto Layout</b> para que el software organice automáticamente el diagrama de forma limpia.</li>
+          <li>Pulsen el botón <b>Validate</b> (palomita de verificación): todo el modelo debe colorearse en azul, amarillo y verde.</li>
+          <li>Pulsen <b>Run</b>: observen cómo los procesos se ejecutan secuencialmente en cadena y la capa final aparece en el mapa.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. DIVISOR BLOQUE 4 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 4 · Código y Extensibilidad</p>
+    <h1>Exportación a Scripts de Python (ArcPy / PyQGIS)</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 14. Del Modelo al Código Python -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El puente entre lo gráfico y la programación</p>
+      <h2 class="slide__title">Exportar el modelo visual a código Python</h2>
+      <p class="slide__desc">Cada cajita de ModelBuilder es en realidad una línea de código en Python utilizando la librería <b>ArcPy</b> (o <code>processing.run</code> en PyQGIS).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div>
+          <h3>Exportación en 1 Clic</h3>
+          <p>Menú superior de ModelBuilder: <b>Model → Export → Export to Python File…</b> (guarda un archivo <code>.py</code> ejecutable).</p>
+        </div>
+        <div>
+          <h3>Ventajas del Script</h3>
+          <p>Se puede programar en el programador de tareas del servidor para ejecutarse automáticamente todas las noches o integrarse a tableros web interactivos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Código ArcPy generado -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Anatomía del script generado</p>
+      <h2 class="slide__title">Cómo se ve el código Python generado</h2>
+    </div>
+    <div class="slide__body">
+      <pre style="font-size:0.82em;line-height:1.45;background:#f7f8fa;padding:1.2em;border-radius:6px;border:1px solid #dce0eb;color:#1e293b">
+import arcpy
+
+# Definir entorno de trabajo y sobrescritura
+arcpy.env.workspace = "C:/SIG/Iguana_Corporativa.gdb"
+arcpy.env.overwriteOutput = True
+
+# 1. Buffer de retiros hídricos a 30 metros
+retiros = arcpy.analysis.Buffer("drenajes_iguana", "retiros_30m", "30 Meters")
+
+# 2. Pendiente en grados a partir del DEM reproyectado
+pendiente = arcpy.sa.Slope("DEM_Iguana_CTM12_12m", "DEGREE", 1.0)
+pendiente.save("pendiente_grados")
+
+# 3. Intersección final de áreas expuestas
+arcpy.analysis.Intersect(["retiros_30m", "laderas_criticas"], "amenaza_alta_final")
+print("¡Modelo ejecutado exitosamente con ArcPy!")</pre>
+    </div>
+  </section>
+
+  <!-- 16. Práctica 2: Exportar a Python -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 2 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: exporten y revisen su script</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (8 minutos)</span>
+        <p>Exporten su modelo gráfico a lenguaje de programación:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>En la barra de ModelBuilder, vayan a <b>Model → Export → Export to Python File</b>.</li>
+          <li>Guarden el archivo como <code>modelo_amenaza_iguana.py</code> en la carpeta de scripts de su proyecto.</li>
+          <li>Abran el archivo con el Bloc de notas o VS Code: identifiquen las funciones <code>arcpy.analysis.Buffer</code> y <code>arcpy.sa.Slope</code>.</li>
+          <li>Comprueben cómo las conexiones visuales del diagrama se tradujeron en variables de entrada y salida ordenadas lógicamente.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. DIVISOR BLOQUE 5 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 5 · Cartografía Editorial</p>
+    <h1>Diseño de Layouts y Salidas en ArcGIS Pro</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 18. Layouts en ArcGIS Pro -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">De la pantalla al plano de ingeniería</p>
+      <h2 class="slide__title">Estructura de un Layout en ArcGIS Pro</h2>
+      <p class="slide__desc">A diferencia de la vista de trabajo dinámica (Map), el <b>Layout</b> representa la hoja física de impresión con escala congelada y elementos normativos.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">1. Insert Layout</span>
+          <h3>Formato de Hoja</h3>
+          <p>Pestaña <b>Insert → New Layout</b>. Seleccionar tamaño normativo <b>ANSI D / ISO A3 horizontal</b> (420 × 297 mm) para proyectos de ingeniería.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">2. Map Frame</span>
+          <h3>Marco de Mapa Activo</h3>
+          <p>Insertar <b>Map Frame</b> vinculando el mapa 2D del proyecto. Definir escala redonda fija (ej. <code>1:25 000</code>) y activar navegación para centrar La Iguaná.</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">3. Grilla CTM12</span>
+          <h3>Sistema de Referencia</h3>
+          <p>Añadir <b>Grid → Measured Grid</b> forzada a <b>MAGNA CTM12 (EPSG:9377)</b> con intervalos métricos regulares (cada 1 000 m o 2 000 m).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Elementos Normativos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Rigor cartográfico profesional</p>
+      <h2 class="slide__title">Elementos Dinámicos de Salida</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Elementos Obligatorios</span>
+          <ul style="margin:0.3em 0 0 1em;line-height:1.55">
+            <li><b>Norte Geográfico:</b> Flecha de norte vinculada al Map Frame (rota automáticamente si el mapa rota).</li>
+            <li><b>Escala Gráfica Dinámica:</b> Barra métrica calibrada en metros o kilómetros que se actualiza si cambia el zoom.</li>
+            <li><b>Leyenda Inteligente:</b> Filtrada para mostrar únicamente las capas visibles en el encuadre actual.</li>
+            <li><b>Membrete Técnico:</b> Título oficial, sistema de coordenadas EPSG:9377, autor, fecha y fuente de datos (AMVA / IGAC).</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Exportación Editorial</span>
+          <h3>Formatos de Entrega</h3>
+          <p>Pestaña <b>Share → Export Layout</b>:</p>
+          <ul style="margin:0.3em 0 0 1em;line-height:1.55">
+            <li><b>PDF Vectorial (300 DPI):</b> Tipografías incrustadas, capas vectoriales conservadas para revisión de interventoría.</li>
+            <li><b>TIFF Georreferenciado:</b> Para integrar mapas diseñados como fondos ráster en otros sistemas.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. DIVISOR BLOQUE 6 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 6 · Evaluación Oficial (45 minutos)</p>
+    <h1>Quiz 4: Posicionamiento GNSS en Gabinete y Control de Calidad (8%)</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 21. Protocolo Quiz 4 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Evaluación Individual en Computador (8% de la nota final · 45 minutos)</p>
+      <h2 class="slide__title">Condiciones y Reto Técnico del Quiz 4 en QGIS</h2>
+      <p class="slide__desc">Evaluación práctica individual exclusiva sobre <b>Posicionamiento GNSS en Gabinete</b> (Módulo 3: <code>S11/G11</code>, insumos en <code>insumos_q4/</code>).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Ingesta y Depuración GNSS</span>
+          <h3>Traza GPX y Tabla CSV en EPSG:9377</h3>
+          <ul style="margin:0.2em 0 0 1.2em; padding:0; font-size:clamp(0.72rem, 1.15vw, 0.92rem); line-height:1.45;">
+            <li>Cargar <code>insumos_q4/traza_cruda_eafit.gpx</code> (<code>waypoints</code> y <code>track_points</code>) en <code>EPSG:4326</code>.</li>
+            <li>Filtrar <code>track_points</code> con <code>"hdop" &lt;= 2.0</code> (156 puntos limpios) y exportar a <code>quiz4_gnss_9377.gpkg</code> en <b>EPSG:9377</b>.</li>
+            <li>Importar <code>insumos_q4/campo_smartphone_crudo.csv</code> (<code>EPSG:4326</code>) y exportar como <code>puntos_smartphone_9377</code> en <b>EPSG:9377</b>.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Contraste Posicional contra IGAC</span>
+          <h3>Medición de Error y Verificación</h3>
+          <ul style="margin:0.2em 0 0 1.2em; padding:0; font-size:clamp(0.72rem, 1.15vw, 0.92rem); line-height:1.45;">
+            <li>Contrastar contra <code>insumos_q4/vertices_control_igac.gpkg</code> en metros cartesianos (<code>EPSG:9377</code>).</li>
+            <li>Medir el error horizontal en <code>EST-02</code> (cielo abierto) frente a <code>EST-03</code> (cañón urbano con <i>multipath</i>).</li>
+            <li>Completar <code>respuestas_gnss.txt</code> y comprimir en <code>apellido_nombre_Q4.zip</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Checklist Semana 15 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Control de aprendizajes y competencias</p>
+      <h2 class="slide__title">Checklist de la Sesión 15 (29 de octubre)</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>[ ] <b>Lógica de automatización:</b> Comprensión de entradas, algoritmos encadenados y salidas en el Diseñador Gráfico de Modelos de QGIS (<code>.model3</code>) y ModelBuilder.</li>
+        <li>[ ] <b>Parámetros configurados:</b> Variables expuestas para permitir ejecución interactiva y reutilizable.</li>
+        <li>[ ] <b>Flujo encadenado:</b> Tubería funcional <code>Buffer (30 m, Dissolve)</code> → <code>Intersección</code> → <code>Calculadora de Campos (area_ha)</code> ejecutada en un solo clic.</li>
+        <li>[ ] <b>Avance del Informe Final (IF):</b> Integración del diagnóstico territorial y propuesta en QGIS.</li>
+        <li>[ ] <b>Evaluación completada:</b> Quiz 4 individual de Posicionamiento GNSS en Gabinete presentado en plataforma.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 23. Cierre y próxima clase -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antesala a la Sesión Final del Curso (Jueves 5 de noviembre)</p>
+      <h2 class="slide__title">Próxima Semana (05 nov): Parcial 2 (P2 · 1h30m) y Sustentación del Informe Final (IF)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Bloque 1 · Parcial P2 (15%)</h3><p>Examen práctico individual en PC en <b>QGIS</b> (90 min / 1h30m): Índices Sentinel-2 (<code>NDVI/NDBI</code>), Modelo <code>.model3</code> y Mapa PDF.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Bloque 2 · Informe Final IF (26%)</h3><p>Paquete simplificado en QGIS (<code>grupoXX_IF.zip</code>): Proyecto + GeoPackage/GeoTIFF + Lámina A3 + Informe Territorial (4–5 págs.).</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Sustentación Oral (10 min)</h3><p>7 min Pitch grupal proyectando la Lámina A3 y el análisis en QGIS + 3 min de preguntas individuales.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Cierre 100% de Notas</h3><p>Consolidación de todas las evaluaciones del curso en la sesión del jueves 5 de noviembre.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas con la preparación del Informe Final (IF) o el Parcial 2 (P2)?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

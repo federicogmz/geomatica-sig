@@ -1,0 +1,108 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Cuenca de la Quebrada La Iguan\u00e1",
+        "area_total_km2": 46.25,
+        "area_rural_km2": 38.73,
+        "area_urbana_km2": 7.52,
+        "cota_max_msnm": 2950,
+        "cota_min_msnm": 1450,
+        "desnivel_m": 1500,
+        "longitud_cauce_km": 15.0,
+        "vertiente": "R\u00edo Medell\u00edn (Valle de Aburr\u00e1)",
+        "comunas_corregimientos": "San Crist\u00f3bal (rural), Robledo (Comuna 7), San Javier (Comuna 13), Laureles-Estadio (Comuna 11)",
+        "obras_hidraulicas": "Azud Cra 80 y Presa de laminaci\u00f3n Cra 70"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -75.64456,
+              6.32463
+            ],
+            [
+              -75.63696,
+              6.33175
+            ],
+            [
+              -75.62842,
+              6.33602
+            ],
+            [
+              -75.61702,
+              6.33222
+            ],
+            [
+              -75.60563,
+              6.32225
+            ],
+            [
+              -75.59709,
+              6.31039
+            ],
+            [
+              -75.59139,
+              6.29852
+            ],
+            [
+              -75.58759,
+              6.2876
+            ],
+            [
+              -75.58379,
+              6.27763
+            ],
+            [
+              -75.57952,
+              6.26861
+            ],
+            [
+              -75.57288,
+              6.25864
+            ],
+            [
+              -75.5762,
+              6.25532
+            ],
+            [
+              -75.58332,
+              6.25437
+            ],
+            [
+              -75.59376,
+              6.25295
+            ],
+            [
+              -75.60611,
+              6.2539
+            ],
+            [
+              -75.6194,
+              6.26244
+            ],
+            [
+              -75.63364,
+              6.27431
+            ],
+            [
+              -75.64598,
+              6.29092
+            ],
+            [
+              -75.65025,
+              6.30801
+            ],
+            [
+              -75.64456,
+              6.32463
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "nombre": "Quebrada La Iguan\u00e1 (Cauce Principal)",
+        "tipo": "Cauce Principal",
+        "cuenca": "R\u00edo Medell\u00edn",
+        "orden_strahler": 4,
+        "longitud_km": 15.0,
+        "nacimiento": "Alto de Boquer\u00f3n (2.950 msnm)",
+        "desembocadura": "R\u00edo Medell\u00edn - Minorista (1.450 msnm)"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -75.646,
+            6.326
+          ],
+          [
+            -75.641,
+            6.321
+          ],
+          [
+            -75.635,
+            6.315
+          ],
+          [
+            -75.628,
+            6.307
+          ],
+          [
+            -75.62,
+            6.298
+          ],
+          [
+            -75.613,
+            6.287
+          ],
+          [
+            -75.606,
+            6.277
+          ],
+          [
+            -75.601,
+            6.274
+          ],
+          [
+            -75.595,
+            6.271
+          ],
+          [
+            -75.589,
+            6.2625
+          ],
+          [
+            -75.582,
+            6.258
+          ],
+          [
+            -75.576,
+            6.256
+          ],
+          [
+            -75.571,
+            6.257
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "nombre": "Quebrada La Seca",
+        "tipo": "Afluente Principal",
+        "cuenca": "La Iguan\u00e1",
+        "orden_strahler": 3,
+        "longitud_km": 4.2
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -75.615,
+            6.31
+          ],
+          [
+            -75.61,
+            6.292
+          ],
+          [
+            -75.606,
+            6.277
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "nombre": "Quebrada San Franciscana",
+        "tipo": "Afluente",
+        "cuenca": "La Iguan\u00e1",
+        "orden_strahler": 2,
+        "longitud_km": 2.8
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -75.638,
+            6.33
+          ],
+          [
+            -75.63,
+            6.312
+          ],
+          [
+            -75.628,
+            6.307
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "nombre": "Quebrada La Popa",
+        "tipo": "Afluente",
+        "cuenca": "La Iguan\u00e1",
+        "orden_strahler": 2,
+        "longitud_km": 1.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -75.602,
+            6.26
+          ],
+          [
+            -75.597,
+            6.267
+          ],
+          [
+            -75.595,
+            6.271
+          ]
+        ]
+      }
+    }
+  ]
+}

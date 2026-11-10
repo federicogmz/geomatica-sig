@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 4</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>SIG vectorial: fundamentos</h1>
+    <p class="sub">Semana 4 · Módulo 1: SIG vectorial con QGIS</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 4 · traigan su computador, lo vamos a usar todo el tiempo</p>
+      <h2 class="slide__title">Lo que haremos hoy</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Validación</h3><p>¿Instalaron QGIS? Y verificación práctica de las lecturas asignadas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Dato vectorial</h3><p>Geometría + atributos: la teoría que sostiene todo el Módulo 1</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>CRS en la práctica</h3><p>Lo fijamos en vivo, todos al tiempo, en su propio QGIS</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Cargar capas</h3><p>Shapefile, GeoJSON y CSV — cargando de verdad, no en diapositivas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Cerrar el ciclo</h3><p>Su cálculo a mano de la Semana 3, verificado en QGIS</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.2em">Hoy la clase es distinta: casi todo lo vamos a hacer con las manos en el teclado, en su propio QGIS, al mismo tiempo que yo lo muestro en el proyector.</p>
+    </div>
+  </section>
+
+  <!-- 3. Retroalimentación Quiz 1 intro -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes que nada</p>
+      <h2 class="slide__title">Retroalimentación: Quiz 1</h2>
+      <p class="slide__desc">No solo la respuesta correcta — el proceso para llegar a ella, y dónde se equivocan más seguido.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>A · Plano antiguo</h3><p>Escala gráfica vs. numérica, y de ahí distancia y área reales.</p></div>
+        <div><h3>B · Imagen satelital</h3><p>Resolución espacial vs. tamaño del objeto a detectar.</p></div>
+        <div><h3>C · Coordenadas</h3><p>GMS ↔ decimal, en ambos sentidos.</p></div>
+        <div><h3>D · Capas que no calzan</h3><p>Datum distinto, no error de QGIS.</p></div>
+        <div><h3>E · CTM12</h3><p>La fórmula simplificada, aplicada de nuevo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Quiz 1 - Escenario A0 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Escenario A · A0 (0.5%)</p>
+      <h2 class="slide__title">¿Escala gráfica o numérica?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Proceso</span>
+        <p>Confían en la <b>escala gráfica</b> (la barra): al ser una figura dibujada sobre el mismo papel, se amplía o reduce en la misma proporción que el resto del plano si el fotocopiador alteró el tamaño — sigue siendo correcta. La escala numérica impresa (1:5 000) es solo texto: no cambia aunque la imagen sí se haya deformado, así que después de fotocopiar puede quedar mintiendo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Quiz 1 - Escenario A1-A3 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Escenario A · A1-A3 (3%)</p>
+      <h2 class="slide__title">De la escala real al área del lote</h2>
+    </div>
+    <div class="slide__body">
+      <div class="calc-box">
+        <div class="calc-step"><div class="n">A1</div><div class="expr">7 m = 700 cm; 1.4 mm = 0.14 cm → 0.14 ÷ 700 = 1/5 000 → escala 1:5 000</div></div>
+        <div class="calc-step"><div class="n">A2</div><div class="expr">4.8 cm × 5 000 = 24 000 cm = 240 m</div></div>
+        <div class="calc-step"><div class="n">A3</div><div class="expr">1.5 cm × 5 000 = 75 m; 2 cm × 5 000 = 100 m → área = 7 500 m² = 0.75 ha</div></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">7 500 m² &gt; 300 m²: el lote <b>sí cumple</b> la norma, con amplio margen. Errores más comunes: mezclar mm y cm sin convertir, o aplicar la escala lineal directo al área en vez de convertir cada lado por separado.</p>
+    </div>
+  </section>
+
+  <!-- 6. Quiz 1 - Escenario B -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Escenario B · B1 (0.5%)</p>
+      <h2 class="slide__title">Sentinel-2 vs. imagen comercial</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Proceso</span>
+        <p>La imagen comercial de <b>3×3 m</b> sí permite distinguir agrietamientos de 8 m de ancho — el píxel es más pequeño que el objeto. Con Sentinel-2 (10×10 m), un agrietamiento de 8 m es más angosto que un solo píxel: se mezcla con el terreno vecino dentro del mismo píxel y probablemente no se distingue en la imagen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Quiz 1 - Escenario C -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Escenario C · C1-C2 (2%)</p>
+      <h2 class="slide__title">GMS ↔ decimal, en ambos sentidos</h2>
+    </div>
+    <div class="slide__body">
+      <div class="calc-box">
+        <div class="calc-step"><div class="n">C1</div><div class="expr">6° 17' 24" N, 75° 36' 00" O → 6 + 17/60 + 24/3600 = 6.29° N; 36/60 = 0.6 → −75.6°</div></div>
+        <div class="calc-step"><div class="n">C2</div><div class="expr">−74.7° → 74° exactos + 0.7 × 60 = 42' exactos, 0" → 74° 42' 00" O</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Quiz 1 - Escenario D -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Escenario D · D1 (1%)</p>
+      <h2 class="slide__title">Capas que no calzan: no es un error de QGIS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Proceso</span>
+        <p>Las dos capas van a verse <b>desplazadas entre sí varios metros</b>, aunque representen el mismo lugar real. El Datum Bogotá (anclado a un punto local) y Magna-Sirgas (geocéntrico) usan anclas distintas para el mismo elipsoide, así que el mismo punto real tiene coordenadas ligeramente distintas en cada uno. No es un error de QGIS: hay que reproyectar explícitamente una de las dos capas al datum de la otra.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Quiz 1 - Escenario E -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Escenario E · E1 (1%)</p>
+      <h2 class="slide__title">De vuelta a la fórmula simplificada</h2>
+      <p class="slide__desc">lat = 6.29°, lon = −75.6° (del Escenario C1)</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Proceso</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">Norte ≈ 2 000 000 + (6.29 − 4) × 111 320 × 0.9992 ≈ 2 254 719 m</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Este ≈ 5 000 000 + (−75.6 + 73) × 111 320 × cos(6.29°) × 0.9992 ≈ 4 712 541 m</div></div>
+        </div>
+        <div class="calc-answer">Este ≈ 4 712 541 m · Norte ≈ 2 254 719 m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Repaso -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de seguir</p>
+      <h2 class="slide__title">¿Qué vimos en el Módulo 0?</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Escala, resolución y qué tan de cerca podemos confiar en un mapa</li>
+        <li>Coordenadas geográficas: GMS ↔ decimal</li>
+        <li>Datum: Bogotá (local) → Magna-Sirgas (geocéntrico)</li>
+        <li>CTM12: un solo Origen Nacional, y la fórmula simplificada para calcularlo a mano</li>
+        <li>Su territorio para el semestre: la cuenca de La Iguaná</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 11. Validación instalación -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Manos a la obra desde ya</p>
+      <h2 class="slide__title">¿Instalaron QGIS? Ábranlo ahora</h2>
+      <p class="slide__desc">No lo dejen cerrado durante la teoría — lo vamos a necesitar abierto todo el tiempo.</p>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>QGIS abre sin errores en su equipo</li>
+        <li>En <b>Ayuda → Acerca de</b>, la versión empieza con <b>3.44</b> (no 4.x)</li>
+        <li>Tienen conexión a internet disponible (algunas capas base son en línea)</li>
+        <li>Tienen su USB o disco externo listo — nada de depender de OneDrive hoy</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 12. Problemas comunes -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Si algo no funcionó</p>
+      <h2 class="slide__title">Problemas comunes de instalación</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Sin permisos de administrador</h3><p>Avísenme ya — puede tomar días resolverlo con la Universidad si es un equipo institucional.</p></div>
+        <div><h3>Antivirus bloqueó el instalador</h3><p>Falso positivo conocido con instaladores OSGeo4W. Permitan la excepción o descarguen de nuevo desde qgis.org.</p></div>
+        <div><h3>macOS dice "app dañada"</h3><p>Bloqueo estándar de seguridad, no un problema del instalador — Preferencias del Sistema → Privacidad y Seguridad.</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">Si nada de esto resuelve el problema hoy, trabajen en pareja con un compañero mientras lo arreglamos después de clase — no se queden sin hacer la práctica.</p>
+    </div>
+  </section>
+
+  <!-- 13. Pregunta práctica 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">De las lecturas, pregunta 1</p>
+      <h2 class="slide__title">Un escenario, no una definición</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Problema</span>
+        <p>Les voy a compartir por Teams dos capas reales, alrededor del campus EAFIT: <code>vias_eafit_4326.geojson</code> (calles, en EPSG:4326) y <code>predios_eafit_9377.shp</code> (edificios, ya en EPSG:9377 / CTM12). Sin reproyectar ninguna a mano: si las cargan juntas en QGIS, según lo que leyeron sobre reproyección "al vuelo" (<i>on the fly</i>), ¿qué esperan ver en el lienzo?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Solución lectura -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Revisemos juntos</p>
+      <h2 class="slide__title">Solución</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Solución</span>
+        <p>QGIS reproyecta automáticamente todo <b>al CRS del proyecto</b> para dibujarlo: las dos capas van a calzar visualmente en el lienzo, aunque cada una guarde sus coordenadas originales en su propio CRS. La reproyección pasa en pantalla, no en el disco — el archivo original no se altera.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Práctica en vivo: cargar vías y predios -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — comprueben la predicción</p>
+      <h2 class="slide__title">Practiquen ahora: carguen las dos capas</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Carguen <code>vias_eafit_4326.geojson</code> y <code>predios_eafit_9377.shp</code> (<b>Capa → Añadir capa → Añadir capa vectorial…</b>). Confirmen que las calles (Avenida Las Vegas, Carrera 43-50…) y los edificios del campus calzan en el lienzo aunque vengan en CRS distintos. Clic derecho sobre cada capa → Propiedades → Información, para confirmar cuál venía en 4326 y cuál en 9377.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. SECCIÓN: dato vectorial -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 1</p>
+    <h1>¿Qué es un dato vectorial?</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 17. Vector vs raster -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Dos formas de modelar el mundo real</p>
+      <h2 class="slide__title">Vectorial vs. raster</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Vectorial (Módulo 1, ahora)</h3><p>Geometrías discretas — puntos, líneas, polígonos — cada una con sus propios atributos. Para objetos con bordes definidos: una vía, un predio, una cuenca.</p></div>
+        <div><h3>Raster (Módulo 2, más adelante)</h3><p>Una grilla continua de píxeles, como ya vimos con resolución en el Módulo 0. Para fenómenos continuos: elevación, temperatura, una imagen satelital.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Tres tipos de geometría -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La base de todo lo vectorial</p>
+      <h2 class="slide__title">Tres tipos de geometría, y ya los tienen</h2>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;height:auto;display:block">
+  <g font-family="Calibri, Arial, sans-serif">
+    <rect x="10" y="10" width="180" height="180" rx="12" fill="#EAF0FF" stroke="#000066" stroke-width="2"/>
+    <circle cx="100" cy="95" r="9" fill="#000066"/>
+    <text x="100" y="45" font-size="14" fill="#000066" text-anchor="middle" font-weight="800">PUNTO</text>
+    <text x="100" y="150" font-size="11" fill="#242433" text-anchor="middle">una coordenada,</text>
+    <text x="100" y="165" font-size="11" fill="#242433" text-anchor="middle">sin dimensión</text>
+    <text x="100" y="185" font-size="11" fill="#5A5A6E" text-anchor="middle" font-style="italic">ej: nacimiento de la quebrada</text>
+
+    <rect x="210" y="10" width="180" height="180" rx="12" fill="#E9F8F2" stroke="#1f7a5c" stroke-width="2"/>
+    <path d="M245,150 C270,90 320,140 355,70" fill="none" stroke="#1f7a5c" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="245" cy="150" r="5" fill="#1f7a5c"/>
+    <circle cx="355" cy="70" r="5" fill="#1f7a5c"/>
+    <text x="300" y="45" font-size="14" fill="#1f7a5c" text-anchor="middle" font-weight="800">LÍNEA</text>
+    <text x="300" y="185" font-size="11" fill="#5A5A6E" text-anchor="middle" font-style="italic">ej: el cauce de la quebrada</text>
+
+    <rect x="410" y="10" width="180" height="180" rx="12" fill="#FFF1E1" stroke="#8a5a00" stroke-width="2"/>
+    <path d="M450,150 L440,100 L470,65 L530,75 L550,120 L520,155 Z" fill="#FFD8A8" stroke="#8a5a00" stroke-width="2.5"/>
+    <text x="500" y="45" font-size="14" fill="#8a5a00" text-anchor="middle" font-weight="800">POLÍGONO</text>
+    <text x="500" y="185" font-size="11" fill="#5A5A6E" text-anchor="middle" font-style="italic">ej: la cuenca completa</text>
+
+    <text x="300" y="235" font-size="12.5" fill="#242433" text-anchor="middle">Los tres tipos que ya tienen, sin saberlo, en su propio proyecto</text>
+  </g>
+</svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Simple vs. multi- -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Una variación que van a ver seguido</p>
+      <h2 class="slide__title">Cuando una geometría tiene varias partes</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Geometría simple</h3><p>Un polígono = una sola forma cerrada. Ej: un edificio, un lote.</p></div>
+        <div><h3>Geometría "multi-"</h3><p>Varias formas que cuentan como <b>un solo feature</b>, con una sola fila de atributos. Ej: Colombia (continente + San Andrés y Providencia) es un <b>MultiPolígono</b>; un predio con dos lotes separados, también.</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">Los tres tipos (punto, línea, polígono) tienen su versión multi-: MultiPunto, MultiLínea, MultiPolígono. QGIS los trata igual, solo que un feature puede "dibujar" en más de un lugar a la vez.</p>
+    </div>
+  </section>
+
+  <!-- 20. Geometría + atributos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La otra mitad del dato vectorial</p>
+      <h2 class="slide__title">Geometría + atributos = feature</h2>
+      <p class="slide__desc">La geometría dice DÓNDE. Los atributos dicen QUÉ. Van siempre unidos.</p>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 620 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;height:auto;display:block">
+  <g font-family="Calibri, Arial, sans-serif">
+    <rect x="20" y="30" width="220" height="170" rx="10" fill="#EAF0FF" stroke="#000066" stroke-width="2"/>
+    <text x="130" y="20" font-size="13" fill="#000066" text-anchor="middle" font-weight="700">geometría (dónde)</text>
+    <path d="M60,150 L55,100 L90,65 L160,75 L185,120 L150,165 Z" fill="#FFD8A8" stroke="#8a5a00" stroke-width="2.5"/>
+    <text x="120" y="118" font-size="13" fill="#8a5a00" text-anchor="middle" font-weight="800">F1</text>
+
+    <path d="M245,115 L340,115" stroke="#5A5A6E" stroke-width="2" marker-end="url(#arrF)"/>
+    <defs><marker id="arrF" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#5A5A6E"/></marker></defs>
+    <text x="292" y="102" font-size="10.5" fill="#5A5A6E" text-anchor="middle">mismo ID</text>
+
+    <rect x="350" y="30" width="250" height="170" rx="10" fill="#E9F8F2" stroke="#1f7a5c" stroke-width="2"/>
+    <text x="475" y="20" font-size="13" fill="#1f7a5c" text-anchor="middle" font-weight="700">atributos (qué)</text>
+    <rect x="362" y="48" width="226" height="26" fill="#1f7a5c"/>
+    <text x="374" y="65" font-size="10.5" fill="#ffffff" font-weight="700">id</text>
+    <text x="404" y="65" font-size="10.5" fill="#ffffff" font-weight="700">nombre</text>
+    <text x="500" y="65" font-size="10.5" fill="#ffffff" font-weight="700">área_km2</text>
+    <rect x="362" y="74" width="226" height="26" fill="#ffffff"/>
+    <text x="374" y="91" font-size="10.5" fill="#242433" font-weight="700">F1</text>
+    <text x="404" y="91" font-size="10.5" fill="#242433">La Iguaná</text>
+    <text x="500" y="91" font-size="10.5" fill="#242433">46.25</text>
+    <rect x="362" y="100" width="226" height="26" fill="#F4F4F8"/>
+    <text x="374" y="117" font-size="10.5" fill="#B7B7B7" font-weight="700">F2</text>
+    <text x="404" y="117" font-size="10.5" fill="#B7B7B7">…</text>
+    <text x="500" y="117" font-size="10.5" fill="#B7B7B7">…</text>
+
+    <text x="310" y="240" font-size="12.5" fill="#242433" text-anchor="middle">Un "feature" = una geometría + su fila de atributos, unidas por el mismo ID</text>
+  </g>
+</svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Práctica: identifiquen features -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Con su compañero, 3 minutos</p>
+      <h2 class="slide__title">Practiquen: geometría y atributos de su cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad</span>
+        <p>Para la cuenca de La Iguaná, escriban: (1) qué tipo de geometría es (punto, línea o polígono), y (2) tres atributos que tendría su fila en la tabla, además del nombre. No necesitan QGIS abierto para esto — es sobre papel o en el chat.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Precisión heredada -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Recordando la Semana 3</p>
+      <h2 class="slide__title">Un vector también hereda su precisión</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">Con el Mapa B (Belén) vimos que la "piscina olímpica" de OpenStreetMap no medía lo que su nombre sugería — la geometría estaba mal digitalizada para esa escala. Un shapefile o GeoJSON no es más confiable que su fuente: si viene de una imagen 1:100 000, no sirve para decisiones a nivel de predio, sin importar qué tan bien se vea en pantalla.</p>
+    </div>
+  </section>
+
+  <!-- 23. SECCIÓN: CRS en la práctica -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 2</p>
+    <h1>El CRS, ahora en vivo</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 24. CRS de capa vs proyecto -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Dos CRS distintos, no uno</p>
+      <h2 class="slide__title">CRS de capa vs. CRS de proyecto</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>CRS de cada capa</h3><p>El que trae guardado el archivo. No lo eligen ustedes, ya viene así.</p></div>
+        <div><h3>CRS del proyecto</h3><p>El que ustedes fijan, y en el que se dibuja y se mide todo. QGIS reproyecta cada capa al vuelo para que calcen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25. 9377 o 4326 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La pregunta que se van a hacer todo el semestre</p>
+      <h2 class="slide__title">¿EPSG:9377 o EPSG:4326?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>EPSG:9377 — CTM12</h3><p>Metros. Úsenlo cuando vayan a <b>medir</b> distancias, áreas o pendientes sobre datos vectoriales.</p></div>
+        <div><h3>EPSG:4326 — WGS 84</h3><p>Grados. Úsenlo para <b>datos que llegan en lat/lon</b> — como casi cualquier CSV con coordenadas de GPS.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26. Práctica en vivo: fijen su CRS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo, en su propio QGIS</p>
+      <h2 class="slide__title">Practiquen ahora: fijen el CRS a 9377</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Voy a mostrarlo en el proyector, paso a paso: <b>Proyecto → Propiedades → SRC</b>, buscar <code>9377</code>, seleccionar, aceptar. Háganlo en su propio equipo al mismo tiempo. Confirmen que la barra de estado, abajo a la derecha, quedó diciendo <code>EPSG:9377</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27. SECCIÓN: cargar capas -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 3</p>
+    <h1>Cargar capas, de verdad</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 28. Anatomía del shapefile -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El formato vectorial más común</p>
+      <h2 class="slide__title">Un shapefile no es un solo archivo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;height:auto;display:block">
+  <g font-family="Calibri, Arial, sans-serif">
+    <path d="M40,30 L90,30 L110,50 L110,140 L40,140 Z" fill="#EAF0FF" stroke="#000066" stroke-width="2.5"/>
+    <path d="M90,30 L90,50 L110,50 Z" fill="#B9C6E8"/>
+    <text x="75" y="95" font-size="15" fill="#000066" text-anchor="middle" font-weight="800">.shp</text>
+    <text x="75" y="170" font-size="12" fill="#242433" text-anchor="middle" font-weight="700">geometría</text>
+
+    <path d="M180,30 L230,30 L250,50 L250,140 L180,140 Z" fill="#E9F8F2" stroke="#46C69F" stroke-width="2.5"/>
+    <path d="M230,30 L230,50 L250,50 Z" fill="#B7E8D4"/>
+    <text x="215" y="95" font-size="15" fill="#1f7a5c" text-anchor="middle" font-weight="800">.shx</text>
+    <text x="215" y="170" font-size="12" fill="#242433" text-anchor="middle" font-weight="700">índice</text>
+
+    <path d="M320,30 L370,30 L390,50 L390,140 L320,140 Z" fill="#FFF1E1" stroke="#FF8F1B" stroke-width="2.5"/>
+    <path d="M370,30 L370,50 L390,50 Z" fill="#FFD8A8"/>
+    <text x="355" y="95" font-size="15" fill="#8a5a00" text-anchor="middle" font-weight="800">.dbf</text>
+    <text x="355" y="170" font-size="12" fill="#242433" text-anchor="middle" font-weight="700">atributos</text>
+
+    <path d="M460,30 L510,30 L530,50 L530,140 L460,140 Z" fill="#FDE7EA" stroke="#F0142C" stroke-width="2.5"/>
+    <path d="M510,30 L510,50 L530,50 Z" fill="#F6B9C1"/>
+    <text x="495" y="95" font-size="15" fill="#b3001b" text-anchor="middle" font-weight="800">.prj</text>
+    <text x="495" y="170" font-size="12" fill="#242433" text-anchor="middle" font-weight="700">CRS</text>
+
+    <path d="M40,200 L530,200" stroke="#5A5A6E" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <text x="285" y="220" font-size="12.5" fill="#000066" text-anchor="middle" font-weight="700">un "shapefile" completo son mínimo estos 4 archivos juntos</text>
+  </g>
+</svg></div>
+        <p class="figure__caption">Si falta alguno de los cuatro, QGIS puede cargarlo mal o no reconocer su CRS — por eso el Pacto Pedagógico penaliza entregar shapefiles incompletos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 29. Práctica en vivo: tabla de atributos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo, sobre la capa que ya cargaron</p>
+      <h2 class="slide__title">Practiquen ahora: abran la tabla de atributos</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Sobre <code>predios_eafit_9377.shp</code>: 1) clic derecho sobre la capa → <b>Abrir tabla de atributos</b> (o el ícono de tabla en la barra de herramientas). Ordenen por la columna <code>area_m2</code>, de mayor a menor — ¿cuál es el edificio más grande? 2) Cierren la tabla y, con la herramienta <b>Identificar features</b> (el ícono de "i" en un círculo), hagan clic sobre ese mismo edificio en el lienzo: deberían ver la misma fila, ahora desde el mapa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30. GeoJSON -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La alternativa de un solo archivo</p>
+      <h2 class="slide__title">GeoJSON vs. shapefile</h2>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th></th><th>Shapefile</th><th>GeoJSON</th></tr></thead>
+        <tbody>
+          <tr><td>Archivos mínimos</td><td>4 (.shp .shx .dbf .prj)</td><td>1 (.geojson)</td></tr>
+          <tr><td>Se puede perder una parte al compartir</td><td>Sí, con frecuencia</td><td>No — es un solo archivo</td></tr>
+          <tr><td>Cómo se carga en QGIS</td><td>Capa → Añadir capa vectorial…</td><td>Capa → Añadir capa vectorial…</td></tr>
+        </tbody>
+      </table>
+      <p class="slide__desc" style="margin-top:1em">Se cargan exactamente igual — la diferencia está en qué tan fácil es compartirlos sin perder partes.</p>
+    </div>
+  </section>
+
+  <!-- 31. Otros formatos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Además de shapefile y GeoJSON</p>
+      <h2 class="slide__title">Otros formatos que van a encontrar</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>GeoPackage (.gpkg)</h3><p>Un solo archivo, como GeoJSON, pero puede guardar <b>varias capas adentro</b> (incluso raster) y maneja mejor archivos grandes. Cada vez más recomendado en vez de shapefile.</p></div>
+        <div><h3>KML / KMZ</h3><p>El formato de Google Earth — ya lo usaron sin saberlo en la Semana 2, al ubicar puntos ahí. QGIS lo abre igual que cualquier otro vectorial.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 32. Práctica en vivo: exportar a GeoPackage -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo</p>
+      <h2 class="slide__title">Practiquen ahora: exporten a GeoPackage</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Clic derecho sobre <code>predios_eafit_9377.shp</code> → <b>Exportar → Guardar entidades como…</b> En Formato, elijan <b>GeoPackage</b>, y guarden como <code>predios_eafit.gpkg</code>. Carguen ese archivo nuevo (<b>Capa → Añadir capa → Añadir capa vectorial…</b>) y confirmen que se ve igual que el shapefile original — mismo dato, formato distinto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 33. CSV con coordenadas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Para puntos que ustedes calcularon o midieron</p>
+      <h2 class="slide__title">Un CSV también es una capa vectorial</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">Casi todo GPS y dato abierto entrega coordenadas en grados decimales (lat/lon) — por eso, al cargar un CSV, el <b>CRS de las coordenadas de la capa</b> casi siempre es <b>EPSG:4326</b>, sin importar en qué CRS esté el proyecto. QGIS lo reproyecta al vuelo, igual que con cualquier otra capa.</p>
+    </div>
+  </section>
+
+  <!-- 34. Ejemplo resuelto: campus EAFIT en CTM12 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Recordando la fórmula de la Semana 3</p>
+      <h2 class="slide__title">El campus EAFIT, a mano</h2>
+      <p class="slide__desc">Coordenadas aproximadas: 6.2006° N, −75.5779° O</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Ejemplo</span>
+        <div class="calc-box">
+          <div class="calc-step"><div class="n">1</div><div class="expr">Norte ≈ 2 000 000 + (6.2006 − 4) × 111 320 × 0.9992 ≈ 2 244 775 m</div></div>
+          <div class="calc-step"><div class="n">2</div><div class="expr">Este ≈ 5 000 000 + (−75.5779 + 73) × 111 320 × cos(6.2006°) × 0.9992 ≈ 4 714 935 m</div></div>
+        </div>
+        <div class="calc-answer">Este ≈ 4 714 935 m · Norte ≈ 2 244 775 m</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 35. Práctica en vivo: cerrar el ciclo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — el ejercicio central de hoy</p>
+      <h2 class="slide__title">Practiquen ahora: cierren el ciclo</h2>
+      <p class="slide__desc">Paso 1: preparen un CSV (o una hoja de Excel guardada como CSV) con esta estructura exacta.</p>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead><tr><th>nombre</th><th>lon</th><th>lat</th></tr></thead>
+        <tbody>
+          <tr><td>Campus EAFIT</td><td>-75.5779</td><td>6.2006</td></tr>
+        </tbody>
+      </table>
+      <div class="example-box example-box--problem" style="margin-top:1em">
+        <span class="tag">Actividad en vivo</span>
+        <p>2) <b>Capa → Añadir capa → Añadir capa de texto delimitado…</b>, marquen geometría de punto, Campo X=lon, Campo Y=lat, CRS de la capa = EPSG:4326. 3) Con el mouse sobre el punto, lean el Este/Norte en la barra de estado. ¿Qué tan cerca quedó del cálculo a mano de la diapositiva anterior?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 36. Solución -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Qué deberían ver</p>
+      <h2 class="slide__title">Solución: cerrando el ciclo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Si quedó cerca</h3><p>A menos de ~1 km del valor a mano: la diferencia es la aproximación esférica de la fórmula simplificada — QGIS usa el elipsoide completo.</p></div>
+        <div><h3>Si quedó muy lejos</h3><p>Revisen primero el signo de la longitud y que el CRS de la capa (al cargar el CSV) haya quedado en EPSG:4326, no en 9377.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 37. Intro: primer vistazo a digitalizar -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de guardar y cerrar</p>
+      <h2 class="slide__title">Un primer vistazo a digitalizar</h2>
+      <p class="slide__desc">Todavía no digitalizan en serio — eso es la Semana 5. Hoy solo trazan a ojo, para practicar el flujo de crear una capa y guardarla.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Por qué ahora</h3><p>Practican crear una capa nueva, activar edición y guardar — el flujo que van a repetir en toda la digitalización del Módulo 1.</p></div>
+        <div><h3>Lo que viene</h3><p>Más adelante van a delinear la cuenca de verdad, con un DEM y herramientas de hidrología. Hoy comparan su ojo contra esa versión real.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 38. Mecánica mínima de digitalización -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de la actividad, en vivo</p>
+      <h2 class="slide__title">Crear una capa y digitalizar: lo mínimo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Capa → Crear capa → Nueva capa Shapefile</h3><p>Elijan el tipo de geometría (punto o polígono) y CRS EPSG:4326.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Alternar edición</h3><p>El ícono del lápiz, en la barra de digitalización. Sin esto activo, no pueden dibujar.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Añadir entidad → Guardar cambios</h3><p>Clic (o clics) para cada vértice, doble clic para cerrar un polígono. El ícono del disquete guarda lo digitalizado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 39. Práctica en vivo: punto de cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — busquen antes de dibujar</p>
+      <h2 class="slide__title">Practiquen ahora: encuentren y digitalicen el cierre</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Busquen en el visor (Google Maps/Earth o el mapa base de QGIS) dónde la Quebrada La Iguaná desemboca en el Río Medellín, cerca de la Plaza Minorista. Creen una capa nueva de <b>puntos</b> y digitalicen ahí su mejor estimación del <b>punto de cierre</b> (<i>pour point</i>) de la cuenca. Guarden la capa como <code>cierre_iguana.shp</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 40. Práctica en vivo: polígono aproximado -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — a ojo, sin miedo a equivocarse</p>
+      <h2 class="slide__title">Practiquen ahora: aproximen el polígono de la cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Sobre el mismo mapa base, creen una capa nueva de <b>polígonos</b> y tracen, a ojo, el contorno aproximado de la cuenca de La Iguaná — guíense por el relieve que ya vieron en las imágenes de la Semana 3. No busquen precisión, es una primera aproximación. Guarden la capa como <code>cuenca_aprox.shp</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 41. Bridge: la cuenca de verdad -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Lo que sigue</p>
+      <h2 class="slide__title">Más adelante: la cuenca de verdad</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">En un módulo próximo van a descargar un DEM y delinear la cuenca con herramientas de hidrología (relleno de sumideros, dirección y acumulación de flujo) — el mismo punto de cierre que acaban de ubicar va a ser el punto de salida. Ahí comparan su polígono a ojo contra el resultado real (≈46.25 km² de referencia). Guarden bien estos dos archivos — los vamos a necesitar.</p>
+    </div>
+  </section>
+
+  <!-- 42. Guardar el proyecto -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de que se acabe la clase</p>
+      <h2 class="slide__title">Guardar el proyecto</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Proyecto → Guardar como…</h3><p>Genera un <code>.qgz</code>: guarda <i>referencias</i> a dónde están sus capas, no las capas mismas.</p></div>
+        <div><h3>Mantengan la carpeta</h3><p>Si mueven los archivos de datos después, el proyecto los pierde. Guarden todo junto en su USB/disco — nada en OneDrive (Pacto Pedagógico).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 43. Checklist de cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de cerrar el computador</p>
+      <h2 class="slide__title">Checklist de hoy</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Configuré el CRS del proyecto a EPSG:9377</li>
+        <li>Cargué al menos una capa vectorial (shapefile o GeoJSON)</li>
+        <li>Cargué el punto del campus desde un CSV y comparé contra el cálculo manual</li>
+        <li>Digitalicé cierre_iguana.shp y cuenca_aprox.shp, a ojo</li>
+        <li>Guardé el proyecto como .qgz en mi USB/disco externo</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 44. Quiz rápido -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Quiz rápido, en voz alta</p>
+      <h2 class="slide__title">¿Capa o proyecto?</h2>
+      <p class="slide__desc">Para cada situación, digan si el CRS que importa es el de la capa o el del proyecto.</p>
+    </div>
+    <div class="slide__body">
+      <div class="quiz-row">
+        <div class="quiz-opt"><div class="letter">A</div><div class="txt">Van a medir el área de un polígono en metros cuadrados.</div></div>
+        <div class="quiz-opt"><div class="letter">B</div><div class="txt">Un shapefile no se dibuja donde debería sobre el mapa base.</div></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em"><span class="emph">A = CRS del proyecto</span> (tiene que estar en un sistema de metros, como 9377) · <span class="emph">B = CRS de la capa</span> (probablemente su .prj está mal o falta).</p>
+    </div>
+  </section>
+
+  <!-- 45. Cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre</p>
+      <h2 class="slide__title">Para la próxima clase</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Semana 5: Módulo 1</h3><p>Geometrías, topología y reglas de digitalización vectorial avanzada.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Si no terminaron</h3><p>Completen la guía G04 por su cuenta antes de la Semana 5 — todo el checklist de hoy.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Taller de repaso previo a Q2</h3><p>Consulten TALLER_REPASO_Q2.md para repasar CRS, geometrías y atributos sobre sus propios archivos de hoy.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Guarden bien sus capas</h3><p>predios_eafit_9377.shp y vias_eafit_4326.geojson las van a seguir usando.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

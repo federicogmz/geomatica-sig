@@ -1,0 +1,39 @@
+# ==============================================================================
+# 1. Datos Personales, Listados, Solucionarios Docentes y Bitácora Interna
+# ==============================================================================
+Estudiantes_SIG.xlsx
+*.xlsx
+notas.log
+*.log
+REPORTE_SUPLETORIO_P1.md
+*FORENSIC*
+*forensic*
+grupo*_I1.zip
+grupo*_IF.zip
+01_programa/LECCIONES_APRENDIDAS_CURSO.md
+**/solucion_oficial_*/
+**/*Solucion_Docente*
+02_clases/S11_gnss_gabinete/Q4_auditoria_integridad_presentacion*
+02_clases/S11_gnss_gabinete/assets_q4/
+
+# ==============================================================================
+# 2. Respaldos Locales Históricos
+# ==============================================================================
+_archivo/
+
+# ==============================================================================
+# 3. Dependencias y Artefactos Compilados de GeoLab WebGIS (Vite / Node.js)
+# ==============================================================================
+webapp/node_modules/
+webapp/dist/
+node_modules/
+
+# ==============================================================================
+# 4. Archivos Temporales de Sistema Operativo, Office, Entorno y Python
+# ==============================================================================
+.DS_Store
+~$*
+*.pyc
+__pycache__/
+.env
+.env.*

@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 5</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Geometrías, topología y digitalización avanzada</h1>
+    <p class="sub">Semana 5 · Módulo 1: SIG vectorial con QGIS</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 5 · traigan su computador y sus archivos de la Semana 4</p>
+      <h2 class="slide__title">Lo que haremos hoy</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>CRS y reproyección</h3><p>Asignar CRS vs. reproyectar de verdad — no es lo mismo</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Simbología graduada</h3><p>Una escala de color según un número, no un solo símbolo para todos</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Geometrías</h3><p>Vértices, segmentos, anillos y huecos — de qué está hecho un polígono</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Topología</h3><p>Gaps, overlaps y dangles: los tres errores que van a perseguir todo el semestre</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Snapping y edición</h3><p>Corrigen su propia cuenca_aprox.shp de la semana pasada</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Repaso -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de seguir</p>
+      <h2 class="slide__title">¿Qué vimos la semana pasada?</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>CRS de capa vs. CRS de proyecto, y reproyección "al vuelo"</li>
+        <li>Geometría + atributos = feature; simple vs. Multi-</li>
+        <li>Shapefile, GeoJSON, GeoPackage y KML — cuándo usar cada uno</li>
+        <li>Simbología básica y tabla de atributos</li>
+        <li>Calculadora de campos: lat/lon, y con el punto reproyectado, Este/Norte</li>
+        <li>Guardar el proyecto (.qgz) correctamente</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Abran su proyecto -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Manos a la obra desde ya</p>
+      <h2 class="slide__title">Abran su proyecto de la Semana 4</h2>
+      <p class="slide__desc">Hoy empezamos digitalizando algo nuevo — ábranlo antes de que empecemos.</p>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Tienen su proyecto .qgz de la Semana 4, con las capas cargando bien</li>
+        <li>Confirmen que el CRS del proyecto sigue en EPSG:9377</li>
+        <li>Van a crear dos capas nuevas hoy — así que tengan a mano dónde guardarlas (USB/disco)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. Intro: primer vistazo a digitalizar -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de geometrías y topología</p>
+      <h2 class="slide__title">Un primer vistazo a digitalizar</h2>
+      <p class="slide__desc">Todavía no digitalizan en serio — eso viene hoy mismo, más adelante. Primero, dos capas rápidas a ojo, para practicar el flujo de crear una capa y guardarla.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Por qué ahora</h3><p>Practican crear una capa nueva, activar edición y guardar — el flujo que van a repetir en toda la digitalización del Módulo 1.</p></div>
+        <div><h3>Lo que viene</h3><p>Más adelante van a delinear la cuenca de verdad, con un DEM y herramientas de hidrología. Hoy comparan su ojo contra esa versión real.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Mecánica mínima de digitalización -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de la actividad, en vivo</p>
+      <h2 class="slide__title">Crear una capa y digitalizar: lo mínimo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Capa → Crear capa → Nueva capa Shapefile</h3><p>Elijan el tipo de geometría (punto o polígono) y CRS EPSG:4326.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Alternar edición</h3><p>El ícono del lápiz, en la barra de digitalización. Sin esto activo, no pueden dibujar.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Añadir entidad → Guardar cambios</h3><p>Clic (o clics) para cada vértice, doble clic para cerrar un polígono. El ícono del disquete guarda lo digitalizado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Práctica en vivo: punto de cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — busquen antes de dibujar</p>
+      <h2 class="slide__title">Practiquen ahora: encuentren y digitalicen el cierre</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Busquen en el visor (Google Maps/Earth o el mapa base de QGIS) dónde la Quebrada La Iguaná desemboca en el Río Medellín, cerca de la Plaza Minorista. Creen una capa nueva de <b>puntos</b> y digitalicen ahí su mejor estimación del <b>punto de cierre</b> (<i>pour point</i>) de la cuenca. Guarden la capa como <code>cierre_iguana.shp</code>. Con la calculadora de campos, agréguenle dos columnas: <code>este</code> y <code>norte</code>, en EPSG:9377 — el mismo cálculo que ya practicaron.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Práctica en vivo: polígono aproximado -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — a ojo, sin miedo a equivocarse</p>
+      <h2 class="slide__title">Practiquen ahora: aproximen el polígono de la cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Sobre el mismo mapa base, creen una capa nueva de <b>polígonos</b> y tracen, a ojo, el contorno aproximado de la cuenca de La Iguaná — guíense por el relieve que ya vieron en las imágenes de la Semana 3. No busquen precisión, es una primera aproximación. Guarden la capa como <code>cuenca_aprox.shp</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Bridge: la cuenca de verdad -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Lo que sigue</p>
+      <h2 class="slide__title">Más adelante: la cuenca de verdad</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">En un módulo próximo van a descargar un DEM y delinear la cuenca con herramientas de hidrología (relleno de sumideros, dirección y acumulación de flujo) — el mismo punto de cierre que acaban de ubicar va a ser el punto de salida. Ahí comparan su polígono a ojo contra el resultado real (≈46.25 km² de referencia). Guarden bien estos dos archivos — el resto de la clase de hoy trabaja directamente sobre ellos.</p>
+    </div>
+  </section>
+
+  <!-- 10. SECCIÓN: CRS y reproyección real -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 1</p>
+    <h1>CRS y reproyección, de verdad</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 11. Asignar CRS vs reproyectar -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">No es lo mismo</p>
+      <h2 class="slide__title">Asignar CRS vs. reproyectar</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Asignar CRS</h3><p>Declarar en qué sistema están las coordenadas que ya tiene el archivo, <b>sin tocarlas</b>. Se usa cuando el dato llega sin CRS definido — como el shapefile sin <code>.prj</code> que ya conocen.</p></div>
+        <div><h3>Reproyectar</h3><p>Transformar las coordenadas <b>de verdad</b>, de un sistema a otro. Los números cambian; al asignar CRS, no.</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em">Confundir las dos es el error más común de CRS en SIG — y se nota enseguida: si reproyectan sin haber asignado primero el CRS correcto, el resultado cae a miles de kilómetros de donde debería.</p>
+    </div>
+  </section>
+
+  <!-- 12. Cómo asignar CRS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cuando falta el CRS de una capa</p>
+      <h2 class="slide__title">Cómo asignar CRS a una capa</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Clic derecho sobre la capa</h3><p>CRS → Asignar Sistema de Referencia de Coordenadas de Capa…</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Busquen el código correcto</h3><p>9377, 4326, el que corresponda según de dónde vino el dato.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Confirmen</h3><p>Las coordenadas no cambiaron — solo la etiqueta de en qué sistema están.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Cómo reproyectar de verdad -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cuando de verdad necesitan cambiar de sistema</p>
+      <h2 class="slide__title">Cómo reproyectar de verdad</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Clic derecho sobre la capa</h3><p>Exportar → Guardar entidades como…</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Elijan el CRS destino</h3><p>Distinto al CRS actual de la capa — ahí está la diferencia con "asignar".</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Revisen el archivo exportado</h3><p>Esta vez las coordenadas sí cambiaron.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Práctica en vivo: asignar y reproyectar -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo, sobre su propio archivo</p>
+      <h2 class="slide__title">Practiquen ahora: las dos operaciones, en orden</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Tomen <code>predios_eafit_9377.shp</code> (Semana 4). Hagan una copia, quítenle el CRS (para simular el problema) y asígnenselo de nuevo (EPSG:9377) — confirmen que las coordenadas no cambiaron. Después, exporten esa misma capa reproyectada de verdad a EPSG:4326. Comparen los dos resultados: ¿en cuál de los dos pasos cambiaron los números?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. SECCIÓN: simbología graduada -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 2</p>
+    <h1>Simbología graduada</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 16. Más allá del símbolo único -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ya vieron símbolo único, en la Semana 4-5</p>
+      <h2 class="slide__title">Una escala de color según un número</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Cuándo usarla</h3><p>Para mostrar una magnitud — área, población, elevación — con más intensidad de color donde el valor es más alto.</p></div>
+        <div><h3>Cómo se ve</h3><p>Varios "rangos" de valores, cada uno con su propio tono dentro de una misma rampa de color — no un solo color para toda la capa.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Cómo aplicar simbología graduada -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de la actividad, en vivo</p>
+      <h2 class="slide__title">Aplicar simbología graduada: lo mínimo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Propiedades → Simbología</h3><p>Cambiar de "Símbolo único" a "Graduado".</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Elijan el campo y las clases</h3><p>Un campo numérico (ej. area_m2) y cuántos rangos quieren.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Elijan una rampa de color</h3><p>Y acepten — el mapa se redibuja con la escala aplicada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Práctica en vivo: simbología graduada -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo</p>
+      <h2 class="slide__title">Practiquen ahora: apliquen simbología graduada</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Sobre <code>predios_eafit_9377.shp</code>, apliquen simbología graduada según <code>area_m2</code>, con al menos 3 clases. Prueben cambiar la cantidad de clases y la rampa de color — ¿en qué punto el mapa deja de ayudar a entender la información y empieza a verse solo "bonito"?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. SECCIÓN: geometrías en detalle -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 3</p>
+    <h1>Geometrías, en detalle</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 20. Vértices, segmentos y anillos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">De qué está hecho un polígono</p>
+      <h2 class="slide__title">Vértices, segmentos y anillos</h2>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+  <g font-family="Calibri, Arial, sans-serif">
+    <rect x="20" y="20" width="260" height="240" rx="10" fill="#EAF0FF" stroke="#000066" stroke-width="2"/>
+    <text x="150" y="12" font-size="13" fill="#000066" text-anchor="middle" font-weight="700">anillo exterior (el contorno)</text>
+    <path d="M60,220 L55,120 L110,70 L200,80 L230,150 L190,230 Z" fill="#B9C6E8" fill-opacity="0.5" stroke="#000066" stroke-width="3"/>
+    <circle cx="60" cy="220" r="5" fill="#F0142C"/>
+    <circle cx="55" cy="120" r="5" fill="#F0142C"/>
+    <circle cx="110" cy="70" r="5" fill="#F0142C"/>
+    <circle cx="200" cy="80" r="5" fill="#F0142C"/>
+    <circle cx="230" cy="150" r="5" fill="#F0142C"/>
+    <circle cx="190" cy="230" r="5" fill="#F0142C"/>
+    <text x="235" y="145" font-size="11" fill="#F0142C" font-weight="700">vértice</text>
+    <line x1="110" y1="70" x2="200" y2="80" stroke="#46C69F" stroke-width="4"/>
+    <text x="130" y="60" font-size="11" fill="#1f7a5c" font-weight="700">segmento</text>
+
+    <rect x="320" y="20" width="260" height="240" rx="10" fill="#E9F8F2" stroke="#1f7a5c" stroke-width="2"/>
+    <text x="450" y="12" font-size="13" fill="#1f7a5c" text-anchor="middle" font-weight="700">con un anillo interior (hueco)</text>
+    <path d="M360,220 L355,120 L410,70 L500,80 L530,150 L490,230 Z" fill="#B7E8D4" fill-opacity="0.6" stroke="#1f7a5c" stroke-width="3"/>
+    <path d="M440,110 L470,110 L475,150 L445,165 L420,140 Z" fill="#ffffff" stroke="#8a5a00" stroke-width="2.5"/>
+    <text x="450" y="145" font-size="10.5" fill="#8a5a00" text-anchor="middle" font-weight="700">hueco</text>
+  </g>
+</svg></div>
+        <p class="figure__caption">Un polígono es una secuencia cerrada de vértices unidos por segmentos — y puede tener anillos interiores (huecos) además del anillo exterior.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Polígonos con huecos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El anillo interior, con ejemplos</p>
+      <h2 class="slide__title">¿Cuándo un polígono tiene un hueco de verdad?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Ejemplo real</h3><p>Un polígono de cobertura boscosa con una laguna adentro que no cuenta como bosque, o un barrio con un parque que se excluye del polígono de manzanas.</p></div>
+        <div><h3>No es lo mismo que "varias partes"</h3><p>Un hueco es un vacío <b>dentro</b> de un mismo polígono. Un MultiPolígono (Semana 4) son varias formas separadas — cosas distintas, aunque ambas se ven "raras" a primera vista.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Práctica: diagnostiquen su polígono -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo, sobre su propio archivo</p>
+      <h2 class="slide__title">Practiquen ahora: revisen su cuenca_aprox.shp</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Carguen <code>cuenca_aprox.shp</code> (la que digitalizaron a ojo la semana pasada) y acérquense con zoom a cada vértice del contorno. ¿El último vértice quedó exactamente sobre el primero, o dejó un pico abierto? ¿Algún segmento se cruza a sí mismo? Anoten lo que encuentren — lo vamos a corregir hoy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. SECCIÓN: topología -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 4</p>
+    <h1>Topología</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 24. Qué es topología -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">No es solo la forma — es cómo se relacionan</p>
+      <h2 class="slide__title">¿Qué es topología?</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">Las relaciones espaciales entre features vecinos: si dos polígonos comparten un borde, ese borde debería ser <b>exactamente</b> el mismo segmento para ambos — no dos líneas casi iguales, dibujadas por separado. Cuando esa relación se rompe, aparecen errores que no se ven a simple vista pero sí en los cálculos.</p>
+    </div>
+  </section>
+
+  <!-- 25. Tres errores clásicos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Los que van a perseguir todo el semestre</p>
+      <h2 class="slide__title">Tres errores clásicos de topología</h2>
+    </div>
+    <div class="slide__body">
+      <div class="figure">
+        <div class="figure__frame"><svg viewBox="0 0 620 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;height:auto;display:block">
+  <g font-family="Calibri, Arial, sans-serif">
+    <rect x="10" y="10" width="190" height="200" rx="10" fill="#FDE7EA" stroke="#F0142C" stroke-width="2"/>
+    <text x="105" y="30" font-size="13" fill="#b3001b" text-anchor="middle" font-weight="800">GAP</text>
+    <path d="M30,150 L30,80 L85,60 L90,150 Z" fill="#EAF0FF" stroke="#000066" stroke-width="2.5"/>
+    <path d="M100,150 L100,60 L170,80 L170,150 Z" fill="#EAF0FF" stroke="#000066" stroke-width="2.5"/>
+    <line x1="92" y1="70" x2="98" y2="140" stroke="#F0142C" stroke-width="2.5" stroke-dasharray="3 3"/>
+    <text x="105" y="185" font-size="10.5" fill="#242433" text-anchor="middle">queda un vacío entre</text>
+    <text x="105" y="198" font-size="10.5" fill="#242433" text-anchor="middle">dos polígonos vecinos</text>
+
+    <rect x="215" y="10" width="190" height="200" rx="10" fill="#FDE7EA" stroke="#F0142C" stroke-width="2"/>
+    <text x="310" y="30" font-size="13" fill="#b3001b" text-anchor="middle" font-weight="800">OVERLAP</text>
+    <path d="M235,150 L235,70 L300,60 L300,150 Z" fill="#EAF0FF" fill-opacity="0.85" stroke="#000066" stroke-width="2.5"/>
+    <path d="M280,150 L280,60 L360,75 L360,150 Z" fill="#B9C6E8" fill-opacity="0.65" stroke="#1C5FE0" stroke-width="2.5"/>
+    <text x="310" y="185" font-size="10.5" fill="#242433" text-anchor="middle">se superponen —</text>
+    <text x="310" y="198" font-size="10.5" fill="#242433" text-anchor="middle">el área se cuenta doble</text>
+
+    <rect x="420" y="10" width="190" height="200" rx="10" fill="#FDE7EA" stroke="#F0142C" stroke-width="2"/>
+    <text x="515" y="30" font-size="13" fill="#b3001b" text-anchor="middle" font-weight="800">DANGLE</text>
+    <line x1="450" y1="140" x2="510" y2="90" stroke="#000066" stroke-width="3.5"/>
+    <line x1="510" y1="90" x2="580" y2="130" stroke="#000066" stroke-width="3.5"/>
+    <line x1="510" y1="90" x2="530" y2="160" stroke="#000066" stroke-width="3.5"/>
+    <circle cx="530" cy="160" r="6" fill="#F0142C"/>
+    <text x="515" y="185" font-size="10.5" fill="#242433" text-anchor="middle">una línea no llega a</text>
+    <text x="515" y="198" font-size="10.5" fill="#242433" text-anchor="middle">conectar con la otra</text>
+  </g>
+</svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 26. Por qué importa -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">No es perfeccionismo</p>
+      <h2 class="slide__title">Por qué esto importa para su proyecto</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Gap u overlap</h3><p>Si digitalizan la cuenca y los barrios vecinos por separado, sin cuidado, un análisis de "área total cubierta" no va a sumar correctamente — sobra o falta área.</p></div>
+        <div><h3>Dangle</h3><p>Una vía que debería conectar con otra en una intersección, pero el vértice final quedó a unos centímetros — rompe cualquier análisis de red vial (rutas, conectividad).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27. Práctica: busquen un error -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo</p>
+      <h2 class="slide__title">Practiquen ahora: cacen un error real</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Carguen <code>cuenca_aprox.shp</code> junto con <code>vias_eafit_4326.geojson</code> de la Semana 4. Con zoom alto, busquen: ¿hay algún dangle donde dos calles deberían cruzarse? ¿El contorno de su cuenca se superpone con algún edificio de <code>predios_eafit_9377.shp</code>? Nombren en voz alta lo que encuentren.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 28. SECCIÓN: snapping -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Sección 5</p>
+    <h1>Snapping y edición avanzada</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 29. Qué es el snapping -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La herramienta que evita los tres errores anteriores</p>
+      <h2 class="slide__title">¿Qué es el snapping?</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">Cuando está activo, QGIS "engancha" el vértice que están dibujando al vértice o segmento más cercano que ya existe — en vez de dejarlo flotando a un par de píxeles de distancia. Es la diferencia entre cerrar un polígono exactamente y dejarlo con un pico invisible a simple vista.</p>
+    </div>
+  </section>
+
+  <!-- 30. Activar snapping -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de la actividad, en vivo</p>
+      <h2 class="slide__title">Activar snapping: lo mínimo</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card"><div class="num" style="color:var(--sky)">1</div><h3>Ícono del imán</h3><p>En la barra de digitalización — actívenlo antes de editar.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--teal)">2</div><h3>Configurar tolerancia</h3><p>Menú desplegable junto al imán: en píxeles (más simple) o en unidades de mapa.</p></div>
+        <div class="step-card"><div class="num" style="color:var(--orange)">3</div><h3>Edición topológica</h3><p>Otro ícono junto al imán — si lo activan, mover un vértice compartido actualiza ambos polígonos a la vez.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 31. Edición topológica -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Por qué importa el paso 3</p>
+      <h2 class="slide__title">Un vértice compartido, dos polígonos</h2>
+    </div>
+    <div class="slide__body">
+      <p class="slide__desc">Sin edición topológica activa, mover el borde entre la cuenca y un barrio vecino solo mueve <b>una</b> de las dos capas — y crean un gap o un overlap sin darse cuenta. Con edición topológica activa, QGIS mueve el vértice en ambas geometrías al mismo tiempo, porque reconoce que es el mismo punto compartido.</p>
+    </div>
+  </section>
+
+  <!-- 32. Práctica en vivo: cierren su polígono -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo — corrigiendo lo de la semana pasada</p>
+      <h2 class="slide__title">Practiquen ahora: cierren bien su cuenca_aprox.shp</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>Activen snapping. Entren en modo edición sobre <code>cuenca_aprox.shp</code> y, con la herramienta <b>Mover vértice</b>, arrastren el último vértice hasta que "enganche" exactamente sobre el primero (van a ver un resaltado cuando esté encajando). Guarden cambios. Confirmen con zoom alto que ya no queda ningún pico abierto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 33. Herramientas de edición -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Más allá de "añadir entidad"</p>
+      <h2 class="slide__title">Herramientas de edición que van a usar seguido</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Mover vértice</h3><p>Arrastra un punto existente sin borrar la geometría.</p></div>
+        <div><h3>Añadir / eliminar vértice</h3><p>Agrega precisión a un tramo recto, o simplifica uno con demasiados puntos.</p></div>
+        <div><h3>Dividir entidades</h3><p>Corta un polígono o línea en dos, por ejemplo si una vía cambia de nombre a mitad de cuadra.</p></div>
+        <div><h3>Fusionar entidades</h3><p>Une dos features en uno solo — útil si digitalizaron un polígono en dos partes por error.</p></div>
+        <div><h3>Reformar (reshape)</h3><p>Redibuja solo un tramo del borde, sin tocar el resto del polígono.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 34. Práctica en vivo: mover vértice -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Todos al tiempo</p>
+      <h2 class="slide__title">Practiquen ahora: ajusten un tramo torcido</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo</span>
+        <p>En <code>cuenca_aprox.shp</code>, busquen un tramo del contorno que a simple vista se ve poco realista (una línea muy recta donde debería seguir una montaña, por ejemplo). Con <b>Añadir vértice</b> agreguen uno o dos puntos nuevos ahí, y con <b>Mover vértice</b> ajústenlos para que sigan mejor el relieve real. Guarden cambios.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 35. Checklist de cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de cerrar el computador</p>
+      <h2 class="slide__title">Checklist de hoy</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>Identifiqué al menos un problema de topología en mis propias capas</li>
+        <li>Activé snapping y edición topológica antes de corregir</li>
+        <li>Cerré bien el contorno de cuenca_aprox.shp (sin picos abiertos)</li>
+        <li>Practiqué mover, añadir y eliminar vértices</li>
+        <li>Guardé los cambios y el proyecto .qgz en mi USB/disco externo</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 36. Quiz rápido -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Quiz rápido, en voz alta</p>
+      <h2 class="slide__title">¿Gap, overlap o dangle?</h2>
+      <p class="slide__desc">Para cada situación, digan cuál de los tres errores es.</p>
+    </div>
+    <div class="slide__body">
+      <div class="quiz-row">
+        <div class="quiz-opt"><div class="letter">A</div><div class="txt">Dos polígonos de barrios vecinos, digitalizados por separado, dejan una franja de terreno que no pertenece a ninguno.</div></div>
+        <div class="quiz-opt"><div class="letter">B</div><div class="txt">Una calle digitalizada se detiene a 3 metros de la intersección con otra.</div></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1em"><span class="emph">A = Gap</span> (queda un vacío entre los dos) · <span class="emph">B = Dangle</span> (la línea no llega a conectar).</p>
+    </div>
+  </section>
+
+  <!-- 37. Cierre -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre</p>
+      <h2 class="slide__title">Para la próxima clase</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Semana 6: Módulo 1</h3><p>Atributos en profundidad, simbología categorizada/graduada, etiquetado.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Quiz 2: tipo taller</h3><p>80 minutos, individual, en QGIS — problemas reales, no un recetario. Cierra la Semana 6.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>El quiz pesa sobre todo lo básico</h3><p>CRS, formatos, geometrías y atributos — lo de topología entra poco, apenas como diagnóstico.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Guarden bien sus capas</h3><p>cuenca_aprox.shp corregida y cierre_iguana.shp las van a seguir usando.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

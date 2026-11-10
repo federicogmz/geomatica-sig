@@ -1,0 +1,7 @@
+id,vertice,nombre,tipo,entorno,este_ctm12,norte_ctm12,cota_msnm,lat_wgs84,lon_wgs84,origen
+1,IGU-01,Placa Puente Calle 65 (Sector El Pesebre),Placa geodesica,Cielo abierto,4713734.68,2251023.19,1528.40,6.265420,-75.588120,Red Geodesica Oficial IGAC / AMVA (EPSG:9377)
+2,IGU-02,Mojon Explanada Facultad de Minas (Mirador Sur),Placa geodesica,Cielo abierto,4713477.23,2251111.84,1541.20,6.266210,-75.590450,Red Geodesica Oficial IGAC / AMVA (EPSG:9377)
+3,IGU-03,Muro de Contencion Viaducto Metro (Sector Blanquizal),Estructura hidraulica,Canon urbano / Viaducto,4713178.92,2251220.61,1554.60,6.267180,-75.593150,Red Geodesica Oficial IGAC / AMVA (EPSG:9377)
+4,IGU-04,Estribo Pasarela Peatonal La Iguana (Dosel Ripario),Puente peatonal,Dosel arboreo,4712852.88,2251318.46,1568.90,6.268050,-75.596100,Red Geodesica Oficial IGAC / AMVA (EPSG:9377)
+5,IGU-05,Callejon Torres de San German (Canon Urbano Estrecho),Esquina de edificio,Canon urbano,4712548.97,2251412.88,1582.30,6.268890,-75.598850,Red Geodesica Oficial IGAC / AMVA (EPSG:9377)
+6,IGU-06,Placa Confluencia Quebrada La Gomez (Terraza Aluvial),Placa geodesica,Cielo abierto,4712245.06,2251508.41,1596.00,6.269740,-75.601600,Red Geodesica Oficial IGAC / AMVA (EPSG:9377)

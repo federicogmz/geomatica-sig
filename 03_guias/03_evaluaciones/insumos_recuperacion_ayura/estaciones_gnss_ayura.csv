@@ -1,0 +1,21 @@
+id_est,nombre,lon,lat,alt_m,hdop,pdop,satelites,observacion
+AYU-01,Desembocadura Ayurá - Estación Metro Ayurá,-75.5832212,6.1880259,1516.6,0.9,1.6,11,Cielo despejado - Control Red Baja Río Medellín
+AYU-02,Puente Avenida Las Vegas - Barrio Las Vegas,-75.5825081,6.1807063,1539.4,1.1,1.9,10,Recepción óptima en separador vial
+AYU-03,Mojón Barrio Alcalá - Carrera 43A,-75.5813000,6.1737507,1560.3,0.8,1.5,12,Placa geodésica control ribereño urbano
+AYU-04,Parque Principal Marceliano Vélez - Barrio Mesa,-75.5800135,6.1692365,1573.1,1.2,2.1,10,Buena geometría satelital en plazoleta
+AYU-05,Confluencia Quebrada La Sebastiana,-75.5805450,6.1670641,1584.8,1.4,2.3,9,Punto de control hidráulico confluencia urbana
+AYU-06,Parque Lineal Ambiental La Heliodora,-75.5859390,6.1617039,1613.7,1.0,1.8,11,Terraza abierta en corredor ecológico
+AYU-07,Sector Loma del Barro - El Trianón,-75.5745762,6.1656465,1634.1,1.3,2.2,9,Control topográfico subcuenca La Sebastiana
+AYU-08,Barrio San Rafael - Quebrada La Mina,-75.5880338,6.1465955,1856.4,1.5,2.5,9,Lectura estable en ladera media occidental
+AYU-09,Bocatoma Ayurá - Tramo Medio Catedral,-75.5807334,6.1499760,1731.0,0.9,1.7,11,Claro despejado junto a estructura de captación
+AYU-10,Confluencia Quebrada La Miel - Entrada El Salado,-75.5805939,6.1397605,1843.4,1.6,2.7,8,Control hidrológico unión Ayurá - La Miel
+AYU-11,Parque Ecológico El Salado - Plazoleta Central,-75.5764870,6.1310106,1960.0,1.2,2.0,10,Plazoleta abierta de ecoturismo rural
+AYU-12,Vereda El Vallano - Sector Escuela Rural,-75.5656955,6.1410075,1987.3,1.7,2.8,8,Geometría aceptable en vertiente media
+AYU-13,Divisoria Sur Reserva La Miel,-75.5727874,6.1129465,2667.2,1.1,1.9,10,Cuchilla divisoria alta sin obstáculos
+AYU-14,Escarpe Oriental Vereda El Vallano - Cabecera Ayurá,-75.5548433,6.1383471,2226.4,0.8,1.4,12,Vértice geodésico de cabecera en escarpe
+AYU-15,Bajo Puente Autopista Sur - Desembocadura,-75.5834409,6.1867591,1522.9,3.8,6.2,5,DEGRADADO: Rebote multipath bajo tablero de concreto
+AYU-16,Callejón Urbano Barrio Obrero,-75.5808313,6.1702270,1570.2,4.6,7.5,4,DEGRADADO: Cañón urbano estrecho con bloqueo de horizonte
+AYU-17,Bosque Galería Cerrado Quebrada La Sebastiana,-75.5709572,6.1644886,1685.4,2.9,4.8,5,DEGRADADO: Atenuación severa bajo dosel arbóreo denso
+AYU-18,Garganta Rocosa Salto del Ángel - Ayurá Medio,-75.5720315,6.1436893,1849.5,5.4,8.9,4,DEGRADADO: Encañonamiento topográfico profundo en cañón
+AYU-19,Vaguada Boscosa Quebrada La Miel,-75.5791534,6.1219569,2194.4,3.2,5.3,5,DEGRADADO: Geometría satelital colineal en fondo de cañón
+AYU-20,Talud Escarpe Chorro de Las Campanas,-75.5593640,6.1392296,2148.4,2.6,4.4,6,DEGRADADO: Obstrucción de horizonte por escarpe oriental

@@ -1,0 +1,9 @@
+id,punto,nombre,lon,lat,elevacion_m,hdop,pdop,sat,h_acc_m,entorno,dispositivo
+1,EST-01,Placa Porteria Las Vegas (Acceso Peatonal),-75.577815,6.200304,1498.7,1.5,2.2,12,3.2,Cielo abierto,Smartphone SW Maps (L1 C/A)
+2,EST-02,Placa Cancha Sintetica (Esquina NE),-75.578225,6.198834,1494.6,1.1,1.7,14,2.5,Cielo abierto,Smartphone SW Maps (L1 C/A)
+3,EST-03,Esquina NE Bloque 19 (Edificio Ingenierias),-75.579376,6.198250,1504.1,4.9,6.8,5,15.4,Canon urbano,Smartphone SW Maps (L1 C/A)
+4,EST-04,Esquina SE Bloque Argos (Centro Innovacion),-75.578990,6.198988,1503.4,4.3,6.1,5,13.1,Canon urbano,Smartphone SW Maps (L1 C/A)
+5,EST-05,Puente Peatonal Quebrada La Volcana (Estribo Norte),-75.578361,6.200139,1490.9,2.5,3.7,8,6.2,Dosel arboreo,Smartphone SW Maps (L1 C/A)
+6,EST-06,Placa Control Plazoleta del Estudiante,-75.578432,6.200518,1499.1,1.3,1.9,13,2.7,Cielo abierto,Smartphone SW Maps (L1 C/A)
+7,EST-07,Esquina SE Bloque 29 (Pasillo Bloques 28-29),-75.578499,6.200177,1487.9,4.5,6.4,5,12.0,Canon urbano,Smartphone SW Maps (L1 C/A)
+8,EST-08,Esquina SO Biblioteca Luis Echavarria Villegas (Bloque 32),-75.578881,6.200904,1508.3,3.9,5.6,6,11.9,Canon urbano,Smartphone SW Maps (L1 C/A)

@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 14</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>ArcGIS Pro: Entorno Corporativo y File Geodatabases</h1>
+    <p class="sub">Sesión 29 de Octubre (Parte A) · Módulo 5: Ecosistema Esri, Geodatabases (.gdb) e Interoperabilidad con GeoPackage (.gpkg)</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 14 (Parte A) · Transición al estándar corporativo e interoperabilidad con QGIS</p>
+      <h2 class="slide__title">Lo que construiremos hoy (Arquitectura Esri, GDB y Servicios REST)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>QGIS + ArcGIS Pro</h3><p>Complementariedad profesional y equivalencia entre ecosistemas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Entorno Esri</h3><p>Transición fluida: Ribbon, proyectos <code>.aprx</code> y panel Catalog</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>File Geodatabase</h3><p>Estructura interna: Feature Datasets en EPSG:9377 y Feature Classes</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Dominios y Subtipos</h3><p>Blindaje de tablas contra errores de digitación en campo</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>REST & GPKG</h3><p>Geoservicios oficiales e interoperabilidad bidireccional con QGIS</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Por qué ArcGIS Pro -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El estándar corporativo dominante en Colombia y el mundo</p>
+      <h2 class="slide__title">QGIS + ArcGIS Pro: La combinación profesional</h2>
+      <p class="slide__desc">Un ingeniero o urbanista competente domina ambos ecosistemas: la agilidad y apertura de QGIS para análisis territorial, y la robustez corporativa de ArcGIS Pro para bases de datos empresariales y gobierno.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">QGIS (Open Source · .qgz / .gpkg)</span>
+          <h3>Flexibilidad y Algoritmos Abiertos</h3>
+          <p>Potente integración con GDAL, GRASS, SAGA y Python. Licencia libre, sin costo, ideal para análisis ráster, teledetección y prototipado rápido de cuencas.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">ArcGIS Pro (Esri · .aprx / .gdb)</span>
+          <h3>Estándar Empresarial e Integridad</h3>
+          <p>Bases de datos masivas (Geodatabases), reglas topológicas estrictas, servidores REST corporativos y trazabilidad contractual en firmas de ingeniería.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DIVISOR BLOQUE 1 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 1 · Arquitectura de Software</p>
+    <h1>La Interfaz y el Proyecto de ArcGIS Pro (.aprx)</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 5. Estructura del proyecto APRX -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El archivo central de trabajo</p>
+      <h2 class="slide__title">El proyecto de ArcGIS Pro (.aprx)</h2>
+      <p class="slide__desc">A diferencia de los antiguos documentos ArcMap (<code>.mxd</code>), un archivo <code>.aprx</code> almacena múltiples mapas 2D, escenas 3D, layouts de impresión y conexiones a bases de datos en un solo lugar.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Panel Contents (Izquierda)</h3><p>La tabla de contenido: orden de dibujo de capas, simbología y selección de entidades.</p></div>
+        <div><h3>Cinta Ribbon (Superior)</h3><p>Pestañas contextuales tipo Office (Map, Insert, Analysis, View) que cambian según el elemento seleccionado.</p></div>
+        <div><h3>Panel Catalog (Derecha)</h3><p>El explorador de bases de datos: administra carpetas, Geodatabases, toolboxes y conexiones a servidores de internet.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. DIVISOR BLOQUE 2 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 2 · Almacenamiento Espacial</p>
+    <h1>La Arquitectura de la File Geodatabase (.gdb)</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 7. Qué es una GDB -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El contenedor nativo de Esri</p>
+      <h2 class="slide__title">¿Qué es una File Geodatabase (.gdb)?</h2>
+      <p class="slide__desc">En el sistema operativo se ve como una carpeta con archivos binarios; en el software funciona como una base de datos relacional espacial de alto rendimiento (hasta 1 TB de capacidad).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">Feature Dataset</span>
+          <h3>Contenedor con CRS Unificado</h3>
+          <p>Agrupador temático que <b>obliga a que todas las capas internas compartan el mismo sistema de coordenadas</b> (ej. EPSG:9377). Impide mezclar proyecciones por error.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Feature Class</span>
+          <h3>Capa Vectorial Individual</h3>
+          <p>Tabla espacial de puntos, líneas o polígonos. A diferencia del Shapefile, no tiene límite de 10 caracteres en nombres de columna ni trunca textos.</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Tablas y Ráster</span>
+          <h3>Almacenamiento Híbrido</h3>
+          <p>Admite tablas alfanuméricas independientes, catálogos de ráster y reglas de topología corporativa avanzada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. DIVISOR BLOQUE 3 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 3 · Integridad y Calidad</p>
+    <h1>Dominios de Atributo y Subtipos</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 9. Dominios de Atributo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Blindar la base de datos contra el error humano</p>
+      <h2 class="slide__title">Dominios de Atributo: Cero errores de digitación</h2>
+      <p class="slide__desc">En proyectos grandes donde 20 personas capturan datos en campo, permitir texto libre destruye las consultas SQL (unos escriben "Gavión", otros "gavion", otros "Gaviones").</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Dominios de Valor Codificado (Coded Values)</span>
+          <h3>Listas Desplegables Cerradas</h3>
+          <p>Asocia un código numérico interno a una descripción legible:</p>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.5">
+            <li>Código <code>1</code> = <i>Dique de contención</i></li>
+            <li>Código <code>2</code> = <i>Gavión escalonado</i></li>
+            <li>Código <code>3</code> = <i>Canal abierto revestido</i></li>
+          </ul>
+          <p class="small text-muted">En campo el operador solo puede seleccionar opciones de la lista.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Dominios de Rango (Range Domains)</span>
+          <h3>Intervalos Numéricos Válidos</h3>
+          <p>Impide ingresar valores físicamente imposibles en campos de ingeniería:</p>
+          <ul style="margin:0.4em 0 0 1em;line-height:1.5">
+            <li>Diámetro de tubería: entre <code>100 mm</code> y <code>1 500 mm</code></li>
+            <li>Pendiente de diseño: entre <code>0.5%</code> y <code>25%</code></li>
+          </ul>
+          <p class="small text-muted">Si alguien digita 15 000 mm por error, la base de datos rechaza el registro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Mecánica: Crear GDB y Dominios -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso técnico</p>
+      <h2 class="slide__title">Crear una GDB con dominios en ArcGIS Pro</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Crear File Geodatabase</h3>
+          <p>Panel Catalog → Clic derecho en carpetas del proyecto → <b>New → File Geodatabase</b> (nombrar: <code>Iguana_Corporativa.gdb</code>).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Feature Dataset CTM12</h3>
+          <p>Clic derecho en la <code>.gdb</code> → <b>New → Feature Dataset</b> → Asignar sistema oficial: <b>EPSG:9377 (CTM12)</b>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Crear Dominio</h3>
+          <p>Clic derecho en la <code>.gdb</code> → <b>Domains</b> → Crear dominio <code>dom_tipo_obra</code> con valores codificados (1: Dique, 2: Gavión, 3: Canal).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Práctica 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 1 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: estructuren su GDB de mitigación</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (12 minutos)</span>
+        <p>Construyan la base de datos corporativa para las obras de mitigación de La Iguaná:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Creen la File Geodatabase <code>Iguana_Corporativa.gdb</code> con un Feature Dataset en <b>EPSG:9377</b>.</li>
+          <li>Definan un dominio de valores codificados para el material de obra (1: Concreto reforzado, 2: Mampostería, 3: Enrocado).</li>
+          <li>Creen una Feature Class de puntos <code>obras_propuestas</code> con campos: <code>nombre</code>, <code>tipo_obra</code> (asociado al dominio) y <code>costo_estimado</code>.</li>
+          <li>Digitalicen 3 puntos de prueba en la cuenca y comprueben cómo el atributo se selecciona desde una lista desplegable blindada.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. DIVISOR BLOQUE 4 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 4 · Geoservicios Corporativos</p>
+    <h1>Consumo de Servicios ArcGIS Server REST</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 13. Qué es ArcGIS REST -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El estándar de publicación de datos del Estado</p>
+      <h2 class="slide__title">Servicios ArcGIS Server REST (MapServer y FeatureServer)</h2>
+      <p class="slide__desc">En lugar de descargar shapefiles desactualizados, los ingenieros se conectan en tiempo real a los servidores de las entidades públicas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">MapServer (Imágenes de Mapa)</span>
+          <h3>Servicio de Visualización Rápida</h3>
+          <p>El servidor renderiza el mapa en sus máquinas y envía teselas gráficas al software. Extremadamente rápido, ideal para ortofotos y capas base densas.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">FeatureServer (Vectores Crudos)</span>
+          <h3>Servicio Vectorial Interactivo</h3>
+          <p>Envía las geometrías y la tabla de atributos completa a su cliente. Permite hacer selecciones por atributos, geoprocesamiento y exportación local.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Mecánica: Conectar REST -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso técnico</p>
+      <h2 class="slide__title">Conectar un servidor ArcGIS Server en ArcGIS Pro / QGIS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Nueva conexión de servidor</h3>
+          <p>Panel Catalog → Clic derecho en <b>Servers → New ArcGIS Server Connection</b> (en QGIS: menú del explorador <i>ArcGIS REST Servers</i>).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Pegar URL del servicio</h3>
+          <p>Pegar el endpoint REST institucional del AMVA o GeoMedellín (ej. <code>https://geomedellin.medellin.gov.co/arcgis/rest/services</code>).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Explorar y arrastrar capas</h3>
+          <p>Desplegar carpetas temáticas (Planeacion, Amenazas, Riesgo, Hidrografia) y arrastrar la capa al mapa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Práctica 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 2 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: consuman la cartografía oficial REST</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (10 minutos)</span>
+        <p>Conéctense en vivo al geoservicio oficial del Valle de Aburrá:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Creen la conexión al servidor de geoservicios de Medellín / AMVA.</li>
+          <li>Localicen la capa oficial de <b>Amenaza por Inundación y Avenidas Torrenciales</b> o la capa de <b>Catastro Predial Oficial</b>.</li>
+          <li>Arrástrenla a su mapa y verifiquen que coincida espacialmente con la desembocadura de La Iguaná.</li>
+          <li>Consulten la tabla de atributos: están leyendo los datos en tiempo real desde los servidores del Estado.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. DIVISOR BLOQUE 5 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 5 · Interoperabilidad</p>
+    <h1>Migración entre GeoPackage y Geodatabase</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 17. Flujo de migración -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Puente entre mundos</p>
+      <h2 class="slide__title">Migración bidireccional de datos</h2>
+      <p class="slide__desc">En la práctica profesional, un cliente les entregará una <code>.gdb</code> de Esri y ustedes procesarán en QGIS, o viceversa.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">De QGIS a ArcGIS Pro</span>
+          <h3>Importar GeoPackage</h3>
+          <p>En ArcGIS Pro, abran la herramienta <b>Feature Class to Geodatabase</b>. Seleccionen las capas del archivo <code>.gpkg</code> de La Iguaná e impórtenlas directamente al Feature Dataset de su <code>.gdb</code>.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">De ArcGIS Pro a QGIS</span>
+          <h3>Lectura Nativa de GDB</h3>
+          <p>QGIS cuenta con el driver OpenFileGDB integrado: pueden arrastrar cualquier carpeta <code>.gdb</code> al panel de capas de QGIS y leer todas sus Feature Classes sin necesidad de tener licencia de Esri instalada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Checklist Semana 14 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Control de aprendizajes y competencias</p>
+      <h2 class="slide__title">Checklist de ArcGIS Pro y Geodatabases (S14)</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>[ ] <b>Entorno corporativo:</b> Comprensión de la interfaz de ArcGIS Pro (Ribbon, Contents y Catalog) y su equivalencia con QGIS.</li>
+        <li>[ ] <b>Estructura GDB:</b> Creación de File Geodatabase (<code>.gdb</code>) con Feature Dataset forzado a <b>EPSG:9377 (CTM12)</b>.</li>
+        <li>[ ] <b>Dominios configurados:</b> Implementación de listas desplegables (<i>coded values</i>) y rangos para control de calidad de atributos.</li>
+        <li>[ ] <b>Geoservicios REST:</b> Conexión en vivo y visualización de capas oficiales de Medellín / AMVA / SIATA.</li>
+        <li>[ ] <b>Interoperabilidad:</b> Capacidad para transferir datos bidireccionalmente entre GeoPackage (<code>.gpkg</code>) y File Geodatabase (<code>.gdb</code>).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 19. Continuación inmediata en la sesión -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Continuación inmediata en esta misma sesión (Jueves 29 de octubre)</p>
+      <h2 class="slide__title">A continuación (Parte B · S15): Automatización Espacial y Quiz 4 (8%)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>ModelBuilder & QGIS</h3><p>Flujos encadenados en <b>ModelBuilder (ArcGIS Pro)</b> y su equivalente en el <b>Diseñador Gráfico de Modelos (QGIS)</b>.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Enfoque en QGIS</h3><p>El Parcial 2 (<code>P2</code>) y el Informe Final (<code>IF</code>) se entregan 100% en <b>QGIS</b>.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Quiz 4 Oficial (8%)</h3><p>Al cierre de hoy (45 min): evaluación práctica individual en QGIS sobre <b>Posicionamiento GNSS en Gabinete (S11/G11)</b>.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Informe Final 05 Nov</h3><p><b>Informe Final (<code>IF</code> · 26%)</b> en QGIS para el jueves 5 de noviembre (Análisis Territorial + Propuesta + Lámina A3 + Sustentación Oral).</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>Pasemos de inmediato a la Parte B: Automatización Espacial (S15)</h3>
+        <p><span class="accent">Docente:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

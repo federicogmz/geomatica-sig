@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Geomática, Ingeniería y SIG: Semana 7</title>
+  <link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+
+<body>
+  <div id="stage">
+
+    <!-- 1. Portada -->
+    <section class="slide slide--portada active">
+      <h1>Geoprocesamiento Vectorial y Geoservicios WFS</h1>
+      <p class="sub">Semana 7 · Módulo 1: SIG vectorial con QGIS</p>
+      <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+    </section>
+
+    <!-- 2. Agenda -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Sesión 7 · Análisis espacial avanzado y preparación definitiva para el Informe 1</p>
+        <h2 class="slide__title">Lo que haremos hoy</h2>
+      </div>
+      <div class="slide__body">
+        <div class="num-row">
+          <div class="num-item">
+            <div class="num" style="color:var(--red)">01</div>
+            <h3>Geoservicios WFS</h3>
+            <p>Descarga directa de vectores oficiales sin depender de shapefiles estáticos</p>
+          </div>
+          <div class="num-item">
+            <div class="num" style="color:var(--sky)">02</div>
+            <h3>Operación Cortar (Clip)</h3>
+            <p>El "molde de galletas": aislar geometrías al polígono de La Iguaná</p>
+          </div>
+          <div class="num-item">
+            <div class="num" style="color:var(--orange)">03</div>
+            <h3>Amortiguamiento (Buffer)</h3>
+            <p>Modelado métrico de fajas de retiro hídrico según el POT de Medellín</p>
+          </div>
+          <div class="num-item">
+            <div class="num" style="color:var(--teal)">04</div>
+            <h3>Intersección y Spatial Join</h3>
+            <p>Cruce geométrico y transferencia de atributos por localización relativa</p>
+          </div>
+          <div class="num-item">
+            <div class="num" style="color:var(--navy)">05</div>
+            <h3>Maqueta del I1</h3>
+            <p>Estructuración final de capas y métricas territoriales para la entrega</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Repaso Semana 6 -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Antes de avanzar</p>
+        <h2 class="slide__title">¿Qué consolidamos en la Semana 6?</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">Modelo de Atributos</span>
+            <h3>Tablas Relacionales Limpias</h3>
+            <p>Diferenciamos tipos de campos (enteros, reales decimales, texto) y normalizamos nombres en minúsculas y
+              formato <code>snake_case</code>.</p>
+            <p class="small text-muted">Las áreas y distancias no se guardan como texto: requieren campos numéricos de
+              precisión real.</p>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">Calculadora de Campos</span>
+            <h3>Métricas Geométricas</h3>
+            <p>Calculamos áreas reales dividiendo <code>$area / 1000000</code> (km²) y longitudes con
+              <code>$length</code> (m), aplicando simbología temática con halo protector blanco.
+            </p>
+            <p class="small text-muted">Hoy utilizaremos esas tablas limpias para alimentar algoritmos de
+              geoprocesamiento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Abran su proyecto -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Entorno de trabajo listo</p>
+        <h2 class="slide__title">Abran su proyecto de la Cuenca de La Iguaná</h2>
+        <p class="slide__desc">Hoy todo el laboratorio es interactivo con el software. Verifiquen antes de empezar:</p>
+      </div>
+      <div class="slide__body">
+        <ul class="list-plain">
+          <li>Tienen abierto su proyecto <code>proyecto_iguana.qgz</code> desde su memoria USB o disco de trabajo.</li>
+          <li>El CRS del proyecto está firmemente verificado en <b>EPSG:9377 (MAGNA-SIRGAS / Origen-Nacional)</b>.</li>
+          <li>El contenedor <code>proyecto_iguana.gpkg</code> contiene las capas base: red hídrica, polígono de cuenca y
+            franja urbana.</li>
+          <li>Tienen conexión a internet activa para conectarse a los servidores del Distrito de Medellín.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5. SECCIÓN 1: WFS -->
+    <section class="slide slide--divider">
+      <p class="kicker kicker--sky">Sección 1</p>
+      <h1>Geoservicios WFS: Vectores en la Nube</h1>
+      <div class="dot-row">
+        <div class="dot" style="background:var(--sky)"></div>
+        <div class="dot" style="background:var(--gold)"></div>
+        <div class="dot" style="background:var(--teal)"></div>
+        <div class="dot" style="background:var(--red)"></div>
+      </div>
+      <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+    </section>
+
+    <!-- 6. De visores estáticos a datos vivos -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Infraestructura de Datos Espaciales (IDE)</p>
+        <h2 class="slide__title">WMS vs. WFS: La diferencia que define un flujo profesional</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">WMS / WMTS (Visto en S4)</span>
+            <h3>Web Map Service</h3>
+            <p>El servidor genera un mapa en el servidor y envía una <b>imagen plana (PNG / JPEG)</b>.</p>
+            <ul class="list-plain small text-muted" style="margin-top:0.6em">
+              <li>• Solo sirve para visualizar como mapa de fondo.</li>
+              <li>• No permite abrir la tabla de atributos ni hacer filtros SQL.</li>
+              <li>• No se pueden editar nodos ni aplicar geoprocesamiento.</li>
+            </ul>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">WFS (Lo que usaremos hoy)</span>
+            <h3>Web Feature Service</h3>
+            <p>El servidor transmite los <b>objetos vectoriales crudos con sus geometrías y tablas</b>.</p>
+            <ul class="list-plain small text-muted" style="margin-top:0.6em">
+              <li>• Acceso a cada punto, línea y polígono con coordenadas nativas.</li>
+              <li>• Tabla de atributos accesible, consultable y operable matemáticamente.</li>
+              <li>• Permite aplicar Buffer, Clip, Intersect y guardar localmente en GeoPackage.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Conexión WFS GeoMedellín -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Paso a paso en QGIS</p>
+        <h2 class="slide__title">Conectando el servidor WFS oficial de GeoMedellín</h2>
+      </div>
+      <div class="slide__body">
+        <div class="step-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Panel Navegador</h3>
+            <p>Ubiquen la entrada <b>WFS / OGC API - Características</b> en el panel izquierdo. Clic derecho → <i>Nueva
+                conexión...</i></p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Parámetros de Red</h3>
+            <p><b>Nombre:</b> <code>GeoMedellin WFS Oficial</code><br /><b>URL:</b> <code>GeoServer Medellín</code></p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Carga al Lienzo</h3>
+            <p>Acepten, desplieguen la conexión y arrastren la capa oficial de <b>Manzanas Catastrales</b> a su
+              proyecto.</p>
+          </div>
+        </div>
+        <p class="slide__desc" style="margin-top:1.2em">Observen cómo QGIS solicita los datos en tiempo real mediante
+          solicitudes HTTP GML/GeoJSON. Se acabaron las descargas de archivos Shapefile desactualizados de hace tres
+          años.</p>
+      </div>
+    </section>
+
+    <!-- 8. SECCIÓN 2: Geoprocesamiento -->
+    <section class="slide slide--divider">
+      <p class="kicker kicker--teal">Sección 2</p>
+      <h1>Geoprocesamiento: El Álgebra Espacial</h1>
+      <div class="dot-row">
+        <div class="dot" style="background:var(--teal)"></div>
+        <div class="dot" style="background:var(--sky)"></div>
+        <div class="dot" style="background:var(--orange)"></div>
+        <div class="dot" style="background:var(--navy)"></div>
+      </div>
+      <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+    </section>
+
+    <!-- 9. Qué es el Geoprocesamiento -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Fundamentos Teóricos</p>
+        <h2 class="slide__title">¿Qué significa hacer geoprocesamiento?</h2>
+        <p class="slide__desc">Es la aplicación sistemática de funciones computacionales que toman una o más capas
+          espaciales de entrada y producen una nueva capa derivada basada en relaciones topológicas de proximidad,
+          intersección o contención.</p>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="icon-card icon-card--cyan">
+            <div>
+              <h3>Operaciones de Extracción y Delimitación</h3>
+              <p><b>Cortar (Clip)</b>, <b>Diferencia</b> y <b>Máscara</b>. Modifican los límites físicos de las
+                entidades sin alterar necesariamente sus relaciones de atributos.</p>
+            </div>
+          </div>
+          <div class="icon-card icon-card--mint">
+            <div>
+              <h3>Operaciones de Proximidad y Superposición</h3>
+              <p><b>Buffer</b>, <b>Intersección</b>, <b>Unión</b> y <b>Disolver</b>. Crean nuevas geometrías compuestas
+                calculando distancias euclidianas o solapamientos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Cortar (Clip) en detalle -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Herramienta 1</p>
+        <h2 class="slide__title">Cortar (Clip): La analogía del molde de galletas</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">Mecánica Geométrica</span>
+            <h3>¿Cómo opera el algoritmo?</h3>
+            <p>Toma una <b>Capa de Entrada</b> grande (ej. todas las manzanas del Distrito descargadas por WFS) y un
+              polígono de <b>Capa de Superposición</b> (ej. la Cuenca de La Iguaná).</p>
+            <p class="small text-muted">El algoritmo recorta los polígonos exactamente sobre el perímetro de la cuenca,
+              descartando todo lo exterior.</p>
+          </div>
+          <div class="example-box example-box--alert">
+            <span class="tag">Regla Crítica de Atributos</span>
+            <h3>Clip NO transfiere atributos</h3>
+            <p>La capa de salida conserva <b>únicamente los atributos de la capa de entrada</b>. Los atributos del
+              polígono de recorte no se transfieren a las entidades resultantes.</p>
+            <p class="small text-muted">Para combinar atributos de ambas capas se requiere la herramienta
+              <i>Intersección</i>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Práctica Clip -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Ejercicio en Vivo</p>
+        <h2 class="slide__title">Cortando las manzanas de La Iguaná a su GeoPackage</h2>
+      </div>
+      <div class="slide__body">
+        <div class="calc-box">
+          <div class="calc-step">
+            <div class="n">1</div>
+            <div class="expr">Menú superior: <b>Vectorial → Herramientas de geoprocesamiento → Cortar (Clip)...</b>
+            </div>
+          </div>
+          <div class="calc-step">
+            <div class="n">2</div>
+            <div class="expr"><b>Capa de entrada:</b> Capa WFS de Manzanas Catastrales.</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">3</div>
+            <div class="expr"><b>Capa de superposición:</b> <code>cuenca_iguana</code> (polígono perimetral).</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">4</div>
+            <div class="expr"><b>Cortado:</b> Clic en <code>...</code> → <i>Guardar en GeoPackage...</i> →
+              <code>proyecto_iguana.gpkg</code> con tabla <code>manzanas_iguana</code>.
+            </div>
+          </div>
+        </div>
+        <p class="slide__desc" style="margin-top:1.2em">Al hacer clic en <b>Ejecutar</b>, la capa WFS se transforma en
+          un conjunto local de polígonos recortados, optimizados y permanentes en su disco.</p>
+      </div>
+    </section>
+
+    <!-- 12. SECCIÓN 3: Buffer -->
+    <section class="slide slide--divider">
+      <p class="kicker kicker--gold">Sección 3</p>
+      <h1>Zona de Amortiguamiento (Buffer) y Rondas Hídricas</h1>
+      <div class="dot-row">
+        <div class="dot" style="background:var(--gold)"></div>
+        <div class="dot" style="background:var(--red)"></div>
+        <div class="dot" style="background:var(--sky)"></div>
+        <div class="dot" style="background:var(--teal)"></div>
+      </div>
+      <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+    </section>
+
+    <!-- 13. Matemática del Buffer -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Geometría Computacional</p>
+        <h2 class="slide__title">¿Cómo construye QGIS una zona de amortiguamiento?</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">Construcción Geométrica</span>
+            <h3>La distancia euclidiana <i>D</i></h3>
+            <p>Para cada vértice de una línea, el algoritmo traza un círculo de radio <i>D</i>. A lo largo de cada segmento
+              rectilíneo, traza un rectángulo de ancho 2<i>D</i>. La unión de todas estas figuras conforma el área de
+              influencia continua.</p>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">El Parámetro de Segmentos</span>
+            <h3>¿Por qué la curvatura importa?</h3>
+            <p>En las esquinas y extremos terminales, las curvas no son círculos puros: se aproximan mediante cuerdas
+              poligonales.</p>
+            <p class="small text-muted"><b>5 segmentos (defecto):</b> Curvas toscas, archivo muy liviano.<br /><b>10 a
+                15 segmentos (estándar técnico):</b> Curvas suaves, excelente para cartografía A3.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14. La casilla Disolver -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Topología de Buffer</p>
+        <h2 class="slide__title">La casilla indispensable: Disolver resultado (Dissolve)</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box example-box--alert">
+            <span class="tag">Sin Disolver (Error Frecuente)</span>
+            <h3>Polígonos Superpuestos</h3>
+            <p>Cada tramo de línea genera su propio polígono independiente. En las confluencias donde los afluentes
+              entran al río principal, se generan <b>traslapes masivos</b>.</p>
+            <p class="small text-muted">El área total calculada se duplica o triplica en las intersecciones,
+              distorsionando los cálculos de riesgo.</p>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">Con Disolver Activado (Correcto)</span>
+            <h3>Polígono Único y Continuo</h3>
+            <p>El algoritmo fusiona automáticamente todos los anillos de amortiguamiento que se tocan o traslapan,
+              eliminando límites internos compartidos.</p>
+            <p class="small text-muted">Genera una faja perimetral continua y matemáticamente exacta de toda la red
+              hídrica.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15. Marco Normativo Colombiano -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Ingeniería y Legislación Territorial</p>
+        <h2 class="slide__title">Las Rondas Hídricas en el Valle de Aburrá</h2>
+      </div>
+      <div class="slide__body">
+        <div class="example-box example-box--solution">
+          <span class="tag">Normatividad Vigente</span>
+          <p>El <b>Decreto Nacional 1076 de 2015</b> y el <b>Plan de Ordenamiento Territorial de Medellín (Acuerdo 48 de
+              2014)</b> consagran las rondas hídricas como fajas de suelo de protección ambiental y mitigación de
+            amenazas naturales.</p>
+        </div>
+        <div class="info-grid cols-2" style="margin-top:1.2em">
+          <div class="step-card">
+            <div class="step-num">30 m</div>
+            <div class="step-content">
+              <h3>Faja Legal Básica</h3>
+              <p>Retiro mínimo de 30 metros a cada lado del cauce medido desde la cota de máxima inundación o borde
+                superior del canal en corrientes naturales.</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Propósito</div>
+            <div class="step-content">
+              <h3>Mitigación y Espacio Público</h3>
+              <p>Amortiguamiento de crecientes torrenciales, conservación ecológica de corredores biológicos y
+                prohibición estricta de nuevas urbanizaciones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16. Práctica Buffer La Iguaná -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Práctica en QGIS</p>
+        <h2 class="slide__title">Modelando la ronda de 30 m en La Iguaná</h2>
+      </div>
+      <div class="slide__body">
+        <div class="calc-box">
+          <div class="calc-step">
+            <div class="n">1</div>
+            <div class="expr">Vayan a <b>Vectorial → Herramientas de geoprocesamiento → Zona de amortiguamiento
+                (Buffer)...</b></div>
+          </div>
+          <div class="calc-step">
+            <div class="n">2</div>
+            <div class="expr"><b>Capa de entrada:</b> <code>red_hidrica</code> (cauce principal y afluentes).</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">3</div>
+            <div class="expr"><b>Distancia:</b> <code>30</code> metros · <b>Segmentos:</b> <code>10</code>.</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">4</div>
+            <div class="expr"><b>Disolver resultado:</b> Marquen obligatoriamente la casilla.</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">5</div>
+            <div class="expr"><b>Guardar:</b> En <code>proyecto_iguana.gpkg</code> con el nombre de tabla
+              <code>retiro_hidrico_30m</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 17. SECCIÓN 4: Intersección y Spatial Join -->
+    <section class="slide slide--divider">
+      <p class="kicker kicker--red">Sección 4</p>
+      <h1>Intersección y Unión por Localización</h1>
+      <div class="dot-row">
+        <div class="dot" style="background:var(--red)"></div>
+        <div class="dot" style="background:var(--teal)"></div>
+        <div class="dot" style="background:var(--sky)"></div>
+        <div class="dot" style="background:var(--gold)"></div>
+      </div>
+      <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+    </section>
+
+    <!-- 18. Intersección -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Análisis Espacial Combinado</p>
+        <h2 class="slide__title">Intersección (Intersect): Cruzando variables</h2>
+      </div>
+      <div class="slide__body">
+        <div class="example-box">
+          <span class="tag">¿Qué hace la Intersección?</span>
+          <p>Calcula el solapamiento geométrico estricto (A ∩ B) entre dos capas vectoriales. A diferencia del
+            Clip:</p>
+          <p class="small" style="margin-top:0.5em">• Genera geometrías nuevas que corresponden únicamente al área
+            compartida.<br />• <b>Combina los atributos de ambas tablas</b>: cada polígono resultante tiene los datos
+            catastrales de la manzana Y los datos de la faja de retiro.</p>
+        </div>
+        <div class="step-grid" style="margin-top:1.2em">
+          <div class="step-card">
+            <div class="step-num">Entrada 1</div>
+            <h3>Manzanas Urbanas</h3>
+            <p>Capas de barrios de Robledo, San Javier y Laureles recortadas en La Iguaná.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Entrada 2</div>
+            <h3>Ronda de Retiro (30 m)</h3>
+            <p>Faja de amortiguamiento generada en el paso anterior.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Salida</div>
+            <h3>Áreas en Conflicto</h3>
+            <p>Sectores urbanizados formal o informalmente dentro de la faja de amenaza hídrica.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 19. Práctica Intersect -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Paso a paso en QGIS</p>
+        <h2 class="slide__title">Detectando predios y manzanas en zona de amenaza</h2>
+      </div>
+      <div class="slide__body">
+        <div class="calc-box">
+          <div class="calc-step">
+            <div class="n">1</div>
+            <div class="expr">Vayan a <b>Vectorial → Herramientas de geoprocesamiento → Intersección...</b></div>
+          </div>
+          <div class="calc-step">
+            <div class="n">2</div>
+            <div class="expr"><b>Capa de entrada:</b> <code>manzanas_iguana</code>.</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">3</div>
+            <div class="expr"><b>Capa de superposición:</b> <code>retiro_hidrico_30m</code>.</div>
+          </div>
+          <div class="calc-step">
+            <div class="n">4</div>
+            <div class="expr"><b>Guardar:</b> En <code>proyecto_iguana.gpkg</code> como <code>manzanas_en_retiro</code>.
+              Clic en <i>Ejecutar</i>.</div>
+          </div>
+        </div>
+        <p class="slide__desc" style="margin-top:1.2em">Abran la tabla de atributos de <code>manzanas_en_retiro</code> y
+          creen con la calculadora de campos una columna <code>area_afectada_m2</code> con la expresión
+          <code>$area</code>. Acaban de cuantificar numéricamente la vulnerabilidad territorial de la cuenca.
+        </p>
+      </div>
+    </section>
+
+    <!-- 20. Spatial Join -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Relaciones sin Límites Compartidos</p>
+        <h2 class="slide__title">Unir atributos por localización (Spatial Join)</h2>
+      </div>
+      <div class="slide__body">
+        <div class="example-box example-box--solution">
+          <span class="tag">¿Cuándo se usa?</span>
+          <p>Cuando dos capas no comparten una columna de identificación común (como código catastral), pero queremos
+            asociar sus atributos con base en <b>dónde están ubicadas en el mapa</b>.</p>
+        </div>
+        <div class="info-grid cols-2" style="margin-top:1.2em">
+          <div class="step-card">
+            <div class="step-num">Ejemplo 1</div>
+            <div class="step-content">
+              <h3>Puntos dentro de Polígonos</h3>
+              <p>Asignar a cada sensor pluviométrico o puente el nombre de la comuna o barrio en el que está ubicado
+                (relación <i>intersecta</i> o <i>dentro de</i>).</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">Ejemplo 2</div>
+            <div class="step-content">
+              <h3>Polígono más cercano</h3>
+              <p>Asignar a cada manzana el nombre del afluente tributario más cercano y la distancia en metros hasta el
+                cauce.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 21. SECCIÓN 5: Hacia el Informe 1 -->
+    <section class="slide slide--divider">
+      <p class="kicker kicker--sky">Sección 5</p>
+      <h1>Integración Territorial para el Informe 1 (I1)</h1>
+      <div class="dot-row">
+        <div class="dot" style="background:var(--sky)"></div>
+        <div class="dot" style="background:var(--teal)"></div>
+        <div class="dot" style="background:var(--gold)"></div>
+        <div class="dot" style="background:var(--red)"></div>
+      </div>
+      <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+    </section>
+
+    <!-- 22. Sustentando con Geoprocesamiento -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">El Mapa como Argumento Técnico</p>
+        <h2 class="slide__title">Cómo sustentar su propuesta en la Semana 8</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">La mirada de Ingeniería Civil</span>
+            <h3>Diagnóstico Hidráulico y Riesgo</h3>
+            <p>Con las capas generadas hoy, pueden señalar con precisión métrica:</p>
+            <ul class="list-plain small text-muted" style="margin-top:0.5em">
+              <li>• Cuántos metros cuadrados de construcción están dentro de la ronda de 30 m.</li>
+              <li>• Dónde se ubican los cuellos de botella hidráulicos (carreras 80 y 70).</li>
+              <li>• En qué sectores se requieren obras de bioingeniería o diques de contención.</li>
+            </ul>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">La mirada de Diseño Urbano</span>
+            <h3>Espacio Público y Conectividad</h3>
+            <p>La faja de retiro no es solo una restricción; es una oportunidad de proyecto:</p>
+            <ul class="list-plain small text-muted" style="margin-top:0.5em">
+              <li>• Delimitación de parques lineales ribereños continuos y ciclorrutas.</li>
+              <li>• Identificación de vacíos urbanos recuperables para espacio público verde.</li>
+              <li>• Transición respetuosa entre la masa construida y el ecosistema hídrico.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 23. DIVIDER: Plugin de Validación Topológica -->
+    <section class="slide slide--divider">
+      <div class="slide__pad">
+        <p class="kicker">Control de Calidad en QGIS · Cierre del Módulo 1</p>
+        <h1 style="font-size:2.6em; line-height:1.15; color:#ffffff;">El Plugin Comprobador de Topología de QGIS</h1>
+        <p class="sub" style="color:var(--cyan); margin-top:0.6em;">Validación matemática rigurosa de geometrías antes de entregar el GeoPackage oficial</p>
+      </div>
+    </section>
+
+    <!-- 24. Por qué el Topology Checker -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Rigor espacial profesional</p>
+        <h2 class="slide__title">¿Por qué no basta con mirar la pantalla?</h2>
+        <p class="slide__desc">Un mapa puede "verse bien" a escala 1:25.000, pero ocultar errores topológicos destructivos a nivel de coordenadas.</p>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">La Ilusión Visual</span>
+            <h3>Micro-huecos y Solapes Invisibles</h3>
+            <p>Dos polígonos adyacentes pueden tener una separación de 2 centímetros o un traslape mínimo invisible al ojo humano. Al calcular áreas o realizar intersecciones, generan micro-polígonos parásitos (<i>slivers</i>).</p>
+            <p class="small text-muted">Las bases de datos corporativas rechazan capas con inconsistencias geométricas.</p>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">La Solución Matemática</span>
+            <h3>Validación Basada en Reglas</h3>
+            <p>El <b>Comprobador de topología (*Topology Checker*)</b> es un plugin oficial de núcleo de QGIS que audita cada vértice contra axiomas espaciales preestablecidos y genera una tabla de errores exacta.</p>
+            <p class="small text-muted">Garantiza que el GeoPackage cumpla estándares catastrales y del IGAC.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 25. Activación del Plugin -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Paso a paso en QGIS</p>
+        <h2 class="slide__title">Activación y Panel del Comprobador</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-3">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Activar Complemento</h3>
+            <p>Menú <i>Complementos → Administrar e instalar complementos... → pestaña Instalados</i>. Marcar la casilla <b>Comprobador de topología</b> (viene preinstalado en el núcleo de QGIS).</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Abrir el Panel</h3>
+            <p>Aparece el icono de validación en la barra de herramientas o a través de <i>Vectorial → Comprobador de topología</i>. Se ancla como panel lateral o inferior en QGIS.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Configurar Reglas</h3>
+            <p>Hacer clic en el botón de la <b>llave inglesa / Configurar</b> para abrir la matriz de reglas topológicas entre capas del proyecto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 26. Matriz de Reglas Esenciales -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Axiomas del Proyecto Territorial</p>
+        <h2 class="slide__title">Las Reglas Topológicas Obligatorias para La Iguaná</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="example-box">
+            <span class="tag">Polígonos (Manzanas, Cuenca, Retiros)</span>
+            <h3>Reglas Poligonales Clave</h3>
+            <ul class="list-plain" style="margin-top:0.5em;">
+              <li>• <b>no debe superponerse (*must not overlap*):</b> Impide que dos predios o coberturas compartan la misma superficie.</li>
+              <li>• <b>no debe tener huecos (*must not have gaps*):</b> Garantiza continuidad territorial sin vacíos espaciales.</li>
+              <li>• <b>no debe tener geometrías no válidas:</b> Detecta auto-intersecciones y nodos cruzados en forma de ocho.</li>
+            </ul>
+          </div>
+          <div class="example-box example-box--solution">
+            <span class="tag">Líneas (Red Hídrica y Ejes Viales)</span>
+            <h3>Reglas Lineales Clave</h3>
+            <ul class="list-plain" style="margin-top:0.5em;">
+              <li>• <b>no debe tener extremos sueltos (*must not have dangles*):</b> La red de drenaje debe ser continua y confluir al cauce principal sin desconexiones erráticas.</li>
+              <li>• <b>no debe superponerse:</b> Ningún cauce puede duplicarse sobre el mismo trazado.</li>
+              <li>• <b>no debe tener duplicados:</b> Elimina trazos idénticos superpuestos.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 27. Ejecución e Inspección de Errores -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Diagnóstico y Reparación</p>
+        <h2 class="slide__title">Validación y Reparación Quirúrgica con la Herramienta de Vértices</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="step-card">
+            <div class="step-num">A</div>
+            <h3>Validar e Inspeccionar</h3>
+            <p>Clic en <b>Validar todo</b>. QGIS lista cada error con su tipo y capa afectada. Al hacer doble clic en un error de la lista, el lienzo se desplaza y hace zoom automático, resaltando el conflicto en <b>rojo brillante</b>.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">B</div>
+            <h3>Reparar con Herramienta de Vértices</h3>
+            <p>Con la capa en modo edición y el auto-ensamblado (*snapping*) activo a 10 píxeles: seleccionar la <b>Herramienta de vértices</b>, mover nodos desajustados, eliminar vértices redundantes o usar <i>Rellenar anillo</i>.</p>
+          </div>
+        </div>
+        <p class="slide__desc" style="margin-top:1em; font-weight:600; color:var(--teal);">Regla de oro: Repetir "Validar todo" hasta alcanzar exactamente 0 errores topológicos en el GeoPackage.</p>
+      </div>
+    </section>
+
+    <!-- 28. Balance Clase 10: Cierre Vectorial y Sustentaciones I1 -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">Hito de la Clase 10</p>
+        <h2 class="slide__title">Cierre Formal del Módulo 1 y Sustentaciones del Informe 1</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="icon-card icon-card--cyan">
+            <div>
+              <h3>Logros Consolidados del Módulo Vectorial</h3>
+              <ul class="list-plain" style="margin-top:0.4em;">
+                <li>• Dominio de la proyección oficial <b>MAGNA-SIRGAS CTM12 (EPSG:9377)</b>.</li>
+                <li>• Creación y estructuración limpia del contenedor <code>proyecto_iguana.gpkg</code>.</li>
+                <li>• Modelado espacial de retiros de protección hídrica (Buffer 30 m) y cruces prediales.</li>
+                <li>• Validación topológica libre de solapes y vacíos.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="icon-card icon-card--mint">
+            <div>
+              <h3>Sustentaciones del Informe 1 (I1 - 12%)</h3>
+              <p>Presentación oral y defensa técnica proyectada de la lámina A3 horizontal: articulación de diagnósticos biofísicos de La Iguaná con propuestas territoriales viables entre Ingeniería Civil y Diseño Urbano.</p>
+              <p class="small text-muted" style="margin-top:0.5em;">Primer hito acumulativo calificado con éxito.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 29. Transición a la Semana 11 -->
+    <section class="slide">
+      <div class="slide__pad">
+        <p class="kicker">El camino hacia adelante</p>
+        <h2 class="slide__title">Próxima Sesión: Semana 11 · Entrada al Módulo 2 (Ráster)</h2>
+      </div>
+      <div class="slide__body">
+        <div class="info-grid cols-2">
+          <div class="icon-card icon-card--orange">
+            <div>
+              <h3>Bloque 1 (Aula) · Fundamentos y Relieve</h3>
+              <p>Del vector al ráster: concepto matricial de píxel. Modelos Digitales de Elevación (SRTM y ALOS PALSAR 12.5 m). Reproyección a CTM12, cálculo de pendientes (grados y %) y sombreado (*hillshade* 315°/45°).</p>
+            </div>
+          </div>
+          <div class="icon-card icon-card--navy">
+            <div>
+              <h3>Bloque 2 (Laboratorio) · Álgebra de Mapas</h3>
+              <p><b>Calculadora Ráster:</b> Formulación booleana de amenaza por pendiente crítica ($>30^\circ$). Extracción de curvas de nivel y modelación del perfil longitudinal del cauce principal de La Iguaná.</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-banner" style="margin-top:1.5em">
+          <h3>Entramos a la tercera dimensión del territorio</h3>
+          <p><span class="accent">Asesorías:</span> Martes 10:00 a.m. – 12:00 m. vía Teams · Canal del curso</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <div id="nav-hint"></div>
+  <script src="../_plantilla/deck.js"></script>
+</body>
+
+</html>

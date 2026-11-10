@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 10</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Álgebra de Mapas y Modelación del Relieve</h1>
+    <p class="sub">Semana 10 · Módulo 2: Cierre de SIG Ráster y Zonificación Territorial en QGIS</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 10 · Cierre y consolidación del Módulo Ráster</p>
+      <h2 class="slide__title">Lo que construiremos hoy (Teoría y Práctica Integral)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Álgebra de Mapas</h3><p>Condicionales y lógica booleana celda a celda</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Curvas de Nivel</h3><p>Extracción de isolíneas maestras y secundarias desde el DEM</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Perfil Topográfico</h3><p>Corte longitudinal del cauce con el plugin Profile Tool</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Poligonización</h3><p>Conversión ráster a vector y cálculo de hectáreas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Zonificación</h3><p>Cruce multicriterio y cuantificación de áreas críticas</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Integración Vectorial + Raster -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El punto de encuentro de los dos modelos espaciales</p>
+      <h2 class="slide__title">La potencia del análisis híbrido (Vector + Ráster)</h2>
+      <p class="slide__desc">En ingeniería civil y ambiental los problemas nunca se resuelven con un solo modelo. Los vectores definen límites legales y obras; el ráster define la física del terreno.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Mundo Vectorial</span>
+          <h3>¿Dónde están los bienes expuestos?</h3>
+          <p>Polígonos de manzanas, líneas de tuberías, fajas de retiro hídrico (30 m) y predios catastrales.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Mundo Ráster</span>
+          <h3>¿Dónde está la energía del fenómeno?</h3>
+          <p>Pendientes escarpadas (>30°), cuencas de captación de lluvia y zonas de acumulación de escorrentía.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DIVISOR BLOQUE 1 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 1 · Fundamentos</p>
+    <h1>Álgebra de Mapas y Lógica Booleana</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 5. Álgebra de Mapas: Tomlin -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Dana Tomlin (1990) · Cartographic Modeling</p>
+      <h2 class="slide__title">Los 4 tipos de operaciones en Álgebra de Mapas</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div>
+          <h3>1. Operaciones Locales (Celda a celda)</h3>
+          <p>El nuevo valor depende únicamente de los valores de esa misma posición en una o varias capas (ej. sumar dos rásteres o aplicar un condicional booleano).</p>
+        </div>
+        <div>
+          <h3>2. Operaciones Focales (Vecindad)</h3>
+          <p>El valor de la celda central depende de sus 8 vecinas (ventana móvil 3×3). Así se calculan la <b>pendiente</b>, la <b>orientación</b> y el <b>sombreado</b>.</p>
+        </div>
+        <div>
+          <h3>3. Operaciones Zonales</h3>
+          <p>Resumen estadísticas (media, máximo, suma) de las celdas ráster dentro de las zonas definidas por un polígono vectorial (ej. pendiente media por vereda).</p>
+        </div>
+        <div>
+          <h3>4. Operaciones Globales</h3>
+          <p>Cada celda depende de la totalidad de la matriz territorial (ej. distancia euclidiana ráster o acumulación de flujo hidrológico acumulado).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Lógica Booleana en la Calculadora -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Aritmética de verdadero (1) y falso (0)</p>
+      <h2 class="slide__title">Sintaxis booleana en la Calculadora Ráster de QGIS</h2>
+      <p class="slide__desc">En la Calculadora Ráster, toda comparación lógica entre paréntesis devuelve <b>1 si se cumple (Verdadero)</b> o <b>0 si no se cumple (Falso)</b>.</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box">
+        <span class="tag">Ejemplo 1: Máscara Binaria de Amenaza</span>
+        <p>Aislar en color blanco (1) las celdas con pendiente mayor a 30 grados, dejando el resto en negro (0):</p>
+        <div class="calc-box" style="margin-top:0.6em">
+          <div class="calc-step"><div class="n">Expresión</div><div class="expr">("pendiente_grados@1" &gt; 30) * 1</div></div>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:1.2em">
+        <span class="tag">Ejemplo 2: Reclasificación Multicriterio</span>
+        <p>Asignar código 1 (Baja &lt;15°), código 2 (Media 15°-30°) y código 3 (Alta &gt;30°):</p>
+        <div class="calc-box" style="margin-top:0.6em">
+          <div class="calc-step"><div class="n">Expresión</div><div class="expr">("slope@1" &lt; 15) * 1 + ("slope@1" &gt;= 15 AND "slope@1" &lt;= 30) * 2 + ("slope@1" &gt; 30) * 3</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Práctica 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 1 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: máscara booleana de laderas críticas</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (7 minutos)</span>
+        <p>Abran la <b>Calculadora Ráster</b> (menú <i>Ráster → Calculadora ráster…</i>) y aíslen la amenaza crítica:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Escriban la expresión booleana: <code>("pendiente_grados@1" &gt; 30)</code>.</li>
+          <li>Capa de salida: <code>01_datos/raster/processed/mascara_pendientes_30.tif</code> con CRS <b>EPSG:9377</b>.</li>
+          <li>Abran la capa resultante: observen cómo el mapa se convierte en una matriz binaria pura de ceros (apto) y unos (amenaza crítica de ladera).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. DIVISOR BLOQUE 2 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 2 · Teoría y Práctica</p>
+    <h1>Curvas de Nivel e Isolíneas Topográficas</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 9. Extracción de Curvas de Nivel -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Del terreno continuo a líneas vectoriales de cota</p>
+      <h2 class="slide__title">Extracción de Curvas de Nivel desde el DEM</h2>
+      <p class="slide__desc">Las curvas de nivel (isolíneas) unen puntos de igual altitud topográfica. Son el estándar universal para planos topográficos y obras de ingeniería civil.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Equidistancia según Escala</h3><p>Para cartografía 1:25 000 en montaña se usan equidistancias de <b>25 m</b> o <b>50 m</b>. En planos de obra 1:1 000 se usan cada 1 m o 2 m.</p></div>
+        <div><h3>Curvas Maestras vs. Secundarias</h3><p>Cada 4 o 5 curvas se dibuja una <b>curva maestra (índice)</b> más gruesa y rotulada con la cota (ej. cada 100 m) para facilitar la lectura.</p></div>
+        <div><h3>Lectura Geomorfológica</h3><p>Líneas muy juntas = ladera escarpada de alta pendiente. Líneas separadas = planicie o terraza aluvial.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Mecánica QGIS: Curvas de nivel -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en QGIS</p>
+      <h2 class="slide__title">Generar curvas de nivel con GDAL Contour</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Herramienta Curvas de nivel</h3>
+          <p>Menú <b>Ráster → Extracción → Curvas de nivel…</b> (GDAL Contour).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Intervalo y Atributo</h3>
+          <p>Capa de entrada: DEM reproyectado en CTM12.<br/><b>Intervalo entre curvas de nivel:</b> <code>50</code> metros.<br/>Nombre del atributo de elevación: <code>ELEV</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Guardar en GeoPackage</h3>
+          <p>Guardar en su GeoPackage como capa vectorial de líneas <code>curvas_nivel_50m</code> → Clic en <b>Ejecutar</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Práctica 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 2 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: extraigan las curvas de nivel</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (8 minutos)</span>
+        <p>Generen las curvas de nivel vectoriales de la cuenca de La Iguaná:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Extraigan curvas de nivel cada <b>50 metros</b> a partir del DEM en EPSG:9377.</li>
+          <li>En las propiedades de simbología, configuren una regla simple o filtro:
+            <br/>• Si <code>ELEV % 200 = 0</code> (múltiplos de 200 m, curvas maestras): trazo marrón de 0.6 mm y etiqueta de cota.
+            <br/>• Resto de curvas: trazo fino de 0.2 mm marrón claro.</li>
+          <li>Superpongan las curvas sobre el Hillshade: observen cómo calzan exactamente sobre los valles y cuchillas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. DIVISOR BLOQUE 3 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 3 · Teoría y Práctica</p>
+    <h1>Perfiles Topográficos y Cortes Longitudinales</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 13. El Perfil Longitudinal -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Corte transversal y gradiente hidráulico</p>
+      <h2 class="slide__title">El perfil topográfico en la ingeniería de ríos</h2>
+      <p class="slide__desc">Un perfil topográfico grafica la elevación Z frente a la distancia horizontal recorrida (D) a lo largo de un eje o cauce.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Perfil del Cauce Principal</span>
+          <h3>¿Dónde se acelera el agua?</h3>
+          <p>Muestra el quiebre de pendiente entre la cuenca alta torrencial (Boquerón), la cuenca media disipadora y el abanico aluvial urbano bajo.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Plugin Profile Tool en QGIS</span>
+          <h3>Extracción Interactiva</h3>
+          <p>Permite dibujar una línea sobre el mapa o usar una capa vectorial existente (red hídrica) y graficar en tiempo real el corte del terreno.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Práctica 3: Profile Tool -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 3 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: tracen el perfil de La Iguaná</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (7 minutos)</span>
+        <p>Usen el complemento <b>Profile Tool</b> para extraer el perfil altitudinal:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Instalen el plugin <i>Profile Tool</i> (*Complementos → Administrar e instalar…*).</li>
+          <li>Abran la herramienta, seleccionen el DEM CTM12 en el panel de capas y pulsen <b>Add Layer</b>.</li>
+          <li>Tracen una línea recta transversal desde la cima de Robledo hasta la cima de San Javier cruzando el río: observen la forma en "V" cerrada del cañón.</li>
+          <li>Exporten el gráfico como imagen PNG o tabla de puntos (distancia, cota).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. DIVISOR BLOQUE 4 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 4 · Teoría y Práctica</p>
+    <h1>De Ráster a Vector: Poligonización y Cuantificación</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 16. Poligonizar -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cerrar el ciclo analítico</p>
+      <h2 class="slide__title">Poligonizar: ¿Por qué volver al modelo vectorial?</h2>
+      <p class="slide__desc">Los cálculos de celdas son excelentes para la física del terreno, pero las autoridades exigen áreas en hectáreas y cruces catastrales predio a predio.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div>
+          <h3>Algoritmo Ráster a Vector (GDAL Polygonize)</h3>
+          <p>Agrupa todas las celdas contiguas que comparten el mismo valor entero (ej. todas las celdas de valor 1 en la máscara de amenaza) y genera polígonos vectoriales cerrados.</p>
+        </div>
+        <div>
+          <h3>Cálculo de Área en la Tabla</h3>
+          <p>Una vez poligonizada la amenaza, abren la tabla de atributos y en la Calculadora de campos aplican: <code>$area / 10000</code> para obtener las <b>hectáreas exactas</b> en riesgo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Práctica 4 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 4 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: cuantifiquen el área crítica</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (8 minutos)</span>
+        <p>Conviertan la máscara ráster de pendientes críticas a polígonos vectoriales:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Menú <b>Ráster → Conversión → Poligonizar (ráster a vectorial)…</b></li>
+          <li>Capa de entrada: <code>mascara_pendientes_30.tif</code>. Nombre del campo: <code>amenaza</code>.</li>
+          <li>Filtren la capa vectorial resultante para quedarse solo con <code>amenaza = 1</code>.</li>
+          <li>Abran la calculadora de campos y creen el campo <code>area_ha = $area / 10000</code>.</li>
+          <li><b>Resultado técnico:</b> ¿Cuántas hectáreas de la cuenca presentan pendientes mayores a 30°?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. DIVISOR BLOQUE 5 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 5 · Integración Práctica</p>
+    <h1>Zonificación Territorial y Cruce Multicriterio</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 19. Zonificación de Susceptibilidad Física -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Modelación espacial orientada a toma de decisiones</p>
+      <h2 class="slide__title">Zonificación de Susceptibilidad en Laderas</h2>
+      <p class="slide__desc">Integración de la física del relieve con los límites de planificación territorial sobre la cuenca de La Iguaná.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Criterio Físico</h3>
+          <p>Pendiente crítica (&gt;30°): laderas inestables con alta propensión a movimientos en masa y desprendimientos.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Criterio Hidráulico</h3>
+          <p>Retiro hídrico normativo (30 m): faja de protección ambiental del cauce principal y afluentes torrenciales.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Síntesis Territorial</h3>
+          <p>Intersección ráster-vector para cuantificar predios, manzanas y equipamientos en condición de vulnerabilidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Taller Integrador de Síntesis -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 5 · Síntesis y análisis espacial</p>
+      <h2 class="slide__title">Taller Integrador: Diagnóstico Espacial en La Iguaná</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Flujo Completo de Trabajo en QGIS</span>
+        <div class="info-grid cols-2" style="margin-top:0.4em">
+          <div>
+            <h3 style="color:var(--navy);font-size:1.1rem;margin:0 0 0.3em 0">Paso 1: Filtro de Pendiente y Buffer</h3>
+            <p style="margin:0;font-size:0.92em;color:var(--gray)">Generar la máscara ráster binaria <code>(slope &gt; 30)</code> y el polígono de retiro hídrico vectorial de 30 metros.</p>
+          </div>
+          <div>
+            <h3 style="color:var(--navy);font-size:1.1rem;margin:0 0 0.3em 0">Paso 2: Poligonización y Disolución</h3>
+            <p style="margin:0;font-size:0.92em;color:var(--gray)">Convertir el ráster de amenaza a vectores con GDAL Polygonize y unificar con <i>Disolver</i> para eliminar redundancias.</p>
+          </div>
+          <div>
+            <h3 style="color:var(--navy);font-size:1.1rem;margin:0 0 0.3em 0">Paso 3: Cruce con Manzanas Catastrales</h3>
+            <p style="margin:0;font-size:0.92em;color:var(--gray)">Ejecutar <i>Intersección</i> entre las zonas de ladera crítica y las construcciones urbanas del sector Robledo/San Javier.</p>
+          </div>
+          <div>
+            <h3 style="color:var(--navy);font-size:1.1rem;margin:0 0 0.3em 0">Paso 4: Cuantificación en Hectáreas</h3>
+            <p style="margin:0;font-size:0.92em;color:var(--gray)">Calcular en la tabla de atributos: <code>$area / 10000</code> y reportar el área total afectada ante el grupo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Cierre y Próxima Clase -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre del Módulo 2 y bienvenida al Módulo 3</p>
+      <h2 class="slide__title">Para la próxima semana: Auditoría y Verificación GNSS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Datos GNSS Suministrados</h3><p>Enfoque de consultoría: se proveen archivos crudos GPX y CSV de receptores y smartphones para auditoría técnica.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Trilateración y Errores</h3><p>Estudio de los 3 segmentos GNSS, geometría satelital (DOP) y distorsiones por multitrayectoria urbana.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Navegación & Posición</h3><p>Importación a QGIS, reproyección a CTM12 y contraste espacial de precisión entre receptores satelitales.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Preparación del Informe Final (IF)</h3><p>Modelación del relieve, perfil longitudinal y aseguramiento de calidad espacial de la cuenca.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas con los ejercicios de la sesión?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

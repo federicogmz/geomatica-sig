@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 9</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Modelos Digitales de Elevación y Análisis del Relieve</h1>
+    <p class="sub">Semana 9 · Módulo 2: SIG Ráster y Terreno</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 9 · La tercera dimensión del territorio</p>
+      <h2 class="slide__title">Lo que construiremos hoy (Teoría y Práctica)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>La Regla de Oro</h3><p>Reproyección obligatoria del DEM a metros en EPSG:9377</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Pendientes (Slope)</h3><p>Cálculo de inclinación en grados y porcentaje según norma POT</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Orientación (Aspect)</h3><p>Hacia qué punto cardinal miran las laderas de La Iguaná</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Sombreado (Hillshade)</h3><p>Simulación solar a 315° y el efecto tridimensional</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Fusión Visual 3D</h3><p>Modo de fusión Multiplicar para fusionar pendientes y relieve</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. De la nube a la ingeniería -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Conectando con la Semana 8</p>
+      <h2 class="slide__title">Del archivo descargado al análisis territorial</h2>
+      <p class="slide__desc">En la sesión anterior descargaron el DEM ALOS PALSAR 12.5 m (o DEM de OpenTopography). Hoy extraemos la morfología de la montaña para alimentar proyectos de ingeniería y gestión del riesgo.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Materia Prima</h3><p>Un ráster continuo de elevación con cotas en metros que van desde 1 450 hasta más de 3 100 msnm.</p></div>
+        <div><h3>Pregunta de Ingeniería</h3><p>¿Qué sectores superan el 30° de pendiente y amenazan por inestabilidad de taludes y deslizamientos a los barrios?</p></div>
+        <div><h3>Salida Técnica</h3><p>Mapas cuantitativos de pendiente, orientación e iluminación 3D listos para zonificación y obras civiles.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DIVISOR BLOQUE 1 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 1 · Teoría y Práctica</p>
+    <h1>La Regla de Oro del CRS en Ráster</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 5. La trampa del CRS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">¡El error catastrófico más común en SIG de terreno!</p>
+      <h2 class="slide__title">La trampa del CRS geográfico en el cálculo de pendientes</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--alert">
+        <span class="tag">El Problema Matemático</span>
+        <p>Los DEMs globales (ALOS PALSAR, SRTM, Copernicus) se descargan en <b>coordenadas geográficas (WGS 84 / EPSG:4326)</b>. En este sistema:</p>
+        <ul style="margin:0.5em 0 0 1.2em;line-height:1.5">
+          <li>Las coordenadas horizontales <i>X, Y</i> están en <b>grados decimales</b> (1 celda ≈ 0.000111°).</li>
+          <li>La elevación vertical <i>Z</i> está en <b>metros</b> (2 100 m).</li>
+          <li>El algoritmo de pendiente calcula: <code>desnivel (m) / distancia horizontal (grados)</code>. Al dividir metros entre 0.0001 grados, el software arroja <b>pendientes falsas de 89.9° en todo el territorio</b>, incluso en una cancha de fútbol plana.</li>
+        </ul>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:1.2em">
+        <span class="tag">La Regla de Oro</span>
+        <p><b>Paso previo e innegociable:</b> Reproyectar el DEM a <b>MAGNA-SIRGAS / Origen Nacional CTM12 (EPSG:9377)</b>. Así, tanto <i>X, Y</i> como <i>Z</i> estarán unificadas exactamente en metros lineales.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. GDAL Warp y remuestreo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cómo funciona la reproyección matricial</p>
+      <h2 class="slide__title">GDAL Warp (Combar): Transformación de malla</h2>
+      <p class="slide__desc">Reproyectar un ráster no es mover puntos: es rotar y deformar una cuadrícula regular, calculando nuevos valores para las celdas resultantes.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Vecino más cercano (Nearest)</h3><p>Toma el valor de la celda original más próxima. Rápido, pero genera bordes toscos. Se reserva para datos categóricos (usos del suelo).</p></div>
+        <div><h3>Bilineal (Bilinear)</h3><p>Calcula el promedio ponderado de las 4 celdas más cercanas. Ideal para superficies continuas y DEMs topográficos.</p></div>
+        <div><h3>Cúbica (Cubic)</h3><p>Ajusta un polinomio sobre 16 celdas vecinas. Suaviza la topografía, excelente para hidrología y modelos de escorrentía.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Mecánica QGIS: Reproyectar DEM -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en QGIS</p>
+      <h2 class="slide__title">Reproyectar el DEM a EPSG:9377 con GDAL Combar</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Abrir GDAL Combar</h3>
+          <p>Menú superior <b>Ráster → Proyecciones → Combar (reproyectar)…</b> (o buscar <i>Warp</i> en la caja de herramientas de procesos).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>CRS Objetivo y Resolución</h3>
+          <p>Capa de entrada: DEM descargado en 4326.<br/><b>SRC objetivo:</b> <code>EPSG:9377</code>.<br/><b>Método de remuestreo:</b> <i>Bilineal</i>.<br/><b>Resolución del archivo de salida:</b> <code>12.5</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Guardar GeoTIFF proyectado</h3>
+          <p>Guardar en: <code>01_datos/raster/processed/DEM_Iguana_CTM12_12m.tif</code> → Clic en <b>Ejecutar</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Práctica 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 1 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: reproyecten su DEM a CTM12</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (8 minutos)</span>
+        <p>Ejecuten la reproyección técnica del DEM de La Iguaná a MAGNA-SIRGAS CTM12:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Reproyecten el DEM original con GDAL Combar hacia <b>EPSG:9377</b> forzando resolución de <b>12.5 metros</b> y remuestreo <b>Bilineal</b>.</li>
+          <li>Abran las <b>Propiedades de la capa reproyectada → Información</b>:
+            <br/>• ¿El CRS dice <i>MAGNA-SIRGAS / Origen Nacional</i>?
+            <br/>• ¿El tamaño de píxel marca <code>12.5, -12.5</code>?</li>
+          <li>Si el tamaño de píxel sigue en <code>0.00011°</code>, la capa no se reproyectó. ¡No continúen hasta tener el píxel en metros!</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. DIVISOR BLOQUE 2 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 2 · Teoría y Práctica</p>
+    <h1>Pendientes (Slope) en Grados y Porcentaje</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 10. Grados vs Porcentaje -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Geometría de la inclinación del terreno</p>
+      <h2 class="slide__title">Pendiente: Grados (°) vs. Porcentaje (%)</h2>
+      <p class="slide__desc">La pendiente es la tasa máxima de cambio de elevación entre una celda central y sus 8 vecinas (ventana móvil 3×3).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Pendiente en Grados (0° a 90°)</span>
+          <h3>Ángulo Cenital Topográfico</h3>
+          <p>Ángulo sexagesimal respecto al plano horizontal. 0° es completamente horizontal; 45° es una pared diagonal; 90° es un acantilado vertical absoluto.</p>
+          <p class="small text-muted"><b>Uso estándar:</b> Geotecnia, susceptibilidad a movimientos en masa, geología y normas de riesgo.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Pendiente en Porcentaje (0% a >100%)</span>
+          <h3>Razón Tangencial (ΔZ / ΔD × 100)</h3>
+          <p>Metros de elevación ganados por cada 100 metros horizontales recorridos. 45° equivale exactamente al <b>100%</b> de pendiente. Puede superar el 100%.</p>
+          <p class="small text-muted"><b>Uso estándar:</b> Diseño de carreteras (norma INVIAS: max 12%), rampas peatonales (max 8%) y redes de alcantarillado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Clasificación POT Medellín -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Marco normativo de ordenamiento territorial</p>
+      <h2 class="slide__title">Rangos de pendiente según el POT de Medellín</h2>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead>
+          <tr><th>Rango en Grados</th><th>Equivalente en %</th><th>Denominación Morfológica</th><th>Aptitud y Amenaza Geotécnica</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>0° a 7°</b></td><td>0% a 12%</td><td>Plano a suavemente inclinado</td><td>Llanura aluvial. Apto para urbanización e infraestructura.</td></tr>
+          <tr><td><b>7° a 15°</b></td><td>12% a 27%</td><td>Moderadamente quebrado</td><td>Piedemonte. Urbanizable con obras menores de drenaje.</td></tr>
+          <tr><td><b>15° a 30°</b></td><td>27% a 58%</td><td>Fuertemente quebrado</td><td>Laderas intermedias. Restricciones severas; exige estudios de estabilidad.</td></tr>
+          <tr><td><b>> 30°</b></td><td>> 58%</td><td>Escarpado a muy escarpado</td><td><b>Zona de amenaza crítica por remoción en masa</b>. Protección y reforestación.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 12. Mecánica QGIS: Pendientes -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en QGIS</p>
+      <h2 class="slide__title">Calcular el ráster de pendiente (Slope)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Herramienta Pendiente</h3>
+          <p>Menú <b>Ráster → Análisis → Pendiente…</b> (o en la barra de procesos: <i>GDAL Slope</i>).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Capa y Unidades</h3>
+          <p>Capa de entrada: <b>DEM_Iguana_CTM12_12m.tif</b>.<br/>Dejar desmarcada la opción de porcentaje si desean el resultado en <b>grados</b>.<br/>Factor Z = <code>1.0</code> (ambas dimensiones en metros).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Guardar el ráster</h3>
+          <p>Guardar en <code>01_datos/raster/processed/pendiente_grados.tif</code> → Clic en <b>Ejecutar</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Práctica 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 2 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: clasifiquen las pendientes de la cuenca</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (10 minutos)</span>
+        <p>Generen el mapa de pendientes de La Iguaná y simbolicen según el POT:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Calculen el ráster de pendiente en grados sobre el DEM reproyectado en CTM12.</li>
+          <li>En las <b>Propiedades de la capa de pendientes → Simbología</b>:
+            <br/>• Tipo de renderizador: <b>Pseudocolor monobanda</b>.
+            <br/>• Modo: <b>Intervalos iguales</b> con <b>4 clases</b> editando los valores a: <code>7</code>, <code>15</code>, <code>30</code> y máximo.
+            <br/>• Colores: Verde (0-7°), Amarillo (7-15°), Naranja (15-30°) y Rojo (>30°).</li>
+          <li><b>Pregunta de análisis:</b> ¿Qué porcentaje de la cuenca media y alta de La Iguaná cae en color rojo (>30°)?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. DIVISOR BLOQUE 3 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 3 · Teoría y Práctica</p>
+    <h1>Orientación de Laderas (Aspect)</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 15. Qué es el Aspect -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Hacia qué punto cardinal cae la ladera</p>
+      <h2 class="slide__title">Orientación de laderas (Aspect)</h2>
+      <p class="slide__desc">El Aspect mide la dirección azimutal de la pendiente descendente respecto al Norte geográfico. Se mide en grados angulares de 0° a 360° en el sentido de las agujas del reloj.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Los 4 Cuadrantes</h3><p><b>0° / 360°:</b> Norte.<br/><b>90°:</b> Este (laderas de sol de mañana).<br/><b>180°:</b> Sur.<br/><b>270°:</b> Oeste (laderas de sol de tarde).</p></div>
+        <div><h3>Superficies Planas (-1)</h3><p>Las celdas con pendiente cero no tienen orientación definida: el algoritmo les asigna automáticamente el valor especial <b>-1</b>.</p></div>
+        <div><h3>Aplicaciones Reales</h3><p>Bioclimática urbana, potencial fotovoltaico en techos, distribución de especies vegetales y modelación de secado de suelos post-lluvia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Mecánica QGIS: Aspect -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en QGIS</p>
+      <h2 class="slide__title">Calcular el ráster de orientación (Aspect)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Herramienta Orientación</h3>
+          <p>Menú <b>Ráster → Análisis → Orientación…</b> (o buscar <i>GDAL Aspect</i> en la caja de procesos).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Parámetros</h3>
+          <p>Capa de entrada: <b>DEM_Iguana_CTM12_12m.tif</b>.<br/>Desmarcar opciones trigonométricas para mantener grados azimutales convencionales (0 a 360).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Guardar y clasificar</h3>
+          <p>Guardar en <code>01_datos/raster/processed/orientacion_aspect.tif</code>. Aplicar paleta cualitativa circular de 8 rumbos cardinales (N, NE, E, SE, S, SO, O, NO).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Práctica 3 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 3 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: la insolación de La Iguaná</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (7 minutos)</span>
+        <p>Calculen la orientación de laderas e identifiquen el patrón morfológico del cañón:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Calculen el ráster de Orientación sobre el DEM en CTM12.</li>
+          <li>Como la quebrada corre de occidente a oriente:
+            <br/>• La vertiente norte del cañón (margen izquierda, Robledo) mira hacia el <b>Sur (135° - 225°)</b>.
+            <br/>• La vertiente sur del cañón (margen derecha, San Javier) mira hacia el <b>Norte (315° - 45°)</b>.</li>
+          <li>Comprueben con el <b>Identificador de objetos</b> haciendo clic a ambos lados del cauce principal.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. DIVISOR BLOQUE 4 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 4 · Teoría y Práctica</p>
+    <h1>Relieve Sombreado (Hillshade) y Fusión Visual 3D</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 19. Principios del Hillshade -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Simulación de iluminación solar sobre el terreno</p>
+      <h2 class="slide__title">El sombreado analítico del relieve (Hillshade)</h2>
+      <p class="slide__desc">Calcula la iluminación teórica de cada celda en una escala de grises de 0 (sombra total) a 255 (iluminación perpendicular directa).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Azimut Solar: 315° (NO)</h3><p>Convención cartográfica universal: la luz entra desde el Noroeste. Si iluminan desde el Sur o el Este, el cerebro humano invierte el relieve (las montañas parecen hoyos y los valles parecen crestas).</p></div>
+        <div><h3>Ángulo Solar: 45°</h3><p>Elevación del sol sobre el horizonte. 45° produce el balance perfecto entre contraste de sombras y detalle en laderas intermedias.</p></div>
+        <div><h3>Factor Z: 1.0</h3><p>Como las unidades horizontales y verticales están unificadas en metros (CTM12), el factor de exageración vertical se deja en 1.0.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Mecánica QGIS: Hillshade -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en QGIS</p>
+      <h2 class="slide__title">Generar el Hillshade con GDAL</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Herramienta Mapa de sombras</h3>
+          <p>Menú <b>Ráster → Análisis → Mapa de sombras (Hillshade)…</b></p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Parámetros solares</h3>
+          <p>Capa de entrada: <b>DEM_Iguana_CTM12_12m.tif</b>.<br/><b>Azimut de la luz:</b> <code>315.0</code>.<br/><b>Altitud de la luz:</b> <code>45.0</code>.<br/><b>Factor Z:</b> <code>1.0</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Guardar ráster</h3>
+          <p>Guardar en <code>01_datos/raster/processed/hillshade_315.tif</code> → Clic en <b>Ejecutar</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. La técnica de fusión visual (Multiply) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El secreto de los mapas topográficos profesionales</p>
+      <h2 class="slide__title">Fusión visual con el modo de mezcla "Multiplicar"</h2>
+      <p class="slide__desc">Antes se usaba transparencia simple al 50%, lo que dejaba el mapa lavado y opaco. El modo de mezcla Multiply fusiona la sombra preservando el 100% de la saturación del color.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Pila de Capas en el Panel</span>
+          <h3>Orden Obligatorio de Capas</h3>
+          <p><b>1. Capa superior:</b> Ráster temático coloreado (DEM en rampa Viridis o Mapa de Pendientes en 4 clases).<br/>
+             <b>2. Capa inferior:</b> Ráster de sombreado (<code>hillshade_315.tif</code> en escala de grises).</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Configuración en QGIS</span>
+          <h3>Modo de Mezcla Multiplicar</h3>
+          <p>Doble clic en la capa superior (DEM o Pendientes) → pestaña <b>Simbología</b> → desplegar la sección <b>Representación de capas</b> (al final):<br/>
+             • <b>Modo de mezcla:</b> cambiar de "Normal" a <b>Multiplicar (Multiply)</b>.<br/>
+             • Opacidad: 100%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Práctica 4 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 4 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: creen el mapa de relieve 3D</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (8 minutos)</span>
+        <p>Apliquen la fusión multicapa sobre la cuenca de La Iguaná:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Generen el Hillshade a 315° de azimut y 45° de altitud solar.</li>
+          <li>Coloquen el Hillshade en el fondo del panel de capas.</li>
+          <li>Encima, ubiquen el DEM coloreado en rampa de elevación continua o el mapa de pendientes clasificadas.</li>
+          <li>En la capa superior, configuren <b>Modo de mezcla = Multiplicar</b>.</li>
+          <li>Activen encima sus capas vectoriales de drenajes y límite de cuenca: observen cómo el mapa adquiere una profundidad tridimensional hiperrealista.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. Resumen técnico -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Síntesis de operaciones</p>
+      <h2 class="slide__title">Las 4 capas derivadas de terreno</h2>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead>
+          <tr><th>Capa Derivada</th><th>Algoritmo GDAL</th><th>Unidades / Formato</th><th>Aplicación Principal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>DEM Proyectado</b></td><td>GDAL Warp (Combar)</td><td>Metros (EPSG:9377), Float32</td><td>Base métrica unificada para todo el análisis.</td></tr>
+          <tr><td><b>Pendientes (Slope)</b></td><td>GDAL Slope</td><td>Grados (0° - 90°) o %</td><td>Zonificación de amenaza por deslizamiento y vías.</td></tr>
+          <tr><td><b>Orientación (Aspect)</b></td><td>GDAL Aspect</td><td>Grados azimutales (0° - 360°)</td><td>Insolación, bioclimática y microcuencas.</td></tr>
+          <tr><td><b>Sombreado (Hillshade)</b></td><td>GDAL Hillshade</td><td>Escala de grises (0 - 255)</td><td>Relieve tridimensional y soporte cartográfico.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 24. Checklist Semana 9 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Control de entregables y calidad</p>
+      <h2 class="slide__title">Checklist de la Sesión 9</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>[ ] <b>DEM reproyectado:</b> Archivo en EPSG:9377 con píxel exacto en metros (12.5 m).</li>
+        <li>[ ] <b>Pendientes calculadas:</b> Mapa de pendientes en grados clasificado en 4 rangos según el POT de Medellín.</li>
+        <li>[ ] <b>Orientación de laderas:</b> Capa de Aspect generada e interpretada según las vertientes del cañón.</li>
+        <li>[ ] <b>Hillshade generado:</b> Iluminación a 315° de azimut y 45° de ángulo cenital.</li>
+        <li>[ ] <b>Fusión visual 3D:</b> Modo de mezcla Multiplicar aplicado entre temático y sombreado.</li>
+        <li>[ ] <b>Archivos respaldados:</b> GeoTIFFs guardados en la carpeta <code>01_datos/raster/processed/</code>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 25. Cierre y próxima clase -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre de sesión</p>
+      <h2 class="slide__title">Para la próxima clase (Semana 10)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Álgebra de Mapas</h3><p>Operaciones condicionales y booleanas con la Calculadora Ráster de QGIS.</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Modelación Multicriterio</h3><p>Cruce de pendientes críticas (>30°) con retiros hídricos para zonificar amenaza.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Sustentación I1</h3><p>Presentación oral proyectada de la lámina técnica A3 y entrega del GeoPackage validado (12%).</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Curvas & Perfil</h3><p>Derivación de curvas de nivel cada 25 m y gráfico del perfil topográfico longitudinal.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas con GDAL Warp o el cálculo de pendientes?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

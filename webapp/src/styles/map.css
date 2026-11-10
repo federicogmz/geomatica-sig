@@ -1,0 +1,162 @@
+/* Leaflet Map Customizations & Coordinate Tracker */
+
+.leaflet-container {
+  background: #020617 !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* Custom Scale bar */
+.leaflet-control-scale-line {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-top: none !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 0 0 4px 4px;
+}
+
+/* Custom Zoom control */
+.leaflet-bar a {
+  background-color: var(--bg-surface-glass) !important;
+  backdrop-filter: blur(8px);
+  color: var(--text-primary) !important;
+  border-color: var(--border-subtle) !important;
+  transition: all 0.2s;
+}
+.leaflet-bar a:hover {
+  background-color: var(--bg-surface-elevated) !important;
+  color: var(--primary) !important;
+}
+
+/* Coordinate Bar Styling */
+.coords-tracker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coord-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.coord-label {
+  color: var(--text-muted);
+  font-size: 10.5px;
+}
+
+.coord-value {
+  color: #38BDF8;
+  font-weight: 500;
+}
+
+.coord-divider {
+  color: var(--border-subtle);
+}
+
+/* GIS Popups */
+.custom-gis-popup .leaflet-popup-content-wrapper {
+  background-color: var(--bg-surface-glass);
+  backdrop-filter: blur(14px);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 0;
+  overflow: hidden;
+}
+
+.custom-gis-popup .leaflet-popup-content {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 12px;
+  min-width: 220px;
+}
+
+.custom-gis-popup .leaflet-popup-tip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.gis-popup {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-header {
+  background-color: var(--bg-surface-elevated);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.popup-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+}
+
+.popup-coords {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.popup-body {
+  padding: 10px 12px;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.popup-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.06);
+}
+
+.popup-key {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.popup-val {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* Pulsing Topology Error Marker */
+@keyframes pulse-error {
+  0% {
+    r: 9;
+    stroke-width: 3;
+    opacity: 0.9;
+  }
+  50% {
+    r: 15;
+    stroke-width: 5;
+    opacity: 0.4;
+  }
+  100% {
+    r: 9;
+    stroke-width: 3;
+    opacity: 0.9;
+  }
+}
+
+.pulsing-error-marker {
+  animation: pulse-error 1.5s infinite ease-in-out;
+}

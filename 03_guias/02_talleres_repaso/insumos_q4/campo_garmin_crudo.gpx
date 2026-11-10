@@ -1,0 +1,1746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Garmin GPSMAP 66sr - Laboratorio Geomatica EAFIT" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Levantamiento y Traza GNSS Cruda - Campus Universidad EAFIT</name>
+    <desc>Recorrido peatonal continuo (muestreo 2 s) y waypoints de control en entornos mixtos (cielo abierto vs canones urbanos)</desc>
+    <time>2026-10-20T14:30:00Z</time>
+  </metadata>
+  <wpt lat="6.200296" lon="-75.577782">
+    <ele>1497.3</ele>
+    <time>2026-10-20T14:15:00Z</time>
+    <name>EST-01</name>
+    <cmt>Cielo abierto</cmt>
+    <desc>Placa Porteria Las Vegas (Acceso Peatonal) (Placa geodesica - Cielo abierto)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Placa geodesica</type>
+    <fix>3d</fix>
+    <sat>13</sat>
+    <hdop>1.2</hdop>
+    <vdop>1.7</vdop>
+    <pdop>2.1</pdop>
+  </wpt>
+  <wpt lat="6.198838" lon="-75.578231">
+    <ele>1492.2</ele>
+    <time>2026-10-20T14:17:00Z</time>
+    <name>EST-02</name>
+    <cmt>Cielo abierto</cmt>
+    <desc>Placa Cancha Sintetica (Esquina NE) (Placa geodesica - Cielo abierto)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Placa geodesica</type>
+    <fix>3d</fix>
+    <sat>15</sat>
+    <hdop>0.9</hdop>
+    <vdop>1.3</vdop>
+    <pdop>1.6</pdop>
+  </wpt>
+  <wpt lat="6.198225" lon="-75.579401">
+    <ele>1499.9</ele>
+    <time>2026-10-20T14:19:00Z</time>
+    <name>EST-03</name>
+    <cmt>Canon urbano</cmt>
+    <desc>Esquina NE Bloque 19 (Edificio Ingenierias) (Esquina de edificio - Canon urbano)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Esquina de edificio</type>
+    <fix>3d</fix>
+    <sat>5</sat>
+    <hdop>4.2</hdop>
+    <vdop>5.4</vdop>
+    <pdop>6.8</pdop>
+  </wpt>
+  <wpt lat="6.199010" lon="-75.579014">
+    <ele>1500.6</ele>
+    <time>2026-10-20T14:21:00Z</time>
+    <name>EST-04</name>
+    <cmt>Canon urbano</cmt>
+    <desc>Esquina SE Bloque Argos (Centro Innovacion) (Esquina de edificio - Canon urbano)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Esquina de edificio</type>
+    <fix>3d</fix>
+    <sat>6</sat>
+    <hdop>3.6</hdop>
+    <vdop>4.5</vdop>
+    <pdop>5.8</pdop>
+  </wpt>
+  <wpt lat="6.200128" lon="-75.578350">
+    <ele>1492.3</ele>
+    <time>2026-10-20T14:23:00Z</time>
+    <name>EST-05</name>
+    <cmt>Dosel arboreo</cmt>
+    <desc>Puente Peatonal Quebrada La Volcana (Estribo Norte) (Puente peatonal - Dosel arboreo)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Puente peatonal</type>
+    <fix>3d</fix>
+    <sat>8</sat>
+    <hdop>2.2</hdop>
+    <vdop>2.9</vdop>
+    <pdop>3.6</pdop>
+  </wpt>
+  <wpt lat="6.200512" lon="-75.578427">
+    <ele>1498.0</ele>
+    <time>2026-10-20T14:25:00Z</time>
+    <name>EST-06</name>
+    <cmt>Cielo abierto</cmt>
+    <desc>Placa Control Plazoleta del Estudiante (Placa geodesica - Cielo abierto)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Placa geodesica</type>
+    <fix>3d</fix>
+    <sat>14</sat>
+    <hdop>1.0</hdop>
+    <vdop>1.4</vdop>
+    <pdop>1.7</pdop>
+  </wpt>
+  <wpt lat="6.200195" lon="-75.578520">
+    <ele>1490.5</ele>
+    <time>2026-10-20T14:27:00Z</time>
+    <name>EST-07</name>
+    <cmt>Canon urbano</cmt>
+    <desc>Esquina SE Bloque 29 (Pasillo Bloques 28-29) (Esquina de edificio - Canon urbano)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Esquina de edificio</type>
+    <fix>3d</fix>
+    <sat>5</sat>
+    <hdop>3.8</hdop>
+    <vdop>4.8</vdop>
+    <pdop>6.1</pdop>
+  </wpt>
+  <wpt lat="6.200922" lon="-75.578857">
+    <ele>1505.5</ele>
+    <time>2026-10-20T14:29:00Z</time>
+    <name>EST-08</name>
+    <cmt>Canon urbano</cmt>
+    <desc>Esquina SO Biblioteca Luis Echavarria Villegas (Bloque 32) (Esquina de edificio - Canon urbano)</desc>
+    <sym>Flag, Blue</sym>
+    <type>Esquina de edificio</type>
+    <fix>3d</fix>
+    <sat>6</sat>
+    <hdop>3.3</hdop>
+    <vdop>4.2</vdop>
+    <pdop>5.3</pdop>
+  </wpt>
+  <trk>
+    <name>TRAZA_PEATONAL_EAFIT</name>
+    <desc>Recorrido peatonal de auditoria GNSS por el campus EAFIT (intervalo 2 s)</desc>
+    <trkseg>
+      <trkpt lat="6.198848" lon="-75.578220">
+        <ele>1492.8</ele>
+        <time>2026-10-20T14:30:00Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198794" lon="-75.578217">
+        <ele>1492.8</ele>
+        <time>2026-10-20T14:30:02Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198740" lon="-75.578214">
+        <ele>1492.8</ele>
+        <time>2026-10-20T14:30:04Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198686" lon="-75.578213">
+        <ele>1492.8</ele>
+        <time>2026-10-20T14:30:06Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198633" lon="-75.578212">
+        <ele>1492.8</ele>
+        <time>2026-10-20T14:30:08Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198583" lon="-75.578212">
+        <ele>1492.7</ele>
+        <time>2026-10-20T14:30:10Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198533" lon="-75.578213">
+        <ele>1492.6</ele>
+        <time>2026-10-20T14:30:12Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198482" lon="-75.578215">
+        <ele>1492.5</ele>
+        <time>2026-10-20T14:30:14Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198428" lon="-75.578216">
+        <ele>1492.4</ele>
+        <time>2026-10-20T14:30:16Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198374" lon="-75.578217">
+        <ele>1492.2</ele>
+        <time>2026-10-20T14:30:18Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198320" lon="-75.578217">
+        <ele>1492.1</ele>
+        <time>2026-10-20T14:30:20Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198268" lon="-75.578218">
+        <ele>1492.0</ele>
+        <time>2026-10-20T14:30:22Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198217" lon="-75.578220">
+        <ele>1492.0</ele>
+        <time>2026-10-20T14:30:24Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198167" lon="-75.578224">
+        <ele>1491.9</ele>
+        <time>2026-10-20T14:30:26Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198162" lon="-75.578273">
+        <ele>1492.0</ele>
+        <time>2026-10-20T14:30:28Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198160" lon="-75.578327">
+        <ele>1492.0</ele>
+        <time>2026-10-20T14:30:30Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198157" lon="-75.578379">
+        <ele>1492.0</ele>
+        <time>2026-10-20T14:30:32Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198155" lon="-75.578430">
+        <ele>1492.1</ele>
+        <time>2026-10-20T14:30:34Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198154" lon="-75.578481">
+        <ele>1492.1</ele>
+        <time>2026-10-20T14:30:36Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198156" lon="-75.578531">
+        <ele>1492.1</ele>
+        <time>2026-10-20T14:30:38Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198157" lon="-75.578583">
+        <ele>1492.1</ele>
+        <time>2026-10-20T14:30:40Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198154" lon="-75.578635">
+        <ele>1492.1</ele>
+        <time>2026-10-20T14:30:42Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198143" lon="-75.578688">
+        <ele>1492.0</ele>
+        <time>2026-10-20T14:30:44Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198130" lon="-75.578741">
+        <ele>1491.9</ele>
+        <time>2026-10-20T14:30:46Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198118" lon="-75.578793">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:30:48Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198107" lon="-75.578845">
+        <ele>1491.7</ele>
+        <time>2026-10-20T14:30:50Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198099" lon="-75.578895">
+        <ele>1491.6</ele>
+        <time>2026-10-20T14:30:52Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198091" lon="-75.578945">
+        <ele>1491.5</ele>
+        <time>2026-10-20T14:30:54Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198081" lon="-75.578994">
+        <ele>1491.5</ele>
+        <time>2026-10-20T14:30:56Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198079" lon="-75.579045">
+        <ele>1491.5</ele>
+        <time>2026-10-20T14:30:58Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.198079" lon="-75.579098">
+        <ele>1491.5</ele>
+        <time>2026-10-20T14:31:00Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198080" lon="-75.579151">
+        <ele>1491.6</ele>
+        <time>2026-10-20T14:31:02Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.197950" lon="-75.579580">
+        <ele>1508.4</ele>
+        <time>2026-10-20T14:31:04Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.6</hdop>
+        <vdop>5.8</vdop>
+        <pdop>7.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198040" lon="-75.579560">
+        <ele>1511.2</ele>
+        <time>2026-10-20T14:31:06Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>5.2</hdop>
+        <vdop>6.4</vdop>
+        <pdop>8.2</pdop>
+      </trkpt>
+      <trkpt lat="6.198089" lon="-75.579258">
+        <ele>1491.7</ele>
+        <time>2026-10-20T14:31:08Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.198088" lon="-75.579204">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:31:10Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.198110" lon="-75.579550">
+        <ele>1506.9</ele>
+        <time>2026-10-20T14:31:12Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>3.8</hdop>
+        <vdop>4.9</vdop>
+        <pdop>6.2</pdop>
+      </trkpt>
+      <trkpt lat="6.198079" lon="-75.579097">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:31:14Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198074" lon="-75.579044">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:31:16Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198090" lon="-75.579009">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:31:18Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198145" lon="-75.579011">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:31:20Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.198199" lon="-75.579013">
+        <ele>1491.8</ele>
+        <time>2026-10-20T14:31:22Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.198252" lon="-75.579014">
+        <ele>1491.9</ele>
+        <time>2026-10-20T14:31:24Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.198450" lon="-75.579180">
+        <ele>1504.8</ele>
+        <time>2026-10-20T14:31:26Z</time>
+        <fix>3d</fix>
+        <sat>6</sat>
+        <hdop>3.4</hdop>
+        <vdop>4.3</vdop>
+        <pdop>5.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198560" lon="-75.579210">
+        <ele>1509.1</ele>
+        <time>2026-10-20T14:31:28Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.5</hdop>
+        <vdop>5.7</vdop>
+        <pdop>7.3</pdop>
+      </trkpt>
+      <trkpt lat="6.198404" lon="-75.579011">
+        <ele>1492.2</ele>
+        <time>2026-10-20T14:31:30Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.198456" lon="-75.579010">
+        <ele>1492.3</ele>
+        <time>2026-10-20T14:31:32Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.198680" lon="-75.579160">
+        <ele>1503.5</ele>
+        <time>2026-10-20T14:31:34Z</time>
+        <fix>3d</fix>
+        <sat>6</sat>
+        <hdop>3.1</hdop>
+        <vdop>4.0</vdop>
+        <pdop>5.1</pdop>
+      </trkpt>
+      <trkpt lat="6.198565" lon="-75.579010">
+        <ele>1492.7</ele>
+        <time>2026-10-20T14:31:36Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.198618" lon="-75.579011">
+        <ele>1492.9</ele>
+        <time>2026-10-20T14:31:38Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198669" lon="-75.579013">
+        <ele>1493.1</ele>
+        <time>2026-10-20T14:31:40Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.198719" lon="-75.579014">
+        <ele>1493.2</ele>
+        <time>2026-10-20T14:31:42Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.198770" lon="-75.579015">
+        <ele>1493.3</ele>
+        <time>2026-10-20T14:31:44Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.199150" lon="-75.579220">
+        <ele>1512.0</ele>
+        <time>2026-10-20T14:31:46Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>4.9</hdop>
+        <vdop>6.1</vdop>
+        <pdop>7.8</pdop>
+      </trkpt>
+      <trkpt lat="6.199250" lon="-75.579260">
+        <ele>1515.3</ele>
+        <time>2026-10-20T14:31:48Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>5.6</hdop>
+        <vdop>6.9</vdop>
+        <pdop>8.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198932" lon="-75.579010">
+        <ele>1493.5</ele>
+        <time>2026-10-20T14:31:50Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.198985" lon="-75.579010">
+        <ele>1493.6</ele>
+        <time>2026-10-20T14:31:52Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.199036" lon="-75.579010">
+        <ele>1493.6</ele>
+        <time>2026-10-20T14:31:54Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.199380" lon="-75.578920">
+        <ele>1507.6</ele>
+        <time>2026-10-20T14:31:56Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>3.9</hdop>
+        <vdop>4.8</vdop>
+        <pdop>6.2</pdop>
+      </trkpt>
+      <trkpt lat="6.199440" lon="-75.578890">
+        <ele>1510.4</ele>
+        <time>2026-10-20T14:31:58Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.4</hdop>
+        <vdop>5.5</vdop>
+        <pdop>7.0</pdop>
+      </trkpt>
+      <trkpt lat="6.199187" lon="-75.579037">
+        <ele>1493.9</ele>
+        <time>2026-10-20T14:32:00Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.199241" lon="-75.579046">
+        <ele>1494.1</ele>
+        <time>2026-10-20T14:32:02Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.199292" lon="-75.579058">
+        <ele>1494.3</ele>
+        <time>2026-10-20T14:32:04Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.199328" lon="-75.579095">
+        <ele>1494.5</ele>
+        <time>2026-10-20T14:32:06Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.199377" lon="-75.579098">
+        <ele>1494.7</ele>
+        <time>2026-10-20T14:32:08Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.199820" lon="-75.579120">
+        <ele>1506.8</ele>
+        <time>2026-10-20T14:32:10Z</time>
+        <fix>3d</fix>
+        <sat>6</sat>
+        <hdop>3.5</hdop>
+        <vdop>4.4</vdop>
+        <pdop>5.6</pdop>
+      </trkpt>
+      <trkpt lat="6.199950" lon="-75.579150">
+        <ele>1511.7</ele>
+        <time>2026-10-20T14:32:12Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.7</hdop>
+        <vdop>5.9</vdop>
+        <pdop>7.5</pdop>
+      </trkpt>
+      <trkpt lat="6.199530" lon="-75.579099">
+        <ele>1495.1</ele>
+        <time>2026-10-20T14:32:14Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.199568" lon="-75.579072">
+        <ele>1495.1</ele>
+        <time>2026-10-20T14:32:16Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.199597" lon="-75.579028">
+        <ele>1495.1</ele>
+        <time>2026-10-20T14:32:18Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.199628" lon="-75.578988">
+        <ele>1495.1</ele>
+        <time>2026-10-20T14:32:20Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200350" lon="-75.578930">
+        <ele>1509.5</ele>
+        <time>2026-10-20T14:32:22Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.1</hdop>
+        <vdop>5.2</vdop>
+        <pdop>6.6</pdop>
+      </trkpt>
+      <trkpt lat="6.199729" lon="-75.578985">
+        <ele>1495.1</ele>
+        <time>2026-10-20T14:32:24Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.199780" lon="-75.578983">
+        <ele>1495.2</ele>
+        <time>2026-10-20T14:32:26Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.199832" lon="-75.578983">
+        <ele>1495.3</ele>
+        <time>2026-10-20T14:32:28Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200320" lon="-75.578720">
+        <ele>1508.2</ele>
+        <time>2026-10-20T14:32:30Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>3.7</hdop>
+        <vdop>4.7</vdop>
+        <pdop>6.0</pdop>
+      </trkpt>
+      <trkpt lat="6.200410" lon="-75.578680">
+        <ele>1513.1</ele>
+        <time>2026-10-20T14:32:32Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>4.8</hdop>
+        <vdop>6.0</vdop>
+        <pdop>7.7</pdop>
+      </trkpt>
+      <trkpt lat="6.199994" lon="-75.578986">
+        <ele>1495.7</ele>
+        <time>2026-10-20T14:32:34Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200045" lon="-75.578988">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:32:36Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200095" lon="-75.578988">
+        <ele>1496.1</ele>
+        <time>2026-10-20T14:32:38Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200146" lon="-75.578986">
+        <ele>1496.2</ele>
+        <time>2026-10-20T14:32:40Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200179" lon="-75.578964">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:32:42Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200182" lon="-75.578910">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:32:44Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200185" lon="-75.578858">
+        <ele>1496.5</ele>
+        <time>2026-10-20T14:32:46Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200177" lon="-75.578809">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:32:48Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200144" lon="-75.578768">
+        <ele>1496.3</ele>
+        <time>2026-10-20T14:32:50Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200111" lon="-75.578728">
+        <ele>1496.1</ele>
+        <time>2026-10-20T14:32:52Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200115" lon="-75.578686">
+        <ele>1496.0</ele>
+        <time>2026-10-20T14:32:54Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200145" lon="-75.578643">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:32:56Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200176" lon="-75.578599">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:32:58Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200200" lon="-75.578550">
+        <ele>1496.0</ele>
+        <time>2026-10-20T14:33:00Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200219" lon="-75.578499">
+        <ele>1496.1</ele>
+        <time>2026-10-20T14:33:02Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200235" lon="-75.578449">
+        <ele>1496.2</ele>
+        <time>2026-10-20T14:33:04Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200241" lon="-75.578401">
+        <ele>1496.2</ele>
+        <time>2026-10-20T14:33:06Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.200216" lon="-75.578356">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:33:08Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.2</hdop>
+        <vdop>1.6</vdop>
+        <pdop>2.0</pdop>
+      </trkpt>
+      <trkpt lat="6.200193" lon="-75.578312">
+        <ele>1495.7</ele>
+        <time>2026-10-20T14:33:10Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200143" lon="-75.578319">
+        <ele>1495.4</ele>
+        <time>2026-10-20T14:33:12Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200114" lon="-75.578323">
+        <ele>1495.3</ele>
+        <time>2026-10-20T14:33:14Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200167" lon="-75.578316">
+        <ele>1495.6</ele>
+        <time>2026-10-20T14:33:16Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200195" lon="-75.578290">
+        <ele>1495.8</ele>
+        <time>2026-10-20T14:33:18Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200187" lon="-75.578237">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:33:20Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200180" lon="-75.578184">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:33:22Z</time>
+        <fix>3d</fix>
+        <sat>13</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.200175" lon="-75.578133">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:33:24Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200172" lon="-75.578083">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:33:26Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200175" lon="-75.578032">
+        <ele>1495.9</ele>
+        <time>2026-10-20T14:33:28Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200176" lon="-75.577981">
+        <ele>1496.0</ele>
+        <time>2026-10-20T14:33:30Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200175" lon="-75.577929">
+        <ele>1496.1</ele>
+        <time>2026-10-20T14:33:32Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200174" lon="-75.577875">
+        <ele>1496.2</ele>
+        <time>2026-10-20T14:33:34Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200173" lon="-75.577861">
+        <ele>1496.2</ele>
+        <time>2026-10-20T14:33:36Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.200174" lon="-75.577911">
+        <ele>1496.3</ele>
+        <time>2026-10-20T14:33:38Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200177" lon="-75.577963">
+        <ele>1496.3</ele>
+        <time>2026-10-20T14:33:40Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200180" lon="-75.578016">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:42Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200181" lon="-75.578070">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:44Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200180" lon="-75.578124">
+        <ele>1496.5</ele>
+        <time>2026-10-20T14:33:46Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200178" lon="-75.578177">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:48Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200178" lon="-75.578230">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:50Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200189" lon="-75.578278">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:52Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200211" lon="-75.578325">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:54Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.200233" lon="-75.578372">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:56Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200259" lon="-75.578412">
+        <ele>1496.4</ele>
+        <time>2026-10-20T14:33:58Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200309" lon="-75.578413">
+        <ele>1496.6</ele>
+        <time>2026-10-20T14:34:00Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200359" lon="-75.578415">
+        <ele>1496.8</ele>
+        <time>2026-10-20T14:34:02Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200410" lon="-75.578417">
+        <ele>1497.0</ele>
+        <time>2026-10-20T14:34:04Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.1</hdop>
+        <vdop>1.5</vdop>
+        <pdop>1.9</pdop>
+      </trkpt>
+      <trkpt lat="6.200463" lon="-75.578418">
+        <ele>1497.2</ele>
+        <time>2026-10-20T14:34:06Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200518" lon="-75.578418">
+        <ele>1497.4</ele>
+        <time>2026-10-20T14:34:08Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200572" lon="-75.578417">
+        <ele>1497.7</ele>
+        <time>2026-10-20T14:34:10Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200625" lon="-75.578415">
+        <ele>1497.9</ele>
+        <time>2026-10-20T14:34:12Z</time>
+        <fix>3d</fix>
+        <sat>14</sat>
+        <hdop>0.8</hdop>
+        <vdop>1.1</vdop>
+        <pdop>1.4</pdop>
+      </trkpt>
+      <trkpt lat="6.200675" lon="-75.578414">
+        <ele>1498.2</ele>
+        <time>2026-10-20T14:34:14Z</time>
+        <fix>3d</fix>
+        <sat>15</sat>
+        <hdop>0.9</hdop>
+        <vdop>1.2</vdop>
+        <pdop>1.5</pdop>
+      </trkpt>
+      <trkpt lat="6.200725" lon="-75.578413">
+        <ele>1498.4</ele>
+        <time>2026-10-20T14:34:16Z</time>
+        <fix>3d</fix>
+        <sat>16</sat>
+        <hdop>1.0</hdop>
+        <vdop>1.4</vdop>
+        <pdop>1.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200776" lon="-75.578418">
+        <ele>1498.6</ele>
+        <time>2026-10-20T14:34:18Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200825" lon="-75.578438">
+        <ele>1498.8</ele>
+        <time>2026-10-20T14:34:20Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.200876" lon="-75.578459">
+        <ele>1499.0</ele>
+        <time>2026-10-20T14:34:22Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200921" lon="-75.578482">
+        <ele>1499.1</ele>
+        <time>2026-10-20T14:34:24Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.200922" lon="-75.578535">
+        <ele>1499.1</ele>
+        <time>2026-10-20T14:34:26Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201050" lon="-75.578550">
+        <ele>1512.4</ele>
+        <time>2026-10-20T14:34:28Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.3</hdop>
+        <vdop>5.4</vdop>
+        <pdop>6.9</pdop>
+      </trkpt>
+      <trkpt lat="6.201080" lon="-75.578680">
+        <ele>1516.8</ele>
+        <time>2026-10-20T14:34:30Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>5.4</hdop>
+        <vdop>6.7</vdop>
+        <pdop>8.6</pdop>
+      </trkpt>
+      <trkpt lat="6.200916" lon="-75.578687">
+        <ele>1499.1</ele>
+        <time>2026-10-20T14:34:32Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.200917" lon="-75.578739">
+        <ele>1499.2</ele>
+        <time>2026-10-20T14:34:34Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.200919" lon="-75.578792">
+        <ele>1499.3</ele>
+        <time>2026-10-20T14:34:36Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.200939" lon="-75.578828">
+        <ele>1499.4</ele>
+        <time>2026-10-20T14:34:38Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.201150" lon="-75.578720">
+        <ele>1510.9</ele>
+        <time>2026-10-20T14:34:40Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>3.9</hdop>
+        <vdop>4.9</vdop>
+        <pdop>6.3</pdop>
+      </trkpt>
+      <trkpt lat="6.201042" lon="-75.578833">
+        <ele>1499.9</ele>
+        <time>2026-10-20T14:34:42Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201092" lon="-75.578834">
+        <ele>1500.2</ele>
+        <time>2026-10-20T14:34:44Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201120" lon="-75.578980">
+        <ele>1509.7</ele>
+        <time>2026-10-20T14:34:46Z</time>
+        <fix>3d</fix>
+        <sat>6</sat>
+        <hdop>3.6</hdop>
+        <vdop>4.5</vdop>
+        <pdop>5.8</pdop>
+      </trkpt>
+      <trkpt lat="6.201196" lon="-75.578832">
+        <ele>1500.7</ele>
+        <time>2026-10-20T14:34:48Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.201251" lon="-75.578832">
+        <ele>1500.9</ele>
+        <time>2026-10-20T14:34:50Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.201305" lon="-75.578832">
+        <ele>1501.1</ele>
+        <time>2026-10-20T14:34:52Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.201310" lon="-75.578960">
+        <ele>1514.2</ele>
+        <time>2026-10-20T14:34:54Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.8</hdop>
+        <vdop>6.0</vdop>
+        <pdop>7.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201408" lon="-75.578836">
+        <ele>1501.4</ele>
+        <time>2026-10-20T14:34:56Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201422" lon="-75.578801">
+        <ele>1501.4</ele>
+        <time>2026-10-20T14:34:58Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.201421" lon="-75.578750">
+        <ele>1501.4</ele>
+        <time>2026-10-20T14:35:00Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.201423" lon="-75.578697">
+        <ele>1501.4</ele>
+        <time>2026-10-20T14:35:02Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.201425" lon="-75.578644">
+        <ele>1501.4</ele>
+        <time>2026-10-20T14:35:04Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201428" lon="-75.578590">
+        <ele>1501.4</ele>
+        <time>2026-10-20T14:35:06Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.201429" lon="-75.578536">
+        <ele>1501.5</ele>
+        <time>2026-10-20T14:35:08Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201428" lon="-75.578483">
+        <ele>1501.5</ele>
+        <time>2026-10-20T14:35:10Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.201550" lon="-75.578650">
+        <ele>1515.6</ele>
+        <time>2026-10-20T14:35:12Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>5.1</hdop>
+        <vdop>6.3</vdop>
+        <pdop>8.1</pdop>
+      </trkpt>
+      <trkpt lat="6.201620" lon="-75.578620">
+        <ele>1519.0</ele>
+        <time>2026-10-20T14:35:14Z</time>
+        <fix>3d</fix>
+        <sat>4</sat>
+        <hdop>6.2</hdop>
+        <vdop>7.5</vdop>
+        <pdop>9.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201428" lon="-75.578331">
+        <ele>1501.9</ele>
+        <time>2026-10-20T14:35:16Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201433" lon="-75.578280">
+        <ele>1502.0</ele>
+        <time>2026-10-20T14:35:18Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.201437" lon="-75.578227">
+        <ele>1502.1</ele>
+        <time>2026-10-20T14:35:20Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201440" lon="-75.578174">
+        <ele>1502.2</ele>
+        <time>2026-10-20T14:35:22Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201441" lon="-75.578120">
+        <ele>1502.2</ele>
+        <time>2026-10-20T14:35:24Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.201540" lon="-75.578220">
+        <ele>1511.5</ele>
+        <time>2026-10-20T14:35:26Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>3.8</hdop>
+        <vdop>4.8</vdop>
+        <pdop>6.1</pdop>
+      </trkpt>
+      <trkpt lat="6.201512" lon="-75.578086">
+        <ele>1502.4</ele>
+        <time>2026-10-20T14:35:28Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.201566" lon="-75.578086">
+        <ele>1502.4</ele>
+        <time>2026-10-20T14:35:30Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.201620" lon="-75.578087">
+        <ele>1502.5</ele>
+        <time>2026-10-20T14:35:32Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201674" lon="-75.578088">
+        <ele>1502.6</ele>
+        <time>2026-10-20T14:35:34Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201727" lon="-75.578089">
+        <ele>1502.7</ele>
+        <time>2026-10-20T14:35:36Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.201777" lon="-75.578088">
+        <ele>1502.8</ele>
+        <time>2026-10-20T14:35:38Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.5</hdop>
+        <vdop>2.0</vdop>
+        <pdop>2.5</pdop>
+      </trkpt>
+      <trkpt lat="6.201780" lon="-75.578133">
+        <ele>1502.8</ele>
+        <time>2026-10-20T14:35:40Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.4</hdop>
+        <vdop>1.9</vdop>
+        <pdop>2.4</pdop>
+      </trkpt>
+      <trkpt lat="6.201778" lon="-75.578183">
+        <ele>1502.9</ele>
+        <time>2026-10-20T14:35:42Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.7</hdop>
+        <vdop>2.3</vdop>
+        <pdop>2.9</pdop>
+      </trkpt>
+      <trkpt lat="6.201680" lon="-75.578250">
+        <ele>1513.8</ele>
+        <time>2026-10-20T14:35:44Z</time>
+        <fix>3d</fix>
+        <sat>5</sat>
+        <hdop>4.5</hdop>
+        <vdop>5.6</vdop>
+        <pdop>7.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201780" lon="-75.578286">
+        <ele>1503.1</ele>
+        <time>2026-10-20T14:35:46Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201781" lon="-75.578339">
+        <ele>1503.2</ele>
+        <time>2026-10-20T14:35:48Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.201780" lon="-75.578393">
+        <ele>1503.3</ele>
+        <time>2026-10-20T14:35:50Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201778" lon="-75.578447">
+        <ele>1503.3</ele>
+        <time>2026-10-20T14:35:52Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.3</hdop>
+        <vdop>1.8</vdop>
+        <pdop>2.2</pdop>
+      </trkpt>
+      <trkpt lat="6.201775" lon="-75.578500">
+        <ele>1503.4</ele>
+        <time>2026-10-20T14:35:54Z</time>
+        <fix>3d</fix>
+        <sat>10</sat>
+        <hdop>1.6</hdop>
+        <vdop>2.2</vdop>
+        <pdop>2.7</pdop>
+      </trkpt>
+      <trkpt lat="6.201773" lon="-75.578552">
+        <ele>1503.4</ele>
+        <time>2026-10-20T14:35:56Z</time>
+        <fix>3d</fix>
+        <sat>11</sat>
+        <hdop>1.8</hdop>
+        <vdop>2.4</vdop>
+        <pdop>3.0</pdop>
+      </trkpt>
+      <trkpt lat="6.201773" lon="-75.578603">
+        <ele>1503.3</ele>
+        <time>2026-10-20T14:35:58Z</time>
+        <fix>3d</fix>
+        <sat>12</sat>
+        <hdop>1.9</hdop>
+        <vdop>2.6</vdop>
+        <pdop>3.2</pdop>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

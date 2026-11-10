@@ -1,0 +1,14 @@
+{
+"type": "FeatureCollection",
+"name": "equipamientos_comunitarios",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{"type":"Feature","properties":{"codigo":"EQ-01","nombre":"I.E. Blanquizal","tipo":"Educación","barrio":"Blanquizal","capacidad":650},"geometry":{"type":"Point","coordinates":[-75.601127363482263,6.274528153549931]}},
+{"type":"Feature","properties":{"codigo":"EQ-02","nombre":"Centro de Salud Olaya Herrera","tipo":"Salud","barrio":"Olaya Herrera","capacidad":180},"geometry":{"type":"Point","coordinates":[-75.595698018513829,6.272845734421579]}},
+{"type":"Feature","properties":{"codigo":"EQ-03","nombre":"Cancha Polideportiva La Iguaná","tipo":"Recreación","barrio":"Olaya Herrera","capacidad":250},"geometry":{"type":"Point","coordinates":[-75.590268478202034,6.271120872362617]}},
+{"type":"Feature","properties":{"codigo":"EQ-04","nombre":"Jardín Infantil Buen Comienzo","tipo":"Educación","barrio":"Blanquizal","capacidad":120},"geometry":{"type":"Point","coordinates":[-75.60339641170485,6.276601477734724]}},
+{"type":"Feature","properties":{"codigo":"EQ-05","nombre":"Parroquia San Juan Bautista","tipo":"Culto","barrio":"Blanquizal","capacidad":300},"geometry":{"type":"Point","coordinates":[-75.598408551356471,6.272851999346902]}},
+{"type":"Feature","properties":{"codigo":"EQ-06","nombre":"CAI Olaya Herrera","tipo":"Seguridad","barrio":"Olaya Herrera","capacidad":45},"geometry":{"type":"Point","coordinates":[-75.592984038454745,6.272143481821223]}},
+{"type":"Feature","properties":{"codigo":"EQ-07","nombre":"Centro Comunitario El Pesebre","tipo":"Comunal","barrio":"Olaya Herrera","capacidad":90},"geometry":{"type":"Point","coordinates":[-75.587547548880167,6.269008518732663]}}
+]
+}

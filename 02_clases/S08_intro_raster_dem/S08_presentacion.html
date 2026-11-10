@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Geomática, Ingeniería y SIG: Semana 8</title>
+<link rel="stylesheet" href="../_plantilla/estilo.css" />
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. Portada -->
+  <section class="slide slide--portada active">
+    <h1>Consolidación de I1 e Introducción al Modelo Ráster</h1>
+    <p class="sub">Semana 8 · Preparación del Diagnóstico Vectorial y Transición a Campos Continuos</p>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 2. Agenda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Sesión 8 · Mitad del semestre y transición al Módulo 2</p>
+      <h2 class="slide__title">Lo que haremos hoy (Teoría y Práctica)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Preparación I1</h3><p>Auditoría de capas vectoriales, snapping y composición A3</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Del Vector al Ráster</h3><p>Campos continuos y la estructura matricial del píxel</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Anatomía del DEM</h3><p>MDT vs. MDS y resolución de sensores (SRTM, ALOS PALSAR)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Descarga en QGIS</h3><p>Obtención de ALOS PALSAR 12.5 m RTC y plugins de DEM</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Inspección en QGIS</h3><p>Simbología pseudocolor monobanda y verificación de cotas</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Por qué hoy: El hito I1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Primer hito del curso (12% de la nota final · Sustentación en Semana 10)</p>
+      <h2 class="slide__title">Rumbo a la Entrega del Diagnóstico Cartográfico I1</h2>
+      <p class="slide__desc">Consolidamos las primeras 7 semanas de trabajo vectorial sobre la cuenca de La Iguaná. Dejamos lista la base de datos espacial y la lámina técnica A3 para su sustentación oficial en la Semana 10.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">GeoPackage Limpio</span>
+          <h3>Base Vectorial</h3>
+          <p>Capas de cuenca, drenajes, fajas de retiro hídrico (Buffer 30 m) y propuesta territorial en EPSG:9377.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Lámina A3 en PDF</span>
+          <h3>Salida Cartográfica</h3>
+          <p>Plano técnico digital A3 con jerarquía visual, escala fija redonda, cuadrícula CTM12, leyenda depurada y rótulo oficial.</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Sustentación (Semana 10)</span>
+          <h3>Defensa Técnica (12%)</h3>
+          <p>Exposición proyectada en el aula frente al grupo sustentando el diagnóstico y las decisiones de diseño e ingeniería.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Protocolo de sustentación oral -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Pautas para la Sustentación en Semana 10</p>
+      <h2 class="slide__title">Criterios de Sustentación Oral (10 min por grupo)</h2>
+      <p class="slide__desc">En la Semana 10 cada grupo proyectará su lámina A3 y expondrá su diagnóstico en tres momentos coordinados:</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">3 min</div>
+          <h3>Diagnóstico Biofísico</h3>
+          <p>Gradiente altitudinal, orden de drenajes, zonas de amenaza torrencial e identificación de sectores críticos de la cuenca.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">5 min</div>
+          <h3>Propuesta Territorial</h3>
+          <p>Articulación interdisciplinar: obras civiles (estabilización, disipadores) y diseño urbano (fajas de retiro, espacio público y senderos).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">2 min</div>
+          <h3>Rigor Cartográfico</h3>
+          <p>Justificación de la escala normalizada (1:25 000 / 1:35 000), cuadrícula CTM12 (EPSG:9377) y preguntas de retroalimentación.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Rúbrica de la lámina A3 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Criterios de evaluación en vivo</p>
+      <h2 class="slide__title">Lo que la rúbrica evalúa en su plano</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>Jerarquía y Figura-Fondo</h3><p>La cuenca resalta como protagonista indiscutible. El contexto territorial urbano/rural acompaña en tonos grises o tenues sin ensuciar la lectura.</p></div>
+        <div><h3>Escala Técnica Redonda</h3><p>Escala declarada en número cerrado (1:25 000, 1:50 000) más escala gráfica métrica en kilómetros. No se aceptan decimales ni números arbitrarios.</p></div>
+        <div><h3>Georreferencia Oficial CTM12</h3><p>Cuadrícula en MAGNA-SIRGAS / Origen Nacional CTM12 (EPSG:9377) con etiquetas en millones de metros (4 7xx xxx mE / 2 2xx xxx mN).</p></div>
+        <div><h3>Depuración de Leyenda y Rótulo</h3><p>Sin nombres de archivo ni extensiones <code>.shp</code>. Rótulo con título qué-dónde-cuándo, autores, fecha y fuentes oficiales declaradas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Balance del Módulo 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre de etapa</p>
+      <h2 class="slide__title">Balance del Módulo 1: El mundo vectorial</h2>
+      <p class="slide__desc">En 7 semanas dominamos el modelo vectorial para representar objetos discretos sobre el territorio:</p>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li><b>Geometrías exactas:</b> Puntos (cierres, equipamientos), líneas (red hídrica, vías) y polígonos (cuenca, predios).</li>
+        <li><b>Topología espacial:</b> Snapping, corrección de solapes (overlaps), huecos (gaps) y nodos colgantes (dangles).</li>
+        <li><b>Atributos y métricas:</b> Cálculo de áreas en hectáreas y km² con <code>$area</code> y longitudes con <code>$length</code>.</li>
+        <li><b>Geoprocesamiento analítico:</b> Buffer de retiros hídricos, clip de la cuenca, intersect manzana-retiro y dissolve.</li>
+        <li><b>Empaquetado profesional:</b> Proyectos limpios dentro de un contenedor espacial único: GeoPackage (<code>.gpkg</code>).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. El límite del vector -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El problema que el vector no puede resolver</p>
+      <h2 class="slide__title">¿Por qué el vector no basta para modelar la montaña?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid">
+        <div><h3>El modelo vectorial describe fronteras</h3><p>Un polígono asume que todo lo que está adentro es idéntico y que en el borde el valor cambia abruptamente. Sirve para predios, comunas y tuberías.</p></div>
+        <div><h3>La topografía no tiene fronteras</h3><p>La cota del terreno cambia de forma continua milímetro a milímetro. Entre dos curvas de nivel vectoriales, el software no sabe qué pendiente existe sin interpolar.</p></div>
+      </div>
+      <div class="example-box example-box--alert" style="margin-top:1.2em">
+        <span class="tag">La Pregunta Clave de Ingeniería</span>
+        <p>¿Hacia dónde corre el agua de lluvia cuando cae en cualquier punto de la ladera? ¿Qué inclinación exacta tiene el suelo bajo una vivienda? Para responder esto necesitamos el <b>modelo ráster</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. DIVISOR BLOQUE 2 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 2 · Teoría y Práctica</p>
+    <h1>El Modelo Ráster y la Estructura del Píxel</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 9. Vector vs Raster -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Dos formas fundamentales de digitalizar el territorio</p>
+      <h2 class="slide__title">Vector vs. Ráster: Dos visiones complementarias</h2>
+    </div>
+    <div class="slide__body">
+      <table class="data-table">
+        <thead>
+          <tr><th>Criterio</th><th>Modelo Vectorial (Módulo 1)</th><th>Modelo Ráster (Módulo 2)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Naturaleza conceptual</b></td><td><b>Entidades discretas:</b> el espacio está vacío hasta que se dibuja un objeto.</td><td><b>Campos continuos:</b> el espacio está totalmente lleno de celdas contiguas.</td></tr>
+          <tr><td><b>Estructura de datos</b></td><td>Pares de coordenadas (X, Y) que forman vértices, líneas y anillos cerrados.</td><td>Matriz matemática regular de filas y columnas (cuadrícula de celdas).</td></tr>
+          <tr><td><b>Geometría básica</b></td><td>Puntos, Líneas, Polígonos.</td><td>Píxeles (celdas cuadradas indivisibles).</td></tr>
+          <tr><td><b>Uso típico en ingeniería</b></td><td>Predios catastrales, redes de acueducto, vías, límites de cuenca.</td><td>Elevación (DEM), pendientes, temperatura, ortofotos, imágenes satelitales.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 10. Anatomía de la matriz ráster -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La arquitectura interna del dato ráster</p>
+      <h2 class="slide__title">Anatomía de una matriz ráster</h2>
+      <p class="slide__desc">Un archivo ráster no guarda las coordenadas de cada celda: guarda solo la esquina de origen y calcula las demás por posición matemática.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>1. Origen y Dimensiones</h3><p>Coordenadas de la esquina superior izquierda (Xmin, Ymax), número de <b>columnas</b> (ancho) y número de <b>filas</b> (alto).</p></div>
+        <div><h3>2. Tamaño de celda (Píxel)</h3><p>Resolución espacial: ancho (ΔX) y alto (ΔY) de cada cuadrado. En un DEM de 12.5 m, cada píxel cubre 156.25 m² en el terreno real.</p></div>
+        <div><h3>3. Valor Z y NoData</h3><p>Cada celda almacena un único valor numérico (ej. 2 145.3 m de cota). Si la celda cae fuera del área de estudio, guarda el valor especial <b>NoData</b>.</p></div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.2em">Ventaja computacional masiva: calcular la pendiente entre dos celdas vecinas es una simple resta de matrices dividida entre la distancia de celda.</p>
+    </div>
+  </section>
+
+  <!-- 11. Resolución espacial -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">El detalle del terreno en el mundo real</p>
+      <h2 class="slide__title">Resolución espacial: ¿Cuánto mide un píxel?</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">Píxel 30 metros (SRTM / Copernicus)</span>
+          <h3>Resolución Media</h3>
+          <p>Un solo píxel cubre 900 m² (casi una manzana pequeña). Bueno para cuencas regionales de 500 km²; insuficiente para quebradas urbanas estrechas.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Píxel 12.5 metros (ALOS PALSAR RTC)</span>
+          <h3>Resolución Semi-Detallada</h3>
+          <p>Un píxel cubre 156 m². Captura adecuadamente los cañones de ladera, cuchillas y quiebres de pendiente de la cuenca de La Iguaná.</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Píxel 1 a 2 metros (LiDAR aerotransportado)</span>
+          <h3>Alta Precisión</h3>
+          <p>Distingue cunetas, bancales y muros de contención. Requiere sobrevuelos costosos y genera gigabytes de datos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Mecánica QGIS: Inspeccionar píxeles -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Paso a paso en QGIS</p>
+      <h2 class="slide__title">Cómo inspeccionar las celdas de un ráster</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Acercamiento extremo</h3>
+          <p>Hagan zoom continuo con la rueda del ratón sobre cualquier capa ráster hasta que la imagen se descomponga en mosaico de cuadrados.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Identificador de objetos</h3>
+          <p>Activen la herramienta <b>Identificar entidades</b> (Ctrl + Shift + I). Hagan clic sobre cualquier celda.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Leer el valor digital</h3>
+          <p>El panel lateral mostrará el valor numérico exacto almacenado en esa celda (Banda 1 = cota en metros, reflectancia o índice).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Práctica 1: Explorar la malla ráster -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 1 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: la cuadrícula invisible de píxeles</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (6 minutos)</span>
+        <p>Abran su proyecto de QGIS con las capas vectoriales de La Iguaná y una imagen satelital o mapa base ráster de fondo (OpenStreetMap / Google Satellite):</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Hagan zoom progresivo sobre el cauce de la quebrada hasta que los bordes suaves desaparezcan y vean los píxeles individuales en forma de escalones.</li>
+          <li>Activen la herramienta <b>Medir línea</b> y midan el ancho de un solo píxel en pantalla: ¿cuántos metros de terreno representa esa celda?</li>
+          <li>Con el <b>Identificador de objetos</b>, hagan clic sobre distintos píxeles (vegetación, tejado, agua) y observen los valores de las bandas rojo, verde y azul.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. DIVISOR BLOQUE 3 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 3 · Teoría y Sensores</p>
+    <h1>Modelos Digitales de Elevación (DEM)</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 15. ¿Qué es un DEM? -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La columna vertebral del análisis de terreno</p>
+      <h2 class="slide__title">¿Qué es un Modelo Digital de Elevación (DEM)?</h2>
+      <p class="slide__desc">Un DEM (<i>Digital Elevation Model</i>) es un ráster monobanda donde cada celda contiene la altitud ortométrica (cota Z sobre el nivel medio del mar en metros) del punto central de esa celda.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>Estructura numérica</h3><p>Una sola banda flotante (<code>Float32</code>). No tiene colores propios: son números reales que van desde la cota del río hasta la cima de la montaña.</p></div>
+        <div><h3>Derivadas directas</h3><p>A partir del DEM, los algoritmos calculan matemáticamente: pendientes (inclinación), orientación de laderas (aspect) y relieve sombreado (hillshade).</p></div>
+        <div><h3>Modelación hidrológica</h3><p>Permite rastrear hacia qué celda vecina desciende el agua, trazando de forma automatizada redes de drenaje y cuencas hidrográficas reales.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. MDT vs MDS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Una distinción vital para la ingeniería civil y ambiental</p>
+      <h2 class="slide__title">MDT (Terreno) vs. MDS (Superficie)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">MDS / DSM (Superficie)</span>
+          <h3>Digital Surface Model</h3>
+          <p>Representa la primera superficie reflectora que el sensor detecta: incluye copas de árboles, techos de edificios, puentes y torres.</p>
+          <p class="small text-muted"><b>Uso:</b> Altura de edificaciones, análisis de visibilidad urbana, catastro 3D y obstáculos para aviación.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">MDT / DTM (Terreno)</span>
+          <h3>Digital Terrain Model</h3>
+          <p>Representa exclusivamente el <b>suelo desnudo</b>, eliminando vegetación y construcciones antrópicas mediante filtrado de pulsos.</p>
+          <p class="small text-muted"><b>Uso:</b> Hidrología, estabilidad de taludes, cálculo de excavaciones y trazado de vías.</p>
+        </div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.2em">En hidrología de cuencas necesitamos siempre un <b>MDT</b>: el agua no fluye sobre las copas de los árboles, fluye sobre el suelo.</p>
+    </div>
+  </section>
+
+  <!-- 17. Sensores orbitales -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">De dónde salen los DEMs que usamos</p>
+      <h2 class="slide__title">Tres fuentes globales de elevación</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="icon-card icon-card--cyan">
+          <div>
+            <h3>SRTM (NASA, 2000)</h3>
+            <p>Radar interferométrico banda C a bordo del transbordador Endeavour. Resolución: <b>30 metros</b> (1 arc-segundo). El estándar histórico clásico.</p>
+          </div>
+        </div>
+        <div class="icon-card icon-card--mint">
+          <div>
+            <h3>Copernicus GLO-30 (ESA)</h3>
+            <p>Generado a partir de los satélites radar TanDEM-X. Resolución: <b>30 metros</b>. Muy consistente, sin vacíos de datos y de gran exactitud vertical.</p>
+          </div>
+        </div>
+        <div class="icon-card icon-card--peach">
+          <div>
+            <h3>ALOS PALSAR (JAXA / ASF)</h3>
+            <p>Radar de apertura sintética (SAR) banda L japonés. Procesamiento RTC de la NASA. Resolución: <b>12.5 metros</b>. El DEM gratuito de mayor resolución disponible.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Por qué ALOS PALSAR para La Iguaná -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">La ventaja del radar de banda L en el trópico andino</p>
+      <h2 class="slide__title">¿Por qué ALOS PALSAR 12.5 m RTC para nuestra cuenca?</h2>
+      <p class="slide__desc">En laderas de alta montaña tropical como las del Valle de Aburrá, los sensores ópticos fallan por nubosidad y los radares de banda corta rebotan en las hojas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div><h3>1. Penetración de vegetación</h3><p>La banda L tiene una longitud de onda larga (~23.6 cm) que atraviesa el dosel de bosques y rastrojos, alcanzando el suelo verdadero.</p></div>
+        <div><h3>2. Corrección Radiométrica (RTC)</h3><p>El procesamiento <i>Radiometrically Terrain Corrected</i> de la NASA elimina las sombras orográficas y la distorsión de laderas empinadas.</p></div>
+        <div><h3>3. Píxel de 12.5 metros</h3><p>Multiplica por más de 5 el detalle de un SRTM de 30 m. Permite modelar con rigor la garganta estrecha de La Iguaná.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. DIVISOR BLOQUE 4 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 4 · Adquisición de Datos</p>
+    <h1>Descarga de ALOS PALSAR y DEMs desde QGIS</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 20. Dos rutas de descarga -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Estrategias de adquisición de elevación</p>
+      <h2 class="slide__title">Dos métodos para obtener el DEM en QGIS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Ruta 1: Plugin directo en QGIS</span>
+          <h3>OpenTopography DEM Downloader</h3>
+          <p>Descarga directa desde la ventana de QGIS recortando por el área de la cuenca. Soporta Copernicus 30 m, SRTM 30 m y ALOS World 3D (30 m). Requiere una API Key gratuita.</p>
+          <p class="small text-muted">Ideal para descargas rápidas automáticas en el lienzo.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Ruta 2: Máxima Resolución (12.5 m)</span>
+          <h3>Alaska Satellite Facility (ASF DAAC)</h3>
+          <p>Descarga del producto oficial de la NASA: <b>ALOS PALSAR RTC de 12.5 metros</b> en formato GeoTIFF de alta resolución a partir de la delimitación vectorial de la cuenca.</p>
+          <p class="small text-muted">El estándar técnico obligatorio para el Módulo 2 del curso.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Método 1: Plugin OpenTopography -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ruta 1 · En el menú de complementos de QGIS</p>
+      <h2 class="slide__title">Método 1: Plugin OpenTopography DEM Downloader</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Instalar el complemento</h3>
+          <p>Menú <b>Complementos → Administrar e instalar complementos…</b> → Buscar <code>OpenTopography DEM Downloader</code> → Clic en <b>Instalar complemento</b>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Fijar extensión y modelo</h3>
+          <p>Abrir la herramienta (ícono en la barra) → Definir extensión con <b>Calcular a partir de la capa:</b> <code>cuenca_aprox</code> → Elegir <i>Copernicus 30m</i> o <i>SRTMGL1</i>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>API Key y Ejecutar</h3>
+          <p>Pegar su clave gratuita de <a href="https://opentopography.org" target="_blank" style="color:inherit">opentopography.org</a> → Clic en <b>Ejecutar</b>. El DEM recortado se carga solo en el proyecto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Método 2: ALOS PALSAR 12.5m en ASF -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ruta 2 · El flujo profesional de alta resolución 12.5 m</p>
+      <h2 class="slide__title">Método 2: ALOS PALSAR 12.5 m RTC (ASF + QGIS)</h2>
+      <p class="slide__desc">El portal de la NASA / Alaska Satellite Facility (ASF Data Search) distribuye gratuitamente los gránulos procesados a 12.5 metros.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Exportar cuenca en QGIS</h3>
+          <p>Clic derecho en <code>cuenca_aprox</code> → <b>Exportar → Guardar entidades como…</b> → Formato <b>GeoJSON</b>, CRS <b>EPSG:4326</b> (WGS 84).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Buscar en ASF Vertex</h3>
+          <p>Entrar a <b>search.asf.alaska.edu</b> → Pestaña <i>Search</i> → Botón de importar polígono (cargar el GeoJSON) o dibujar rectángulo sobre Medellín.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Filtrar PALSAR RTC</h3>
+          <p>DataSet: <b>ALOS PALSAR</b> → File Type: <b>Hi-Res Terrain Corrected (RTC)</b> → Seleccionar escena que cubre La Iguaná → Descargar paquete <code>.zip</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. Cargar el DEM en QGIS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Incorporación al proyecto</p>
+      <h2 class="slide__title">Cargar el archivo GeoTIFF del DEM en QGIS</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Estructura del ZIP de ALOS PALSAR</span>
+          <h3>¿Cuál es el archivo de elevación?</h3>
+          <p>Al descomprimir el archivo <code>.zip</code> descargado de ASF encontrarán varios archivos de radar (polarizaciones HH, HV). El DEM es el archivo que termina en:</p>
+          <p style="font-family:monospace;font-size:1.1em;color:var(--blue);margin-top:0.5em"><b>*_DEM.tif</b></p>
+          <p class="small text-muted">Ese archivo único contiene la matriz de elevación topográfica en metros.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Incorporar a QGIS</span>
+          <h3>Arrastrar y soltar</h3>
+          <p>Arrastren el archivo <code>*_DEM.tif</code> directamente desde su explorador de archivos hacia el panel de capas de QGIS, o usen el menú:</p>
+          <p style="font-size:0.95em;margin-top:0.4em"><b>Capa → Añadir capa → Añadir capa ráster…</b></p>
+          <p class="small text-muted">Aparecerá una imagen en escala de grises que cubre la cordillera.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 24. Práctica 2: Descargar y cargar DEM -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 2 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: obtengan el DEM de La Iguaná</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (12 minutos)</span>
+        <p>Obtengan el Modelo Digital de Elevación que cubre la cuenca de La Iguaná e intégrenlo a su proyecto de trabajo:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li><b>Opción A (Recomendada):</b> Descarguen la escena ALOS PALSAR RTC de 12.5 m desde <code>search.asf.alaska.edu</code> usando el polígono de su cuenca, descompriman y carguen el archivo <code>*_DEM.tif</code>.</li>
+          <li><b>Opción B (Rápida en QGIS):</b> Usen el plugin <code>OpenTopography DEM Downloader</code>, definan la extensión con <code>cuenca_aprox</code> y descarguen el modelo <i>Copernicus 30m</i> o <i>SRTM 30m</i>.</li>
+          <li>Superpongan la capa vectorial <code>cuenca_aprox</code> encima del DEM. ¿Queda exactamente ubicada sobre las montañas del Valle de Aburrá?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 25. DIVISOR BLOQUE 5 -->
+  <section class="slide slide--divider">
+    <p class="kicker kicker--sky">Bloque 5 · Análisis e Inspección</p>
+    <h1>Inspección Técnica y Simbología del DEM</h1>
+    <div class="dot-row">
+      <div class="dot" style="background:var(--sky)"></div>
+      <div class="dot" style="background:var(--gold)"></div>
+      <div class="dot" style="background:var(--teal)"></div>
+      <div class="dot" style="background:var(--red)"></div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
+  </section>
+
+  <!-- 26. Radiografía técnica del DEM -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Antes de operar cualquier análisis de terreno</p>
+      <h2 class="slide__title">Radiografía técnica del DEM en QGIS</h2>
+      <p class="slide__desc">Doble clic sobre la capa del DEM → pestaña <b>Información</b>. Estos 4 metadatos deben revisarse siempre:</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div>
+          <h3>1. Dimensiones y Tipo de Dato</h3>
+          <p><b>Ancho / Alto:</b> número de columnas y filas (ej. 3 500 × 2 800 celdas).<br/><b>Tipo de dato:</b> <code>Float32</code> (permite almacenar decimales de cota: 2 145.38 m).</p>
+        </div>
+        <div>
+          <h3>2. Tamaño de Píxel y CRS</h3>
+          <p><b>CRS nativo:</b> Habitualmente EPSG:4326 (WGS 84).<br/><b>Tamaño de celda:</b> En grados (0.0001111° ≈ 12.5 m) o en metros si ya viene proyectado.</p>
+        </div>
+      </div>
+      <div class="example-box example-box--alert" style="margin-top:1.2em">
+        <span class="tag">Inspección de Rango de Cotas</span>
+        <p>En el panel de capas revisen los valores mínimo y máximo: para La Iguaná deben estar entre <b>~1.450 m</b> (desembocadura en el Río Medellín) y <b>~3.100 m</b> (divisoria occidental en el Alto del Boquerón). Si ven valores negativos o 65 535, hay un error de lectura de NoData.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 27. Simbología: Pseudocolor monobanda -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Transformar números grises en relieve comprensible</p>
+      <h2 class="slide__title">Simbología: Pseudocolor monobanda</h2>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">1</div>
+          <h3>Tipo de renderizador</h3>
+          <p>Propiedades de la capa DEM → pestaña <b>Simbología</b> → cambiar de "Gris monobanda" a <b>Pseudocolor monobanda</b>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">2</div>
+          <h3>Elegir rampa de elevación</h3>
+          <p>Desplegar <b>Rampa de color</b> → elegir paletas perceptuales como <i>Viridis</i>, <i>Cividis</i> o <i>Elevation</i> (verdes en el valle, ocres en las cumbres).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">3</div>
+          <h3>Clasificar y aplicar</h3>
+          <p>Modo: <b>Continuo</b> o <b>Cuantiles</b> → Clic en <b>Clasificar</b> → Aceptar. El cañón de la cuenca cobra vida visual inmediata.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 28. Práctica 3: Simbolizar el relieve -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Habilidad 3 · Todos al tiempo en su computador</p>
+      <h2 class="slide__title">Práctica en vivo: descubran el gradiente de La Iguaná</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Actividad en vivo (10 minutos)</span>
+        <p>Aliquen simbología topográfica a su DEM y verifiquen el gradiente altitudinal de la cuenca:</p>
+        <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
+          <li>Apliquen la rampa de color <b>Pseudocolor monobanda</b> con la paleta <i>Cividis</i> o <i>Viridis</i>.</li>
+          <li>Activen la herramienta <b>Identificador de objetos</b> y hagan clic en el punto de cierre (desembocadura cerca a la Minorista): ¿qué cota marca? (Debe ser ~1.450 msnm).</li>
+          <li>Hagan clic en la divisoria alta occidental (Alto del Boquerón / San Cristóbal): ¿qué cota marca? (Debe superar los 3.000 msnm).</li>
+          <li><b>Conclusión territorial:</b> La cuenca desciende más de <b>1.600 metros de desnivel</b> en apenas 12 km horizontales. Por eso es una cuenca torrencial de alto riesgo.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 29. La trampa del CRS: Anticipo Semana 9 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">¡Advertencia técnica fundamental para la próxima clase!</p>
+      <h2 class="slide__title">La trampa del CRS: Por qué NUNCA calcular pendientes en 4326</h2>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--alert">
+        <span class="tag">El Error Clásico en Modelos de Terreno</span>
+        <p>El DEM que acaban de descargar viene en <b>coordenadas geográficas (WGS84 / EPSG:4326)</b>. En ese sistema, la distancia horizontal X, Y se mide en <b>grados decimales</b> (1 píxel ≈ 0.000111°), mientras que la elevación vertical Z se mide en <b>metros</b> (2 100 m).</p>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:1.2em">
+        <span class="tag">La Regla de Oro del Módulo 2</span>
+        <p>Si intentan calcular la pendiente hoy, el software dividirá metros entre grados, arrojando pendientes absurdas de 89.9° en toda la ciudad. <b>En la Semana 9 lo primero que haremos será reproyectar el DEM a MAGNA-SIRGAS / Origen Nacional CTM12 (EPSG:9377)</b> para que X, Y y Z estén todas unificadas en metros.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30. Organización de archivos -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Estructura del repositorio de trabajo</p>
+      <h2 class="slide__title">Dónde guardar su DEM para el Módulo 2</h2>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Estructura de Carpetas Recomendada</span>
+          <pre style="font-size:0.9em;line-height:1.4;margin-top:0.4em">
+proyecto_cuenca_iguana/
+├── 01_datos/
+│   ├── vector/
+│   │   └── iguana_vectorial.gpkg
+│   └── raster/
+│       ├── raw/
+│       │   └── ALOS_PALSAR_12m_LaIguana_DEM.tif
+│       └── processed/
+├── 02_mapas/
+│   └── mapa_diagnostico_I1.pdf
+└── proyecto_iguana.qgz</pre>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Buenas Prácticas de Almacenamiento</span>
+          <h3>No muevan los archivos de ruta</h3>
+          <p>Los archivos ráster (GeoTIFF) no se incrustan dentro del proyecto <code>.qgz</code>: se leen como enlaces externos en el disco.</p>
+          <p class="small text-muted" style="margin-top:0.6em">Si cambian el nombre de la carpeta o mueven el <code>.tif</code>, la próxima semana QGIS abrirá con la capa rota en color gris. Guárdenlo en su USB o Google Drive en la carpeta <code>01_datos/raster/raw/</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 31. Checklist Semana 8 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Control de aprendizajes y entregables</p>
+      <h2 class="slide__title">Checklist de la Sesión 8</h2>
+    </div>
+    <div class="slide__body">
+      <ul class="list-plain">
+        <li>[ ] <b>Preparación I1 completada:</b> Lámina A3 maquetada a escala fija, capas vectoriales depuradas y GeoPackage listo para sustentar en Semana 10.</li>
+        <li>[ ] <b>Comprensión conceptual:</b> Claridad en la diferencia entre entidades discretas (vector) y campos continuos (ráster).</li>
+        <li>[ ] <b>Estructura matricial:</b> Inspección de píxeles individuales y consulta de valor Z con el Identificador de objetos.</li>
+        <li>[ ] <b>DEM descargado:</b> Archivo ALOS PALSAR RTC 12.5 m (o DEM de OpenTopography) descargado y cargado en QGIS.</li>
+        <li>[ ] <b>Simbología aplicada:</b> Relieve visualizado en pseudocolor monobanda con verificación de cotas (1.450 a 3.100 msnm).</li>
+        <li>[ ] <b>Archivo respaldado:</b> GeoTIFF guardado en la carpeta del proyecto listo para reproyectar en la Semana 9.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 32. Cierre y próxima clase -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Cierre de sesión</p>
+      <h2 class="slide__title">Para la próxima clase (Semana 9)</h2>
+    </div>
+    <div class="slide__body">
+      <div class="icon-card-grid" style="margin-bottom:2.5%">
+        <div class="icon-card icon-card--cyan" style="grid-column:span 1">
+          <div><h3>Reproyección a CTM12</h3><p>Uso de GDAL Combar (Warp) para unificar la resolución en 12.5 metros proyectados (EPSG:9377).</p></div>
+        </div>
+        <div class="icon-card icon-card--mint" style="grid-column:span 1">
+          <div><h3>Cálculo de Pendientes</h3><p>Mapa de pendientes en grados (°) y porcentaje (%) según las normas de ordenamiento territorial.</p></div>
+        </div>
+        <div class="icon-card icon-card--peach" style="grid-column:span 1">
+          <div><h3>Orientación (Aspect)</h3><p>Hacia qué punto cardinal miran las laderas de La Iguaná y su impacto en radiación solar.</p></div>
+        </div>
+        <div class="icon-card icon-card--lavender" style="grid-column:span 1">
+          <div><h3>Relieve 3D (Hillshade)</h3><p>Generación de sombreado del terreno con azimut solar a 315° y modo de fusión multiplicar.</p></div>
+        </div>
+      </div>
+      <div class="contact-banner">
+        <h3>¿Dudas con la descarga de ALOS PALSAR o el GeoTIFF?</h3>
+        <p><span class="accent">Escríbanme:</span> fjgomezc@eafit.edu.co · Chat de Teams</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+<div id="nav-hint"></div>
+<script src="../_plantilla/deck.js"></script>
+</body>
+</html>

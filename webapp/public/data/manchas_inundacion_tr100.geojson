@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "manchas_inundacion_tr100",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{"type":"Feature","properties":{"id_tramo":1,"nombre":"Santa Elena Tramo Alto","retorno_tr":100,"amenaza":"ALTA","calado_m":1.85},"geometry":{"type":"Polygon","coordinates":[[[-75.556814811502974,6.266268068618775],[-75.561334488369624,6.266698054136705],[-75.561343313225052,6.268506204447704],[-75.55682273920219,6.26789540970661],[-75.556814811502974,6.266268068618775]]]}},
+{"type":"Feature","properties":{"id_tramo":2,"nombre":"Santa Elena Sector Boston","retorno_tr":100,"amenaza":"ALTA","calado_m":2.1},"geometry":{"type":"Polygon","coordinates":[[[-75.560881418333992,6.26642903859769],[-75.56584752786641,6.2657718896296],[-75.56585725099508,6.26776084797351],[-75.560891123681884,6.268418004660737],[-75.560881418333992,6.26642903859769]]]}},
+{"type":"Feature","properties":{"id_tramo":3,"nombre":"Santa Elena Centro","retorno_tr":100,"amenaza":"ALTA","calado_m":2.45},"geometry":{"type":"Polygon","coordinates":[[[-75.565394899892851,6.265593285839221],[-75.571264019672782,6.264841263057203],[-75.571274204756378,6.266920619791704],[-75.565405062972729,6.267672652131666],[-75.565394899892851,6.265593285839221]]]}},
+{"type":"Feature","properties":{"id_tramo":4,"nombre":"Santa Elena Desembocadura","retorno_tr":100,"amenaza":"ALTA","calado_m":1.9},"geometry":{"type":"Polygon","coordinates":[[[-75.570811392695873,6.264662664368588],[-75.576682688237383,6.264362620458524],[-75.576692450184964,6.266351561906584],[-75.570822018512459,6.266832428702999],[-75.570811392695873,6.264662664368588]]]}}
+]
+}

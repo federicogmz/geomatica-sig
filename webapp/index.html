@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoLab Iguaná · Academia & WebGIS Autónomo</title>
+  <meta name="description" content="Curso interactivo gamificado y software WebGIS de Geomática, Ingeniería y SIG para la Cuenca de la Quebrada La Iguaná (Medellín, Colombia · EPSG:9377).">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/main.css">
+  <link rel="stylesheet" href="src/styles/toolbar.css">
+  <link rel="stylesheet" href="src/styles/map.css">
+  <link rel="stylesheet" href="src/styles/panels.css">
+  <link rel="stylesheet" href="src/styles/tools.css">
+  <link rel="stylesheet" href="src/styles/table.css">
+  <link rel="stylesheet" href="src/styles/views.css">
+  <link rel="stylesheet" href="src/styles/simulators.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       BARRA SUPERIOR PRINCIPAL (Header Institucional & Navegación Global)
+       ========================================================================== -->
+  <header class="app-header" id="app-header">
+    <div class="brand-section">
+      <div class="brand-logo-mark" id="brand-logo" title="GeoLab Iguaná · EAFIT">🌍</div>
+      <div class="brand-titles">
+        <h1 class="brand-title">GeoLab Iguaná</h1>
+        <span class="brand-subtitle">Academia & WebGIS · Cuenca La Iguaná (46.25 km²)</span>
+      </div>
+    </div>
+
+    <!-- Pestañas de Navegación del Curso Autocontenido -->
+    <nav class="view-nav-tabs" id="view-nav-tabs" aria-label="Navegación del Curso">
+      <button class="view-tab-btn active" data-view="hub" id="tab-nav-hub">
+        <span class="tab-icon">🏠</span> Inicio
+      </button>
+      <button class="view-tab-btn" data-view="theory" id="tab-nav-theory">
+        <span class="tab-icon">📚</span> Teoría (S1–S16)
+      </button>
+      <button class="view-tab-btn" data-view="labs" id="tab-nav-labs">
+        <span class="tab-icon">🛠️</span> Laboratorios (G01–G16)
+      </button>
+      <button class="view-tab-btn" data-view="webgis" id="tab-nav-webgis">
+        <span class="tab-icon">🗺️</span> Estación WebGIS
+      </button>
+      <button class="view-tab-btn" data-view="quest" id="tab-nav-quest">
+        <span class="tab-icon">🎯</span> Misiones
+      </button>
+      <button class="view-tab-btn" data-view="grades" id="tab-nav-grades">
+        <span class="tab-icon">🏆</span> Notas & Acta
+      </button>
+      <button class="view-tab-btn" data-view="glossary" id="tab-nav-glossary">
+        <span class="tab-icon">📖</span> Glosario
+      </button>
+    </nav>
+
+    <!-- Indicador de XP, Perfil y Acciones Rápidas -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="stage-indicator-pill" id="stage-indicator-pill" title="Nivel académico e insignias">
+        <span class="stage-dot"></span>
+        <span class="stage-xp-pill" id="header-xp-pill">120 XP · Nivel 1</span>
+      </div>
+
+      <div class="student-profile-pill" id="btn-student-profile" title="Haz clic para editar tus datos de estudiante">
+        <div class="student-avatar" id="avatar-initials">EA</div>
+        <div>
+          <div class="student-name-text" id="header-student-name">Estudiante EAFIT</div>
+          <div class="student-code-text" id="header-student-code">202610001010</div>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary btn-sm" id="btn-toggle-sound" title="Activar/Silenciar efectos de sonido">
+        🔊
+      </button>
+
+      <button class="btn btn-secondary btn-sm" id="btn-reset-course" title="Reiniciar progreso del curso">
+        ↺
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       VISTA 1: INICIO / DASHBOARD PRINCIPAL DEL CURSO (No más inicio disperso)
+       ========================================================================== -->
+  <section class="app-view-container" id="view-hub">
+    <div class="hub-view-wrapper">
+      
+      <!-- Hero Banner del Curso -->
+      <header class="hub-hero-banner">
+        <div class="hub-hero-institution">
+          Universidad EAFIT · Escuela de Ciencias Aplicadas e Ingeniería
+        </div>
+        <h2 class="hub-hero-title">Geomática, Ingeniería y Sistemas de Información Geográfica</h2>
+        <p class="hub-hero-subtitle">
+          Curso universitario autocontenido, didáctico y gamificado. Aprende cartografía, geodesia, SIG vectorial, análisis de relieve ráster, posicionamiento GNSS, teledetección satelital e índices espectrales en QGIS y automatización con ArcGIS Pro / QGIS, articulado de principio a fin sobre el proyecto territorial continuo de la <strong>Cuenca de la Quebrada La Iguaná (46.25 km²)</strong> bajo el marco oficial <strong>MAGNA-SIRGAS Origen Nacional CTM12 (EPSG:9377)</strong>.
+        </p>
+
+        <!-- KPIs del Curso -->
+        <div class="hub-kpis-grid">
+          <div class="hub-kpi-item">
+            <span class="hub-kpi-label">Duración y Carga</span>
+            <span class="hub-kpi-val">3 Créditos · 5 UMEs</span>
+            <span class="hub-kpi-sub">16 Sem · 72h Pres. + 72h Indep.</span>
+          </div>
+          <div class="hub-kpi-item">
+            <span class="hub-kpi-label">Estructura Modular</span>
+            <span class="hub-kpi-val">7 Módulos</span>
+            <span class="hub-kpi-sub">M0 a M6 Completos</span>
+          </div>
+          <div class="hub-kpi-item">
+            <span class="hub-kpi-label">Territorio Central</span>
+            <span class="hub-kpi-val">46.25 km²</span>
+            <span class="hub-kpi-sub">La Iguaná (Medellín)</span>
+          </div>
+          <div class="hub-kpi-item">
+            <span class="hub-kpi-label">Marco de Referencia</span>
+            <span class="hub-kpi-val">EPSG:9377</span>
+            <span class="hub-kpi-sub">CTM12 (Res. IGAC 471/2020)</span>
+          </div>
+          <div class="hub-kpi-item">
+            <span class="hub-kpi-label">Sistema Evaluativo</span>
+            <span class="hub-kpi-val">100% Oficial</span>
+            <span class="hub-kpi-sub">9 Actividades (EAFIT)</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Tarjeta Gamificada del Estudiante -->
+      <section class="hub-student-card">
+        <div class="hub-student-avatar" id="hub-avatar-large">EA</div>
+        <div class="hub-student-info">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <h3 class="hub-student-name" id="hub-student-name">Estudiante EAFIT</h3>
+            <span class="badge-exercise-type" id="hub-student-rank-badge">🌱 Iniciado Territorial</span>
+          </div>
+          <div class="hub-student-meta" id="hub-student-meta">
+            Código: 202610001010 · Pregrado en Ingeniería Civil / Diseño Urbano
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; margin-top: 4px;">
+            <span style="color: var(--text-secondary);">Progreso de Nivel:</span>
+            <span style="color: var(--accent); font-family: var(--font-mono); font-weight: 700;" id="hub-level-progress-text">120 / 150 XP (Nivel 1)</span>
+          </div>
+          <div class="hub-progress-bar-container">
+            <div class="hub-progress-bar-fill" id="hub-level-bar-fill" style="width: 80%;"></div>
+          </div>
+        </div>
+        <div class="hub-student-actions">
+          <button class="btn btn-secondary btn-sm" id="hub-btn-edit-profile">
+            Editar Perfil
+          </button>
+          <button class="btn btn-primary btn-sm" id="hub-btn-view-acta">
+            Ver Acta Oficial
+          </button>
+        </div>
+      </section>
+
+      <!-- Mapa de Ruta Semanal (Roadmap 16 Semanas en 7 Módulos) -->
+      <section class="hub-roadmap-section">
+        <div class="hub-section-title-group">
+          <h3 class="hub-section-title">
+            <span>🗺️</span> Ruta de Aprendizaje Semanal & Módulos
+          </h3>
+          <div class="hub-module-filters" id="hub-module-filters">
+            <button class="hub-filter-pill active" data-mod="all">Todos los Módulos</button>
+            <button class="hub-filter-pill" data-mod="M0">M0: Fundamentos</button>
+            <button class="hub-filter-pill" data-mod="M1">M1: QGIS Vectorial</button>
+            <button class="hub-filter-pill" data-mod="M2">M2: Ráster DEM</button>
+            <button class="hub-filter-pill" data-mod="M3">M3: GNSS</button>
+            <button class="hub-filter-pill" data-mod="M4">M4: Satelital QGIS</button>
+            <button class="hub-filter-pill" data-mod="M5">M5: ArcGIS Pro / Modelos</button>
+            <button class="hub-filter-pill" data-mod="M6">M6: Cierre</button>
+          </div>
+        </div>
+
+        <div class="hub-roadmap-grid" id="hub-roadmap-grid">
+          <!-- Renderizado dinámico desde main.js -->
+        </div>
+      </section>
+
+      <!-- Zona de Mini-Laboratorios & Simuladores Didácticos -->
+      <section class="hub-simulators-section">
+        <div class="hub-section-title-group">
+          <h3 class="hub-section-title">
+            <span>🔬</span> Mini-Laboratorios & Simuladores Interactivos
+          </h3>
+          <span style="font-size: 12px; color: var(--text-muted);">
+            Aprende experimentando con parámetros reales sobre La Iguaná
+          </span>
+        </div>
+
+        <!-- Contenedor de Simuladores del Hub -->
+        <div id="hub-simulators-container" style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- Los widgets didácticos se montan aquí -->
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VISTA 2: TEORÍA COMPLETA (Semanas 1 a 16 / Módulos M0 a M6)
+       ========================================================================== -->
+  <section class="app-view-container hidden" id="view-theory">
+    <div class="theory-view-wrapper">
+      
+      <!-- Barra lateral de navegación entre semanas -->
+      <aside class="theory-sidebar">
+        <div class="theory-sidebar-header">
+          <div class="theory-sidebar-title">📚 Clases Teóricas (S01–S16)</div>
+          <span style="font-size: 11px; color: var(--text-muted);">Selecciona una semana para estudiar</span>
+        </div>
+        <div class="theory-weeks-list" id="theory-weeks-list">
+          <!-- Renderizado dinámico desde main.js -->
+        </div>
+      </aside>
+
+      <!-- Panel principal de lectura y simulador didáctico -->
+      <main class="theory-content-pane" id="theory-content-pane">
+        <!-- Renderizado dinámico desde main.js -->
+      </main>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VISTA 3: LABORATORIOS Y GUÍAS PRÁCTICAS (G01 a G16)
+       ========================================================================== -->
+  <section class="app-view-container hidden" id="view-labs">
+    <div class="labs-view-wrapper">
+      
+      <!-- Barra lateral de guías de taller -->
+      <aside class="labs-sidebar">
+        <div class="theory-sidebar-header">
+          <div class="theory-sidebar-title">🛠️ Guías de Taller (G01–G16)</div>
+          <span style="font-size: 11px; color: var(--text-muted);">Laboratorios de software y campo</span>
+        </div>
+        <div class="labs-list" id="labs-list">
+          <!-- Renderizado dinámico desde main.js -->
+        </div>
+      </aside>
+
+      <!-- Panel principal de la guía práctica -->
+      <main class="labs-content-pane" id="labs-content-pane">
+        <!-- Renderizado dinámico desde main.js -->
+      </main>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VISTA 4: ESTACIÓN WEBGIS INTERACTIVA (Software SIG en el Navegador)
+       ========================================================================== -->
+  <section class="app-view-container hidden" id="view-webgis" style="overflow: hidden;">
+    
+    <!-- Barra de Herramientas SIG Integrada -->
+    <nav class="gis-tools-bar" id="gis-tools-bar" aria-label="Herramientas SIG" style="background: var(--bg-surface-elevated); padding: 6px 14px; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+      
+      <!-- Mapas Base -->
+      <div class="tool-group" id="grp-basemaps">
+        <select class="form-select-sm" id="select-basemap" title="Seleccionar Mapa Base">
+          <option value="dark">🌑 Esri Dark Canvas</option>
+          <option value="satellite">🛰️ Esri Satélite</option>
+          <option value="topo">⛰️ Esri Topográfico</option>
+          <option value="osm">🗺️ OpenStreetMap</option>
+          <option value="light">☀️ Esri Light Canvas</option>
+        </select>
+      </div>
+
+      <div class="tool-group-divider"></div>
+
+      <!-- Medición -->
+      <div class="tool-group" id="grp-measure">
+        <button class="btn-tool" id="btn-tool-measure" title="Medir distancia y escala gráfica">
+          📏 <span class="tool-name">Medir</span>
+        </button>
+      </div>
+
+      <div class="tool-group-divider"></div>
+
+      <!-- Digitalización y Snapping -->
+      <div class="tool-group" id="grp-digitize">
+        <button class="btn-tool" id="btn-tool-digitize" title="Digitalizar líneas o polígonos">
+          ✏️ <span class="tool-name">Dibujar</span>
+        </button>
+        <button class="btn-tool" id="btn-tool-snap" title="Imán de Autoensamblado a 12px">
+          🧲 <span class="tool-name">Snapping</span>
+        </button>
+        <button class="btn-tool" id="btn-tool-topology" title="Comprobador de Topología">
+          ✅ <span class="tool-name">Topología</span>
+        </button>
+      </div>
+
+      <div class="tool-group-divider"></div>
+
+      <!-- Geoprocesamiento -->
+      <div class="tool-group" id="grp-geoprocess">
+        <button class="btn-tool" id="btn-tool-geoprocess" title="Caja de Geoprocesamiento (Buffer 30m, Intersect)">
+          ⚙️ <span class="tool-name">Geoprocesos</span>
+        </button>
+      </div>
+
+      <div class="tool-group-divider"></div>
+
+      <!-- Relieve y GNSS -->
+      <div class="tool-group" id="grp-relief">
+        <button class="btn-tool" id="btn-tool-elevation" title="Perfil Topográfico de La Iguaná">
+          📈 <span class="tool-name">Relieve</span>
+        </button>
+        <button class="btn-tool" id="btn-tool-gnss" title="Auditoría GNSS y RMSE Horizontal">
+          🎯 <span class="tool-name">GNSS RMSE</span>
+        </button>
+      </div>
+
+      <div class="tool-group-divider"></div>
+
+      <!-- Compositor A3 y Tabla -->
+      <div class="tool-group" id="grp-composer">
+        <button class="btn-tool" id="btn-tool-composer" title="Compositor de Lámina A3 con Grilla CTM12">
+          🖨️ <span class="tool-name">Lámina A3</span>
+        </button>
+        <button class="btn-tool" id="btn-toggle-table" title="Abrir Tabla de Atributos">
+          📊 <span class="tool-name">Tabla</span>
+        </button>
+      </div>
+
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+        <button class="btn btn-secondary btn-sm" id="btn-zoom-extent" title="Zoom a toda la Cuenca de La Iguaná">
+          🔍 Zoom Cuenca
+        </button>
+      </div>
+    </nav>
+
+    <!-- Espacio de Trabajo: Árbol de Capas + Lienzo del Mapa -->
+    <div style="display: flex; height: calc(100% - 75px); position: relative;">
+      
+      <!-- Panel Izquierdo: Capas del Proyecto (TOC) -->
+      <aside class="panel-left" id="panel-layers" style="width: 280px; flex-shrink: 0; background: var(--bg-surface); border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
+        <div class="panel-header">
+          <span class="panel-title">🗂️ Capas del Proyecto</span>
+        </div>
+        <div class="layers-list" id="layers-list-container">
+          <!-- Renderizado dinámico desde layerManager -->
+        </div>
+      </aside>
+
+      <!-- Lienzo del Mapa Leaflet -->
+      <section class="map-canvas-container" id="map-container" style="flex: 1; position: relative;">
+        <div id="map-view" style="width: 100%; height: 100%;"></div>
+
+        <!-- Drawer Inferior: Tabla de Atributos -->
+        <div class="attribute-drawer collapsed" id="attribute-drawer">
+          <div class="drawer-header">
+            <div class="drawer-title-group">
+              <span class="drawer-title">📋 Tabla de Atributos: <span id="table-layer-title">Equipamientos Comunitarios</span></span>
+              <input type="text" id="table-search-input" class="table-filter-input" placeholder="🔍 Filtrar registros...">
+              <span class="table-stats-badge" id="table-stats-badge">0 registros</span>
+            </div>
+            <button class="btn-close-modal" id="btn-close-drawer">✕</button>
+          </div>
+          <div class="table-content-scroll" id="table-content-scroll">
+            <table class="gis-attr-table" id="gis-attr-table">
+              <thead id="attr-table-head"></thead>
+              <tbody id="attr-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Barra de Coordenadas en Vivo (CTM12 EPSG:9377 y WGS84) -->
+    <footer class="coords-bar" id="coords-bar" style="height: var(--coords-height); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: #0B1120; border-top: 1px solid var(--border-subtle); font-size: 11.5px; font-family: var(--font-mono);">
+      <div class="coord-group" style="display: flex; gap: 20px;">
+        <div>
+          <span class="coord-label" style="color: var(--text-muted);">CTM12 (EPSG:9377):</span>
+          <span class="coord-value coord-highlight" id="coord-ctm12" style="color: var(--accent); font-weight: 700;">Mueve el cursor sobre el mapa</span>
+        </div>
+        <div>
+          <span class="coord-label" style="color: var(--text-muted);">WGS84:</span>
+          <span class="coord-value" id="coord-wgs84" style="color: var(--text-secondary);">6.26500°, -75.59000°</span>
+        </div>
+      </div>
+      <div class="coord-group">
+        <span style="color: var(--text-muted); font-size: 10px;">
+          Marco Oficial: <strong>MAGNA-SIRGAS Origen Nacional</strong> (Res. IGAC 471/2020)
+        </span>
+      </div>
+    </footer>
+
+  </section>
+
+  <!-- ==========================================================================
+       VISTA 5: MISIONES / MODO AVENTURA GAMIFICADA
+       ========================================================================== -->
+  <section class="app-view-container hidden" id="view-quest">
+    <div style="display: grid; grid-template-columns: 1fr 460px; height: 100%;">
+      <!-- Lado izquierdo: Mini-mapa o contexto -->
+      <div style="background: var(--bg-surface); border-right: 1px solid var(--border-subtle); padding: 32px; overflow-y: auto;">
+        <header style="margin-bottom: 24px;">
+          <span class="badge-exercise-type">Modo Aventura Gamificada</span>
+          <h2 style="font-size: 22px; margin-top: 8px;">Estación de Desafíos & Retos Espaciales</h2>
+          <p style="color: var(--text-secondary); font-size: 13.5px; margin-top: 6px; line-height: 1.6;">
+            Supera cada fase de la aventura para desbloquear progresivamente herramientas y rangos profesionales. Las respuestas y acciones sobre el mapa son evaluadas en tiempo real por el motor de autocalificación.
+          </p>
+        </header>
+
+        <!-- Selector de Fases -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;" id="quest-stages-selector-grid">
+          <!-- Renderizado dinámico desde workshopRunner -->
+        </div>
+      </div>
+
+      <!-- Lado derecho: Acompañante de Misiones Activo -->
+      <aside class="panel-right-quest" id="panel-workshop" style="height: 100%; overflow-y: auto;">
+        <!-- Renderizado dinámico desde workshopRunner -->
+      </aside>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VISTA 6: CALIFICACIONES OFICIALES & ACTA (100% EAFIT)
+       ========================================================================== -->
+  <section class="app-view-container hidden" id="view-grades">
+    <div class="grades-view-wrapper">
+      
+      <header class="grades-summary-card">
+        <div>
+          <span class="badge-exercise-type">Sistema Oficial de Evaluación</span>
+          <h2 style="font-size: 22px; margin-top: 6px;">Cuadro Oficial de Calificaciones & Acta SHA-256</h2>
+          <p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">
+            Ponderación del 100% estipulada en el Sílabo del curso. Los quices y parciales son individuales; los informes son grupales.
+          </p>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Promedio Acumulado Ponderado</div>
+          <div style="font-size: 32px; font-weight: 800; color: var(--accent); font-family: var(--font-mono);" id="grades-weighted-average">4.6 / 5.0</div>
+          <button class="btn btn-primary btn-sm mt-2" id="grades-btn-open-acta">
+            📋 Generar Acta Oficial PDF
+          </button>
+        </div>
+      </header>
+
+      <!-- Tabla de Evaluaciones -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden;">
+        <table class="grades-official-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Actividad Evaluativa</th>
+              <th>Peso (%)</th>
+              <th>Semana</th>
+              <th>Modalidad</th>
+              <th>Nota (0.0 - 5.0)</th>
+              <th>Ponderado</th>
+            </tr>
+          </thead>
+          <tbody id="grades-table-body">
+            <!-- Renderizado dinámico desde main.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Muro de Insignias y Logros Gamificados -->
+      <section>
+        <div class="hub-section-title-group">
+          <h3 class="hub-section-title">
+            <span>🎖️</span> Muro de Insignias & Logros Académicos
+          </h3>
+          <span style="font-size: 12px; color: var(--text-muted);">
+            Colecciona las 12 insignias completando lecturas, retos y talleres
+          </span>
+        </div>
+        <div class="badges-grid" id="badges-grid-container">
+          <!-- Renderizado dinámico desde main.js -->
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       VISTA 7: GLOSARIO & GEOSERVICIOS
+       ========================================================================== -->
+  <section class="app-view-container hidden" id="view-glossary">
+    <div style="max-width: 1080px; margin: 0 auto; padding: 32px 20px 80px 20px; display: flex; flex-direction: column; gap: 24px;">
+      
+      <header>
+        <span class="badge-exercise-type">Diccionario Técnico Especializado</span>
+        <h2 style="font-size: 24px; margin-top: 6px;">Glosario Geomático & Directorio de Geoservicios</h2>
+        <p style="color: var(--text-secondary); font-size: 13.5px; margin-top: 4px;">
+          Términos estandarizados según las normas del Instituto Geográfico Agustín Codazzi (IGAC) y el Open Geospatial Consortium (OGC).
+        </p>
+      </header>
+
+      <div class="form-group">
+        <input type="text" id="input-glossary-filter" class="form-control" placeholder="🔍 Buscar término (ej. Geoide, CTM12, Snapping, Buffer, DEM, RMSE, NDVI)...">
+      </div>
+
+      <div id="glossary-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px;">
+        <!-- Renderizado dinámico desde main.js -->
+      </div>
+
+      <!-- Directorio de Geoservicios Oficiales -->
+      <section style="margin-top: 20px;">
+        <h3 style="font-size: 18px; margin-bottom: 12px;">🌐 Directorio Oficial de Geoservicios (WMS / WFS / REST)</h3>
+        <div id="geoservices-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px;">
+          <!-- Renderizado dinámico -->
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MODALES DE HERRAMIENTAS Y DIÁLOGOS TÉCNICOS
+       ========================================================================== -->
+
+  <!-- MODAL: Celebración de Logro y Desbloqueo -->
+  <div class="modal-backdrop hidden" id="modal-unlock">
+    <div class="modal-dialog" style="max-width: 440px; text-align: center;">
+      <div style="font-size: 40px; margin-bottom: 10px;" id="unlock-modal-icon">✨</div>
+      <h3 style="font-size: 18px; color: var(--accent); margin-bottom: 8px;" id="unlock-modal-title">¡Nuevo Logro Alcanzado!</h3>
+      <p style="font-size: 13.5px; color: var(--text-secondary); margin-bottom: 16px;" id="unlock-modal-desc"></p>
+      <div style="margin-bottom: 20px;">
+        <span class="stage-xp-pill" id="unlock-modal-xp">+50 XP</span>
+      </div>
+      <button class="btn btn-primary btn-lg w-100" id="btn-close-unlock-modal">Continuar ➔</button>
+    </div>
+  </div>
+
+  <!-- MODAL: Glosario Rápido -->
+  <div class="modal-backdrop hidden" id="modal-glossary">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <span class="modal-title">📖 Glosario de Conceptos Geomáticos y SIG</span>
+        <button class="btn-close-modal" id="btn-close-glossary">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="text" id="input-search-glossary" class="form-control" placeholder="🔍 Buscar término...">
+        </div>
+        <div id="glossary-items-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-height: 55vh; overflow-y: auto; padding-right: 6px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btn-close-glossary-foot">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Perfil del Estudiante -->
+  <div class="modal-backdrop hidden" id="modal-student">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">👤 Datos del Estudiante</span>
+        <button class="btn-close-modal" id="btn-close-student-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Nombre Completo del Estudiante o Equipo:</label>
+          <input type="text" id="input-student-name" class="form-control" placeholder="Ej. Mariana Restrepo & Carlos Gómez">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Código Estudiantil EAFIT (ID):</label>
+          <input type="text" id="input-student-code" class="form-control" placeholder="Ej. 202610023010">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Programa Académico:</label>
+          <select id="select-student-program" class="form-control">
+            <option value="Ingeniería Civil">Ingeniería Civil</option>
+            <option value="Diseño Urbano y Gestión del Territorio">Diseño Urbano y Gestión del Territorio</option>
+            <option value="Doble Titulación Civil + Urbano">Doble Titulación Civil + Urbano</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-student">Cancelar</button>
+        <button class="btn btn-primary" id="btn-save-student">Guardar Datos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Geoprocesamiento -->
+  <div class="modal-backdrop hidden" id="modal-geoprocess">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span class="modal-title">⚙️ Caja de Geoprocesamiento Vectorial</span>
+        <button class="btn-close-modal" id="btn-close-geoprocess">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Seleccionar Operación Espacial:</label>
+          <select id="select-geo-op" class="form-control">
+            <option value="buffer">Zona de Amortiguamiento (Buffer)</option>
+            <option value="intersect">Intersección Espacial (Intersect)</option>
+            <option value="clip">Recorte por Polígono (Clip)</option>
+          </select>
+        </div>
+
+        <!-- Opciones Buffer -->
+        <div id="opts-buffer">
+          <div class="form-group">
+            <label class="form-label">Capa de Entrada:</label>
+            <select id="buffer-input-layer" class="form-control">
+              <option value="drenajes">Red Hídrica Principal (La Iguaná)</option>
+              <option value="equipamientos">Equipamientos Comunitarios</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Distancia de Retiro (metros en CTM12):</label>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <input type="range" id="buffer-dist-slider" min="10" max="150" step="5" value="30" style="flex: 1;">
+              <span id="buffer-dist-val" style="font-weight: 700; width: 60px;">30 m</span>
+            </div>
+            <small style="color: var(--text-muted); font-size: 11px;">El POT de Medellín y Corantioquia fijan el retiro hídrico obligatorio en 30 metros.</small>
+          </div>
+          <div class="form-group">
+            <label class="form-checkbox-label">
+              <input type="checkbox" id="buffer-dissolve-chk" checked>
+              <span>Disolver resultado (Dissolve) en un único polígono continuo</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Opciones Intersect -->
+        <div id="opts-intersect" class="hidden">
+          <div class="form-group">
+            <label class="form-label">Capa de Entrada 1:</label>
+            <select id="intersect-layer-1" class="form-control">
+              <option value="user_buffer">Faja de Retiro (Buffer 30m)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Capa de Superposición 2:</label>
+            <select id="intersect-layer-2" class="form-control">
+              <option value="predios">Predios Catastrales (Blanquizal)</option>
+              <option value="inundacion">Manchas Inundación TR100</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="geoprocess-result-info" class="hidden" style="margin-top: 14px; padding: 12px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-sm); color: #34D399; font-size: 12px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-geoprocess">Cerrar</button>
+        <button class="btn btn-primary" id="btn-exec-geoprocess">Ejecutar Operación</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Perfil de Elevación y Pendientes -->
+  <div class="modal-backdrop hidden" id="modal-elevation">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <span class="modal-title">📈 Perfil Topográfico de La Iguaná (2.950 a 1.450 msnm)</span>
+        <button class="btn-close-modal" id="btn-close-elevation">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px; font-size: 12.5px; color: var(--text-secondary);">
+          Desnivel vertical: <strong>1.500 metros</strong> a lo largo de <strong>15.0 km</strong> de recorrido desde el Alto de Boquerón hasta el Río Medellín.
+        </div>
+        <div style="background: #0B1120; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px;">
+          <canvas id="elevation-canvas" width="600" height="240" style="width: 100%; height: 240px; display: block;"></canvas>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px;">
+          <div class="kpi-card">
+            <span class="kpi-label">Pendiente Media Cauce</span>
+            <span class="kpi-val" id="elev-kpi-slope">10.0%</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Cota Nacimiento</span>
+            <span class="kpi-val">2.950 msnm</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Cota Desembocadura</span>
+            <span class="kpi-val">1.450 msnm</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-elevation-foot">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Auditoría GNSS y RMSE -->
+  <div class="modal-backdrop hidden" id="modal-gnss">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <span class="modal-title">🎯 Auditoría de Precisión GNSS y Control RMSE</span>
+        <button class="btn-close-modal" id="btn-close-gnss">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+          Comparación de mediciones de campo (receptores GNSS doble frecuencia) vs Coordenadas Oficiales de la Red Geodésica Nacional del IGAC en el campus EAFIT / Cuenca La Iguaná.
+        </p>
+        <div class="table-content-scroll" style="max-height: 220px; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+          <table class="gis-attr-table">
+            <thead>
+              <tr>
+                <th>Punto</th>
+                <th>X Oficial (m)</th>
+                <th>Y Oficial (m)</th>
+                <th>X Campo (m)</th>
+                <th>Y Campo (m)</th>
+                <th>ΔX (m)</th>
+                <th>ΔY (m)</th>
+                <th>Error Horiz. (m)</th>
+              </tr>
+            </thead>
+            <tbody id="gnss-table-body"></tbody>
+          </table>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+          <div class="kpi-card">
+            <span class="kpi-label">RMSE Horizontal (RMSE_r)</span>
+            <span class="kpi-val" id="gnss-kpi-rmse" style="color: #34D399;">2.39 m</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Estado de Aprobación ASPRS</span>
+            <span class="kpi-val" style="color: #34D399;">Aprobado (1:5.000)</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-gnss-foot">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Compositor Cartográfico A3 -->
+  <div class="modal-backdrop hidden" id="modal-composer">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-header">
+        <span class="modal-title">🖨️ Compositor de Lámina Cartográfica A3 (Norma IGAC)</span>
+        <button class="btn-close-modal" id="btn-close-composer">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 16px;">
+          <!-- Panel de Ajustes del Plano -->
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label">Título del Mapa:</label>
+              <input type="text" id="composer-title-input" class="form-control" value="DIAGNÓSTICO TERRITORIAL Y AMENAZAS EN LA CUENCA LA IGUANÁ">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Escala Numérica:</label>
+              <select id="composer-scale-select" class="form-control">
+                <option value="10000">1:10.000 (Detalle)</option>
+                <option value="25000" selected>1:25.000 (Semidetalle)</option>
+                <option value="50000">1:50.000 (General)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="composer-grid-chk" checked>
+                <span>Incluir Grilla Métrica CTM12 (EPSG:9377)</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="composer-north-chk" checked>
+                <span>Incluir Flecha de Norte Geodésico</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="composer-legend-chk" checked>
+                <span>Incluir Leyenda Temática Oficial</span>
+              </label>
+            </div>
+            <button class="btn btn-primary mt-2" id="btn-composer-download-pdf">
+              📥 Descargar Lámina en PDF
+            </button>
+          </div>
+
+          <!-- Vista Previa de la Lámina -->
+          <div style="background: #FFFFFF; border-radius: var(--radius-sm); padding: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.5);">
+            <canvas id="composer-preview-canvas" width="700" height="495" style="width: 100%; height: auto; display: block; border: 1px solid #CBD5E1;"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-close-composer-foot">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Acta Oficial de Calificación y Entrega con Hash SHA-256 -->
+  <div class="modal-backdrop hidden" id="modal-acta">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <span class="modal-title">📋 Acta Oficial de Calificaciones y Comprobante de Entrega</span>
+        <button class="btn-close-modal" id="btn-close-acta">✕</button>
+      </div>
+      <div class="modal-body" id="acta-modal-content">
+        <!-- Renderizado dinámico desde certificateGen -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-copy-acta-json">Copiar JSON de Entrega</button>
+        <button class="btn btn-primary" id="btn-download-acta-pdf">Descargar Acta en PDF</button>
+        <button class="btn btn-secondary" id="btn-close-acta-foot">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Principal Vite -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

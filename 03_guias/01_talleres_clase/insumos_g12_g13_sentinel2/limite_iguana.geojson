@@ -1,0 +1,115 @@
+{
+  "type": "FeatureCollection",
+  "name": "limite_iguana",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::9377"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nombre": "Cuenca de la Quebrada La Iguaná",
+        "area_total_km2": 46.25,
+        "area_rural_km2": 38.73,
+        "area_urbana_km2": 7.52,
+        "cota_max_msnm": 2950,
+        "cota_min_msnm": 1450,
+        "desnivel_m": 1500,
+        "longitud_cauce_km": 15.0,
+        "vertiente": "Río Medellín (Valle de Aburrá)",
+        "comunas_corregimientos": "San Cristóbal (rural), Robledo (Comuna 7), San Javier (Comuna 13), Laureles-Estadio (Comuna 11)",
+        "obras_hidraulicas": "Azud Cra 80 y Presa de laminación Cra 70"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              4707520.86,
+              2257603.85
+            ],
+            [
+              4708365.97,
+              2258387.15
+            ],
+            [
+              4709313.5,
+              2258854.68
+            ],
+            [
+              4710573.01,
+              2258427.97
+            ],
+            [
+              4711828.0,
+              2257318.83
+            ],
+            [
+              4712766.58,
+              2256002.26
+            ],
+            [
+              4713390.89,
+              2254686.17
+            ],
+            [
+              4713805.46,
+              2253476.22
+            ],
+            [
+              4714220.59,
+              2252371.37
+            ],
+            [
+              4714688.27,
+              2251371.34
+            ],
+            [
+              4715417.78,
+              2250264.96
+            ],
+            [
+              4715048.52,
+              2249899.54
+            ],
+            [
+              4714259.94,
+              2249798.33
+            ],
+            [
+              4713103.63,
+              2249646.96
+            ],
+            [
+              4711737.19,
+              2249758.8
+            ],
+            [
+              4710270.88,
+              2250710.74
+            ],
+            [
+              4708701.31,
+              2252031.62
+            ],
+            [
+              4707344.77,
+              2253875.81
+            ],
+            [
+              4706881.76,
+              2255768.63
+            ],
+            [
+              4707520.86,
+              2257603.85
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
