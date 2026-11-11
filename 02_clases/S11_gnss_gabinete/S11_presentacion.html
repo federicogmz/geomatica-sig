@@ -12,23 +12,23 @@
   <!-- 1. Portada -->
   <section class="slide slide--portada active">
     <h1>Cápsula Esencial: Sistemas GNSS y Posicionamiento Satelital</h1>
-    <p class="sub">Sesión 22 de Octubre (Parte A) · Módulo 3: Constelaciones, Trilateración, DOP, RTK e Integración Demostrativa en QGIS</p>
+    <p class="sub">Semana 13 · Módulo 3: Constelaciones, Trilateración, DOP, RTK y Auditoría en QGIS LTR y ArcGIS Pro</p>
     <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
   </section>
 
   <!-- 2. Agenda -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Sesión 11 (Cápsula Esencial · 45 min) · De la constelación orbital a la verificación en gabinete</p>
+      <p class="kicker">Semana 13 · Módulo 3 · De la constelación orbital a la verificación en gabinete</p>
       <h2 class="slide__title">Ruta de la Cápsula GNSS Esencial</h2>
     </div>
     <div class="slide__body">
       <div class="num-row">
         <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Arquitectura</h3><p>Los 3 segmentos y constelaciones (GPS, GLONASS, Galileo, BeiDou)</p></div>
         <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Trilateración 3D</h3><p>Mínimo 4 satélites y sincronización de reloj atómico (Δt)</p></div>
-        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Errores & DOP</h3><p>Refracción atmosférica, multitrayectoria (Multipath) y geometría</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Errores & DOP</h3><p>Refracción atmosférica, multitrayectoria (Multipath) y dilución HDOP</p></div>
         <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Niveles de Precisión</h3><p>Navegación (3–5 m) vs DGPS (submétrico) vs RTK (1–2 cm)</p></div>
-        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Demostración QGIS</h3><p>Importación rápida de GPX/CSV y reproyección a CTM12 (EPSG:9377)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>QGIS &amp; ArcGIS Pro</h3><p>Filtrado HDOP &lt;= 2.0 en QGIS LTR y XY Table To Point en ArcGIS Pro</p></div>
       </div>
     </div>
   </section>
@@ -892,8 +892,8 @@
         <li>[ ] <b>Fundamento teórico:</b> Claridad en los 3 segmentos GNSS (Espacial, Control y Usuario) y por qué se requieren mínimo 4 satélites para resolver (X, Y, Z, Δt).</li>
         <li>[ ] <b>Comprensión de errores:</b> Identificación de refracción ionosférica/troposférica, multitrayectoria (Multipath) en cañones urbanos y geometría de dilución (DOP).</li>
         <li>[ ] <b>Métodos de medición:</b> Diferenciación clara entre precisión de navegación autónoma (3–5 m), DGPS submétrico y RTK centimétrico (1–2 cm).</li>
-        <li>[ ] <b>Integración demostrativa en QGIS:</b> Importación de trazas GPX y tablas CSV en WGS84 y reproyección a MAGNA-SIRGAS CTM12 (EPSG:9377).</li>
-        <li>[ ] <b>Alcance evaluativo claro:</b> Cápsula conceptual y demostrativa; <b>no se exige entregable de GNSS en los informes del curso</b>.</li>
+        <li>[ ] <b>Integración en QGIS y ArcGIS Pro:</b> Importación de trazas GPX/CSV, filtrado por "hdop" &lt;= 2.0 y reproyección a MAGNA-SIRGAS CTM12 (EPSG:9377).</li>
+        <li>[ ] <b>Preparación Hito 4 (20% · S14):</b> Cálculo de RMSE horizontal frente a vértices geodésicos oficiales del IGAC en el campus EAFIT.</li>
       </ul>
     </div>
   </section>
@@ -901,27 +901,27 @@
   <!-- 23. Cierre y continuación inmediata -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Continuación inmediata en esta misma sesión (Jueves 22 de octubre)</p>
-      <h2 class="slide__title">A continuación: Teledetección Satelital e Índices Espectrales en QGIS (S12 y S13)</h2>
+      <p class="kicker">Continuación en la Jornada Integrada S13 (Semestre 2027-1)</p>
+      <h2 class="slide__title">A continuación: Teledetección Satelital e Índices Espectrales (S12 y S13)</h2>
     </div>
     <div class="slide__body">
       <div class="icon-card-grid" style="margin-bottom:2.5%">
         <div class="icon-card icon-card--cyan" style="grid-column:span 1">
-          <div><h3>Parte B · Espectro & Sentinel-2</h3><p>Física de la teledetección, firmas espectrales y bandas de 10 m y 20 m en QGIS (S12).</p></div>
+          <div><h3>Parte B · Sentinel-2 MGRS 18NVL</h3><p>Física de la teledetección, firmas espectrales y bandas de 10 m y 20 m en QGIS y ArcGIS Pro (S12).</p></div>
         </div>
         <div class="icon-card icon-card--mint" style="grid-column:span 1">
-          <div><h3>Ráster Virtual & RGB/CIR</h3><p>Construcción de <i>Build Virtual Raster</i> y combinaciones 4-3-2 y 8-4-3 sobre La Iguaná.</p></div>
+          <div><h3>Composición Multiespectral</h3><p>Construcción de Virtual Raster y Composite Bands (8-4-3 falso color vegetal y 11-8-4 urbano).</p></div>
         </div>
         <div class="icon-card icon-card--peach" style="grid-column:span 1">
-          <div><h3>Parte C · Índices NDVI / NDBI</h3><p>Cálculo directo en la Calculadora Ráster de QGIS, máscaras booleanas y fusión con Hillshade (S13).</p></div>
+          <div><h3>Parte C · Índices NDVI / NDBI</h3><p>Cálculo con umbral individual U_NDVI = 0.20 + 0.01*D, máscaras booleanas y poligonización limpia (S13).</p></div>
         </div>
         <div class="icon-card icon-card--lavender" style="grid-column:span 1">
-          <div><h3>Sin Entregable GNSS</h3><p>Los informes finales se enfocan 100% en Relieve Ráster + Teledetección Satelital en QGIS y Modelo Automatizado.</p></div>
+          <div><h3>Hacia el Hito 4 (20%)</h3><p>El Hito 4 en S14 evaluará integralmente: Terreno DEM + Control GNSS (HDOP/RMSE) + Teledetección Sentinel-2.</p></div>
         </div>
       </div>
       <div class="contact-banner">
         <h3>Pasemos de inmediato a la Parte B: Teledetección Satelital en QGIS I (S12)</h3>
-        <p><span class="accent">Docente:</span> fjgomezc@eafit.edu.co · Mantengan abierto su proyecto de QGIS en EPSG:9377</p>
+        <p><span class="accent">Docente:</span> fjgomezc@eafit.edu.co · Mantengan abierto su proyecto en EPSG:9377</p>
       </div>
     </div>
   </section>

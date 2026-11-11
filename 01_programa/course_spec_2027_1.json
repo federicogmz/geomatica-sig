@@ -1,0 +1,163 @@
+{
+  "course_code": "GEOMATICA-SIG-EAFIT",
+  "course_name": "Geomática, Ingeniería y SIG",
+  "semester": "2027-1",
+  "programs": [
+    "Ingeniería Civil",
+    "Diseño Urbano y Gestión del Hábitat"
+  ],
+  "schedule": {
+    "day": "Jueves",
+    "nominal_window": "12:00 m. – 4:30 p.m.",
+    "room_type": "Sala de Cómputo EAFIT (QGIS LTR + ArcGIS Pro)",
+    "subblock_1": "12:00 m. – 1:50 p.m. (110 min: Fundamento conceptual + Modelado en QGIS LTR sobre Cuenca Escuela La Iguaná)",
+    "active_break": "1:50 p.m. – 2:10 p.m. (20 min: Pausa activa pedagógica y almuerzo ligero integrada en las 4.5 h académicas)",
+    "subblock_2": "2:10 p.m. – 4:30 p.m. (140 min: Espejo corporativo en ArcGIS Pro + Aplicación a unidad territorial individual + Cierre C:\\Temp -> .zip)",
+    "start_date": "2027-01-21",
+    "holy_week_recess": "2027-03-25",
+    "end_date": "2027-05-13"
+  },
+  "budget": {
+    "credits": 3,
+    "umes": 5,
+    "direct_weekly": 4.5,
+    "indep_weekly": 4.5,
+    "weeks": 16
+  },
+  "territorial_design": {
+    "modality": "100% Individual",
+    "teaching_watershed": "Cuenca de la Quebrada La Iguaná (Medellín, 46.25 km² — exclusiva para demostraciones del profesor y GeoLab WebGIS; prohibida como asignación estudiantil)",
+    "sentinel2_tile": "MGRS 18NVL (cubre 5.34°N a 6.331°N: desde Sabaneta/Envigado hasta Medellín/Bello en una sola escena sin costuras, complementada al norte por 18NVM)",
+    "crs": "EPSG:9377 (MAGNA-SIRGAS 2018 / Origen-Nacional CTM12, Res. IGAC 471 de 2020)",
+    "portfolio_watersheds": [
+      "Q01. Quebrada La Ayurá (Envigado)",
+      "Q02. Quebrada La Presidenta (Medellín - El Poblado)",
+      "Q03. Quebrada Santa Elena (Medellín - Centro Oriente)",
+      "Q04. Quebrada Altavista - La Picacha (Medellín - Belén)",
+      "Q05. Quebrada Doña María (Itagüí / San Antonio de Prado)",
+      "Q06. Quebrada La Doctora (Sabaneta)",
+      "Q07. Quebrada La Hueso - Ana Díaz (Medellín - La América / San Javier)",
+      "Q08. Quebrada La García (Bello)",
+      "Q09. Quebrada La Madera (Medellín Noroccidente / Bello)",
+      "Q10. Quebrada La Aguacatala (Medellín - Suroriente)"
+    ],
+    "unit_matrix": "30 Unidades Territoriales Únicas (U01 a U30 = 10 quebradas x 3 tramos funcionales: Alto-Ladera, Medio-Transición, Bajo-Confluencia; polígono focal de 15 a 30 ha para topología/detalle + microcuenca completa para procesos ráster) combinadas con el último dígito del documento de identidad D (retiro R = 30 + D m; umbral U_NDVI = 0.20 + 0.01*D)."
+  },
+  "learning_outcomes": [
+    {
+      "id": "RAA1",
+      "solo_level": "Relacional",
+      "statement": "Diagnosticar y homologar bases espaciales multiescala al sistema oficial MAGNA-SIRGAS Origen Nacional CTM12 (EPSG:9377), diferenciando operaciones de asignación de referencia frente a reproyección de coordenadas tanto en QGIS LTR como en ArcGIS Pro."
+    },
+    {
+      "id": "RAA2",
+      "solo_level": "Relacional",
+      "statement": "Estructurar, auditar topológicamente y ejecutar geoprocesos vectoriales multicriterio sobre bases de datos espaciales abiertas (GeoPackage .gpkg) y corporativas (File Geodatabase .gdb con Feature Datasets, Subtipos y Dominios Codificados), produciendo cartografía normativa A3."
+    },
+    {
+      "id": "RAA3",
+      "solo_level": "Relacional",
+      "statement": "Modelar variables morfométricas del terreno (DEM), validar levantamientos satelitales GNSS por dilución de precisión (HDOP/RMSE) e integrar índices espectrales Sentinel-2 (NDVI y NDBI) mediante álgebra de mapas en QGIS LTR y Spatial Analyst de ArcGIS Pro."
+    },
+    {
+      "id": "RAA4",
+      "solo_level": "Abstracto Extendido",
+      "statement": "Automatizar flujos reproducibles de priorización territorial mediante ModelBuilder (.atbx) y el Diseñador Gráfico de Modelos (.model3), sustentando propuestas individuales de intervención en Ingeniería Civil o Diseño Urbano respaldadas por evidencia cuantitativa."
+    }
+  ],
+  "assessments": [
+    {
+      "id": "H1",
+      "name": "Hito 1: Taller Evaluativo 1 en Sala — Geodesia EPSG:9377 y Bases Espaciales (.gpkg / .gdb)",
+      "week": 5,
+      "date": "2027-02-18",
+      "covered_weeks": "S01–S04",
+      "weight": 20.0,
+      "ai_tier": "P",
+      "outcomes": ["RAA1", "RAA2"],
+      "continuous_improvement": "Ventana de mejora continua en S06 (25 feb): corrección verificada en sala sobre su unidad territorial recupera hasta el 40% de los puntos deducidos."
+    },
+    {
+      "id": "H2",
+      "name": "Hito 2: Evaluación Práctica Integradora 1 — Topología, Geoprocesamiento Vectorial y Salida A3",
+      "week": 8,
+      "date": "2027-03-11",
+      "covered_weeks": "S05–S07",
+      "weight": 20.0,
+      "ai_tier": "P",
+      "outcomes": ["RAA1", "RAA2"],
+      "continuous_improvement": "Retroalimentación inmediata antes del cierre del Hito 3; sin tareas adicionales en S08 para proteger el presupuesto de 4.5 h autónomas hacia S09."
+    },
+    {
+      "id": "H3",
+      "name": "Hito 3: Avance 1 Individual del Proyecto — Línea Base Vectorial (.gpkg + .gdb), Lámina A3 y Estación en Vivo",
+      "week": 9,
+      "date": "2027-03-18",
+      "covered_weeks": "S01–S08",
+      "weight": 20.0,
+      "ai_tier": "D",
+      "outcomes": ["RAA1", "RAA2", "RAA4"],
+      "continuous_improvement": "Auditoría de estación en vivo en 2 rondas + revisión estructurada entre pares; entrega matriz de mejora cartográfica y espacial subsanable en el Hito 5."
+    },
+    {
+      "id": "H4",
+      "name": "Hito 4: Evaluación Práctica Integradora 2 — Terreno (DEM), GNSS (HDOP) e Índices Sentinel-2",
+      "week": 14,
+      "date": "2027-04-29",
+      "covered_weeks": "S10–S13",
+      "weight": 20.0,
+      "ai_tier": "P",
+      "outcomes": ["RAA3"],
+      "continuous_improvement": "Ventana de mejora continua en S15 (06 may): depuración y encapsulamiento verificado en ModelBuilder (.atbx) recupera hasta el 40% de los puntos deducidos."
+    },
+    {
+      "id": "H5",
+      "name": "Hito 5: Proyecto Final Individual Multicriterio — Automatización ModelBuilder (.atbx), Dossier A3 y Pitch Ejecutivo",
+      "week": 16,
+      "date": "2027-05-13",
+      "covered_weeks": "S01–S15",
+      "weight": 20.0,
+      "ai_tier": "O",
+      "outcomes": ["RAA1", "RAA2", "RAA3", "RAA4"],
+      "continuous_improvement": "Pre-chequeo técnico en sala en S15 (06 may) garantizando 0 rutas rotas y 0 corrupción de .gdb antes del Pitch Ejecutivo Relámpago (4 + 3 min) en S16."
+    }
+  ],
+  "rubrics": [
+    {
+      "criterion": "C1. Rigor Geodésico e Integridad de Contenedores Espaciales (.gpkg y .gdb)",
+      "levels": {
+        "Nivel 1 - Inicial (0.0-2.9)": "Las capas carecen de referencia espacial válida, mezclan coordenadas geográficas en grados con etiquetas proyectadas sin transformación real, o el proyecto presenta rutas rotas y capas temporales en memoria.",
+        "Nivel 2 - Básico (3.0-3.7)": "Homologa las capas al sistema EPSG:9377 y almacena las geometrías en GeoPackage y File Geodatabase con rutas relativas funcionales, pero omite la configuración de Feature Datasets o dominios codificados de atributos.",
+        "Nivel 3 - Competente (3.8-4.4)": "Ejecuta sin distorsión métrica la asignación y reproyección de capas hacia EPSG:9377 en QGIS LTR y ArcGIS Pro, estructura Feature Datasets con dominios codificados activos y verifica cero rutas rotas tras descomprimir en directorio externo.",
+        "Nivel 4 - Avanzado (4.5-5.0)": "Cumple todos los indicadores del nivel Competente y además documenta cuantitativamente las discrepancias planas frente a elipsoidales e implementa reglas de validación de dominios y subtipos que previenen inconsistencias de captura."
+      }
+    },
+    {
+      "criterion": "C2. Saneamiento Topológico y Geoprocesamiento Vectorial Multicriterio",
+      "levels": {
+        "Nivel 1 - Inicial (0.0-2.9)": "Persisten solapes, huecos o geometrías inválidas en el polígono focal, aplica buffers sobre capas erróneas o sin disolución geométrica, o no parametriza el retiro hídrico con su dígito individual D.",
+        "Nivel 2 - Básico (3.0-3.7)": "Corrige los defectos topológicos primarios y ejecuta la cadena de buffer disuelto e intersección con su parámetro D, aunque conserva polígonos astilla residuales o campos de área sin actualizar tras el recorte.",
+        "Nivel 3 - Competente (3.8-4.4)": "Entrega el polígono focal con cero errores verificados en Comprobador de Topología y Geodatabase Topology, ejecuta retiros disueltos (30 + D m) e intersecciones exactas y recalcula áreas y longitudes en unidades métricas oficiales.",
+        "Nivel 4 - Avanzado (4.5-5.0)": "Cumple todos los indicadores del nivel Competente y contrasta la sensibilidad espacial de la afectación predial frente a variaciones del retiro normativo, desagregando métricas verificables por tipología catastral o funcional."
+      }
+    },
+    {
+      "criterion": "C3. Modelación Ráster del Relieve, Control GNSS e Índices Espectrales Sentinel-2",
+      "levels": {
+        "Nivel 1 - Inicial (0.0-2.9)": "Procesa escenas sin recortar a la divisoria de su microcuenca, conserva estaciones GNSS con HDOP superior al umbral técnico, invierte bandas en el cálculo de NDVI o NDBI o vectoriza sin filtrar la clase activa DN = 1.",
+        "Nivel 2 - Básico (3.0-3.7)": "Recorta el DEM y las bandas Sentinel-2 a la máscara de su cuenca (NoData = -9999), filtra estaciones GNSS por HDOP y calcula NDVI y NDBI, pero omite el perfil longitudinal del cauce o presenta imprecisiones en las estadísticas zonales.",
+        "Nivel 3 - Competente (3.8-4.4)": "Integra en QGIS LTR y Spatial Analyst el recorte por máscara, pendientes reclasificadas, perfil longitudinal del cauce, depuración GNSS con cálculo de RMSE, índices NDVI y NDBI con umbral individual (0.20 + 0.01*D) y vectorización limpia de DN = 1.",
+        "Nivel 4 - Avanzado (4.5-5.0)": "Cumple todos los indicadores del nivel Competente y valida físicamente las anomalías espectrales y morfométricas contra ortofotografía de alta resolución, cuantificando la incertidumbre posicional y de resolución de píxel (10 m vs 20 m)."
+      }
+    },
+    {
+      "criterion": "C4. Automatización Visual (ModelBuilder / .model3), Comunicación Cartográfica A3 y Defensa Oral",
+      "levels": {
+        "Nivel 1 - Inicial (0.0-2.9)": "No entrega flujo automatizado ejecutable, la lámina carece de cuadrícula métrica EPSG:9377, escala o leyendas cuantitativas, o durante la defensa en vivo no logra operar ni explicar las capas de su propio proyecto.",
+        "Nivel 2 - Básico (3.0-3.7)": "Construye un flujo parcial en ModelBuilder o Diseñador de Modelos y compone la lámina A3 con los elementos normativos base, pero emplea simbología sin jerarquía figura-fondo o depende de notas escritas durante su exposición.",
+        "Nivel 3 - Competente (3.8-4.4)": "Entrega un modelo parametrizado funcional (.atbx y .model3), diseña un Dossier Infográfico A3 legible con cuadrícula EPSG:9377, perfil y gráficas cuantitativas, y responde con solvencia técnica operando QGIS y ArcGIS Pro en vivo.",
+        "Nivel 4 - Avanzado (4.5-5.0)": "Cumple todos los indicadores del nivel Competente y articula una propuesta rigurosa en su ruta disciplinar (Ingeniería Civil o Diseño Urbano) donde cada intervención está georreferenciada, dimensionada y auditada frente a sesgos de herramientas o IA."
+      }
+    }
+  ]
+}

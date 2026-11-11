@@ -1,121 +1,137 @@
-# G15: Automatización Visual de Geoprocesos — ModelBuilder en ArcGIS Pro y Diseñador Gráfico de Modelos en QGIS
+# G15: Automatización Visual de Geoprocesos (ModelBuilder y Diseñador Gráfico) y Mejora Continua del Hito 4
 
-**Sesión del Jueves 29 de octubre (Semana 15) · Parte B: Automatización de Flujos Espaciales y Aplicación del Quiz 4 (8% — GNSS en Gabinete).**  
-En la segunda parte de esta sesión aprenderemos a automatizar cadenas de geoprocesamiento mediante grafos acíclicos dirigidos (DAG) que encadenan `Buffer (30 m)` $\rightarrow$ `Intersect` $\rightarrow$ `Calculate Field` con parámetros dinámicos (`P`). Revisaremos tanto **ModelBuilder en ArcGIS Pro (`.atbx`)** como su **equivalencia directa en el Diseñador Gráfico de Modelos de QGIS (`.model3`)**, competencia clave que será evaluada en el **Parcial Práctico 2 (`P2` — 15%, 90 min en QGIS)** y aplicable en el **Informe Final (`IF`)**. En el Bloque 2 de la sesión se aplicará el **Quiz 4 (8%, 45 min)** sobre posicionamiento GNSS en gabinete y control de calidad por `HDOP` (`S11/G11`).
+**Semestre 2027-1 · Módulo 5: Automatización Espacial y Modelación Reproducible · Sesión S15 (Jueves 06 de mayo de 2027)**  
+*Horario:* 12:00 m. – 4:30 p.m. (Jornada continua en Sala de Cómputo EAFIT: Sub-bloque 1 ModelBuilder + Sub-bloque 2 Mejora Continua)  
+*Presupuesto Académico:* 4.5 h presenciales + 4.5 h de trabajo autónomo semanal (3 Créditos Académicos · 5 UMEs · 144 h semestrales)  
+*Modalidad:* **100 % Individual** · *Metodología:* **Worked-Example Fading** (ModelBuilder `.atbx` $\leftrightarrow$ Diseñador `.model3` $\rightarrow$ Mejora Continua H4 $\rightarrow$ Preparación Hito 5).
 
 ---
 
-## 1. ¿Por Qué Automatizar un Flujo de Geoprocesamiento?
+## 1. Estructura de la Sesión y Arquitectura de la Jornada S15
 
-En un proyecto real de ingeniería civil, hidrología o urbanismo sobre la Cuenca de La Iguaná, las preguntas territoriales se repiten ante distintos escenarios: *¿Qué pasa si el retiro normativo pasa de $30\text{ m}$ a $50\text{ m}$ en los tramos torrenciales? ¿Cómo cambia el área predial afectada si se actualiza el catastro o se aplica el modelo a la quebrada vecina?*
+La sesión 15 constituye el eje central de automatización espacial y aseguramiento técnico antes del cierre definitivo del semestre:
 
-Ejecutar cada paso a mano es lento, no deja trazabilidad y multiplica el riesgo de olvidar el sistema de coordenadas (`EPSG:9377`). Un **modelo gráfico automatizado** permite:
-1. Encadenar herramientas donde la salida de un nodo alimenta automáticamente la entrada del siguiente.
-2. Exponer **parámetros dinámicos (`P`)** para que cualquier usuario cambie las capas o distancias y reejecute todo el flujo en un clic.
-3. Entregar un flujo auditable y reproducible dentro del paquete técnico de consultoría (`IF`).
+| Bloque | Horario | Duración | Contenido y Enfoque Pedagógico |
+|:---:|:---:|:---:|---|
+| **Sub-bloque 1** | 12:00 m. – 1:50 p.m. | 110 min | **Automatización Visual Avanzada en ArcGIS Pro y QGIS LTR:** Modelación mediante Grafos Acíclicos Dirigidos (DAG). Construcción encadenada de `Buffer (R = 30 + D m)` $\rightarrow$ `Intersect` $\rightarrow$ `Calculate Field (area_ha)` en **ModelBuilder (`.atbx`)** y en el **Diseñador Gráfico de Modelos (`.model3`)**. Parametrización dinámica (`P`), validación de flujos y exportación a scripts Python (ArcPy / PyQGIS). |
+| **Pausa Activa** | 1:50 p.m. – 2:10 p.m. | 20 min | **Pausa activa pedagógica:** Desconexión visual y descanso. |
+| **Sub-bloque 2** | 2:10 p.m. – 4:30 p.m. | 140 min | **Ventana de Mejora Continua del Hito 4 + Pre-chequeo Técnico Hito 5:** Depuración verificada en sala de inconsistencias del Hito 4 (recuperación de hasta el 40% de puntos deducidos mediante modelo ejecutable). Auditoría técnica de portabilidad (cero rutas rotas en `.gpkg` y `.gdb`) y ensayo de maquetación del Dossier A3 para el Pitch Ejecutivo. |
 
-| Elemento del Grafo | En **ArcGIS Pro — ModelBuilder** | En **QGIS — Diseñador Gráfico de Modelos** |
+---
+
+## 2. Principios de Automatización: ¿Por Qué Modelar Visualmente?
+
+En la práctica profesional de la consultoría territorial, las preguntas analíticas se repiten ante cambios de diseño o nuevas regulaciones normativas:
+*¿Qué ocurre con el área predial afectada si el retiro hídrico normativo pasa de $30\text{ m}$ a $37\text{ m}$? ¿Cómo responde el indicador si se actualiza la cartografía catastral o se traslada el modelo a otra microcuenca del portafolio?*
+
+Ejecutar manualmente decenas de geoprocesos genera errores de digitación, imposibilita la auditoría entre pares y multiplica el riesgo de omitir el CRS `EPSG:9377`. Un **flujo visual automatizado** garantiza:
+1. **Encadenamiento estricto:** La salida de un algoritmo alimenta de forma determinística la entrada del siguiente.
+2. **Parametrización dinámica:** Permite exponer variables de entrada (bandera **`P`** en ArcGIS Pro o cajas de **Entrada** en QGIS) para que cualquier consultor ejecute el análisis con nuevos insumos en un solo clic.
+3. **Reproducibilidad y Trazabilidad:** El archivo (`.atbx` o `.model3`) documenta formalmente la metodología cuantitativa del proyecto.
+
+| Componente en el Grafo (DAG) | En **ArcGIS Pro — ModelBuilder** | En **QGIS — Diseñador Gráfico de Modelos** |
 |---|---|---|
-| **Archivo del modelo** | Guardado dentro de una caja `.atbx` (exportable a `.py` ArcPy) | Archivo independiente **`.model3`** (exportable a `.py` PyQGIS) |
-| **Entradas / Parámetros (`P`)** | Óvalos **Azules** con bandera **`P`** (*Model Parameter*) | Cajas de **Entrada** (*Inputs*: Capa vectorial, Número/Distancia) |
-| **Herramientas / Algoritmos** | Rectángulos **Amarillos** (*Tools*) | Cajas **Blancas/Grises** con ícono de engranaje (*Algorithms*) |
-| **Salidas generadas** | Óvalos **Verdes** (*Derived / Output Data*) | Cajas de **Resultado final** asociadas al último algoritmo |
+| **Archivo del modelo** | Guardado dentro de una caja de herramientas **`.atbx`** | Archivo modular independiente **`.model3`** |
+| **Parámetros de Entrada (`P`)** | Óvalos **Azules** con distintivo **`P`** (*Model Parameter*) | Cajas de **Entrada** (*Inputs*: Vector, Ráster, Número) |
+| **Algoritmos / Herramientas** | Rectángulos **Amarillos** (*Tools*) | Cajas **Blancas** con ícono de engranaje (*Algorithms*) |
+| **Salidas Intermedias y Finales** | Óvalos **Verdes** (*Derived Data* con opción *Parameter*) | Cajas de **Resultado final** (*Output*) |
 
 ---
 
-## 2. Ruta A: Construcción del Modelo en ArcGIS Pro (ModelBuilder)
+## 3. Sub-bloque 1: Construcción Paso a Paso del Flujo Automatizado
 
-Diseñaremos un flujo automatizado que genera la faja de retiro hídrico ($30\text{ m}$ por defecto), la intersecta con las manzanas/predios de La Iguaná y calcula automáticamente el área afectada en hectáreas (`area_afectada_ha`).
+Construiremos un flujo que recibe la red hídrica, traza la faja de retiro disuelta con el parámetro individual $R = 30 + D\text{ m}$, intersecta las unidades territoriales y calcula automáticamente las hectáreas afectadas (`area_afectada_ha`).
 
-### Paso 2.1: Inicializar el Lienzo de ModelBuilder
-1. En su proyecto `proyecto_iguana_arcgis.aprx`, vayan a la pestaña **Analysis** y hagan clic en **ModelBuilder**.
-2. En **Model Properties**, asignen:
-   - **Name:** `ModeloRetiroIguana`
+### 3.1 Ruta A: ModelBuilder en ArcGIS Pro (`.atbx`)
+1. Abrir el proyecto corporativo `UXX_proyecto_corporativo.aprx`.
+2. En la cinta **Analysis**, hacer clic en el botón **ModelBuilder**.
+3. En las propiedades del modelo (*Model Properties*):
+   - **Name:** `Modelo_Retiro_Multicriterio_UXX`
    - **Label:** `Modelo Automatizado de Afectación por Retiro Hídrico (EPSG:9377)`
-   - Hagan clic en **OK**.
-
-### Paso 2.2: Encadenar `Buffer (30 m)` $\rightarrow$ `Intersect` $\rightarrow$ `Calculate Field`
-1. **Datos de Entrada (Óvalos Azules):** Arrastren desde el *Catalog Pane* las capas `red_hidrica` y `manzanas_iguana` al lienzo.
-2. **Nodo 1 — Buffer (`30 m`):**
-   - Arrastren la herramienta **Buffer (Analysis Tools)** al lienzo y conéctenla desde `red_hidrica` (*Input Features*).
-   - Doble clic en **Buffer**:
-     - **Distance:** `30` `Meters`.
-     - **Dissolve Type:** `Dissolve all output features into a single feature` (evita duplicar áreas donde se cruzan tributarios).
-3. **Nodo 2 — Intersect (Intersección espacial):**
-   - Arrastren **Intersect (Analysis Tools)** y conecten como entradas tanto el óvalo verde `red_hidrica_Buffer` como el óvalo azul `manzanas_iguana`.
-   - Nombren la salida como `manzanas_afectadas_retiro`.
-4. **Nodo 3 — Calculate Field (Cálculo de área en hectáreas):**
-   - Arrastren **Calculate Field (Data Management Tools)** y conéctenlo a la salida de *Intersect*.
-   - Configuren:
-     - **Field Name:** `area_afectada_ha` | **Field Type:** `Double`
-     - **Expression (Python 3):** `!shape.area! / 10000`
-
-### Paso 2.3: Parametrizar con Bandera `P`, Validar y Exportar
-1. Hagan clic derecho sobre `red_hidrica`, `manzanas_iguana`, el valor de distancia del `Buffer` y la salida final `manzanas_afectadas_retiro`, activando en cada uno la opción **Parameter** (aparecerá la letra **`P`**).
-2. En la cinta de ModelBuilder pulsen **Validate**, luego **Auto Layout**, **Save** y **Run**.
-3. *(Opcional)* En **Export → Export to Python File...**, guarden el script `modelo_amenaza_iguana.py` para inspeccionar su traducción a `arcpy`.
-
----
-
-## 3. Ruta B (Equivalencia Directa): Diseñador Gráfico de Modelos en QGIS (`Procesos -> Diseñador Gráfico de Modelos`)
-
-Para el **Parcial 2 (`P2`)** y el **Informe Final (`IF`) en QGIS**, construiremos este flujo reproducible utilizando el **Diseñador Gráfico de Modelos** nativo de QGIS y guardándolo como archivo **`.model3`**:
-
-### Paso 3.1: Abrir el Diseñador y Definir los Parámetros de Entrada (`Inputs`)
-1. En QGIS, vayan al menú superior: **Procesos → Diseñador Gráfico de Modelos...** (*Graphical Modeler*).
-2. En la barra de propiedades del modelo (panel izquierdo):
-   - **Nombre:** `modelo_retiro_iguana_9377`
-   - **Grupo:** `Consultoria_La_Iguana`
-3. En la pestaña inferior izquierda **Entradas** (*Inputs*), agreguen los tres parámetros dinámicos equivalentes a las banderas `P` de ArcGIS:
-   - **Entrada 1 (Red hídrica):** Doble clic en **Capa vectorial** $\rightarrow$ Descripción: `Red Hidrica (EPSG:9377)` | Tipo de geometría: `Línea` | Obligatorio: `Sí`.
-   - **Entrada 2 (Manzanas / Predios):** Doble clic en **Capa vectorial** $\rightarrow$ Descripción: `Manzanas o Predios (EPSG:9377)` | Tipo de geometría: `Polígono` | Obligatorio: `Sí`.
-   - **Entrada 3 (Distancia de retiro):** Doble clic en **Número** $\rightarrow$ Descripción: `Distancia de Retiro (m)` | Tipo: `Flotante` | Valor predeterminado: `30.0`.
-
-### Paso 3.2: Encadenar los Algoritmos (`Buffer` $\rightarrow$ `Intersección` $\rightarrow$ `Calculadora de campos`)
-Cambien a la pestaña **Algoritmos** en el panel izquierdo del Diseñador:
-
-1. **Algoritmo 1 — `Buffer` (Zona de amortiguamiento disuelta):**
-   - Busquen **Buffer** (bajo *Geometría vectorial*) y arrástrenlo al lienzo:
-     - **Capa de entrada:** Cambien el botón a **Entrada del modelo** (*Model Input*) y elijan `Red Hidrica (EPSG:9377)`.
-     - **Distancia:** Cambien el botón a **Entrada del modelo** y elijan `Distancia de Retiro (m)`.
-     - **Disolver resultado:** Marquen **`Sí` (`True`)**.
-     - Clic en **Aceptar**.
-2. **Algoritmo 2 — `Intersección` (*Intersection*):**
-   - Busquen **Intersección** y arrástrenlo al lienzo:
-     - **Capa de entrada:** **Entrada del modelo** $\rightarrow$ `Manzanas o Predios (EPSG:9377)`.
-     - **Capa de superposición:** **Salida del algoritmo** (*Algorithm Output*) $\rightarrow$ `"Hecho buffer" del algoritmo "Buffer"`.
-     - Clic en **Aceptar**.
-3. **Algoritmo 3 — `Calculadora de campos` (*Field calculator*):**
-   - Busquen **Calculadora de campos** y arrástrenla al lienzo:
-     - **Capa de entrada:** **Salida del algoritmo** $\rightarrow$ `"Intersección" del algoritmo "Intersección"`.
-     - **Nombre del campo:** `area_afectada_ha`
-     - **Tipo de campo de resultado:** `Decimal (doble)` | **Longitud:** `12` | **Precisión:** `4`.
-     - **Fórmula:**
-       ```text
-       $area / 10000
+4. **Encadenamiento de Herramientas:**
+   - Arrastrar la herramienta **Buffer** (*Analysis Tools → Proximity*):
+     - Conectar `red_hidrica` como *Input Features*.
+     - Abrir la herramienta: fijar distancia como parámetro dinámico (clic derecho $\rightarrow$ *Create Variable From Parameter → Distance*).
+     - **Dissolve Type:** Seleccionar `Dissolve all output features into a single feature` (evita superposición de áreas en confluencias).
+   - Arrastrar la herramienta **Intersect** (*Analysis Tools → Overlay*):
+     - Conectar como entradas tanto el óvalo verde resultante del Buffer como la capa de polígonos/manzanas.
+     - Salida: `zonas_afectadas_retiro`.
+   - Arrastrar la herramienta **Calculate Field** (*Data Management Tools → Fields*):
+     - Conectar a la salida de Intersect.
+     - **Field Name:** `area_afectada_ha` | **Field Type:** `Double`.
+     - **Expression (Python 3):**
+       ```python
+       !shape.area! / 10000.0
        ```
-     - En la sección inferior **Calculado** (*Calculated*), escriban el nombre del resultado final: `Manzanas_Afectadas_Retiro_9377` (esto crea automáticamente la caja verde de salida del modelo).
-     - Clic en **Aceptar**.
-
-### Paso 3.3: Validar, Guardar como `.model3` y Ejecutar
-1. En la barra superior del Diseñador de QGIS, hagan clic en el ícono de verificación (**Validar modelo**) para comprobar que todos los nodos estén bien conectados.
-2. Hagan clic en **Guardar modelo como...** (`Ctrl + Shift + S`) y guárdenlo en la carpeta `04_modelos_scripts/` de su proyecto con el nombre **`modelo_amenaza_iguana.model3`**.
-3. Pulsen el botón verde **Ejecutar modelo (`F5`)**: se abrirá una ventana de diálogo limpia pidiendo únicamente la capa de drenajes, la capa de manzanas y la distancia ($30\text{ m}$), generando la capa resultante con `area_afectada_ha` calculada en un solo paso.
-4. *(Opcional)* Hagan clic en el botón **Exportar como script de Python...** para ver cómo QGIS traduce el modelo visual a código `processing.run(...)` de PyQGIS.
+5. **Parametrización y Validación:**
+   - Hacer clic derecho sobre la capa de entrada, la variable de distancia, la capa de polígonos y la salida final $\rightarrow$ marcar **Parameter** (aparecerá la letra **`P`**).
+   - En la cinta superior, hacer clic en **Validate** (revisa consistencia del grafo) y luego en **Auto Layout**.
+   - Hacer clic en **Save** y ejecutar con **Run**.
+6. *(Opcional)* En **ModelBuilder → Export → Export to Python File...**, guardar `modelo_retiro_arcpy.py` para verificar su implementación en código.
 
 ---
 
-## 4. Bloque 2 de la Sesión (29 de Octubre): Aplicación del Quiz 4 (8% — 45 min en QGIS)
-
-Al finalizar la práctica de automatización se realizará de forma individual en los equipos del laboratorio el **Quiz 4 (8% de la nota definitiva del curso)**:
-
-- **Temática evaluada:** **Posicionamiento GNSS en Gabinete y Control de Calidad por `HDOP`** en **QGIS** (contenidos desarrollados en la guía [G11](G11_gnss_gabinete_importacion.md)).
-- **Modalidad y duración:** Evaluación práctica individual en QGIS (45 minutos): ingesta de traza `.gpx` y levantamiento `.csv` (`EPSG:4326`), depuración por `"hdop" <= 2.0`, reproyección a `EPSG:9377` y contraste posicional frente a vértices IGAC.
+### 3.2 Ruta B: Diseñador Gráfico de Modelos en QGIS LTR (`.model3`)
+1. En QGIS, abrir el menú superior: **Procesos → Diseñador Gráfico de Modelos...**
+2. En las propiedades del modelo (panel izquierdo):
+   - **Nombre:** `modelo_retiro_multicriterio_UXX`
+   - **Grupo:** `Consultoria_Geomatica_2027`
+3. **Definición de Entradas (*Inputs*):**
+   - *Entrada 1:* Doble clic en **Capa vectorial** $\rightarrow$ Nombre: `Red Hidrica (EPSG:9377)` | Tipo: `Línea` | Obligatorio: `Sí`.
+   - *Entrada 2:* Doble clic en **Capa vectorial** $\rightarrow$ Nombre: `Poligono Focal o Manzanas (EPSG:9377)` | Tipo: `Polígono` | Obligatorio: `Sí`.
+   - *Entrada 3:* Doble clic en **Número** $\rightarrow$ Nombre: `Distancia de Retiro R (m)` | Tipo: `Flotante` | Valor predeterminado: `34.0` (según su dígito $D$).
+4. **Encadenamiento de Algoritmos:**
+   - **Algoritmo 1 — Buffer:**
+     - Buscar **Buffer** en la pestaña *Algoritmos*.
+     - Capa de entrada: Cambiar a **Entrada del modelo** $\rightarrow$ `Red Hidrica (EPSG:9377)`.
+     - Distancia: Cambiar a **Entrada del modelo** $\rightarrow$ `Distancia de Retiro R (m)`.
+     - Disolver resultado: **`Sí` (`True`)**.
+   - **Algoritmo 2 — Intersección:**
+     - Buscar **Intersección**.
+     - Capa de entrada: **Entrada del modelo** $\rightarrow$ `Poligono Focal o Manzanas (EPSG:9377)`.
+     - Capa de superposición: **Salida del algoritmo** $\rightarrow$ `"Hecho buffer" del algoritmo "Buffer"`.
+   - **Algoritmo 3 — Calculadora de campos:**
+     - Buscar **Calculadora de campos**.
+     - Capa de entrada: **Salida del algoritmo** $\rightarrow$ `"Intersección" del algoritmo "Intersección"`.
+     - Nombre del campo: `area_afectada_ha` | Tipo: `Decimal (doble)`.
+     - Expresión:
+       ```sql
+       $area / 10000.0
+       ```
+     - En **Calculado**, asignar el nombre del resultado final: `Sectores_Criticos_Retiro_9377`.
+5. **Guardado:** Hacer clic en el ícono de disco y guardar como `modelo_retiro_UXX.model3` en la carpeta de su proyecto.
 
 ---
 
-## Checklist de Cierre de la Sesión del 29 de Octubre (G15)
+## 4. Sub-bloque 2: Ventana de Mejora Continua del Hito 4 y Pre-chequeo del Hito 5
 
-- [ ] Se comprendió la lógica de grafos acíclicos dirigidos (`Buffer 30 m` $\rightarrow$ `Intersect` $\rightarrow$ `Calculate Field`) y el uso de parámetros dinámicos (`P`).
-- [ ] Se construyó y ejecutó el modelo `.model3` en el **Diseñador Gráfico de Modelos de QGIS** como preparación directa para el **Parcial 2 (`P2`)** y el **Informe Final (`IF`)**.
-- [ ] Se presentó individualmente el **Quiz 4 (8%, 45 min)** sobre posicionamiento GNSS en gabinete en QGIS.
+A las 2:10 p.m., tras la pausa activa, se abre formalmente la sesión asistida en sala de cómputo:
+
+### 4.1 Ventana de Mejora Continua del Hito 4
+- Cada estudiante revisa su retroalimentación del Hito 4 (S14).
+- Inconsistencias típicas a depurar:
+  - Corrección de remuestreo o asignación errónea de NoData en el DEM.
+  - Ajuste de expresiones en Calculadora Ráster (paréntesis en NDVI/NDBI).
+  - Eliminación de polígonos de fondo en la vectorización (`DN = 1`).
+  - Depuración de trazas GNSS con `"hdop" <= 2.0` y recalculo del RMSE.
+- **Mecanismo de recuperación:** La entrega de la solución corregida y encapsulada dentro de un modelo funcional (`.atbx` o `.model3`) en la carpeta del proyecto recupera **hasta el 40% de los puntos deducidos** en la calificación del Hito 4.
+
+### 4.2 Protocolo de Pre-chequeo Técnico para el Hito 5
+Para garantizar que la entrega final individual de la Semana 16 transcurra sin incidentes técnicos:
+1. **Auditoría de Enlaces (Cero Rutas Rotas):**
+   - Comprobar que todos los insumos apunten a rutas relativas dentro de la carpeta del proyecto.
+   - Probar abrir el proyecto `.qgz` y el archivo `.aprx` tras mover la carpeta a otra ruta de prueba.
+2. **Integridad de Bases Espaciales:**
+   - Verificar que el GeoPackage `UXX_proyecto.gpkg` y la File Geodatabase `UXX_proyecto.gdb` contengan todas las capas del semestre en **`EPSG:9377`**.
+3. **Estructura del Dossier A3:**
+   - Configurar la plantilla del **Dossier Infográfico A3 de 2 páginas** en el Diseñador de Impresión / Layout de ArcGIS Pro.
+
+---
+
+## 5. Checklist de Finalización de Clase (S15)
+
+- [ ] Construí y validé el modelo automatizado en ArcGIS Pro (`.atbx`) con parámetros `P`.
+- [ ] Construí y validé el modelo equivalente en el Diseñador Gráfico de QGIS (`.model3`).
+- [ ] Parametricé el retiro con mi valor individual $R = 30 + D\text{ m}$.
+- [ ] Apliqué las correcciones del Hito 4 dentro de la Ventana de Mejora Continua.
+- [ ] Verifiqué cero rutas rotas en mis proyectos cartográficos y respaldé mi trabajo en `.zip`.

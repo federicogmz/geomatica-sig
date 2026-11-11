@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Geomática, Ingeniería y SIG: Semana 12</title>
+<title>Geomática, Ingeniería y SIG: Semana 12 · Teledetección Satelital y Misión Sentinel-2</title>
 <link rel="stylesheet" href="../_plantilla/estilo.css" />
 </head>
 <body>
@@ -11,156 +11,557 @@
 
   <!-- 1. Portada -->
   <section class="slide slide--portada active">
-    <h1>Teledetección en QGIS I: ¿Qué es una Imagen Multiespectral y Cómo Descargarla?</h1>
-    <p class="sub">Sesión 22 de Octubre (Parte B) · Bandas Visibles e Infrarrojas de Sentinel-2 y Descarga en QGIS para la Zona de Interés</p>
+    <p class="kicker kicker--sky" style="font-weight:700; letter-spacing:0.08em; text-transform:uppercase;">3 Créditos Académicos · 5 UMEs (144 h semestrales)</p>
+    <h1>Teledetección Satelital y Misión Sentinel-2</h1>
+    <p class="sub">Semana 12 · Semestre 2027-1 · Módulo 4: Sensores Remotos y Teledetección<br />Física Espectral, Constelación Sentinel-2 (Tile MGRS 18NVL), Ingesta QGIS LTR y Espejo ArcGIS Pro<br />Jornada Continua 12:00 m. – 4:30 p.m. · Sala de Cómputo EAFIT</p>
     <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
   </section>
 
   <!-- 2. Agenda -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Sesión 12 (Parte B) · Directo al grano para Ingeniería Civil y Diseño Urbano</p>
-      <h2 class="slide__title">Lo que aprenderemos hoy en 3 pasos sencillos</h2>
+      <p class="kicker">Ruta Pedagógica · Sesión 12 (12:00 m. – 4:30 p.m.) · 3 Créditos · 5 UMEs</p>
+      <h2 class="slide__title">Estructura del Aprendizaje Teórico-Práctico</h2>
     </div>
     <div class="slide__body">
       <div class="num-row">
-        <div class="num-item"><div class="num" style="color:var(--sky)">01</div><h3>¿Qué es Multiespectral?</h3><p>Diferencia entre una foto normal (RGB) y un satélite que ve en el infrarrojo</p></div>
-        <div class="num-item"><div class="num" style="color:var(--teal)">02</div><h3>Las 3 Bandas Clave</h3><p><b>Rojo (B04)</b>, <b>Infrarrojo Cercano (B08)</b> e <b>Infrarrojo de Onda Corta (B11)</b></p></div>
-        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Descargar en QGIS</h3><p>Bajar y recortar la imagen de <b>La Iguaná</b> dentro de QGIS para calcular índices</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">01</div><h3>Física & Red Edge</h3><p>Espectro electromagnético, ventanas atmosféricas y anatomía óptica foliar (12:00–12:50)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Misión Sentinel-2 & QGIS</h3><p>Constelación ESA, Tile 18NVL, STAC Browser y recorte Float32 en <code>EPSG:9377</code> (12:50–1:50)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Pausa Activa</h3><p>Descanso y recuperación de atención cognitiva (1:50–2:10 p.m.)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Sub-bloque 2: ArcGIS Pro</h3><p>Composite Bands, Raster Functions, remuestreo bilineal e inspección espectral (2:10–3:20)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--gold)">05</div><h3>Transferencia U01–U30</h3><p>Descarga y preparación de bandas B04, B08 y B11 para la cuenca individual (3:20–4:30)</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. ¿Qué es una imagen multiespectral? -->
+  <!-- 3. Reto Inicial: Productive Failure -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Concepto clave · Más allá del ojo humano</p>
-      <h2 class="slide__title">¿Qué significa que una imagen sea «Multiespectral»?</h2>
-      <p class="slide__desc">Una cámara normal (o una ortofoto) solo toma 3 colores que ve el ojo humano: <b>Azul, Verde y Rojo</b>. Un satélite <b>multiespectral</b> como <b>Sentinel-2</b> toma además fotos en el <b>Infrarrojo</b>, donde las plantas y el cemento se comportan de forma totalmente distinta.</p>
+      <p class="kicker">Reto Inicial · Productive Failure</p>
+      <h2 class="slide__title">El Límite del Ojo Humano: ¿Pasto Sintético o Césped Natural?</h2>
+      <p class="slide__desc">Observa dos canchas deportivas contiguas en una ortofoto aérea RGB convencional capturada con dron de alta resolución (píxel de 5 cm).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box example-box--problem">
+          <span class="tag">La Trampa Visual en RGB (400–700 nm)</span>
+          <h3>Ambas superficies lucen idénticas</h3>
+          <p>En el espectro visible, el polímero sintético verde y la clorofila de una planta sana reflejan la misma longitud de onda (&asymp; 550 nm, Verde). Una ortofoto visual clasifica erróneamente ambas como "cobertura vegetal".</p>
+          <p style="margin-top:0.4em"><b>Pregunta de Ingeniería:</b> ¿Cómo puede un sistema de alerta temprana o una aseguradora detectar estrés hídrico previo a una sequía o diferenciar permeabilidad real si solo disponemos de colores visibles?</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">La Revelación del Infrarrojo Cercano (NIR &gt; 700 nm)</span>
+          <h3>La Física Óptica de la Célula Vegetal</h3>
+          <p>El pasto sintético absorbe o refleja uniformemente el infrarrojo. La vegetación viva, por el contrario, <b>dispersa masivamente el NIR</b> debido a la estructura celular esponjosa del mesófilo foliar.</p>
+          <p style="margin-top:0.4em">En una banda infrarroja, el césped natural brilla con reflectancias superiores al 45 %, mientras el plástico cae a menos del 5 %. <i>¡La teledetección multiespectral mide procesos biofísicos invisibles al ojo!</i></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Fundamentos Físicos del Espectro -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Fundamentos Físicos de Sensores Remotos</p>
+      <h2 class="slide__title">El Espectro Electromagnético y las Ventanas Atmosféricas</h2>
+      <p class="slide__desc">La radiación solar viaja desde el sol, interactúa con la atmósfera terrestre, se refleja en la superficie y es captada por el sensor orbital.</p>
     </div>
     <div class="slide__body">
       <div class="info-grid cols-3">
-        <div class="example-box">
-          <span class="tag">Banda 4 · Rojo (B04 · 10 m)</span>
-          <h3>Lo que absorben las plantas</h3>
-          <p>Las hojas sanas usan la luz roja para hacer fotosíntesis, por eso <b>absorben el Rojo (B04)</b> y se ven muy oscuras (valor bajo ≈ <code>0.03</code>).</p>
+        <div class="icon-card icon-card--cyan">
+          <div>
+            <h3>1. Espectro Visible (VIS)</h3>
+            <p><b>400 a 700 nm:</b> Azul (490 nm), Verde (560 nm) y Rojo (665 nm). Dominado por la absorción de pigmentos fotosintéticos (clorofila <i>a</i> y <i>b</i>, carotenoides).</p>
+          </div>
         </div>
-        <div class="example-box example-box--solution">
-          <span class="tag">Banda 8 · Infrarrojo Cercano (B08 · 10 m)</span>
-          <h3>¡El detector de vegetación!</h3>
-          <p>Aunque no lo vemos, las hojas sanas <b>rebotan muchísimo Infrarrojo Cercano (NIR)</b>. En la banda <code>B08</code> los bosques brillan intensamente (≈ <code>0.42</code>).</p>
+        <div class="icon-card icon-card--mint">
+          <div>
+            <h3>2. Infrarrojo Cercano (NIR)</h3>
+            <p><b>700 a 1100 nm:</b> Transparente a la clorofila; interactúa directamente con la estructura celular interna de las hojas (mesófilo esponjoso) reflejando del 40 % al 60 % de la energía.</p>
+          </div>
         </div>
-        <div class="example-box">
-          <span class="tag">Banda 11 · Infrarrojo Onda Corta (B11)</span>
-          <h3>¡El detector de ciudad y cemento!</h3>
-          <p>Los techos, el concreto, el asfalto y el suelo seco <b>reflejan mucho en <code>B11 (SWIR)</code></b> (≈ <code>0.32</code>), mientras que las plantas húmedas y el agua lo absorben.</p>
+        <div class="icon-card icon-card--lavender">
+          <div>
+            <h3>3. Infrarrojo de Onda Corta (SWIR)</h3>
+            <p><b>1400 a 2500 nm:</b> Altamente sensible al contenido de agua en los tejidos vegetales, humedad del suelo, minerales arcillosos y materiales densos de construcción (concreto, asfalto, tejas).</p>
+          </div>
         </div>
+      </div>
+      <div class="example-box" style="margin-top:1.1em">
+        <span class="tag">Ventanas Atmosféricas</span>
+        <p>Los gases atmosféricos (O<sub>3</sub>, O<sub>2</sub>, H<sub>2</sub>O, CO<sub>2</sub>) absorben radiación en bandas específicas. Los satélites de observación de la Tierra ubican sus detectores ópticos exactamente en las bandas donde la atmósfera es transparente.</p>
       </div>
     </div>
   </section>
 
-  <!-- 4. Gráfica sencilla de por qué funcionan las bandas -->
+  <!-- 5. Firmas Espectrales Diagnósticas -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Comparación visual entre Bosque, Ciudad y Agua</p>
-      <h2 class="slide__title">¿Cómo responde cada cobertura en las bandas del satélite?</h2>
+      <p class="kicker">Comportamiento Óptico de Coberturas</p>
+      <h2 class="slide__title">Firmas Espectrales Típicas en el Valle de Aburrá</h2>
+      <p class="slide__desc">Cada cobertura presenta una curva de reflectancia característica (&rho; = E<sub>reflejada</sub> / E<sub>incidente</sub>) que permite su discriminación matemática.</p>
     </div>
     <div class="slide__body">
-      <svg viewBox="0 0 860 155" style="width:100%;max-height:155px;margin:0 auto 0.6em auto;display:block;" xmlns="http://www.w3.org/2000/svg">
-        <rect x="60" y="10" width="210" height="118" fill="#F0F7FF" stroke="#D0E3F7" stroke-width="1"/>
-        <rect x="270" y="10" width="210" height="118" fill="#EEFBF4" stroke="#C2EBD6" stroke-width="1"/>
-        <rect x="480" y="10" width="220" height="118" fill="#FFF7EE" stroke="#F5DEC2" stroke-width="1"/>
-        <text x="165" y="25" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#005596" text-anchor="middle">VISIBLE (B02 Azul · B03 Verde · B04 Rojo)</text>
-        <text x="375" y="25" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#008855" text-anchor="middle">NIR · Infrarrojo Cercano (B08)</text>
-        <text x="590" y="25" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#C26100" text-anchor="middle">SWIR · Infrarrojo Onda Corta (B11)</text>
-        <line x1="60" y1="128" x2="700" y2="128" stroke="#000066" stroke-width="1.5"/>
-        <line x1="60" y1="10" x2="60" y2="128" stroke="#000066" stroke-width="1.5"/>
-        <text x="52" y="128" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.0</text>
-        <text x="52" y="75" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.25</text>
-        <text x="52" y="30" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.50</text>
-        <line x1="235" y1="30" x2="235" y2="128" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="375" y1="30" x2="375" y2="128" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
-        <line x1="590" y1="30" x2="590" y2="128" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
-        <text x="235" y="142" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#F0142C" text-anchor="middle">B04 Rojo</text>
-        <text x="375" y="142" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#008855" text-anchor="middle">B08 NIR</text>
-        <text x="590" y="142" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#C26100" text-anchor="middle">B11 SWIR</text>
-        <polyline points="100,122 165,111 235,122 375,38 590,94" fill="none" stroke="#008855" stroke-width="3"/>
-        <circle cx="235" cy="122" r="4" fill="#008855"/><circle cx="375" cy="38" r="4.5" fill="#008855"/><circle cx="590" cy="94" r="4" fill="#008855"/>
-        <text x="305" y="68" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#008855" text-anchor="middle">¡Sube en B08! ↑</text>
-        <polyline points="100,94 165,88 235,80 375,82 590,57" fill="none" stroke="#F0142C" stroke-width="2.6" stroke-dasharray="5,2"/>
-        <circle cx="235" cy="80" r="3.5" fill="#F0142C"/><circle cx="375" cy="82" r="3.5" fill="#F0142C"/><circle cx="590" cy="57" r="4" fill="#F0142C"/>
-        <polyline points="100,115 165,117 235,122 375,126 590,127" fill="none" stroke="#00A9E0" stroke-width="2.2"/>
-        <rect x="712" y="18" width="140" height="95" rx="6" fill="#FFFFFF" stroke="#DCE0EB" stroke-width="1"/>
-        <line x1="720" y1="38" x2="742" y2="38" stroke="#008855" stroke-width="3"/>
-        <text x="748" y="41" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#008855">Bosque sano</text>
-        <line x1="720" y1="64" x2="742" y2="64" stroke="#F0142C" stroke-width="2.6" stroke-dasharray="4,2"/>
-        <text x="748" y="67" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#F0142C">Ciudad / Cemento</text>
-        <line x1="720" y1="90" x2="742" y2="90" stroke="#00A9E0" stroke-width="2.2"/>
-        <text x="748" y="93" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#00A9E0">Agua</text>
+      <svg viewBox="0 0 860 160" style="width:100%;max-height:160px;margin:0 auto 0.6em auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <rect x="60" y="10" width="210" height="120" fill="#F0F7FF" stroke="#D0E3F7" stroke-width="1"/>
+        <rect x="270" y="10" width="210" height="120" fill="#EEFBF4" stroke="#C2EBD6" stroke-width="1"/>
+        <rect x="480" y="10" width="220" height="120" fill="#FFF7EE" stroke="#F5DEC2" stroke-width="1"/>
+        <text x="165" y="24" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#005596" text-anchor="middle">VISIBLE (B02 · B03 · B04)</text>
+        <text x="375" y="24" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#008855" text-anchor="middle">NIR (B08 · 842 nm)</text>
+        <text x="590" y="24" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#C26100" text-anchor="middle">SWIR1 (B11 · 1610 nm)</text>
+        <line x1="60" y1="130" x2="700" y2="130" stroke="#000066" stroke-width="1.5"/>
+        <line x1="60" y1="10" x2="60" y2="130" stroke="#000066" stroke-width="1.5"/>
+        <text x="52" y="130" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.0</text>
+        <text x="52" y="75" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.30</text>
+        <text x="52" y="25" font-family="Calibri, sans-serif" font-size="9" fill="#5A5A6E" text-anchor="end">0.60</text>
+        <line x1="235" y1="28" x2="235" y2="130" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="375" y1="28" x2="375" y2="130" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="590" y1="28" x2="590" y2="130" stroke="#9999AA" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="235" y="145" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#F0142C" text-anchor="middle">B04 Rojo</text>
+        <text x="375" y="145" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#008855" text-anchor="middle">B08 NIR</text>
+        <text x="590" y="145" font-family="Calibri, sans-serif" font-size="10" font-weight="700" fill="#C26100" text-anchor="middle">B11 SWIR</text>
+        <!-- Bosque Sano -->
+        <polyline points="100,123 165,112 235,123 375,34 590,92" fill="none" stroke="#008855" stroke-width="3"/>
+        <circle cx="235" cy="123" r="4" fill="#008855"/><circle cx="375" cy="34" r="4.5" fill="#008855"/><circle cx="590" cy="92" r="4" fill="#008855"/>
+        <text x="305" y="62" font-family="Calibri, sans-serif" font-size="9.5" font-weight="700" fill="#008855" text-anchor="middle">Salto del Rojo ↑</text>
+        <!-- Ciudad / Concreto -->
+        <polyline points="100,98 165,88 235,80 375,76 590,52" fill="none" stroke="#F0142C" stroke-width="2.6" stroke-dasharray="5,2"/>
+        <circle cx="235" cy="80" r="3.5" fill="#F0142C"/><circle cx="375" cy="76" r="3.5" fill="#F0142C"/><circle cx="590" cy="52" r="4" fill="#F0142C"/>
+        <!-- Suelo Desnudo Seco -->
+        <polyline points="100,112 165,98 235,84 375,68 590,44" fill="none" stroke="#D97706" stroke-width="2.2" stroke-dasharray="2,2"/>
+        <circle cx="235" cy="84" r="3" fill="#D97706"/><circle cx="375" cy="68" r="3" fill="#D97706"/><circle cx="590" cy="44" r="3.5" fill="#D97706"/>
+        <!-- Agua -->
+        <polyline points="100,114 165,118 235,124 375,128 590,129" fill="none" stroke="#00A9E0" stroke-width="2.2"/>
+        <!-- Leyenda -->
+        <rect x="712" y="14" width="140" height="110" rx="6" fill="#FFFFFF" stroke="#DCE0EB" stroke-width="1"/>
+        <line x1="720" y1="32" x2="742" y2="32" stroke="#008855" stroke-width="3"/>
+        <text x="748" y="35" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#008855">Bosque nativo</text>
+        <line x1="720" y1="56" x2="742" y2="56" stroke="#F0142C" stroke-width="2.6" stroke-dasharray="4,2"/>
+        <text x="748" y="59" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#F0142C">Concreto / Techos</text>
+        <line x1="720" y1="80" x2="742" y2="80" stroke="#D97706" stroke-width="2.2" stroke-dasharray="2,2"/>
+        <text x="748" y="83" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#D97706">Suelo seco</text>
+        <line x1="720" y1="104" x2="742" y2="104" stroke="#00A9E0" stroke-width="2.2"/>
+        <text x="748" y="107" font-family="Calibri, sans-serif" font-size="9" font-weight="700" fill="#00A9E0">Agua limpia</text>
       </svg>
       <table class="data-table">
         <thead>
-          <tr><th>¿Qué hay en el suelo?</th><th>Rojo (<code>B04</code>)</th><th>NIR (<code>B08</code>)</th><th>SWIR (<code>B11</code>)</th><th>Idea clave para calcular los índices en S13</th></tr>
+          <tr><th>Cobertura</th><th>Rojo (B04)</th><th>NIR (B08)</th><th>SWIR1 (B11)</th><th>Comportamiento Físico Fundamental</th></tr>
         </thead>
         <tbody>
-          <tr><td><b>Bosque sano (Boquerón)</b></td><td>Bajo (~0.03)</td><td><b>Muy alto (~0.42)</b></td><td>Bajo (~0.15)</td><td>Como <code>B08</code> es mucho mayor que <code>B04</code> → <b>NDVI alto</b>.</td></tr>
-          <tr><td><b>Ciudad / Concreto (Robledo)</b></td><td>Medio (~0.21)</td><td>Medio (~0.20)</td><td><b>Alto (~0.31)</b></td><td>Como <code>B11</code> es mayor que <code>B08</code> → <b>NDBI positivo</b>.</td></tr>
+          <tr><td><b>Bosque denso (Boquerón)</b></td><td>Bajo (&asymp; 0.03)</td><td><b>Muy alto (&asymp; 0.46)</b></td><td>Medio-bajo (&asymp; 0.16)</td><td>Absorción fotosintética en B04 y dispersión masiva en B08.</td></tr>
+          <tr><td><b>Ciudad consolidada (Robledo)</b></td><td>Medio (&asymp; 0.22)</td><td>Medio (&asymp; 0.23)</td><td><b>Muy alto (&asymp; 0.36)</b></td><td>Superficie impermeable y seca con máxima reflectancia en B11.</td></tr>
+          <tr><td><b>Río Medellín / Quebrada limpia</b></td><td>Bajo (&asymp; 0.04)</td><td><b>Cero (&asymp; 0.01)</b></td><td><b>Cero (&asymp; 0.00)</b></td><td>El agua pura absorbe casi el 100% de la energía en infrarrojo.</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- 5. Cómo descargar la imagen en QGIS -->
+  <!-- 6. El Fenómeno del Red Edge -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Sin salir de QGIS · Buscador gratuito STAC API Browser</p>
-      <h2 class="slide__title">Cómo descargar las bandas de nuestra Zona de Interés en QGIS</h2>
-      <p class="slide__desc">El satélite <b>Sentinel-2</b> pasa cada 5 días por Medellín y es 100% gratuito. Podemos buscar y descargar la imagen directamente dentro de QGIS usando el polígono de <b>La Iguaná</b>.</p>
+      <p class="kicker">Biofísica de la Vegetación</p>
+      <h2 class="slide__title">El Salto del Rojo (Red Edge): La Huella Dactilar de la Clorofila</h2>
+      <p class="slide__desc">Entre los 670 nm y los 780 nm ocurre la transición espectral más abrupta de la naturaleza terrestre.</p>
     </div>
     <div class="slide__body">
-      <div class="step-grid">
-        <div class="step-card">
-          <div class="num" style="color:var(--sky)">1</div>
-          <h3>Abrir STAC API Browser</h3>
-          <p>1. Cargar en QGIS <code>limite_iguana.geojson</code>.<br/>
-             2. Ir a <b>Complementos → STAC API Browser</b>.<br/>
-             3. Elegir el catálogo libre <b>Earth Search</b> y marcar <b><code>Sentinel-2 Level-2A</code></b>.</p>
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">La Anatomía Interna de la Hoja</span>
+          <h3>¿Por qué la hoja no se quema con el sol?</h3>
+          <p>La radiación solar contiene una enorme cantidad de energía en el infrarrojo cercano. Si las plantas absorbieran el NIR como absorben el rojo o el azul, sus células colapsarían por sobrecalentamiento térmico.</p>
+          <p style="margin-top:0.4em">La evolución vegetal diseñó una estructura celular interna con múltiples cavidades de aire y agua (<b>parénquima lagunar</b>) que actúa como un prisma difusor, reflejando y dispersando hacia el espacio exterior más del 50 % de los fotones NIR incidentes.</p>
         </div>
-        <div class="step-card">
-          <div class="num" style="color:var(--teal)">2</div>
-          <h3>Filtrar por La Iguaná</h3>
-          <p>1. Marcar <b>Filter by Extent → Use Map Canvas Extent</b> (usa el recuadro de nuestra cuenca).<br/>
-             2. Elegir una fecha sin nubes y abrir <b>View Assets</b>.<br/>
-             3. Cargar las bandas <b><code>red (B04)</code></b>, <b><code>nir (B08)</code></b> y <b><code>swir16 (B11)</code></b>.</p>
-        </div>
-        <div class="step-card">
-          <div class="num" style="color:var(--orange)">3</div>
-          <h3>Recortar a la Cuenca</h3>
-          <p>En <b>Ráster → Extracción → Cortar ráster por capa de máscara</b>:<br/>
-             • Máscara: <code>limite_iguana</code><br/>
-             • SRC destino: <b><code>EPSG:9377</code></b> (10 m).<br/>
-             <i>(En <code>capas_practica/</code> ya están listas por si el internet falla).</i></p>
+        <div class="example-box example-box--solution">
+          <span class="tag">El Sensor como Indicador de Vitalidad</span>
+          <h3>Sensibilidad al Estrés Vegetal</h3>
+          <p>Cuando un árbol sufre estrés por sequía, ataque de plagas o contaminación, el mesófilo colapsa y la producción de clorofila disminuye <b>días o semanas antes</b> de que el ojo humano note que las hojas se tornan amarillas.</p>
+          <ul style="margin:0.3em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li><b>Vegetación Óptima:</b> Reflectancia en B04 &le; 0.04, B08 &ge; 0.45 (Salto pronunciado).</li>
+            <li><b>Vegetación con Estrés:</b> Reflectancia en B04 sube a 0.12, B08 cae a 0.22 (Salto atenuado).</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. Práctica rápida en QGIS -->
+  <!-- 7. La Misión Sentinel-2 (ESA Copernicus) -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Manos a la obra en QGIS · 10 minutos</p>
-      <h2 class="slide__title">Exploremos las bandas de La Iguaná antes de calcular los índices</h2>
+      <p class="kicker">Programa Espacial Europeo Copernicus</p>
+      <h2 class="slide__title">Misión Sentinel-2: Constelación Operativa y Acceso Abierto</h2>
+      <p class="slide__desc">Satélites en órbita heliosincrónica (Sentinel-2A, 2B y el reciente 2C operacional desde 2024–2025).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="icon-card icon-card--cyan">
+          <div>
+            <h3>Órbita & Revisita</h3>
+            <p>Altitud de 786 km, órbita heliosincrónica (cruce matutino a las 10:30 a.m. hora local). Frecuencia de revisita de <b>5 días</b> en el ecuador (Medellín).</p>
+          </div>
+        </div>
+        <div class="icon-card icon-card--mint">
+          <div>
+            <h3>Sensor MSI Óptico</h3>
+            <p><b>MultiSpectral Instrument:</b> 13 canales espectrales desde el aerosol costero (443 nm) hasta el infrarrojo de onda corta (2190 nm), con barrido de <b>290 km</b>.</p>
+          </div>
+        </div>
+        <div class="icon-card icon-card--lavender">
+          <div>
+            <h3>Política Open Data</h3>
+            <p>Datos 100 % públicos y gratuitos financiados por la Unión Europea para vigilancia ambiental, agricultura de precisión, gestión del riesgo y ordenamiento territorial.</p>
+          </div>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:1.1em">
+        <span class="tag">Impacto en la Ingeniería en Colombia</span>
+        <p>A diferencia de los sensores comerciales de pago por escena, Sentinel-2 provee un flujo continuo de observaciones calibradas para monitoreo metropolitano sin costo de licencia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Grilla MGRS y Tile 18NVL en el Valle de Aburrá -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Partición Espacial Oficial</p>
+      <h2 class="slide__title">El Tile MGRS 18NVL: La Escena Maestra del Valle de Aburrá</h2>
+      <p class="slide__desc">Sentinel-2 distribuye sus datos cortados en cuadrículas estandarizadas de 100 &times; 100 km del sistema US-MGRS (Military Grid Reference System).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Tile MGRS 18NVL (Nuestra Escena Base)</span>
+          <h3>Cobertura Metropolitana Central y Sur</h3>
+          <p>El cuadrante <b><code>T18NVL</code></b> abarca de 5.34°N a 6.33°N en UTM Zona 18N, cubriendo de forma continua y sin costuras a Sabaneta, Envigado, Itagüí, Medellín y Bello.</p>
+          <ul style="margin:0.3em 0 0 1.2em; line-height:1.5; font-size:0.9em">
+            <li><b>Zona UTM:</b> 18 Norte (meridiano central 75°O).</li>
+            <li><b>Ventaja Operativa:</b> No requiere empalmes de mosaicos para La Iguaná ni para la mayoría de cuencas de clase.</li>
+            <li><b>Empalme Septentrional:</b> En el extremo norte del valle (Copacabana, Girardota, Barbosa), la cuenca empalma con el tile adyacente <b><code>T18NVM</code></b>.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Estructura de la Nomenclatura Oficial</span>
+          <pre style="background:var(--navy); color:#fff; padding:0.8em; border-radius:10px; font-size:clamp(0.66rem, 1.0vw, 0.82rem); line-height:1.45; margin:0.3em 0 0 0;">
+S2A_MSIL2A_20240128T152641_N0510_R025_T18NVL_20240128T211512.SAFE
+│   │       │               │     │    └── Tile MGRS (18NVL)
+│   │       │               │     └────── Relative Orbit (R025)
+│   │       │               └──────────── Versión de procesamiento
+│   │       └──────────────────────────── Fecha y hora UTC captura
+│   └──────────────────────────────────── Producto Level-2A (BOA)
+└──────────────────────────────────────── Satélite (Sentinel-2A/2B/2C)</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Configuración de Bandas del Sensor MSI -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Arquitectura de Resolución Espacial</p>
+      <h2 class="slide__title">Resolución Espacial de las Bandas Sentinel-2 MSI</h2>
+      <p class="slide__desc">No todas las bandas tienen el mismo tamaño de celda: el diseño de la ESA balanceó la física de detectores con el volumen de datos.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">10 m</div>
+          <h3>Bandas de Alta Resolución</h3>
+          <p><b>B02 (Azul · 490 nm)</b><br/><b>B03 (Verde · 560 nm)</b><br/><b>B04 (Rojo · 665 nm)</b><br/><b>B08 (NIR Ancho · 842 nm)</b><br/><i>Detalle fino para coberturas, cauces y borde urbano.</i></p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">20 m</div>
+          <h3>Bandas de Resolución Media</h3>
+          <p><b>B05, B06, B07 (Red Edge)</b><br/><b>B8A (NIR Estrecho · 865 nm)</b><br/><b>B11 (SWIR1 · 1610 nm)</b><br/><b>B12 (SWIR2 · 2190 nm)</b><br/><i>Discriminación bioquímica y de tejido construido.</i></p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--navy)">60 m</div>
+          <h3>Bandas Atmosféricas</h3>
+          <p><b>B01 (Aerosol costero)</b><br/><b>B09 (Vapor de agua)</b><br/><i>Uso exclusivo en corrección atmosférica. (Nota: B10 cirros se omite en L2A BOA).</i></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Hinge Question 1 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Pregunta Bisagra · Diagnóstico Conceptual</p>
+      <h2 class="slide__title">¿Qué Ocurre al Operar Bandas de Distinta Resolución?</h2>
+      <p class="slide__desc">Un error muy común al calcular el índice de construcciones NDBI es restar directamente la banda B11 y la banda B08.</p>
     </div>
     <div class="slide__body">
       <div class="example-box example-box--problem">
-        <span class="tag">Ejercicio Rápido en Clase</span>
-        <ol style="margin:0.5em 0 0 1.2em;line-height:1.6">
-          <li>Carguen en QGIS el límite de la cuenca (<code>limite_iguana.geojson</code>) y las bandas recortadas <b><code>s2_b04_rojo.tif</code></b>, <b><code>s2_b08_nir.tif</code></b> y <b><code>s2_b11_swir1.tif</code></b>.</li>
-          <li>Apaguen y enciendan <code>s2_b08_nir</code> y <code>s2_b11_swir1</code>: vean cómo en <b>B08</b> brilla el bosque de San Cristóbal y en <b>B11</b> brilla la zona urbana de Robledo.</li>
-          <li>Con la herramienta <b>Identificar objetos espaciales (<code>i</code>)</b> hagan clic sobre un bosque y sobre un barrio urbano para ver sus números reales. ¡Ahora pasemos a <b>S13</b> para computar los índices!</li>
-        </ol>
+        <span class="tag">Situación de Alerta en Gabinete</span>
+        <h3>Pregunta Bisagra 1</h3>
+        <p>Si la banda <code>B11 (SWIR1)</code> tiene un píxel de <b>20 metros</b> y la banda <code>B08 (NIR)</code> tiene un píxel de <b>10 metros</b>, ¿qué sucede si ejecutas <code>("B11" - "B08") / ("B11" + "B08")</code> en la Calculadora Ráster sin remuestreo previo?</p>
+        <div class="info-grid cols-2" style="margin-top:0.8em">
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>A)</b> QGIS arroja error fatal y cancela el cálculo de forma automática.</p>
+            <p><b>B)</b> QGIS interpola con spline cúbica preservando 10 m sin advertencias.</p>
+          </div>
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>C)</b> QGIS remuestrea por vecino más cercano según la capa de referencia, desfasando bordes y degradando la precisión con respecto al catastro.</p>
+            <p><b>D)</b> La imagen se vuelve completamente nula.</p>
+          </div>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:0.9em">
+        <span class="tag">Respuesta Técnica Correcta: Opción C</span>
+        <p>La Calculadora Ráster adopta la cuadrícula de la capa seleccionada y realiza un muestreo burdo por vecino más cercano sobre la capa de diferente celda, desfasando hasta 10 m los bordes contra vías y predios. <b>Regla EAFIT:</b> Toda banda de 20 m debe remuestrearse bilinealmente a 10 m antes del álgebra de mapas.</p>
       </div>
     </div>
+  </section>
+
+  <!-- 11. Niveles L1C vs L2A y Factor de Escala -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Calibración Radiométrica y Atmosférica</p>
+      <h2 class="slide__title">Niveles de Producto: L1C (TOA) vs. L2A (BOA) y Escala 10.000</h2>
+      <p class="slide__desc">Diferencia crítica entre la luz captada arriba de la atmósfera y la luz realmente reflejada por el suelo de Medellín.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Level-1C · TOA (Top of Atmosphere)</span>
+          <h3>Contaminado por la Atmósfera</h3>
+          <p>Mide la radiación aparente al tope de la atmósfera. Incluye dispersión de Rayleigh y aerosoles, distorsionando los índices ecológicos.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Level-2A · BOA (Bottom of Atmosphere)</span>
+          <h3>Reflectancia Pura de la Superficie</h3>
+          <p>Corregido con el algoritmo oficial <b>Sen2Cor</b>. Elimina la influencia de aerosoles. <b>Es el producto estándar obligatorio</b> para estudios geomáticos.</p>
+        </div>
+      </div>
+      <div class="example-box" style="margin-top:1.1em">
+        <span class="tag">El Factor de Escala 10.000</span>
+        <p>La reflectancia física oscila entre 0.00 y 1.00. Para almacenar millones de celdas en archivos GeoTIFF enteros de 16 bits sin decimales, la ESA multiplica la reflectancia real por <b>10.000</b> (en colecciones armonizadas como <code>sentinel-2-c1-l2a</code> de Earth Search STAC):</p>
+        <p style="margin-top:0.3em; font-family:monospace; font-size:0.95em; color:var(--navy); font-weight:bold">
+          Reflectancia_Física = Valor_Píxel_Sentinel2 / 10000.0
+        </p>
+        <p style="font-size:0.86em; color:var(--charcoal)"><i>Nota técnica:</i> En baselines nativos ESA &ge; 04.00 existe un offset <code>BOA_ADD_OFFSET = -1000</code>; en el curso empleamos las bandas armonizadas de clase con escala directa 10.000.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Búsqueda y Descarga: STAC API Browser -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ingesta Eficiente de Datos Satelitales · Sub-bloque 1 (12:00 m. – 1:50 p.m.)</p>
+      <h2 class="slide__title">Búsqueda Directa en QGIS LTR: STAC API Browser</h2>
+      <p class="slide__desc">Descarga selectiva únicamente de las bandas necesarias mediante SpatioTemporal Asset Catalogs (STAC) sin descargar gigabytes de datos innecesarios.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--navy)">1</div>
+          <h3>Cargar Extensión</h3>
+          <p>Cargar el límite de la cuenca (<code>limite_iguana.geojson</code> o tu unidad territorial <code>UXX</code>) y hacer zoom sobre ella.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">2</div>
+          <h3>Conectar STAC</h3>
+          <p>Abrir <b>STAC API Browser</b> → Catálogo <b>Earth Search (Element 84 / AWS)</b> → Colección <b>Sentinel-2 L2A</b>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">3</div>
+          <h3>Filtrar por Nubosidad</h3>
+          <p>Marcar <i>Filter by Extent (Canvas)</i> y cobertura de nubes &lt; 20 %. Seleccionar escenas de temporada seca (enero–marzo).</p>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:1.1em">
+        <span class="tag">Bandas Requeridas para el Ejercicio</span>
+        <p>En la ventana <i>View Assets</i> descargamos 3 bandas esenciales: <b><code>red (B04)</code></b>, <b><code>nir (B08)</code></b> y <b><code>swir16 (B11)</code></b>. <i>(En la sala de cómputo, las bandas pre-cortadas están disponibles en la carpeta local de insumos para contingencias).</i></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Preprocesamiento: Recorte y Reproyección Float32 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Transformación Espacial en QGIS LTR</p>
+      <h2 class="slide__title">Recorte por Capa de Máscara y Reproyección a EPSG:9377</h2>
+      <p class="slide__desc">Las escenas Sentinel-2 se distribuyen en proyección UTM 18N (EPSG:32618). Debemos homologarlas al Origen Nacional oficial.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Ruta de Menú en QGIS LTR</span>
+          <h3>Ráster → Extracción → Cortar ráster por capa de máscara…</h3>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.5; font-size:clamp(0.72rem, 1.15vw, 0.92rem);">
+            <li><b>Capa de entrada:</b> Banda Sentinel-2 descargada (ej. B04).</li>
+            <li><b>Capa de máscara:</b> Polígono oficial de la cuenca (<code>limite_iguana.gpkg</code>).</li>
+            <li><b>SRC de origen:</b> <code>EPSG:32618</code> (UTM 18N).</li>
+            <li><b>SRC de destino:</b> <b><code>EPSG:9377</code> (MAGNA-SIRGAS / Origen-Nacional)</b>.</li>
+            <li><b>Ajustar extensión al límite de máscara:</b> Marcado.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Parámetros Críticos de Salida (GDAL)</span>
+          <h3>Tipo Float32 y Alineación Métrica</h3>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.5; font-size:clamp(0.72rem, 1.15vw, 0.92rem);">
+            <li><b>Tipo de datos de salida:</b> <b><code>Float32</code></b> (permite números negativos para nulos y decimales de reflectancia).</li>
+            <li><b>Resolución del ráster de salida:</b> <b>10.0 metros</b> (X e Y).</li>
+            <li><b>Parámetros GDAL adicionales:</b> <code>-r bilinear -dstnodata -9999</code>.</li>
+            <li><b>Archivo de salida:</b> <code>s2_b04_iguana_9377.tif</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Manejo Estricto de NoData = -9999 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Calidad del Dato Matricial</p>
+      <h2 class="slide__title">Manejo Estricto de Celdas Nulas: La Regla de NoData = -9999</h2>
+      <p class="slide__desc">Un error de principiante es dejar el valor nulo en cero (0) o sin definir, lo que destruye el análisis cuantitativo.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box example-box--problem">
+          <span class="tag">El Peligro de Dejar NoData en 0</span>
+          <h3>Catástrofe en los Índices y Estadísticas</h3>
+          <p>Si la zona exterior al límite de la cuenca se codifica con valor <code>0</code>:</p>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li>La Calculadora Ráster intentará calcular (0 - 0)/(0 + 0) = 0/0 = Indefinido/NaN o generará un borde artificial con valor 0.</li>
+            <li>La media de la cuenca caerá drásticamente (el cero entra en el promedio aritmético).</li>
+            <li>Al vectorizar, se creará un polígono gigante exterior que distorsionará el balance de áreas.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">El Estándar Profesional EAFIT</span>
+          <h3>Declaración Explícita de NoData en Float32</h3>
+          <p>Al asignar <b><code>NoData = -9999</code></b> en tipo Float32:</p>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li>Tanto QGIS como ArcGIS Pro tratan las celdas externas como transparentes.</li>
+            <li>Las funciones estadísticas ignoran por completo los píxeles nulos.</li>
+            <li>El histograma de reflectancia representa exclusivamente el territorio de la cuenca.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Composiciones Multiespectrales (Virtual Raster) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Visualización y Combinación de Bandas en QGIS LTR</p>
+      <h2 class="slide__title">Composiciones Multiespectrales (Construir Ráster Virtual)</h2>
+      <p class="slide__desc">Combinar 3 bandas monobanda en los canales Rojo, Verde y Azul del monitor crea imágenes sintéticas de alto poder diagnóstico.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box">
+          <span class="tag">Color Verdadero (4-3-2)</span>
+          <h3>Ojo Humano Natural</h3>
+          <p><b>R=B04 · G=B03 · B=B02</b><br/>Muestra el paisaje tal como lo vería un pasajero de avión. Útil para ubicar barrios, vías principales y obras civiles reconocibles.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Falso Color CIR (8-4-3)</span>
+          <h3>Infrarrojo Vegetal</h3>
+          <p><b>R=B08 · G=B04 · B=B03</b><br/>La vegetación viva y sana aparece en tonos <b>rojos intensos</b>. Las áreas urbanas y el concreto aparecen en tonos cian/grisáceos.</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Agricultura / Urbano (11-8-4)</span>
+          <h3>Geológico y Concreto</h3>
+          <p><b>R=B11 · G=B08 · B=B04</b><br/>El concreto, asfalto y suelo erosionado resaltan en tonos <b>cian brillante y magenta</b>, mientras los bosques se observan en verde brillante.</p>
+        </div>
+      </div>
+      <p class="slide__desc" style="margin-top:1.1em"><b>En QGIS:</b> Menú <i>Ráster → Miscelánea → Construir ráster virtual (VRT)</i> marcando <i>"Poner cada archivo de entrada en una banda separada"</i>.</p>
+    </div>
+  </section>
+
+  <!-- 16. Espejo en ArcGIS Pro: Composite Bands -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Homología Corporativa · Sub-bloque 2 (2:10 p.m. – 4:30 p.m.)</p>
+      <h2 class="slide__title">Espejo en ArcGIS Pro: Composite Bands y Raster Functions</h2>
+      <p class="slide__desc">En el entorno corporativo de Esri, el procesamiento multiespectral se ejecuta en memoria o mediante geoprocesamiento directo.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Herramienta de Geoprocesamiento</span>
+          <h3>Composite Bands (Data Management Tools)</h3>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.5; font-size:clamp(0.72rem, 1.15vw, 0.92rem);">
+            <li><b>Input Rasters:</b> Añadir en orden <code>B08</code>, <code>B04</code>, <code>B03</code>.</li>
+            <li><b>Output Raster:</b> <code>comp_cir_iguana.tif</code>.</li>
+            <li><b>Ventaja:</b> Crea un archivo ráster multibanda exportable a la Geodatabase corporativa.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Flujo Dinámico en Memoria</span>
+          <h3>Panel Raster Functions (On-the-fly)</h3>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.5; font-size:clamp(0.72rem, 1.15vw, 0.92rem);">
+            <li><b>Función Clip:</b> Recorta en memoria usando el Feature Class de la cuenca.</li>
+            <li><b>Función Resample:</b> Remuestrea la banda B11 a 10 m con método Bilinear instantáneo.</li>
+            <li><b>Symbology Drape:</b> Ajuste dinámico de contraste (<i>DRA - Dynamic Range Adjustment</i>) para visualizar laderas en sombra.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Hinge Question 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Pregunta Bisagra · Diagnóstico Conceptual</p>
+      <h2 class="slide__title">Sombra Topográfica y Nubosidad en Cuencas de Alta Montaña</h2>
+      <p class="slide__desc">La topografía escarpada del Valle de Aburrá genera sombras en laderas orientadas al oeste durante la toma matutina de las 10:30 a.m.</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Desafío en Laderas de San Cristóbal</span>
+        <h3>Pregunta Bisagra 2</h3>
+        <p>En una zona de sombra orográfica en la cabecera de la cuenca, la iluminación decae notablemente: B04 = 0.015 y B08 = 0.23. ¿Cómo responderá el índice normalizado de vegetación frente a esta atenuación de luz?</p>
+        <div class="info-grid cols-2" style="margin-top:0.8em">
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>A)</b> El índice fallará dando infinito porque la sombra absorbe toda la luz solar.</p>
+            <p><b>B)</b> La razón normalizada (0.23 - 0.015)/(0.23 + 0.015) &asymp; 0.88 cancela el factor lumínico común y preserva el carácter boscoso.</p>
+          </div>
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>C)</b> La sombra invierte el signo del NDVI convirtiendo el bosque en agua.</p>
+            <p><b>D)</b> El satélite no registra ningún dato y marca automáticamente celda nula.</p>
+          </div>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:0.9em">
+        <span class="tag">Respuesta Técnica Correcta: Opción B</span>
+        <p>Esta es la gran fortaleza de las razones normalizadas de diferencias: al dividir la resta por la suma, los factores de iluminación multiplicativos comunes a ambas bandas se cancelan casi en su totalidad, preservando la firma vegetal incluso en cañones profundos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Transferencia a la Unidad Territorial Individual (U01–U30) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Aplicación Práctica Individual · Sub-bloque 2 (2:10 p.m. – 4:30 p.m.)</p>
+      <h2 class="slide__title">Transferencia a tu Unidad Territorial Asignada (U01 a U30)</h2>
+      <p class="slide__desc">Tras dominar el flujo sobre la Cuenca Escuela La Iguaná, cada estudiante procesa de manera individual su microcuenca metropolitana.</p>
+    </div>
+    <div class="slide__body">
+      <div class="step-grid">
+        <div class="step-card">
+          <div class="num" style="color:var(--navy)">1</div>
+          <h3>Cargar Límite UXX</h3>
+          <p>Cargar el polígono de tu quebrada asignada (<code>U01</code> a <code>U30</code>) desde el catálogo territorial del curso.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">2</div>
+          <h3>Cortar en Float32</h3>
+          <p>Cortar por máscara en <code>EPSG:9377</code> a 10 m con <code>NoData = -9999</code> las bandas <code>B04</code>, <code>B08</code> y <code>B11</code>.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">3</div>
+          <h3>Verificar en ArcGIS</h3>
+          <p>Crear la composición CIR en ArcGIS Pro y comprobar la alineación métrica con tus capas vectoriales.</p>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:1.1em">
+        <span class="tag">Insumos Listos para la Sesión 13</span>
+        <p>Al finalizar esta sesión, cada estudiante debe tener en su estación de trabajo las 3 bandas recortadas y reproyectadas listas para calcular los índices de vegetación (<b>NDVI</b>) y de construcción (<b>NDBI</b>) con su parámetro individual <i>D</i>.</p>
+      </div>
+    </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-azul.png" alt="Universidad EAFIT" />
   </section>
 
 </div>
@@ -168,4 +569,3 @@
 <script src="../_plantilla/deck.js"></script>
 </body>
 </html>
-

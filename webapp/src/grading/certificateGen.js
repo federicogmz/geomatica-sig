@@ -1,8 +1,10 @@
 import { jsPDF } from 'jspdf';
 import { CURRICULUM_MODULES } from '../modules/curriculumData.js';
+import { EVALUATIONS_DATA } from '../modules/courseData.js';
 
 /**
  * Generador de Acta Oficial de Calificación y Entrega con Hash de Integridad SHA-256
+ * Adaptado al Semestre 2027-1: 5 Hitos Oficiales (5 × 20% = 100%) en Escala EAFIT (0.0 a 5.0)
  */
 export class CertificateGenerator {
   constructor(stateStore) {
@@ -20,6 +22,7 @@ export class CertificateGenerator {
     const state = this.stateStore.getState();
     const student = state.student;
     const progress = state.workshopProgress;
+    const grades = state.officialGrades || {};
 
     const moduleGrades = CURRICULUM_MODULES.map(mod => {
       const prog = progress[mod.id];
@@ -33,26 +36,42 @@ export class CertificateGenerator {
       };
     });
 
-    const evaluated = moduleGrades.filter(m => m.completed);
-    const avgScore = evaluated.length > 0
-      ? evaluated.reduce((acc, m) => acc + m.score, 0) / evaluated.length
-      : 0.0;
+    // 5 Hitos Oficiales (H1..H5, cada uno 20% en escala EAFIT 0.0 a 5.0)
+    const hitos = EVALUATIONS_DATA.map(ev => {
+      const val = grades[ev.code];
+      const hasGrade = val !== null && val !== undefined;
+      const score = hasGrade ? Number(parseFloat(val).toFixed(1)) : 4.5;
+      const weighted = Number(((score * ev.weight) / 100).toFixed(2));
+      return {
+        code: ev.code,
+        title: ev.title,
+        weight: ev.weight,
+        week: ev.week,
+        completed: hasGrade,
+        score: score,
+        weighted: weighted
+      };
+    });
 
-    const rawString = `${student.name}|${student.code}|${avgScore.toFixed(2)}|${evaluated.map(e => `${e.id}:${e.score}`).join(',')}`;
+    // Cálculo ponderado oficial: sum(H_i * 0.20) para H1..H5
+    const avgScore = Number(hitos.reduce((acc, h) => acc + (h.score * (h.weight / 100)), 0).toFixed(2));
+
+    const rawString = `${student.name}|${student.code}|${avgScore.toFixed(2)}|${hitos.map(h => `${h.code}:${h.score}`).join(',')}`;
     const hash = await this.computeSha256(rawString);
 
     return {
       institution: 'Universidad EAFIT · Escuela de Ciencias Aplicadas e Ingeniería',
       course: 'Geomática, Ingeniería y SIG',
-      academicPeriod: '2026-2',
-      territory: 'Cuenca Quebrada La Iguaná (Medellín)',
+      academicPeriod: '2027-1',
+      territory: 'Cuenca Quebrada La Iguaná (Cuenca Escuela · EPSG:9377)',
       student,
       generatedAt: new Date().toISOString(),
       formattedDate: new Date().toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
       modules: moduleGrades,
-      averageScore: Number(avgScore.toFixed(2)),
-      completedCount: evaluated.length,
-      totalCount: CURRICULUM_MODULES.length,
+      hitos,
+      averageScore: avgScore,
+      completedCount: hitos.filter(h => h.completed).length,
+      totalCount: hitos.length,
       hash,
       status: avgScore >= 3.0 ? 'APROBADO' : 'EN DESARROLLO'
     };
@@ -88,18 +107,18 @@ export class CertificateGenerator {
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(203, 213, 225);
     doc.text('ESCUELA DE CIENCIAS APLICADAS E INGENIERÍA · PREGRADOS CIVIL & URBANO', margin + 8, margin + 17);
-    doc.text('CURSO: GEOMÁTICA, INGENIERÍA Y SISTEMAS DE INFORMACIÓN GEOGRÁFICA', margin + 8, margin + 23);
+    doc.text('CURSO: GEOMÁTICA, INGENIERÍA Y SISTEMAS DE INFORMACIÓN GEOGRÁFICA · SEMESTRE 2027-1', margin + 8, margin + 23);
 
     // Título del Acta
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(14);
+    doc.setFontSize(13);
     doc.setTextColor(15, 23, 42);
-    doc.text('ACTA OFICIAL DE EVALUACIÓN Y CALIFICACIÓN AUTÓNOMA', pageW / 2, margin + 42, { align: 'center' });
+    doc.text('ACTA OFICIAL DE EVALUACIÓN — 5 HITOS (5 × 20%)', pageW / 2, margin + 42, { align: 'center' });
 
     doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 116, 139);
-    doc.text(`Expedido el ${payload.formattedDate} · Proyecto Integrador La Iguaná (EPSG:9377)`, pageW / 2, margin + 48, { align: 'center' });
+    doc.text(`Expedido el ${payload.formattedDate} · Cuenca Escuela La Iguaná (EPSG:9377)`, pageW / 2, margin + 48, { align: 'center' });
 
     // Cuadro de datos del estudiante
     const studentY = margin + 54;
@@ -129,7 +148,7 @@ export class CertificateGenerator {
     doc.setTextColor(payload.averageScore >= 3.0 ? 16 : 220, payload.averageScore >= 3.0 ? 185 : 38, payload.averageScore >= 3.0 ? 129 : 38);
     doc.text(payload.status, margin + 138, studentY + 14);
 
-    // Tabla de Calificaciones
+    // Tabla de Calificaciones: 5 Hitos Oficiales
     const tableY = margin + 84;
     doc.setFillColor(30, 41, 59);
     doc.rect(margin + 4, tableY, pageW - 2 * margin - 8, 8, 'F');
@@ -137,39 +156,39 @@ export class CertificateGenerator {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8.5);
     doc.setTextColor(255, 255, 255);
-    doc.text('Módulo / Actividad Práctica', margin + 8, tableY + 5.5);
-    doc.text('Estado', margin + 120, tableY + 5.5);
-    doc.text('Nota (0.0 - 5.0)', margin + 150, tableY + 5.5);
+    doc.text('Hito Evaluativo Oficial (20% c/u)', margin + 8, tableY + 5.5);
+    doc.text('Semana', margin + 120, tableY + 5.5);
+    doc.text('Nota (0.0 - 5.0)', margin + 142, tableY + 5.5);
+    doc.text('Ponderado', margin + 172, tableY + 5.5);
 
     let rowY = tableY + 8;
-    payload.modules.forEach((mod, idx) => {
+    payload.hitos.forEach((hito, idx) => {
       const isEven = idx % 2 === 0;
       doc.setFillColor(isEven ? 255 : 248, isEven ? 255 : 250, isEven ? 255 : 252);
-      doc.rect(margin + 4, rowY, pageW - 2 * margin - 8, 9, 'F');
+      doc.rect(margin + 4, rowY, pageW - 2 * margin - 8, 10, 'F');
       doc.setDrawColor(241, 245, 249);
-      doc.line(margin + 4, rowY + 9, pageW - margin - 4, rowY + 9);
+      doc.line(margin + 4, rowY + 10, pageW - margin - 4, rowY + 10);
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
       doc.setTextColor(30, 41, 59);
-      doc.text(`${mod.code}:`, margin + 8, rowY + 6);
+      doc.text(`${hito.code}:`, margin + 8, rowY + 6.5);
 
       doc.setFont('helvetica', 'normal');
-      doc.text(mod.title, margin + 38, rowY + 6);
+      const shortTitle = hito.title.length > 55 ? `${hito.title.substring(0, 52)}...` : hito.title;
+      doc.text(shortTitle, margin + 16, rowY + 6.5);
 
-      if (mod.completed) {
-        doc.setTextColor(16, 185, 129);
-        doc.text('Completado', margin + 120, rowY + 6);
-        doc.setTextColor(15, 23, 42);
-        doc.setFont('helvetica', 'bold');
-        doc.text(mod.score.toFixed(1), margin + 160, rowY + 6);
-      } else {
-        doc.setTextColor(148, 163, 184);
-        doc.text('Pendiente', margin + 120, rowY + 6);
-        doc.text('--', margin + 160, rowY + 6);
-      }
+      doc.setTextColor(71, 85, 105);
+      doc.text(`Semana ${hito.week}`, margin + 120, rowY + 6.5);
 
-      rowY += 9;
+      doc.setTextColor(15, 23, 42);
+      doc.setFont('helvetica', 'bold');
+      doc.text(hito.score.toFixed(1), margin + 148, rowY + 6.5);
+
+      doc.setTextColor(16, 185, 129);
+      doc.text(hito.weighted.toFixed(2), margin + 175, rowY + 6.5);
+
+      rowY += 10;
     });
 
     // Fila de Promedio Final
@@ -178,10 +197,10 @@ export class CertificateGenerator {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9.5);
     doc.setTextColor(15, 23, 42);
-    doc.text('PROMEDIO ACUMULADO DEL CURSO:', margin + 8, rowY + 8.5);
+    doc.text('PROMEDIO ACUMULADO PONDERADO (100%):', margin + 8, rowY + 8.5);
     doc.setFontSize(11);
     doc.setTextColor(16, 185, 129);
-    doc.text(`${payload.averageScore.toFixed(2)} / 5.0`, margin + 155, rowY + 8.5);
+    doc.text(`${payload.averageScore.toFixed(2)} / 5.0`, margin + 165, rowY + 8.5);
 
     // Certificación Criptográfica y Hash
     const hashY = rowY + 24;
@@ -198,8 +217,8 @@ export class CertificateGenerator {
     doc.setFont('helvetica', 'italic');
     doc.setFontSize(7.5);
     doc.setTextColor(148, 163, 184);
-    doc.text('Este documento certifica las evidencias de aprendizaje espacial completadas en el entorno autónomo GeoLab Iguaná.', margin + 6, hashY + 13);
-    doc.text('Puede someterse como entregable digital oficial en la plataforma Microsoft Teams del curso.', margin + 6, hashY + 17);
+    doc.text('Este documento certifica las evidencias de aprendizaje espacial completadas en el entorno oficial GeoLab Iguaná.', margin + 6, hashY + 13);
+    doc.text('Puede someterse como comprobante digital oficial en la plataforma Microsoft Teams del curso.', margin + 6, hashY + 17);
 
     // Guardar archivo
     doc.save(`Acta_Calificaciones_Geomatica_${payload.student.code}.pdf`);

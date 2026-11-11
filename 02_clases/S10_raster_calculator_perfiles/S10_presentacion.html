@@ -12,23 +12,23 @@
   <!-- 1. Portada -->
   <section class="slide slide--portada active">
     <h1>Álgebra de Mapas y Modelación del Relieve</h1>
-    <p class="sub">Semana 10 · Módulo 2: Cierre de SIG Ráster y Zonificación Territorial en QGIS</p>
+    <p class="sub">Semana 10 · Módulo 2: Álgebra Ráster en QGIS LTR y Spatial Analyst en ArcGIS Pro</p>
     <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
   </section>
 
   <!-- 2. Agenda -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Sesión 10 · Cierre y consolidación del Módulo Ráster</p>
+      <p class="kicker">Sesión 10 · Jornada Continua 12:00 m. – 4:30 p.m. en Sala de Cómputo EAFIT</p>
       <h2 class="slide__title">Lo que construiremos hoy (Teoría y Práctica Integral)</h2>
     </div>
     <div class="slide__body">
       <div class="num-row">
-        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Álgebra de Mapas</h3><p>Condicionales y lógica booleana celda a celda</p></div>
-        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Curvas de Nivel</h3><p>Extracción de isolíneas maestras y secundarias desde el DEM</p></div>
-        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Perfil Topográfico</h3><p>Corte longitudinal del cauce con el plugin Profile Tool</p></div>
-        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Poligonización</h3><p>Conversión ráster a vector y cálculo de hectáreas</p></div>
-        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Zonificación</h3><p>Cruce multicriterio y cuantificación de áreas críticas</p></div>
+        <div class="num-item"><div class="num" style="color:var(--red)">01</div><h3>Álgebra de Mapas</h3><p>Condicionales booleanos en QGIS y Spatial Analyst Raster Calculator</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Curvas de Nivel</h3><p>Extracción de isolíneas maestras (100 m) y secundarias (25 m)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Perfil Topográfico</h3><p>Corte longitudinal del cauce con Profile Tool y ArcGIS Profile</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Poligonización Limpia</h3><p>Conversión ráster a vector filtrando estrictamente "DN" = 1</p></div>
+        <div class="num-item"><div class="num" style="color:var(--navy)">05</div><h3>Zonificación &amp; Zonal</h3><p>Estadísticas zonales (Zonal Statistics as Table) en su unidad U01–U30</p></div>
       </div>
     </div>
   </section>
@@ -320,9 +320,9 @@
         <p>Conviertan la máscara ráster de pendientes críticas a polígonos vectoriales:</p>
         <ul style="margin:0.6em 0 0 1.2em;line-height:1.5">
           <li>Menú <b>Ráster → Conversión → Poligonizar (ráster a vectorial)…</b></li>
-          <li>Capa de entrada: <code>mascara_pendientes_30.tif</code>. Nombre del campo: <code>amenaza</code>.</li>
-          <li>Filtren la capa vectorial resultante para quedarse solo con <code>amenaza = 1</code>.</li>
-          <li>Abran la calculadora de campos y creen el campo <code>area_ha = $area / 10000</code>.</li>
+          <li>Capa de entrada: <code>mascara_pendientes_30.tif</code> con <code>NoData = -9999</code>. Nombre del campo: <code>DN</code>.</li>
+          <li><b>Filtrado obligatorio:</b> Filtren la capa para conservar estrictamente <code>"DN" = 1</code> (descartando el fondo <code>DN = 0</code>).</li>
+          <li>Abran la calculadora de campos y creen el campo <code>area_ha = round($area / 10000, 2)</code>.</li>
           <li><b>Resultado técnico:</b> ¿Cuántas hectáreas de la cuenca presentan pendientes mayores a 30°?</li>
         </ul>
       </div>
@@ -419,7 +419,7 @@
           <div><h3>Navegación & Posición</h3><p>Importación a QGIS, reproyección a CTM12 y contraste espacial de precisión entre receptores satelitales.</p></div>
         </div>
         <div class="icon-card icon-card--lavender" style="grid-column:span 1">
-          <div><h3>Preparación del Informe Final (IF)</h3><p>Modelación del relieve, perfil longitudinal y aseguramiento de calidad espacial de la cuenca.</p></div>
+          <div><h3>Preparación Hito 4 (20%)</h3><p>Modelación del relieve, álgebra de mapas y perfil longitudinal sobre su unidad territorial (U01–U30).</p></div>
         </div>
       </div>
       <div class="contact-banner">

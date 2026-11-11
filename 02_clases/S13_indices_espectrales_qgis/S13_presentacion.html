@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Geomática, Ingeniería y SIG: Semana 13</title>
+<title>Geomática, Ingeniería y SIG: Semana 13 · Índices Espectrales NDVI y NDBI</title>
 <link rel="stylesheet" href="../_plantilla/estilo.css" />
 </head>
 <body>
@@ -11,118 +11,537 @@
 
   <!-- 1. Portada -->
   <section class="slide slide--portada active">
-    <h1>Teledetección en QGIS II: Calcular y Evaluar Índices (NDVI y NDBI)</h1>
-    <p class="sub">Sesión 22 de Octubre (Parte C) · Fórmulas en Calculadora Ráster, Colores y Áreas en Hectáreas dentro de QGIS</p>
+    <p class="kicker kicker--sky" style="font-weight:700; letter-spacing:0.08em; text-transform:uppercase;">3 Créditos Académicos · 5 UMEs (144 h semestrales)</p>
+    <h1>Índices Espectrales (NDVI / NDBI), Álgebra de Mapas y Modelación Biespectral</h1>
+    <p class="sub">Semana 13 · Semestre 2027-1 · Módulo 4: Análisis Multiespectral y Presión Urbana<br />Cálculo de Índices en QGIS LTR, Espejo ArcGIS Pro, Parámetro Individual <i>D</i> y Poligonización Limpia<br />Jornada Continua 12:00 m. – 4:30 p.m. · Sala de Cómputo EAFIT</p>
     <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-blanco.png" alt="Universidad EAFIT" />
   </section>
 
-  <!-- 2. ¿Qué son NDVI y NDBI? -->
+  <!-- 2. Agenda -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">De las bandas satelitales a indicadores claros entre -1.0 y +1.0</p>
-      <h2 class="slide__title">¿Qué miden los índices NDVI y NDBI?</h2>
-      <p class="slide__desc">Al restar y dividir dos bandas con la fórmula <code>(A − B) / (A + B)</code>, obtenemos un mapa con valores entre <b><code>-1.0</code> y <code>+1.0</code></b> que nos dice exactamente dónde hay vegetación y dónde hay cemento.</p>
+      <p class="kicker">Ruta Pedagógica · Sesión 13 (12:00 m. – 4:30 p.m.) · 3 Créditos · 5 UMEs</p>
+      <h2 class="slide__title">Estructura de la Jornada Teórico-Práctica</h2>
+    </div>
+    <div class="slide__body">
+      <div class="num-row">
+        <div class="num-item"><div class="num" style="color:var(--navy)">01</div><h3>Álgebra Normalizada</h3><p>Fundamento matemático de (A &minus; B)/(A + B) e índices biofísicos NDVI, NDWI y NDBI (12:00–12:50)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--sky)">02</div><h3>Calculadora Ráster QGIS</h3><p>Sintaxis estricta, parámetro individual U<sub>NDVI</sub> = 0.20 + 0.01 &times; <i>D</i> y estadísticas (12:50–1:50)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--orange)">03</div><h3>Pausa Activa</h3><p>Descanso y recuperación visual (1:50–2:10 p.m.)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--teal)">04</div><h3>Sub-bloque 2: Presión Urbana</h3><p>Conteo zonal directo, vectorización limpia filtrando <code>"DN" = 1</code> y Caso Roto (2:10–3:20)</p></div>
+        <div class="num-item"><div class="num" style="color:var(--gold)">05</div><h3>ArcGIS Pro & U01–U30</h3><p>Band Arithmetic, Spatial Analyst Con y transferencia a tu microcuenca asignada (3:20–4:30)</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Reto Inicial: Productive Failure -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Reto Inicial · Productive Failure</p>
+      <h2 class="slide__title">La Paradoja de los Dos Barrios Térmicos</h2>
+      <p class="slide__desc">Dos sectores urbanos en la ladera occidental de Medellín (Robledo y San Cristóbal) registran una temperatura superficial similar en sensores térmicos (31 °C).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box example-box--problem">
+          <span class="tag">La Confusión de una Sola Variable</span>
+          <h3>¿Tienen la misma impermeabilización y riesgo?</h3>
+          <p>Un ingeniero ambiental clasifica ambos barrios con el mismo nivel de "isla de calor urbana". Sin embargo, durante una tormenta torrencial:</p>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li><b>Sector 1 (Robledo):</b> Genera escorrentía superficial instantánea del 85 %, desbordando las alcantarillas.</li>
+            <li><b>Sector 2 (San Cristóbal):</b> Infiltra el 60 % de la lluvia y no colapsa hidráulicamente.</li>
+          </ul>
+          <p style="margin-top:0.4em"><b>Pregunta de Ingeniería:</b> ¿Cómo podemos desacoplar con rigor espectral el cemento impermeable del suelo seco permeable o de la cobertura arbórea urbana?</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">La Solución Biespectral (NDVI + NDBI)</span>
+          <h3>El Diagnóstico Cruzado</h3>
+          <p>La temperatura no discrimina materiales por sí sola. La combinación matemática de dos índices normalizados resuelve la paradoja:</p>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li><b>Sector 1:</b> NDBI = +0.28 (Techos y asfalto) y NDVI = 0.11 (Presión urbana total).</li>
+            <li><b>Sector 2:</b> NDBI = &minus;0.05 (Suelo con rastrojo) y NDVI = 0.38 (Presencia de jardines y suelo permeable).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Fundamento Matemático de Razones Normalizadas -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Matemática de la Teledetección</p>
+      <h2 class="slide__title">Principio de Diferencias Normalizadas: (A &minus; B) / (A + B)</h2>
+      <p class="slide__desc">La estructura algebraica más exitosa en la historia de la teledetección satelital.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="icon-card icon-card--cyan">
+          <div>
+            <h3>1. Rango Acotado</h3>
+            <p>Al dividir la resta entre la suma de reflectancias positivas (A &ge; 0, B &ge; 0), el valor resultante queda confinado en el intervalo continuo <b>[&minus;1.0, +1.0]</b>.</p>
+          </div>
+        </div>
+        <div class="icon-card icon-card--mint">
+          <div>
+            <h3>2. Cancelación de Sombras</h3>
+            <p>Si la radiancia solar decae a la mitad por sombra orográfica (0.5A y 0.5B):<br/>
+            (0.5A &minus; 0.5B) / (0.5A + 0.5B) = (A &minus; B) / (A + B).<br/>
+            <b>El índice cancela el factor lumínico multiplicativo.</b></p>
+          </div>
+        </div>
+        <div class="icon-card icon-card--lavender">
+          <div>
+            <h3>3. Comparabilidad Temporal</h3>
+            <p>Normaliza las variaciones de elevación solar entre diferentes fechas, permitiendo comparar imágenes tomadas en épocas distintas sin recalibrar el sensor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Índice de Vegetación NDVI -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Monitoreo de Cobertura Vegetal</p>
+      <h2 class="slide__title">NDVI: Normalized Difference Vegetation Index</h2>
+      <p class="slide__desc">Formulado por Rouse et al. (1974) para cuantificar la densidad de clorofila y biomasa vegetal.</p>
     </div>
     <div class="slide__body">
       <div class="info-grid cols-2">
         <div class="example-box example-box--solution">
-          <span class="tag">1. NDVI · Índice de Vegetación</span>
-          <h3>¿Dónde hay bosque y árboles sanos?</h3>
-          <p style="font-family:monospace;font-size:1.1em;color:var(--navy);margin:0.5em 0;font-weight:bold">
-            NDVI = (B08 − B04) / (B08 + B04)
-          </p>
-          <ul style="margin:0.4em 0 0 1.2em;line-height:1.5;font-size:0.92em">
-            <li><b>Mayor a 0.45:</b> Bosque denso y sano (San Cristóbal / Boquerón).</li>
-            <li><b>0.20 a 0.45:</b> Pastos, rastrojo o jardines urbanos.</li>
-            <li><b>Menor a 0.20:</b> Concreto, techos, vías o suelo sin plantas.</li>
-          </ul>
+          <span class="tag">Fórmula Sentinel-2</span>
+          <h3>NDVI = (B08 &minus; B04) / (B08 + B04)</h3>
+          <p>Explota el fuerte contraste entre la absorción fotosintética de la clorofila en el rojo (B04 · 665 nm) y la dispersión masiva en el infrarrojo cercano (B08 · 842 nm).</p>
         </div>
         <div class="example-box">
-          <span class="tag">2. NDBI · Índice de Área Construida</span>
-          <h3>¿Dónde hay ciudad y suelo impermeable?</h3>
-          <p style="font-family:monospace;font-size:1.1em;color:var(--navy);margin:0.5em 0;font-weight:bold">
-            NDBI = (B11 − B08) / (B11 + B08)
-          </p>
-          <ul style="margin:0.4em 0 0 1.2em;line-height:1.5;font-size:0.92em">
-            <li><b>Mayor a 0.00 (positivo):</b> Ciudad consolidada (techos, vías, cemento) o suelo seco expuesto.</li>
-            <li><b>Menor a 0.00 (negativo):</b> Zonas verdes y bosques húmedos.</li>
+          <span class="tag">Escala Normativa de Interpretación</span>
+          <table class="data-table" style="font-size:0.86em">
+            <thead><tr><th>Rango NDVI</th><th>Significado Biofísico en el Valle de Aburrá</th></tr></thead>
+            <tbody>
+              <tr><td><b>&lt; 0.00</b></td><td>Agua profunda, nubes o sombras orográficas extremas.</td></tr>
+              <tr><td><b>0.00 a 0.20</b></td><td>Suelo edificado, concreto, asfalto o roca expuesta.</td></tr>
+              <tr><td><b>0.20 a 0.40</b></td><td>Pastos degradados, rastrojos o arbolado disperso.</td></tr>
+              <tr><td><b>&gt; 0.40</b></td><td>Bosque nativo denso, laderas protectoras y cafetales.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Índice de Agua NDWI -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Detección Hidrológica y Humedad</p>
+      <h2 class="slide__title">NDWI: Normalized Difference Water Index</h2>
+      <p class="slide__desc">Dos variantes fundamentales según el objetivo hidrológico o ecológico.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">1. NDWI de McFeeters (1996) · Espejos de Agua</span>
+          <h3>NDWI<sub>McFeeters</sub> = (B03 &minus; B08) / (B03 + B08)</h3>
+          <p>Maximiza la reflectancia del agua en verde (B03) y minimiza la absorción del agua en NIR (B08).</p>
+          <ul style="margin:0.2em 0 0 1.2em; font-size:0.9em; line-height:1.45">
+            <li><b>Valores positivos (&gt; 0.0):</b> Cuerpos de agua abiertos, embalses, lagunas y cauce del Río Medellín.</li>
+            <li><b>Valores negativos (&le; 0.0):</b> Suelo seco y vegetación terrestre.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">2. NDWI de Gao (1996) · Contenido Hídrico Foliar</span>
+          <h3>NDWI<sub>Gao</sub> = (B08 &minus; B11) / (B08 + B11)</h3>
+          <p>Mide la cantidad de agua almacenada dentro de las células de la vegetación (requiere B11 a 10 m).</p>
+          <ul style="margin:0.2em 0 0 1.2em; font-size:0.9em; line-height:1.45">
+            <li><b>Alto (&gt; 0.3):</b> Coberturas vegetales con alto contenido hídrico.</li>
+            <li><b>Bajo (&lt; 0.1):</b> Vegetación marchita con déficit de humedad o combustible vegetal inflamable.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Cómo computarlos en la Calculadora Ráster -->
+  <!-- 7. Índice de Edificación NDBI -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Menú Ráster → Calculadora Ráster…</p>
-      <h2 class="slide__title">Cómo calcular NDVI y NDBI en QGIS</h2>
-      <p class="slide__desc">En el panel derecho elijan <code>s2_b08_nir@1</code> y pulsen <b>Extensión actual de la capa</b> para que el resultado quede en <b>EPSG:9377</b> a 10 m.</p>
+      <p class="kicker">Detección de Huella Urbana Impermeable</p>
+      <h2 class="slide__title">NDBI: Normalized Difference Built-up Index</h2>
+      <p class="slide__desc">Formulado por Zha et al. (2003) para cartografiar superficies construidas y concreto.</p>
     </div>
     <div class="slide__body">
-      <pre style="font-size:0.92em;line-height:1.55;background:#f7f8fa;padding:1.1em;border-radius:6px;border:1px solid #dce0eb;color:#1e293b">
-/* 1. Guardar como: ndvi_iguana_9377.tif */
-( "s2_b08_nir@1" - "s2_b04_rojo@1" ) / ( "s2_b08_nir@1" + "s2_b04_rojo@1" )
-
-/* 2. Guardar como: ndbi_iguana_9377.tif */
-( "s2_b11_swir1@1" - "s2_b08_nir@1" ) / ( "s2_b11_swir1@1" + "s2_b08_nir@1" )</pre>
-      <p class="slide__desc" style="margin-top:0.8em"><b>¡Recuerden siempre poner los paréntesis!</b> Sin paréntesis, QGIS no hace primero la resta y la suma.</p>
+      <div class="info-grid cols-2">
+        <div class="example-box example-box--problem">
+          <span class="tag">Fórmula Sentinel-2</span>
+          <h3>NDBI = (B11 &minus; B08) / (B11 + B08)</h3>
+          <p>Las superficies urbanas (techos de zinc, tejas de barro, placas de concreto, pavimento) presentan mayor reflectancia en el infrarrojo de onda corta (B11 · 1610 nm) que en el infrarrojo cercano (B08 · 842 nm).</p>
+          <p style="margin-top:0.4em"><b>¡Condición Obligatoria:</b> La banda B11 (20 m) debe remuestrearse bilinealmente a 10 m para coincidir celda a celda con B08.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Interpretación Diagnóstica</span>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.5; font-size:clamp(0.72rem, 1.15vw, 0.92rem);">
+            <li><b>NDBI &gt; 0.00 (Positivo):</b> Alta densidad de edificaciones, superficies impermeables consolidadas, vías y suelo degradado sin cobertura.</li>
+            <li><b>NDBI &le; 0.00 (Negativo):</b> Bosques, pastos húmedos, parques y cuerpos de agua (absorben el SWIR o reflejan mucho más en NIR).</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 4. Cómo evaluarlos en QGIS -->
+  <!-- 8. Hinge Question 1 -->
   <section class="slide">
     <div class="slide__pad">
-      <p class="kicker">Interpretar nuestros resultados dentro de QGIS</p>
-      <h2 class="slide__title">Tres pasos para evaluar los índices en QGIS</h2>
+      <p class="kicker">Pregunta Bisagra · Diagnóstico Conceptual</p>
+      <h2 class="slide__title">Lectura Combinada de Índices Espectrales</h2>
+      <p class="slide__desc">Analiza la siguiente signatura biespectral obtenida en un píxel de la cuenca.</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Caso de Estudio en Estación de Trabajo</span>
+        <h3>Pregunta Bisagra 1</h3>
+        <p>Al hacer clic con la herramienta <i>Identificar objetos espaciales</i> sobre un píxel en la Comuna 7 (Robledo), la consola reporta: <b>NDVI = 0.12</b> y <b>NDBI = +0.24</b>. ¿Qué tipo de cobertura física representa exactamente este punto?</p>
+        <div class="info-grid cols-2" style="margin-top:0.8em">
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>A)</b> Un bosque de galería protegido con árboles densos sobre la ronda del río.</p>
+            <p><b>B)</b> Un cuerpo de agua profunda con alta sedimentación suspendida.</p>
+          </div>
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>C)</b> Manzana densamente construida con techos y suelo impermeable.</p>
+            <p><b>D)</b> Pasto kikuyo recién irrigado con alta turgencia celular.</p>
+          </div>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:0.9em">
+        <span class="tag">Respuesta Técnica Correcta: Opción C</span>
+        <p>El NDBI marcadamente positivo (+0.24) confirma la prevalencia de materiales densos y secos que reflejan en SWIR, mientras el NDVI bajo (0.12) confirma la ausencia casi absoluta de actividad fotosintética. Se trata inequívocamente de tejido urbano consolidado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Parámetro Individualizado: Umbral D -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Variabilidad Técnica Controlada</p>
+      <h2 class="slide__title">Parámetro Individualizado de Vegetación: U<sub>NDVI</sub> = 0.20 + 0.01 &times; <i>D</i></h2>
+      <p class="slide__desc">Cada estudiante aplica un umbral calibrado según el último dígito de su documento de identidad (<i>D</i> &isin; {0, 1, &hellip;, 9}).</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Regla de Asignación Individual</span>
+          <h3>Fórmula Oficial EAFIT</h3>
+          <p style="font-family:monospace; font-size:1.1em; color:var(--navy); font-weight:bold; margin:0.4em 0;">
+            U_NDVI = 0.20 + 0.01 * D
+          </p>
+          <ul style="margin:0.2em 0 0 1.2em; font-size:0.9em; line-height:1.45;">
+            <li>Si tu documento termina en <b>0</b>: U<sub>NDVI</sub> = 0.20.</li>
+            <li>Si tu documento termina en <b>5</b>: U<sub>NDVI</sub> = 0.25.</li>
+            <li>Si tu documento termina en <b>9</b>: U<sub>NDVI</sub> = 0.29.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Justificación Pedagógica y Profesional</span>
+          <h3>Sensibilidad del Modelo</h3>
+          <p>Un umbral más exigente (0.29) clasifica pastos ralos como áreas de déficit o presión urbana, mientras un umbral más tolerante (0.20) solo considera desprovisto el asfalto puro.</p>
+          <p style="margin-top:0.4em">Este diseño garantiza que cada estudiante evalúe la sensibilidad de su propia unidad territorial (<code>U01–U30</code>) evitando copias mecánicas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Sintaxis Estricta en Calculadora Ráster QGIS -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Ejecución en QGIS LTR · Sub-bloque 1 (12:00 m. – 1:50 p.m.)</p>
+      <h2 class="slide__title">Sintaxis Rigurosa en la Calculadora Ráster de QGIS</h2>
+      <p class="slide__desc">Menú <i>Ráster → Calculadora ráster…</i>: Las reglas sintácticas para evitar operaciones corruptas.</p>
+    </div>
+    <div class="slide__body">
+      <pre style="background:var(--navy); color:#fff; padding:0.9em; border-radius:10px; font-size:clamp(0.68rem, 1.05vw, 0.86rem); line-height:1.55; margin:0.3em 0 0 0;">
+/* 1. Cálculo de NDVI (Guardar como: ndvi_iguana_9377.tif) */
+( "s2_b08_nir@1" - "s2_b04_rojo@1" ) / ( "s2_b08_nir@1" + "s2_b04_rojo@1" )
+
+/* 2. Cálculo de NDBI (Guardar como: ndbi_iguana_9377.tif) */
+( "s2_b11_swir1@1" - "s2_b08_nir@1" ) / ( "s2_b11_swir1@1" + "s2_b08_nir@1" )</pre>
+      <div class="step-grid" style="margin-top:1.1em">
+        <div class="step-card">
+          <div class="num" style="color:var(--navy)">1</div>
+          <h3>Paréntesis Obligatorios</h3>
+          <p>La división tiene prioridad algebraica sobre la resta. Sin paréntesis, QGIS computa A &minus; (B / A) + B, arruinando el índice.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--sky)">2</div>
+          <h3>Extensión de Capa</h3>
+          <p>Pulsar <b>Extensión de la capa ráster</b> seleccionando la capa base para fijar las coordenadas exactas de la cuenca.</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">3</div>
+          <h3>SRC EPSG:9377</h3>
+          <p>Verificar que el SRC de salida sea <b>MAGNA-SIRGAS / Origen-Nacional</b> con tamaño de celda de 10.0 m.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Simbología y Fusión 3D con Hillshade -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Semiología Cartográfica Aplicada</p>
+      <h2 class="slide__title">Simbología Cuantitativa y Fusión 3D sobre Hillshade</h2>
+      <p class="slide__desc">Los índices ráster monobanda adquieren fuerza comunicativa al aplicar rampas psicofísicas y relieve sombreado.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-3">
+        <div class="example-box example-box--solution">
+          <span class="tag">Simbología NDVI</span>
+          <h3>Rampa RdYlGn (Invertida: No)</h3>
+          <p><b>Rojo:</b> Suelo impermeable y concreto (&lt; 0.15).<br/>
+          <b>Amarillo:</b> Pastos secos y rastrojo (0.20–0.35).<br/>
+          <b>Verde Intenso:</b> Bosque sano y denso (&gt; 0.45).</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Simbología NDBI</span>
+          <h3>Rampa RdYlBu (Invertida: Sí)</h3>
+          <p><b>Azul / Blanco:</b> Bosques y agua (&le; 0.00).<br/>
+          <b>Amarillo:</b> Transición periurbana (0.00–0.10).<br/>
+          <b>Rojo Brillante:</b> Concreto y techos (&gt; 0.15).</p>
+        </div>
+        <div class="example-box">
+          <span class="tag">Fusión 3D (Hillshade Drape)</span>
+          <h3>Modo de Mezcla: Multiply</h3>
+          <p>En <i>Propiedades → Renderizado de capas → Modo de mezcla</i>: Seleccionar <b>Multiplicar (Multiply)</b> sobre la capa <code>hillshade_9377</code>. El relieve 3D modela el índice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Auditoría Estadística de Capas Ráster -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Control de Calidad Cuantitativo</p>
+      <h2 class="slide__title">Auditoría Numérica: Estadísticas de Capa Ráster e Histograma</h2>
+      <p class="slide__desc">Antes de tomar decisiones territoriales, todo modelo ráster debe ser auditado estadísticamente.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Caja de Herramientas → Estadísticas de Capa Ráster</span>
+          <h3>Métricas Oficiales en la Cuenca Escuela La Iguaná</h3>
+          <table class="data-table" style="font-size:0.86em">
+            <thead><tr><th>Métrica</th><th>NDVI (Iguaná)</th><th>NDBI (Iguaná)</th></tr></thead>
+            <tbody>
+              <tr><td><b>Valor Mínimo</b></td><td>0.061</td><td>&minus;0.318</td></tr>
+              <tr><td><b>Valor Máximo</b></td><td>0.628</td><td>+0.294</td></tr>
+              <tr><td><b>Media (&mu;)</b></td><td><b>0.312</b></td><td><b>&minus;0.089</b></td></tr>
+              <tr><td><b>Desviación (&sigma;)</b></td><td>0.142</td><td>0.115</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">El Diagnóstico del Histograma Bimodal</span>
+          <h3>Dos Mundos en la Misma Cuenca</h3>
+          <p>El histograma de frecuencias en La Iguaná muestra dos picos gaussianos bien definidos:</p>
+          <ul style="margin:0.2em 0 0 1.2em; font-size:0.9em; line-height:1.45;">
+            <li><b>Primer Pico (&asymp; 0.15):</b> Corresponde a las comunas bajas impermeabilizadas (Robledo, San Germán, Olaya Herrera).</li>
+            <li><b>Segundo Pico (&asymp; 0.52):</b> Corresponde a la reserva forestal y laderas altas de San Cristóbal y el Boquerón.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Máscara Biespectral de Presión Urbana -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Modelación Territorial Combinada · Sub-bloque 2 (2:10 p.m. – 3:20 p.m.)</p>
+      <h2 class="slide__title">Máscara Biespectral de Presión Urbana Impermeabilizada</h2>
+      <p class="slide__desc">Condición lógica booleana que aísla simultáneamente el suelo construido y desprovisto de cobertura vegetal.</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--solution">
+        <span class="tag">Expresión Booleana Maestra en Calculadora Ráster</span>
+        <pre style="background:var(--navy); color:#fff; padding:0.9em; border-radius:10px; font-size:clamp(0.72rem, 1.1vw, 0.92rem); line-height:1.55; margin:0.3em 0 0 0;">
+/* Genera: presion_urbana_iguana.tif (Píxeles 1 = Presión, Píxeles 0 = No crítico) */
+/* Reemplaza el 0.25 por tu umbral individual U_NDVI (ej. 0.20 + 0.01 * D): */
+( "ndbi_iguana_9377@1" > 0.0 ) AND ( "ndvi_iguana_9377@1" < 0.25 )</pre>
+      </div>
+      <div class="info-grid cols-2" style="margin-top:1.1em">
+        <div class="step-card">
+          <div class="num" style="color:var(--orange)">AND</div>
+          <h3>Intersección Lógica Estricta</h3>
+          <p>Un píxel solo recibe el valor <code>1 (Verdadero)</code> si cumple <b>ambas</b> condiciones: tener reflectancia constructiva positiva (NDBI &gt; 0) y carecer de biomasa vegetal suficiente (NDVI &lt; U<sub>NDVI</sub>).</p>
+        </div>
+        <div class="step-card">
+          <div class="num" style="color:var(--teal)">828 ha</div>
+          <h3>Superficie Crítica en La Iguaná</h3>
+          <p>Para U<sub>NDVI</sub> = 0.25, la cuenca presenta exactamente <b>828.25 hectáreas</b> de tejido urbano presionante sobre laderas y corredores biológicos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Caso Roto: Broken Example en Poligonización -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Caso Roto · Broken Example</p>
+      <h2 class="slide__title">La Trampa de Poligonizar sin Filtrar: El Monstruo de DN = 0</h2>
+      <p class="slide__desc">Un fallo procedimental clásico que colapsa proyectos enteros de ingeniería en los informes periciales.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box example-box--problem">
+          <span class="tag">El Procedimiento Incorrecto</span>
+          <h3>Poligonizar todo el Ráster Booleano</h3>
+          <p>El estudiante ejecuta <i>Ráster a vectorial (poligonizar)</i> y procede inmediatamente a disolver o sumar el campo <code>$area</code> de toda la capa.</p>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li><b>El Desastre Numérico:</b> El polígono de fondo <code>DN = 0</code> (que incluye todos los bosques y pastos no críticos) suma miles de hectáreas.</li>
+            <li><b>El Dictamen Falso:</b> El estudiante reporta en su plano que <i>"el 98% de la cuenca está en conflicto crítico"</i> cuando en realidad era solo el 18%.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">La Regla de Oro EAFIT</span>
+          <h3>Filtrado Inmediato por Atributo</h3>
+          <p>Inmediatamente después de poligonizar:</p>
+          <ol style="margin:0.2em 0 0 1.2em; line-height:1.45; font-size:0.9em">
+            <li>Abrir <b>Filtrar capa…</b> (o selección por expresión).</li>
+            <li>Escribir la condición: <code>"DN" = 1</code> (en ArcGIS Pro: <code>"gridcode" = 1</code>).</li>
+            <li>Exportar únicamente los polígonos filtrados a <code>presion_urbana_filtrada.gpkg</code>.</li>
+            <li>Ejecutar <b>Disolver</b> y calcular <code>area_ha = round($area / 10000, 2)</code>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Espejo en ArcGIS Pro: Band Arithmetic & Spatial Analyst -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Homología Corporativa · Sub-bloque 2 (2:10 p.m. – 4:30 p.m.)</p>
+      <h2 class="slide__title">Espejo en ArcGIS Pro: Band Arithmetic y Spatial Analyst</h2>
+      <p class="slide__desc">Implementación profesional en ArcGIS Pro utilizando Raster Functions dinámicas y Álgebra de Mapas.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Método 1: Raster Functions (En Memoria)</span>
+          <h3>Band Arithmetic & NDVI Function</h3>
+          <ul style="margin:0.2em 0 0 1.2em; line-height:1.5; font-size:clamp(0.72rem, 1.15vw, 0.92rem);">
+            <li><b>NDVI Function:</b> En el panel <i>Raster Functions</i>, seleccionar la función preconfigurada <code>NDVI</code> indicando Banda Visible (B04) e Infrarroja (B08).</li>
+            <li><b>Band Arithmetic:</b> Para NDBI, elegir el método nativo <code>NDBI</code> o <code>User Defined</code>: <code>(B3 - B1) / (B3 + B1)</code> según el orden de bandas.</li>
+          </ul>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Método 2: Spatial Analyst (Capa Física)</span>
+          <h3>Raster Calculator & Con Operator</h3>
+          <pre style="background:var(--navy); color:#fff; padding:0.8em; border-radius:8px; font-size:clamp(0.66rem, 1.0vw, 0.82rem); line-height:1.45; margin:0.3em 0 0 0;">
+# Álgebra de Mapas en ArcGIS Pro (usando tu umbral individual):
+Con(("ndbi.tif" > 0.0) & ("ndvi.tif" < 0.25), 1, 0)
+
+# Vectorización a Feature Class:
+RasterToPolygon("presion_raster", "presion_poly", 
+                "SIMPLIFY", "Value")
+# Filtrar: "gridcode" = 1</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Geoprocesamiento y Conteo Zonal Directo -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Vectorización vs. Conteo Zonal</p>
+      <h2 class="slide__title">De Píxeles a Hectáreas: Conteo Zonal vs. Poligonización</h2>
+      <p class="slide__desc">Dos caminos independientes para cuantificar la superficie con exactitud matemática idéntica.</p>
+    </div>
+    <div class="slide__body">
+      <div class="info-grid cols-2">
+        <div class="example-box">
+          <span class="tag">Ruta Ráster Directa: Estadísticas de Zona</span>
+          <h3>Conteo Zonal de Píxeles</h3>
+          <p>En <i>Caja de Herramientas → Estadísticas de zona</i> (o <code>Zonal Statistics as Table</code> en ArcGIS Pro):</p>
+          <ul style="margin:0.2em 0 0 1.2em; font-size:0.9em; line-height:1.45;">
+            <li>Contar el número exacto de celdas con valor <code>1</code>: <i>N</i> celdas.</li>
+            <li>Como cada celda en <code>EPSG:9377</code> mide exactamente 10 m &times; 10 m = 100 m<sup>2</sup>:</li>
+          </ul>
+          <p style="font-family:monospace; font-size:0.95em; color:var(--navy); font-weight:bold; margin:0.3em 0;">
+            Area_ha = (N_celdas * 100.0) / 10000.0 = N_celdas / 100.0
+          </p>
+          <p style="font-size:0.86em; color:var(--charcoal)">En La Iguaná: 82.825 celdas críticas &times; 100 m<sup>2</sup> = <b>828.25 ha</b>.</p>
+        </div>
+        <div class="example-box example-box--solution">
+          <span class="tag">Ruta Vectorial: Poligonizar y Disolver</span>
+          <h3>Geometría de Gestión Territorial</h3>
+          <ol style="margin:0.2em 0 0 1.2em; font-size:0.9em; line-height:1.45;">
+            <li>Poligonizar ráster (campo <code>DN</code>).</li>
+            <li>Filtrar rigurosamente <code>"DN" = 1</code>.</li>
+            <li>Disolver polígonos contiguos.</li>
+            <li>Calcular campo <code>area_ha = round($area / 10000.0, 2)</code>.</li>
+          </ol>
+          <p style="font-size:0.86em; color:var(--charcoal); margin-top:0.3em"><b>Validación QA/QC:</b> Ambas rutas arrojan exactamente la misma área (828.25 ha).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Hinge Question 2 -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Pregunta Bisagra · Aplicación Territorial</p>
+      <h2 class="slide__title">Cruce Espacial con la Faja de Retiro Reglamentaria</h2>
+      <p class="slide__desc">Integramos el análisis espectral con la normativa hídrica del POT de Medellín.</p>
+    </div>
+    <div class="slide__body">
+      <div class="example-box example-box--problem">
+        <span class="tag">Conflicto Territorial en Ronda Hídrica</span>
+        <h3>Pregunta Bisagra 2</h3>
+        <p>Si cruzas mediante <b>Intersección</b> los polígonos de presión urbana impermeabilizada (<code>"DN" = 1</code>) con la faja de retiro reglamentario individual (<i>R</i> = 30 + <i>D</i> m), ¿qué representa el polígono resultante para la ingeniería civil y el diseño urbano?</p>
+        <div class="info-grid cols-2" style="margin-top:0.8em">
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>A)</b> Áreas aptas para construcción inmediata de nuevos edificios residenciales.</p>
+            <p><b>B)</b> Zonas donde la quebrada no genera amenaza de avenida torrencial.</p>
+          </div>
+          <div style="background:#fff; padding:0.8em; border-radius:8px; border:1px solid #dce0eb;">
+            <p><b>C)</b> Invasión antrópica en suelo de protección con alto riesgo hidráulico por inundación.</p>
+            <p><b>D)</b> Bosques nativos densos que requieren tala de aprovechamiento comercial.</p>
+          </div>
+        </div>
+      </div>
+      <div class="example-box example-box--solution" style="margin-top:0.9em">
+        <span class="tag">Respuesta Técnica Correcta: Opción C</span>
+        <p>El resultado es la cartografía legal de <b>conflicto por ocupación de ronda hídrica</b>: suelo impermeable dentro del retiro obligatorio. Constituye la base técnica indiscutible para diseñar obras de bioingeniería, reasentamiento de familias vulnerables o parques lineales de amortiguación.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Transferencia a la Unidad Territorial Individual (U01–U30) -->
+  <section class="slide">
+    <div class="slide__pad">
+      <p class="kicker">Aplicación Práctica Individual · Sub-bloque 2 (2:10 p.m. – 4:30 p.m.)</p>
+      <h2 class="slide__title">Transferencia a tu Unidad Territorial Asignada (U01 a U30)</h2>
+      <p class="slide__desc">Todo estudiante ejecuta el cálculo individual de NDVI, NDBI y presión urbana en su propia estación de trabajo.</p>
     </div>
     <div class="slide__body">
       <div class="step-grid">
         <div class="step-card">
-          <div class="num" style="color:var(--sky)">1</div>
-          <h3>Poner Colores</h3>
-          <p>En <b>Propiedades → Simbología → Pseudocolor monobanda</b>:<br/>
-             • <b>NDVI:</b> Rampa <code>RdYlGn</code> (Rojo a Verde).<br/>
-             • <b>NDBI:</b> Rampa <code>RdYlBu</code> invertida (Azul a Rojo).</p>
+          <div class="num" style="color:var(--navy)">1</div>
+          <h3>Calcular Índices</h3>
+          <p>En QGIS LTR, calcular <code>ndvi_UXX.tif</code> y <code>ndbi_UXX.tif</code> usando tus bandas B04, B08 y B11 en <code>EPSG:9377</code>.</p>
         </div>
         <div class="step-card">
-          <div class="num" style="color:var(--teal)">2</div>
-          <h3>Ver el Promedio</h3>
-          <p>En <b>Caja de herramientas → Estadísticas de capa ráster</b>:<br/>
-             • Promedio <b>NDVI</b> de La Iguaná = <b><code>0.31</code></b> (de 0.06 a 0.63).<br/>
-             • Promedio <b>NDBI</b> = <b><code>-0.09</code></b> (de -0.32 a +0.18).</p>
+          <div class="num" style="color:var(--sky)">2</div>
+          <h3>Aplicar Umbral D</h3>
+          <p>Generar máscara booleana con U<sub>NDVI</sub> = 0.20 + 0.01 &times; <i>D</i>. Poligonizar y filtrar rigurosamente <code>"DN" = 1</code>.</p>
         </div>
         <div class="step-card">
-          <div class="num" style="color:var(--orange)">3</div>
-          <h3>Medir Hectáreas Críticas</h3>
-          <p>En Calculadora Ráster:<br/>
-             <code>("ndbi_iguana_9377@1" &gt; 0.0) AND ("ndvi_iguana_9377@1" &lt; 0.25)</code><br/>
-             Luego <b>Poligonizar</b> (filtrar <code>DN = 1</code>) → ¡da <b>828.25 ha</b> de presión urbana!</p>
+          <div class="num" style="color:var(--teal)">3</div>
+          <h3>Cruce con Retiro</h3>
+          <p>Generar Buffer disuelto de <i>R</i> = 30 + <i>D</i> m y calcular las hectáreas en conflicto de tu cuenca.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- 5. Práctica en Vivo y Cierre -->
-  <section class="slide">
-    <div class="slide__pad">
-      <p class="kicker">Práctica en clase · Listos para el Parcial 2 (P2) y el Informe Final (IF)</p>
-      <h2 class="slide__title">Manos a la obra en QGIS (20 minutos)</h2>
-    </div>
-    <div class="slide__body">
-      <div class="example-box example-box--problem">
-        <span class="tag">Actividad en tu PC</span>
-        <ol style="margin:0.5em 0 0 1.2em;line-height:1.6">
-          <li>Calculen <b><code>ndvi_iguana_9377.tif</code></b> y <b><code>ndbi_iguana_9377.tif</code></b> en la Calculadora Ráster y píntenlos con sus rampas de color.</li>
-          <li>Revisen con <b>Estadísticas de capa ráster</b> que el promedio de su NDVI sea <b><code>0.31</code></b> y el de su NDBI sea <b><code>-0.09</code></b>.</li>
-          <li>Calculen la máscara de presión urbana <code>("ndbi_iguana_9377@1" &gt; 0.0) AND ("ndvi_iguana_9377@1" &lt; 0.25)</code>, poligonícenla (<code>"DN" = 1</code>) y verifiquen las <b>828.25 ha</b>.</li>
-        </ol>
-      </div>
-      <div class="contact-banner" style="margin-top:1.2em">
-        <h3>Próxima semana (29 oct): ArcGIS Pro, Modelador Gráfico y Quiz 4 (8% · GNSS)</h3>
-        <p><span class="accent">Docente:</span> fjgomezc@eafit.edu.co · Guarden sus capas de NDVI y NDBI para el Informe Final (IF)</p>
+      <div class="example-box example-box--solution" style="margin-top:1.1em">
+        <span class="tag">Checklist Previo al Hito 4 (Semana 14)</span>
+        <p>Guarda tus capas en <code>UXX_proyecto.gpkg</code> y en la <code>File Geodatabase</code> de ArcGIS Pro. La próxima semana realizaremos la evaluación práctica del <b>Hito 4 (20.0%)</b> integrando Ráster, GNSS y Teledetección.</p>
       </div>
     </div>
+    <img class="eafit-badge" src="../_plantilla/assets/eafit-badge-azul.png" alt="Universidad EAFIT" />
   </section>
 
 </div>
@@ -130,4 +549,3 @@
 <script src="../_plantilla/deck.js"></script>
 </body>
 </html>
-

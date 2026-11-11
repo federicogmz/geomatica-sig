@@ -180,7 +180,7 @@ class App {
     const avatarElem = document.getElementById('avatar-initials');
 
     const studentName = state.student?.name || 'Estudiante EAFIT';
-    const studentCode = state.student?.code || '202610001010';
+    const studentCode = state.student?.code || '202710001010';
 
     if (nameElem) nameElem.textContent = studentName;
     if (codeElem) codeElem.textContent = studentCode;

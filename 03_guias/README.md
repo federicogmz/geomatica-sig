@@ -1,86 +1,108 @@
-# Directorio de Guías Prácticas, Talleres y Evaluaciones
+# Directorio de Guías Prácticas, Talleres y Evaluaciones Oficiales (2027-1)
 
-> **Semestre / Hito:** **2026-1 (Estado de cierre ejecutado)**
+> **Curso:** Geomática, Ingeniería y SIG (`GEOMATICA-SIG-EAFIT`)  
+> **Semestre Académico:** 2027-1 · Universidad EAFIT  
+> **Horario Oficial:** Jueves 12:00 m. – 4:30 p.m. (4.5 h en Sala de Cómputo EAFIT)  
+> **Sistema de Coordenadas Oficial:** MAGNA-SIRGAS 2018 / Origen Nacional CTM12 (`EPSG:9377`)
 
-Bienvenido al repositorio de guías y talleres del curso **Geomática, Ingeniería y SIG**. Este directorio contiene todo el material práctico del semestre organizado en tres categorías estructuradas:
+Bienvenido al repositorio central de guías, talleres de entrenamiento y evaluaciones del curso **Geomática, Ingeniería y SIG**. Este directorio organiza todo el material pedagógico e instrumental del semestre 2027-1, articulado mediante el marco metodológico **TILT (*Transparency in Learning and Teaching*)** y diseñado para garantizar resiliencia técnica e integridad académica.
 
 ---
 
-## Estructura del Directorio
+## Estructura General del Directorio
 
 ```text
 03_guias/
-├── 01_talleres_clase/          # Guías paso a paso y sus paquetes de datos (mapas_ejercicio, insumos_g11_gnss, insumos_g12_g13_sentinel2)
-├── 02_talleres_repaso/         # Simulacros preparatorios y sus insumos (insumos_p1, insumos_q4, insumos_p2)
-├── 03_evaluaciones/            # Instructivos oficiales de evaluación y sus insumos (insumos_p1, insumos_q3, insumos_q4, insumos_p2)
-├── PROYECTO_INTEGRADOR.md      # Marco metodológico del proyecto territorial en La Iguaná
-└── README.md                   # Este índice general de navegación
+├── PROYECTO_INTEGRADOR.md      # Marco metodológico territorial, portafolio de 10 cuencas y 30 unidades
+├── README.md                   # Este índice general de navegación y trazabilidad
+├── 01_talleres_clase/          # 16 Guías paso a paso de laboratorio (G01 a G16) y sus insumos
+├── 02_talleres_repaso/         # Talleres de entrenamiento autónomo (<= 4.5 h) e insumos de práctica
+│   ├── REPASO_HITO_1.md        # Preparación para Hito 1: Geodesia, CTM12 y bases (.gpkg / .gdb)
+│   ├── REPASO_HITO_2.md        # Preparación para Hito 2: Topología, geoprocesos (D) y Lámina A3
+│   ├── REPASO_HITO_4.md        # Preparación para Hito 4: DEM, GNSS (HDOP) y Sentinel-2 (NDVI/NDBI)
+│   ├── insumos_p1/             # Paquete de datos vectoriales para repaso (drenajes, predios, equipamientos)
+│   ├── insumos_q4/             # Paquete de datos GNSS y vértices geodésicos IGAC
+│   └── insumos_p2/             # Paquete de datos Sentinel-2 L2A (18NVL) y divisoria de cuenca
+└── 03_evaluaciones/            # Instructivos oficiales de evaluación 2027-1 con rúbricas analíticas
+    ├── HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md      # Hito 1 (S05 · 20% · Tier P)
+    ├── HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md      # Hito 2 (S08 · 20% · Tier P)
+    ├── HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md         # Hito 3 (S09 · 20% · Tier D)
+    ├── HITO_4_EVALUACION_RASTER_GNSS_SENTINEL2.md      # Hito 4 (S14 · 20% · Tier P)
+    ├── HITO_5_PROYECTO_FINAL_MODELBUILDER_PITCH.md     # Hito 5 (S16 · 20% · Tier O)
+    └── INSTRUCTIVO_TALLER_RECUPERACION_IF.md           # Taller de recuperación IF (cierre 2026-1)
 ```
 
 ---
 
-## 1. Talleres Semanales de Clase (`01_talleres_clase/`)
+## 1. Marco del Proyecto Integrador Individual
 
-Guías detalladas para el **Bloque 2 de laboratorio (4:30–6:00 p.m.)** con herramientas paso a paso y ejercicios de práctica autónoma para repasar durante la semana:
+- [**PROYECTO_INTEGRADOR.md**](PROYECTO_INTEGRADOR.md): Documento rector del proyecto territorial a lo largo de las 16 semanas:
+  - **Modalidad 100 % Individual:** Portafolio Metropolitano de 10 Quebradas del Valle de Aburrá (`Q01` a `Q10`) y Matriz de 30 Unidades Territoriales Únicas (`U01` a `U30`: *Alto-Ladera*, *Medio-Transición*, *Bajo-Confluencia*).
+  - **Cuenca Escuela La Iguaná (46.25 km²):** Territorio exclusivo para demostraciones del docente y operación de GeoLab WebGIS; prohibida como asignación estudiantil.
+  - **Doble Escala de Análisis:** Microcuenca completa de aporte (DEM y Sentinel-2) + Polígono Focal de $15\text{ a }30\text{ ha}$ (topología y diseño de detalle).
+  - **Semilla Individual $D$:** Retiro normativo $R = 30 + D\text{ m}$ y umbral biespectral $U_{\text{NDVI}} = 0.20 + 0.01 \times D$.
+  - **Diferenciación Propositiva (20 %):** Ruta de Ingeniería Civil (obras de bioingeniería, disipación y drenaje) vs. Ruta de Diseño Urbano (parque lineal de ronda, arbolado y espacio público).
+  - **Estándares Cartográficos:** Lámina A3 horizontal (Hito 3) y Dossier Infográfico A3 de 2 páginas (Hito 5); cero informes en Word.
 
-| Semana (Fecha) | Guía Oficial | Título y Contenido Práctico |
+---
+
+## 2. Guías Semanales de Clase (`01_talleres_clase/`)
+
+Guías detalladas para el trabajo práctico en la Sala de Cómputo EAFIT, articulando el **Sub-bloque 1 (QGIS LTR / Cuenca Escuela)** con el **Sub-bloque 2 (ArcGIS Pro / Unidad Asignada $U_{xx}$)**:
+
+| Semana (Fecha) | Guía Oficial | Eje Temático y Contenido Técnico |
 |:---:|---|---|
-| **S01 (16 jul)** | [**G01_exploracion_visores_digitales.md**](01_talleres_clase/G01_exploracion_visores_digitales.md) | Reconocimiento territorial en visores digitales (Google Earth, OSM, Colombia en Mapas). |
-| **S02 (23 jul)** | [**G02_taller_escalas_coordenadas.md**](01_talleres_clase/G02_taller_escalas_coordenadas.md) | Medición en visor PDF calibrado, escalas numérica/gráfica y conversión GMS ↔ Decimal. |
-| **S03 (30 jul)** | [**G03_datum_ctm12_georreferenciacion.md**](01_talleres_clase/G03_datum_ctm12_georreferenciacion.md) | Geodesia, Datum Bogotá vs. MAGNA-SIRGAS, CTM12 (`EPSG:9377`) y Georreferenciador QGIS · **Quiz 1 (8%)**. |
-| **Anexo** | [**G03_instalacion_qgis.md**](01_talleres_clase/G03_instalacion_qgis.md) | Guía técnica anexa: Instalación paso a paso de QGIS LTR en computadores personales. |
-| **S04 (06 ago)** | [**G04_interfaz_qgis.md**](01_talleres_clase/G04_interfaz_qgis.md) | Entorno QGIS, CRS de proyecto, GeoPackage y Geoservicios WMS/WMTS de GeoMedellín. |
-| **S05 (13 ago)** | [**G05_digitalizacion_topologia.md**](01_talleres_clase/G05_digitalizacion_topologia.md) | Geometrías vectoriales, auto-ensamblado (*snapping*) y validación con Comprobador de topología (S05 y S09). |
-| **S06 (20 ago)** | [**G06_atributos_simbologia.md**](01_talleres_clase/G06_atributos_simbologia.md) | Calculadora de campos (`area_km2`, `long_m`), simbología temática, halo y Diseñador A3 · **Quiz 2 (8%)**. |
-| **S07–S10 (27 ago–17 sep)** | [**G07_geoprocesamiento_wfs.md**](01_talleres_clase/G07_geoprocesamiento_wfs.md) | Geoprocesamiento (Buffer 30 m disuelto, Clip, Intersect), descarga WFS en vivo y cierre vectorial · **Sustentación I1 (17 sep, 12%)**. |
-| **S11 (24 sep)** | [**G08_descarga_dem_raster.md**](01_talleres_clase/G08_descarga_dem_raster.md) | **Parcial 1 (15%, Bloque 1)** + **Módulo Ráster (Parte 1, Bloque 2):** Descarga de datos DEM (ALOS PALSAR 12.5 m), recorte y reproyección a CTM12 (`EPSG:9377`). |
-| **S12 (01 oct)** | [**G09_dem_pendientes_hillshade.md**](01_talleres_clase/G09_dem_pendientes_hillshade.md) | **Módulo Ráster (Parte 2):** Modelación de pendientes (° y %), reclasificación normativa POT, aspecto y sombreado 3D (*hillshade* 315°/45°). |
-| **Receso (08 oct)** | [**TALLER_REPASO_Q3.md**](02_talleres_repaso/TALLER_REPASO_Q3.md) | **Semana de Receso Estudiantil:** Estudio autónomo y preparación para el Quiz 3 (Terreno y Álgebra Ráster). |
-| **S13 (15 oct)** | [**G10_raster_calculator_perfiles.md**](01_talleres_clase/G10_raster_calculator_perfiles.md) | **Módulo Ráster (Parte 3):** Álgebra de mapas condicional, curvas de nivel y perfil longitudinal del cauce · **Quiz 3 (8%)**. |
-| **S14 (22 oct)** | [**G11_gnss_gabinete_importacion.md**](01_talleres_clase/G11_gnss_gabinete_importacion.md) | **M3 Posicionamiento GNSS en Gabinete:** Segmentos, constelaciones, trilateración con 4 satélites, `HDOP`, *multipath*, ingesta GPX/CSV en QGIS (`insumos_g11_gnss/`) y contraste contra vértices IGAC (`EPSG:9377`). |
-| **S14 (22 oct)** | [**G12_teledeteccion_sentinel2.md**](01_talleres_clase/G12_teledeteccion_sentinel2.md) | **M4 Teledetección Satelital en QGIS (Parte 1):** Espectro óptico (Visible, NIR, SWIR), firmas espectrales, **descarga directa de bandas Sentinel-2 L2A en QGIS para la zona de interés (`limite_iguana.geojson`) vía `STAC API Browser`**, recorte por máscara a `EPSG:9377` (`10 m`) y auditoría de reflectancias (`insumos_g12_g13_sentinel2/`). |
-| **S14 (22 oct)** | [**G13_indices_espectrales_qgis.md**](01_talleres_clase/G13_indices_espectrales_qgis.md) | **M4 Teledetección Satelital en QGIS (Parte 2):** Cálculo de `NDVI` y `NDBI` en Calculadora Ráster y **evaluación integral en QGIS** (simbología pseudocolor + `Identificar`, histograma bimodal, `Estadísticas de capa ráster`, máscara booleana biespectral, poligonización a hectáreas y fusión 3D con *Hillshade*). |
-| **S15 (29 oct)** | [**G14_arcgis_pro_gdb.md**](01_talleres_clase/G14_arcgis_pro_gdb.md) | **M5 Presentación de ArcGIS Pro:** Entorno `.aprx`, File Geodatabase (`.gdb`), Feature Datasets en `EPSG:9377`, demostración de dominios y servicios ArcGIS REST · Revisión de avance `IF`. |
-| **S15 (29 oct)** | [**G15_arcgis_modelbuilder.md**](01_talleres_clase/G15_arcgis_modelbuilder.md) | **M5 Automatización Espacial:** Flujos de geoprocesamiento en el **Modelador Gráfico de QGIS** (`.model3`) y equivalencia en ModelBuilder · **Quiz 4 (8%, 45 min — GNSS en Gabinete)**. |
-| **S16 (05 nov)** | [**G16_cierre_integracion_territorial.md**](01_talleres_clase/G16_cierre_integracion_territorial.md) | **M6 Cierre Integrador:** **Parcial 2 (`P2`, 15%, 90 min en QGIS — Sentinel-2 `NDVI`/`NDBI` + Modelo `.model3` + Mapa)** + **Entrega y Sustentación Oral del Informe Final (`IF`, 26%, Bloque 2)**. |
+| **S01 (21 ene)** | [**G01_exploracion_visores_digitales.md**](01_talleres_clase/G01_exploracion_visores_digitales.md) | Reconocimiento en visores espaciales (Google Earth, OpenStreetMap, Colombia en Mapas). |
+| **S02 (28 ene)** | [**G02_taller_escalas_coordenadas.md**](01_talleres_clase/G02_taller_escalas_coordenadas.md) | Medición métrica en visor PDF calibrado, escalas numérica/gráfica y conversión GMS ↔ Decimal. |
+| **S03 (04 feb)** | [**G03_datum_ctm12_georreferenciacion.md**](01_talleres_clase/G03_datum_ctm12_georreferenciacion.md) | Geodesia, Datum Bogotá vs. MAGNA-SIRGAS, CTM12 (`EPSG:9377`) y Georreferenciador QGIS. |
+| **Anexo S03** | [**G03_instalacion_qgis.md**](01_talleres_clase/G03_instalacion_qgis.md) | Guía de instalación y configuración técnica de QGIS LTR en computadores personales. |
+| **S04 (11 feb)** | [**G04_interfaz_qgis.md**](01_talleres_clase/G04_interfaz_qgis.md) | Entorno QGIS, GeoPackage (`.gpkg`), File Geodatabase (`.gdb`) y Geoservicios WMS/WMTS. |
+| **S05 (18 feb)** | [**G05_digitalizacion_topologia.md**](01_talleres_clase/G05_digitalizacion_topologia.md) / [**H1**](03_evaluaciones/HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md) | Sub-bloque 1: Digitalización, *snapping* y topología · Sub-bloque 2: **Hito 1 en Sala (20 % · Tier P)**. |
+| **S06 (25 feb)** | [**G06_atributos_simbologia.md**](01_talleres_clase/G06_atributos_simbologia.md) | Calculadora de campos (`$length`, `$area`), simbología temática A3 y **Ventana de Mejora Continua H1**. |
+| **S07 (04 mar)** | [**G07_geoprocesamiento_wfs.md**](01_talleres_clase/G07_geoprocesamiento_wfs.md) | Geoservicios WFS, geoprocesamiento vectorial (*Buffer* disuelto $30+D\text{ m}$, *Clip*, *Intersect*) y saneamiento topológico. |
+| **S08 (11 mar)** | [**HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md**](03_evaluaciones/HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md) | **Hito 2 en Sala (20 % · Tier P):** Topología, geoprocesamiento parametrizado con semilla $D$ y Salida A3. |
+| **S09 (18 mar)** | [**HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md**](03_evaluaciones/HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md) | **Hito 3 (20 % · Tier D):** Avance Proyecto Individual, Lámina A3 y Auditoría de Estación en Vivo (2 rondas). |
+| **Receso (25 mar)**| — | **Semana Santa:** Pausa académica universitaria y preparación para el ciclo ráster. |
+| **S10 (01 abr)** | [**G08_descarga_dem_raster.md**](01_talleres_clase/G08_descarga_dem_raster.md) | Módulo Ráster (Parte 1): Descarga de DEM, remuestreo bilineal, control `NoData = -9999` y reproyección a `EPSG:9377`. |
+| **S11 (08 abr)** | [**G09_dem_pendientes_hillshade.md**](01_talleres_clase/G09_dem_pendientes_hillshade.md) / [**G10**](01_talleres_clase/G10_raster_calculator_perfiles.md) | Módulo Ráster (Parte 2): Pendientes POT, sombreado 3D, álgebra ráster condicional, vectorización `DN = 1` y perfil longitudinal. |
+| **S12 (15 abr)** | [**G11_gnss_gabinete_importacion.md**](01_talleres_clase/G11_gnss_gabinete_importacion.md) | Posicionamiento satelital GNSS, dilución `HDOP <= 2.0`, importación en QGIS/ArcGIS Pro y auditoría `RMSE` contra IGAC. |
+| **S13 (22 abr)** | [**G12_teledeteccion_sentinel2.md**](01_talleres_clase/G12_teledeteccion_sentinel2.md) / [**G13**](01_talleres_clase/G13_indices_espectrales_qgis.md) | Teledetección Sentinel-2 (MGRS `18NVL`), reflectancias y cálculo de índices biofísicos `NDVI` y `NDBI` con umbral $D$. |
+| **S14 (29 abr)** | [**G14_arcgis_pro_gdb.md**](01_talleres_clase/G14_arcgis_pro_gdb.md) / [**H4**](03_evaluaciones/HITO_4_EVALUACION_RASTER_GNSS_SENTINEL2.md) | Sub-bloque 1: Consolidación FileGDB (`.gdb`) · Sub-bloque 2: **Hito 4 en Sala (20 % · Tier P)** Terreno, GNSS y Sentinel-2. |
+| **S15 (06 may)** | [**G15_arcgis_modelbuilder.md**](01_talleres_clase/G15_arcgis_modelbuilder.md) | Automatización visual con ModelBuilder (`.atbx`) y Diseñador Gráfico (`.model3`) · **Mejora Continua H4** y Pre-chequeo H5. |
+| **S16 (13 may)** | [**G16_cierre_integracion_territorial.md**](01_talleres_clase/G16_cierre_integracion_territorial.md) / [**H5**](03_evaluaciones/HITO_5_PROYECTO_FINAL_MODELBUILDER_PITCH.md) | **Hito 5 en Sala (20 % · Tier O):** Proyecto Final Multicriterio, Dossier A3 (2 págs.) y Pitch Relámpago (4+3 min). |
 
 ---
 
-## 2. Talleres de Repaso Previos a Evaluaciones (`02_talleres_repaso/`)
+## 3. Talleres de Repaso y Entrenamiento Autónomo (`02_talleres_repaso/`)
 
-Simulacros prácticos cronometrados para estudiar y prepararse antes de presentar los quices y parciales, incluyendo ejercicios resueltos, casos reales y protocolos de autoverificación técnica y control de calidad:
+Simulacros de práctica autónoma cronometrados ($\le 4.5\text{ h}$ de dedicación presupuestada), reutilizando los paquetes de datos de prueba del repositorio:
 
-| Evaluación | Taller de Repaso | Semana Recomendada | Temas Evaluados |
-|:---:|---|:---:|---|
-| **Quiz 1 (8%)** | [**TALLER_REPASO_Q1.md**](02_talleres_repaso/TALLER_REPASO_Q1.md) | Semana 2 a 3 (30 jul) | Escala por fotocopia, resolución de píxel (Nyquist), GMS ↔ Dec, Datum Bogotá vs. MAGNA-SIRGAS, CTM12. |
-| **Quiz 2 (8%)** | [**TALLER_REPASO_Q2.md**](02_talleres_repaso/TALLER_REPASO_Q2.md) | Semana 5 a 6 (20 ago) | Capas sin `.prj`, MultiPolígonos, calculadora de campos (`area_m2`, `es_grande`), importación de puntos. |
-| **Parcial 1 (15%)** | [**TALLER_REPASO_P1.md**](02_talleres_repaso/TALLER_REPASO_P1.md) / [**INSTRUCTIVO_EVALUACION_P1.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_P1.md) | Semana 10 a 11 (24 sep) | **Simulacro:** Retiro hídrico 30 m La Iguaná · **Examen:** Amenaza por inundación Santa Elena (DAGRD). Geodesia CTM12, Topology Checker, Disolver, Intersección, JSON y PDF A3. |
-| **Quiz 3 (8%)** | [**TALLER_REPASO_Q3.md**](02_talleres_repaso/TALLER_REPASO_Q3.md) | Semana 12 a 13 (15 oct) | Módulo Ráster: MDT vs. MDS, reproyección CTM12 con GDAL Warp, pendientes, sombreado 3D, calculadora ráster booleana y poligonización a GeoPackage. |
-| **Quiz 4 (8%)** | [**TALLER_REPASO_Q4.md**](02_talleres_repaso/TALLER_REPASO_Q4.md) | Semana 14 a 15 (29 oct) | **Exclusivo G11 (GNSS en Gabinete):** Ingesta `.gpx` y `.csv` (`EPSG:4326`), filtrado de saltos por *multipath* con `"hdop" <= 2.0`, exportación a GeoPackage (`EPSG:9377`) y contraste métrico contra vértices IGAC. |
-| **Parcial 2 (15%)** | [**TALLER_REPASO_P2.md**](02_talleres_repaso/TALLER_REPASO_P2.md) | Semana 15 a 16 (05 nov) | **Exclusivo G12–G15 en QGIS (90 min, sin traslape con P1, Q3 ni Q4):** Cálculo de `NDVI` y `NDBI` en Calculadora Ráster, vectorización (`DN = 1`), modelo automatizado en QGIS (`.model3`) y mapa síntesis PDF. |
+| Taller de Repaso | Insumos Reutilizados | Tiempo Estimado | Enfoque y Preparación Evaluativa |
+|:---|:---|:---:|:---|
+| [**REPASO_HITO_1.md**](02_talleres_repaso/REPASO_HITO_1.md) | `insumos_p1/` (`drenajes_iguana.shp`, `predios_catastro.gpkg`, `equipamientos_comunitarios.gpkg`) | $\le 4.5\text{ h}$ | Diagnóstico de capas sin `.prj`, asignación vs reproyección a `EPSG:9377`, estructura `.gpkg` + `.gdb` con Feature Dataset y dominios, y auditoría de rutas relativas. |
+| [**REPASO_HITO_2.md**](02_talleres_repaso/REPASO_HITO_2.md) | `insumos_p1/` (`predios_catastro.gpkg`, `drenajes_iguana.shp`) | $\le 4.5\text{ h}$ | Saneamiento con Comprobador de topología (0 solapes, 0 huecos), geoprocesamiento con semilla $D$ ($R = 30 + D\text{ m}$), *Intersect*, *Dissolve* y salida A3 a 300 ppp. |
+| [**REPASO_HITO_4.md**](02_talleres_repaso/REPASO_HITO_4.md) | `insumos_q4/` (GNSS e IGAC) + `insumos_p2/` (Sentinel-2 L2A y cuenca) | $\le 4.5\text{ h}$ | DEM y pendientes POT, filtrado GNSS por $\text{HDOP} \le 2.0$ y cálculo de $\text{RMSE}_H$, cálculo de NDVI y NDBI con umbral $D$, álgebra ráster y vectorización limpia de $DN = 1$. |
 
 ---
 
-## 3. Instructivos Oficiales de Evaluación (`03_evaluaciones/`)
+## 4. Instructivos Oficiales de Evaluación (`03_evaluaciones/`)
 
-Documentos formales con el encargo técnico, especificaciones de entrega, tolerancias y criterios de calificación:
+Los cinco hitos evaluativos suman el 100 % de la calificación definitiva del curso. Todos cuentan con **Rúbricas Criteriales de 4 Niveles** (*Inicial*, *Básico*, *Competente*, *Avanzado*), libres de adjetivos vagos y con **Notas de Calibración para Casos Límite**:
 
-### Quices Individuales (32%)
-- [**INSTRUCTIVO_EVALUACION_Q1.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_Q1.md) · Quiz 1: Fundamentos cartográficos y CTM12 (Semana 3, 30 jul · 8% — **Realizado**)
-- [**INSTRUCTIVO_EVALUACION_Q2.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_Q2.md) · Quiz 2: SIG vectorial, atributos y GeoPackage en QGIS (Semana 6, 20 ago · 8% — **Realizado**)
-- [**INSTRUCTIVO_EVALUACION_Q3.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_Q3.md) · Quiz 3: Terreno y Álgebra Ráster (Semana 13, 15 oct · 8% — **Realizado**)
-- [**INSTRUCTIVO_EVALUACION_Q4.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_Q4.md) · Quiz 4: Posicionamiento GNSS en Gabinete y Control de Calidad por `HDOP` (Semana 15, 29 oct · 8%, 45 min en QGIS — **Realizado**)
-
-### Parciales Prácticos Individuales (30%)
-- [**INSTRUCTIVO_EVALUACION_P1.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_P1.md) · Parcial 1: SIG vectorial, geodesia CTM12 y validación topológica en QGIS (Semana 11, 24 sep · 15% — **Realizado**)
-- [**INSTRUCTIVO_EVALUACION_P2.md**](03_evaluaciones/INSTRUCTIVO_EVALUACION_P2.md) · Parcial 2: Teledetección Sentinel-2 (`NDVI`, `NDBI`), Modelador Gráfico en QGIS (`.model3`) y Síntesis Cartográfica (Semana 16, 05 nov · 15%, 90 min en QGIS — **Realizado**)
-
-### Informes Grupales del Proyecto Territorial (38%) y Taller Opcional de Reemplazo
-- [**INSTRUCTIVO_ENTREGA_I1.md**](03_evaluaciones/INSTRUCTIVO_ENTREGA_I1.md) · Informe 1: Diagnóstico vectorial y propuesta cartográfica A3 (Semana 10, 17 sep · 12% — **Realizado**)
-- [**INSTRUCTIVO_ENTREGA_IF.md**](03_evaluaciones/INSTRUCTIVO_ENTREGA_IF.md) · **Informe Final (`IF` con Sustentación Oral — 26% en QGIS):** Análisis territorial multicriterio integrando relieve (`DEM`), índices satelitales (`NDVI`/`NDBI`) y priorización espacial en QGIS (`grupoXX_IF.zip`: proyecto QGIS + Lámina A3 + Informe Territorial de 4–5 págs. + Sustentación Oral el 05 nov — **Realizado**).
-- [**INSTRUCTIVO_TALLER_RECUPERACION_IF.md**](03_evaluaciones/INSTRUCTIVO_TALLER_RECUPERACION_IF.md) · **Taller Individual Opcional de Reemplazo del Componente Técnico del `IF` (`20%` del curso):** Diagnóstico hidro-morfológico, espectral y de presión urbana en la **Cuenca de la Quebrada La Ayurá (Envigado, `EPSG:9377`)**, parametrizado individualmente con el último dígito del documento de identidad ($D \in \{0..9\}$) (**Realizado**).
+1. [**HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md**](03_evaluaciones/HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md)  
+   *Semana 5 (18 feb 2027) · 20.0 % · Tier P (Prohibido/Supervisado).* Geodesia CTM12 (`EPSG:9377`), GeoPackage en QGIS y File Geodatabase con dominios codificados en ArcGIS Pro. Ventana de mejora continua en S06.
+2. [**HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md**](03_evaluaciones/HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md)  
+   *Semana 8 (11 mar 2027) · 20.0 % · Tier P (Prohibido/Supervisado).* Topología limpia (0 errores), geoprocesamiento vectorial con semilla individual $D$ ($30 + D\text{ m}$) y composición cartográfica A3 horizontal en PDF a 300 ppp.
+3. [**HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md**](03_evaluaciones/HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md)  
+   *Semana 9 (18 mar 2027) · 20.0 % · Tier D (Permitido con Declaración).* Línea Base Vectorial (.gpkg + .gdb) de la unidad asignada ($U_{xx}$), Lámina A3 completa y Auditoría de Estación SIG en Vivo en 2 rondas con revisión entre pares.
+4. [**HITO_4_EVALUACION_RASTER_GNSS_SENTINEL2.md**](03_evaluaciones/HITO_4_EVALUACION_RASTER_GNSS_SENTINEL2.md)  
+   *Semana 14 (29 abr 2027) · 20.0 % · Tier P (Prohibido/Supervisado).* Recorte DEM por máscara a divisoria, pendientes en grados y %, control de calidad GNSS por $\text{HDOP} \le 2.0$, índices Sentinel-2 (`NDVI`/`NDBI`), álgebra booleana y vectorización de $DN = 1$. Ventana de mejora continua en S15.
+5. [**HITO_5_PROYECTO_FINAL_MODELBUILDER_PITCH.md**](03_evaluaciones/HITO_5_PROYECTO_FINAL_MODELBUILDER_PITCH.md)  
+   *Semana 16 (13 may 2027) · 20.0 % · Tier O (Abierto / Auditoría Crítica de IA).* Pre-chequeo técnico obligatorio en S15. Flujo automatizado en ModelBuilder (`.atbx`) y `.model3`, Dossier Infográfico A3 de 2 páginas con propuesta sectorial (Civil o Urbana) y Pitch Ejecutivo Relámpago (4 min + 3 min de preguntas).
 
 ---
 
-## 4. Marco del Proyecto Integrador
-- [**PROYECTO_INTEGRADOR.md**](PROYECTO_INTEGRADOR.md): Documento marco que define el contexto territorial, antecedentes históricos, problemáticas biofísicas, hoja de ruta real y estructura de las entregas acumulativas en la Cuenca de la Quebrada La Iguaná.
+## 5. Histórico y Evaluaciones Cerradas (2026-1)
+
+- **Cierre de evaluación 2026-1:** Se preserva en `03_evaluaciones/` el [**INSTRUCTIVO_TALLER_RECUPERACION_IF.md**](03_evaluaciones/INSTRUCTIVO_TALLER_RECUPERACION_IF.md) junto con sus insumos oficiales sobre la Quebrada La Ayurá.
+- **Trazabilidad Histórica 2026-1:** Los instructivos y materiales cerrados del semestre anterior quedan congelados en la [Release / Tag Histórico `2026-1`](https://github.com/federicogmz/geomatica-sig/releases/tag/2026-1).

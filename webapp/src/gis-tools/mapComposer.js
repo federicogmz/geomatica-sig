@@ -183,7 +183,7 @@ export class MapComposerTool {
     doc.setFont('helvetica', 'bold');
     doc.text('FUENTES DE INFORMACIÓN:', sideX + 4, cajetinY + 65);
     doc.setFont('helvetica', 'normal');
-    doc.text('GeoMedellín · SIATA · IGAC (2026)', sideX + 4, cajetinY + 70);
+    doc.text('GeoMedellín · SIATA · IGAC (2027)', sideX + 4, cajetinY + 70);
 
     doc.setFont('helvetica', 'bold');
     doc.text('FECHA:', sideX + 4, cajetinY + 79);

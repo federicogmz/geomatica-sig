@@ -1,148 +1,177 @@
 # Geomática, Ingeniería y SIG: Sílabo del Curso
 
-> **Semestre / Hito:** **2026-1 (Estado de cierre ejecutado)**  
-> **Pregrados:** Ingeniería Civil · Diseño Urbano  
-> **Créditos Académicos y UMEs:** **3 Créditos Académicos · 5 UMEs** (`144 h totales en el semestre`: $4.5\text{ h/semana}$ de acompañamiento presencial directo $[72\text{ h}]$ + $4.5\text{ h/semana}$ de trabajo independiente $[72\text{ h}]$)  
-> **Duración:** 16 semanas · sesión presencial de 4.5 h en dos bloques:  
-> **Bloque 1, 12:00–3:00 p.m.** (aula, teoría / conceptualización / evaluaciones) y  
-> **Bloque 2, 4:30–6:00 p.m.** (laboratorio, PC de la Universidad, práctica de software y geoservicios)  
-> **Plataforma:** Teams (comunicación, materiales y entregas)  
+> **Semestre Académico:** **2027-1** (16 semanas lectivas efectivas: del `21 de enero` al `13 de mayo de 2027`; receso institucional de Semana Santa el `25 de marzo de 2027`; jueves `6 de mayo de 2027` hábil normal por aplicación de la Ley Emiliani)  
+> **Pregrados:** Ingeniería Civil · Diseño Urbano y Gestión del Hábitat  
+> **Créditos Académicos y UMEs:** **3 Créditos Académicos · 5 UMEs** (`144 h` totales en el semestre: `4.5 h` semanales de acompañamiento presencial directo [`72 h` semestrales] + `4.5 h` semanales de trabajo independiente [`72 h` semestrales] = `144 h` totales de dedicación estudiantil)  
+> **Horario y Espacio de Aprendizaje:** Jueves `12:00 m. – 4:30 p.m.` (`4.5 h` académicas continuas 100 % en Sala de Cómputo EAFIT):  
+> - **Sub-bloque 1 (`12:00 m. – 1:50 p.m.` · 110 min):** Fundamento conceptual + práctica guiada en **QGIS LTR** sobre la **Cuenca Escuela (Quebrada La Iguaná)**.  
+> - **Pausa Activa Pedagógica / Almuerzo Ligero (`1:50 p.m. – 2:10 p.m.` · 20 min):** Integrada dentro de las `4.5 h` académicas nominales (equivalente a los 5 min/hora reglamentarios de cambio/descanso).  
+> - **Sub-bloque 2 (`2:10 p.m. – 4:30 p.m.` · 140 min):** Transferencia en espejo a **ArcGIS Pro** (`.aprx`, `.gdb`, `Domains`, `Geodatabase Topology`, `Spatial Analyst`, `ModelBuilder .atbx`), aplicación individual sobre su unidad territorial asignada y **Protocolo de Cierre Seguro en Sala (`4:20–4:30 p.m.`: trabajar en `C:\Temp\SIG_Usuario\`, cerrar ArcGIS Pro para liberar `.lock`, comprimir `.zip` y respaldar en OneDrive EAFIT)**.  
+> **Plataforma Oficial:** Microsoft Teams (canales temáticos, entrega digital de paquetes `.zip`, actas criptográficas y retroalimentación)  
 
 ---
 
-## Descripción
+## 1. Descripción del Curso
 
-Curso teórico-práctico que introduce los fundamentos de la geomática, la cartografía y los Sistemas de Información Geográfica (SIG) como herramientas para la toma de decisiones espaciales en proyectos de ingeniería civil y diseño urbano. El curso ejecuta el 100 % de su componente práctico y evaluativo en **QGIS LTR** (integrando geoservicios oficiales, procesamiento multiespectral Sentinel-2 y modelamiento gráfico `.model3`, con una sesión demostrativa/comparativa de **ArcGIS Pro** en la Semana 15) y se articula alrededor de un **proyecto territorial continuo y compartido** sobre la **cuenca de la Quebrada La Iguaná** (Medellín), desarrollado acumulativamente desde la primera hasta la última semana de clases.
+Curso teórico-práctico de fundamentación y aplicación espacial avanzada que articula los métodos de la geomática, la geodesia satelital y los Sistemas de Información Geográfica (SIG) con la toma de decisiones basada en evidencia en proyectos de **Ingeniería Civil** y **Diseño Urbano y Gestión del Hábitat**. 
 
----
+El curso implementa una arquitectura pedagógica en espejo (**Dual-Stack SIG**):
+1. **Modelado conceptual y abierto en QGIS LTR:** El profesor modela en vivo algoritmos espaciales, geoprocesos vectoriales, análisis morfométrico del terreno, teledetección multiespectral y modelado gráfico (`.model3`) sobre una cuenca de referencia común: la **Cuenca Escuela de la Quebrada La Iguaná (Medellín, 46.25 km²)**, articulada con la plataforma didáctica web **GeoLab Iguaná**. La Cuenca Escuela es de uso demostrativo docente exclusivo y ningún estudiante la tiene asignada.
+2. **Transferencia corporativa en ArcGIS Pro:** En el segundo sub-bloque de cada sesión, el estudiante transfiere de forma inmediata los principios aprendidos al ecosistema corporativo de ESRI en la sala de cómputo (`.aprx`, File Geodatabase `.gdb`, Feature Datasets, Subtipos, Dominios Codificados, Geodatabase Topology, Spatial Analyst y ModelBuilder `.atbx`), aplicándolos sobre su **Unidad Territorial Individual asignada**.
 
-## Competencias
-
-Al finalizar el curso el estudiante será capaz de:
-
-1. **Leer, interpretar y producir cartografía técnica** bajo los sistemas de referencia oficiales de Colombia (MAGNA-SIRGAS / Origen Nacional CTM12, Res. 471-2020 IGAC).
-2. **Crear, editar, limpiar topológicamente y analizar datos espaciales vectoriales y ráster** en **QGIS LTR** utilizando el estándar abierto GeoPackage (`.gpkg`), reconociendo su equivalencia conceptual con File Geodatabases (`.gdb`) en ArcGIS Pro.
-3. **Consumir e integrar geoservicios en tiempo real** (WMS, WMTS, WFS y servicios REST) provenientes de Infraestructuras de Datos Espaciales (GeoMedellín, AMVA, SIATA, Colombia en Mapas).
-4. **Comprender los principios de posicionamiento satelital GNSS** (constelaciones, trilateración, DOP, efecto multitrayectoria y métodos diferenciales DGPS/RTK) e importar trazas de campo (GPX/CSV) en entornos SIG.
-5. **Procesar imágenes satelitales multiespectrales (Sentinel-2 MSI) en QGIS** para combinar bandas ópticas/infrarrojas y derivar índices biofísicos normalizados (`NDVI`, `NDBI`) aplicados al diagnóstico ambiental y urbano.
-6. **Automatizar flujos de trabajo de geoprocesamiento** mediante el **Diseñador Gráfico de Modelos de QGIS** (`.model3`, comprendiendo su equivalencia con *ModelBuilder* en ArcGIS Pro) y comunicar resultados mediante láminas cartográficas digitales de estándar profesional (A3 a 300 ppp).
+El proceso formativo es **100 % individual** y se desarrolla de forma incremental sobre una matriz de **30 Unidades Territoriales Únicas (`U01` a `U30`)**, distribuidas a lo largo de un portafolio de **10 Quebradas Metropolitanas del Valle de Aburrá (`Q01` a `Q10`)** cubiertas por la escena **Sentinel-2 MGRS `18NVL`** (complementada al norte por `18NVM`), Modelos Digitales de Elevación Copernicus y geoservicios oficiales del IGAC, AMVA, GeoMedellín y SIATA bajo el marco **MAGNA-SIRGAS Origen Nacional CTM12 (`EPSG:9377`)**. La asignación se personaliza además mediante el último dígito del documento de identidad $D \in \{0..9\}$, parametrizando retiros hídricos ($R = 30 + D\text{ m}$) y umbrales espectrales ($U_{\text{NDVI}} = 0.20 + 0.01 \times D$), garantizando que no existan soluciones numéricas idénticas en el aula.
 
 ---
 
-## Stack Tecnológico Oficial (Estado de Cierre `2026-1`)
+## 2. Resultados de Aprendizaje de la Asignatura (RAA)
 
-> **Balance de ejecución `2026-1`:** El 100 % del trabajo práctico, talleres evaluables, parciales (`P1`, `P2`), quices (`Q1`–`Q4`) y entregas del proyecto integrador (`I1`, `IF`) se ejecutó y evaluó en **QGIS LTR** (`EPSG:9377`, contenedor único `.gpkg`, procesamiento multiespectral Sentinel-2 y modelos `.model3`). **ArcGIS Pro** (`G14`/`G15`) se abordó únicamente como sesión demostrativa/conceptual en la Semana 15 sin evaluación práctica, insumo clave registrado en [`LECCIONES_APRENDIDAS_CURSO.md`](LECCIONES_APRENDIDAS_CURSO.md) para el rediseño `2027-1`.
+En concordancia con el modelo pedagógico de la Universidad EAFIT, el Decreto 1330 de 2019 y la Taxonomía SOLO (*Structure of Observed Learning Outcomes*, Biggs & Collis), la asignatura tributa a cuatro Resultados de Aprendizaje evaluables mediante evidencias objetivas de desempeño:
 
-| Herramienta | Uso en el Curso | Modalidad de Acceso |
-|---|---|---|
-| **QGIS (versión LTR)** | Motor práctico 100 % ejecutado y evaluado: cartografía, geoprocesamiento vectorial, topología, relieve ráster, teledetección Sentinel-2 y automatización (`.model3`) | Descarga libre y gratuita / Instalado en laboratorio |
-| **Geoservicios (WMS / WFS / REST)** | Conexión en vivo a catastro, ortofotos e hidrología (GeoMedellín, AMVA, SIATA, IGAC) | Acceso web mediante URLs oficiales en QGIS |
-| **STAC API Browser (QGIS) / Sentinel-2 MSI** | Búsqueda y descarga directa en QGIS por zona de interés (`limite_iguana.geojson`), recorte a `EPSG:9377` y evaluación local de índices (`NDVI` / `NDBI`) | Complemento `STAC API Browser` (`Earth Search`) + respaldo en `EPSG:9377` |
-| **ArcGIS Pro** | Sesión demostrativa/conceptual en Semana 15: File Geodatabases (`.gdb`), servicios REST de ESRI y equivalencia conceptual con ModelBuilder (sin evaluación práctica) | Licencia institucional en los PC del laboratorio |
-
----
-
-## Módulos de Aprendizaje
-
-### M0: Fundamentos cartográficos, geodesia y territorio base *(Semanas 1–3)*
-Lectura de mapas, escala numérica y gráfica, resolución espacial. Sistemas de coordenadas geográficas y proyectadas en Colombia: Datum Bogotá, MAGNA-SIRGAS, Origen Nacional CTM12 (`EPSG:9377`). Reconocimiento inicial de la cuenca de La Iguaná en visores digitales (`G01`, `G02`, `G03`). Evaluación: **Quiz 1 (`Q1`, 8%)**.
-
-### M1: SIG Vectorial, topología y geoservicios con QGIS *(Semanas 4–11)*
-Entorno QGIS, contenedor GeoPackage (`.gpkg`), rutas relativas. Conexión a servicios WMS/WMTS (ortofotos). Digitalización avanzada y auto-ensamblado (*snapping*). Modelo de atributos, calculadora de campos y simbología. Geoprocesamiento (Buffer, Clip, Dissolve, Intersect) y descarga vectorial vía WFS. Maquetación digital A3 y control de calidad con el *Plugin Comprobador de topología* de QGIS (reglas de solapes, huecos y *dangles*) (`G04`–`G07`). Evaluaciones: **Quiz 2 (`Q2`, 8%)**, **Informe 1 (`I1`, 12%)** y **Parcial 1 (`P1`, 15%)**.
-
-### M2: SIG Ráster y análisis del relieve *(Semanas 11–13)*
-Modelos Digitales de Elevación (DEM SRTM y ALOS PALSAR 12.5 m). Reproyección a CTM12 (`EPSG:9377`). Pendientes (grados y porcentaje), aspecto y sombreado 3D (*hillshade*). Álgebra de mapas (*Raster Calculator*) para zonificación de susceptibilidad y amenaza en laderas. Curvas de nivel y perfil longitudinal del cauce de La Iguaná (`G08`, `G09`, `G10`). Evaluación: **Quiz 3 (`Q3`, 8%)**.
-
-### M3 + M4: Cápsula GNSS en Gabinete y Teledetección Satelital en QGIS *(Semana 14 — 22 de octubre)*
-- **Cápsula M3 (GNSS Esencial en Gabinete):** Segmentos espacial/control/usuario, constelaciones (GPS, GLONASS, Galileo, BeiDou), principio de trilateración con mínimo 4 satélites, dilución de precisión (PDOP/HDOP), error por multitrayectoria (*multipath*) en cañones urbanos, niveles de precisión (Navegador, DGPS, RTK) e importación demostrativa GPX/CSV en QGIS (`G11`). *Sin entrega evaluativa de GNSS en los informes.*
-- **M4 (Teledetección Multiespectral, Descarga STAC por AOI y Evaluación de Índices en QGIS):** Espectro electromagnético (Visible, NIR, SWIR), firmas espectrales (agua, suelo/concreto, vegetación sana y *salto del rojo*), misión Sentinel-2 MSI L2A (bandas de 10 m y 20 m), **búsqueda y descarga directa dentro de QGIS para la zona de interés (`limite_iguana.geojson`) mediante `STAC API Browser` (`Earth Search`)**, recorte y reproyección por máscara a `EPSG:9377`, auditoría de reflectancias por píxel y **cálculo + evaluación integral de los índices `NDVI` y `NDBI` ahí mismo en QGIS** (simbología pseudocolor, histograma bimodal, `Estadísticas de capa ráster`, umbralización booleana biespectral, poligonización a hectáreas y fusión 3D con *Hillshade*) (`G12`, `G13`).
-
-### M5: SIG Corporativo con ArcGIS Pro y Automatización Espacial *(Semana 15 — 29 de octubre)*
-Presentación de ArcGIS Pro: entorno `.aprx`, estructura de File Geodatabase (`.gdb`), Feature Datasets en `EPSG:9377`, demostración de dominios y servicios ArcGIS REST (`G14`). Automatización de flujos de geoprocesamiento con **ModelBuilder** y su equivalencia directa en el **Diseñador Gráfico de Modelos de QGIS** (`G15`). Aplicación del **Quiz 4 (`Q4`, 8%, 45 min)** sobre **Posicionamiento GNSS en Gabinete y Control de Calidad por `HDOP` (`G11`)** y revisión de avance / taller asistido en QGIS para el **Informe Final (`IF`)**.
-
-### M6: Cierre integrador y evaluación final *(Semana 16 — 05 de noviembre)*
-- **Bloque 1 (12:00–3:00 p.m.):** **Parcial Práctico 2 (`P2`, 15%, 90 min / 1h30m)** individual en PC en **QGIS** (excluyente de evaluaciones anteriores: cálculo directo de `NDVI` y `NDBI` en Calculadora Ráster de QGIS, vectorización de presión urbana `DN = 1`, modelo automatizado `.model3` en el Diseñador Gráfico de Modelos de QGIS y mapa síntesis PDF) y protocolo QA/QC (`G16`).
-- **Bloque 2 (4:30–6:00 p.m.):** **Entrega Única y Sustentación Oral (10 min por equipo: 7 min Pitch + 3 min Defensa Individual) del Informe Final (`IF`, 26% del curso)** en **QGIS** proyectando la Lámina A3 de síntesis territorial (`grupoXX_IF.zip`).
+- **RAA1 (Nivel SOLO: Relacional):**  
+  Diagnosticar y homologar bases espaciales multiescala al sistema oficial MAGNA-SIRGAS Origen Nacional CTM12 (`EPSG:9377`), diferenciando operaciones de asignación de referencia frente a reproyección de coordenadas tanto en QGIS LTR como en ArcGIS Pro.
+- **RAA2 (Nivel SOLO: Relacional):**  
+  Estructurar, auditar topológicamente y ejecutar geoprocesos vectoriales multicriterio sobre bases de datos espaciales abiertas (GeoPackage `.gpkg`) y corporativas (File Geodatabase `.gdb` con Feature Datasets, Subtipos y Dominios Codificados), produciendo cartografía normativa A3.
+- **RAA3 (Nivel SOLO: Relacional):**  
+  Modelar variables morfométricas del terreno (DEM), validar levantamientos satelitales GNSS por dilución de precisión (HDOP/RMSE) e integrar índices espectrales Sentinel-2 (NDVI y NDBI) mediante álgebra de mapas en QGIS LTR y Spatial Analyst de ArcGIS Pro.
+- **RAA4 (Nivel SOLO: Abstracto Extendido):**  
+  Automatizar flujos reproducibles de priorización territorial mediante ModelBuilder (`.atbx`) y el Diseñador Gráfico de Modelos (`.model3`), sustentando propuestas individuales de intervención en Ingeniería Civil o Diseño Urbano respaldadas por evidencia cuantitativa.
 
 ---
 
-## Proyecto Territorial Continuo: Cuenca de La Iguaná
+## 3. Stack Tecnológico Oficial y Recursos de Sala
 
-Todo el semestre se articula alrededor de un único territorio real: la **Cuenca de la Quebrada La Iguaná** (46.25 km²), que abarca desde los 2.950 msnm en el Alto de Boquerón (San Cristóbal) hasta los 1.450 msnm en el Río Medellín (Plaza Minorista).
-
-Las entregas grupales se desarrollan de forma acumulativa en **equipos fijos de 2 a 3 estudiantes** trabajando en **QGIS**. El cierre del semestre se consolida en el **Informe Final (`IF`, 26% del curso: 20% Entrega Técnica y Análisis Territorial + 6% Sustentación Oral) el jueves 05 de noviembre**, enfocado en el **análisis territorial y propuesta de intervención** con solo 3 entregables dentro de `grupoXX_IF.zip`:
-
-| Entrega | Semana (Fecha) | % | Foco del Proyecto Integrador | Formato Oficial |
-|:---:|:---:|:---:|---|---|
-| **I1: Diagnóstico Cartográfico y Propuesta** | 10 (17 sep) | **12%** | Capas base vectoriales en `.gpkg` + fajas de retiro hídrico (Buffer) + propuesta territorial interdisciplinar (Civil + Diseño Urbano). Limpieza con Comprobador de topología. | Lámina digital A3 horizontal exportada a PDF (300 ppp) + `.gpkg` + sustentación (**Realizada**) |
-| **IF: Informe Final de Análisis Territorial y Propuesta de Intervención con Sustentación** | 16 (05 nov)<br>*(Avance: 29 oct)* | **26%**<br>*(20% + 6%)* | Diagnóstico territorial integrado en **QGIS (`EPSG:9377`)** combinando relieve (`pendiente`, `hillshade`), teledetección (`NDVI`, `NDBI`) y retiro hídrico (`30 m`) para priorizar sectores críticos y formular una propuesta de Ingeniería Civil y Diseño Urbano. | Paquete único simplificado `grupoXX_IF.zip` (`1_proyecto_qgis/`, `2_Lamina_Sintesis_A3_grupoXX.pdf`, `3_Informe_Territorial_grupoXX.pdf` de 4–5 págs.) + Sustentación Oral 10 min ([`INSTRUCTIVO_ENTREGA_IF.md`](../03_guias/03_evaluaciones/INSTRUCTIVO_ENTREGA_IF.md)) (**Realizada**) |
-
----
-
-## Sistema de Evaluación y Ruta de Mejora Activa
-
-> Cumple con el Reglamento Académico de Pregrado de EAFIT (porcentajes entre 5% y 20%).  
-> Los parciales (`P1`, `P2`) y quices (`Q1`–`Q4`) son **individuales**. Los informes (`I1`, `IF`) son **grupales**.
-
-| Código | Actividad Evaluativa | % | Modalidad | Semana (Fecha) | Taller de Repaso Previo | Instructivo Oficial de Evaluación | Estado / Ruta de Mejora Activa |
-|:---:|---|:---:|---|:---:|---|---|---|
-| **Q1** | Quiz 1: Fundamentos cartográficos y CTM12 | **8%** | Individual, presencial | 3 (30 jul) | [TALLER_REPASO_Q1.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q1.md) | [INSTRUCTIVO_EVALUACION_Q1.md](../03_guias/03_evaluaciones/INSTRUCTIVO_EVALUACION_Q1.md) | **Realizado** · Recuperado en S4 en QGIS |
-| **Q2** | Quiz 2: SIG vectorial y atributos | **8%** | Individual, laboratorio | 6 (20 ago) | [TALLER_REPASO_Q2.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q2.md) | [INSTRUCTIVO_EVALUACION_Q2.md](../03_guias/03_evaluaciones/INSTRUCTIVO_EVALUACION_Q2.md) | **Realizado** · Recuperado en S7 con topología |
-| **I1** | **Informe 1: Diagnóstico y Propuesta A3** | **12%** | Grupal (Lámina A3 + `.gpkg`) | 10 (17 sep) | [G06](../03_guias/01_talleres_clase/G06_atributos_simbologia.md) / [G07](../03_guias/01_talleres_clase/G07_geoprocesamiento_wfs.md) | [INSTRUCTIVO_ENTREGA_I1.md](../03_guias/03_evaluaciones/INSTRUCTIVO_ENTREGA_I1.md) | **Realizado** · Sustentación oral proyectada |
-| **P1** | **Parcial 1: SIG Vectorial y Topología** | **15%** | Individual, práctico PC | 11 (24 sep) | [TALLER_REPASO_P1.md](../03_guias/02_talleres_repaso/TALLER_REPASO_P1.md) | [INSTRUCTIVO_EVALUACION_P1.md](../03_guias/03_evaluaciones/INSTRUCTIVO_EVALUACION_P1.md) | **Realizado** · Examen oficial parcial |
-| **Q3** | Quiz 3: Terreno y Álgebra Ráster | **8%** | Individual, laboratorio | 13 (15 oct) | [TALLER_REPASO_Q3.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q3.md) | [INSTRUCTIVO_EVALUACION_Q3.md](../03_guias/03_evaluaciones/INSTRUCTIVO_EVALUACION_Q3.md) | **Realizado** · Recuperado en S14 (22 oct) |
-| **Q4** | Quiz 4: Posicionamiento GNSS en Gabinete y Control de Calidad (`HDOP`) | **8%** | Individual, práctico PC en QGIS (45 min) | 15 (29 oct) | [TALLER_REPASO_Q4.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q4.md) | [INSTRUCTIVO_EVALUACION_Q4.md](../03_guias/03_evaluaciones/INSTRUCTIVO_EVALUACION_Q4.md) | **Realizado** · Exclusivo `S11/G11` en QGIS |
-| **P2** | **Parcial 2: Índices Sentinel-2 (`NDVI`/`NDBI`), Modelo Automatizado `.model3` y Mapa en QGIS** | **15%** | Individual, práctico PC en QGIS (90 min / 1h30m) | 16 (05 nov) | [TALLER_REPASO_P2.md](../03_guias/02_talleres_repaso/TALLER_REPASO_P2.md) | [INSTRUCTIVO_EVALUACION_P2.md](../03_guias/03_evaluaciones/INSTRUCTIVO_EVALUACION_P2.md) | **Realizado** · Exclusivo `S12–S15` en QGIS |
-| **IF** | **Informe Final (`IF`): Análisis Territorial, Propuesta de Intervención, Lámina A3 y Sustentación Oral en QGIS** | **26%**<br>*(20% + 6%)* | Grupal en QGIS (`grupoXX_IF.zip` + Defensa Oral 10 min) | 16 (05 nov) | [G08](../03_guias/01_talleres_clase/G08_descarga_dem_raster.md)–[G16](../03_guias/01_talleres_clase/G16_cierre_integracion_territorial.md) | [INSTRUCTIVO_ENTREGA_IF.md](../03_guias/03_evaluaciones/INSTRUCTIVO_ENTREGA_IF.md)<br>*(Opcional reemplazo 20% técnico: [INSTRUCTIVO_TALLER_RECUPERACION_IF.md](../03_guias/03_evaluaciones/INSTRUCTIVO_TALLER_RECUPERACION_IF.md))* | **Realizado** · Entrega Técnica (`20%`) + Sustentación Oral (`6%`) + Taller opcional de reemplazo en Cuenca La Ayurá |
-| **Total** | | **100%** | | | | | **100% Ejecutado (`2026-1`)** |
+| Componente | Herramienta | Rol Pedagógico en el Curso | Modalidad de Acceso |
+|---|---|---|---|
+| **SIG Abierto / Conceptual** | **QGIS (versión LTR oficial)** | Demostración en vivo por el profesor sobre la Cuenca Escuela La Iguaná, soporte para álgebra ráster, Comprobador de topología y modelador gráfico `.model3`. | Software libre instalado en Sala EAFIT y laptop personal |
+| **SIG Corporativo / Aplicado** | **ArcGIS Pro (Advanced)** | Entorno de trabajo individual del estudiante: File Geodatabase (`.gdb`), Feature Datasets, Dominios Codificados, Geodatabase Topology, Spatial Analyst y ModelBuilder (`.atbx`). | Licencia institucional en Sala de Cómputo EAFIT |
+| **Plataforma WebGIS Didáctica** | **GeoLab Iguaná** | Explorador interactivo ligero con autoevaluación geométrica, cálculo de distancias, áreas, perfiles y emisiones criptográficas SHA-256. | Despliegue web en GitHub Pages (cliente 100 % estático) |
+| **Teledetección Satelital** | **Sentinel-2 MSI (L2A)** | Escena regional MGRS `18NVL` (con soporte norte `18NVM`), bandas de 10 m y 20 m para formulación de índices espectrales `NDVI` y `NDBI`. | Copernicus Data Space Ecosystem / Geoservicios de clase |
+| **Morfometría del Relieve** | **DEM Copernicus (GLO-30) / ALOS PALSAR (12.5 m)** | Modelación de pendientes normativas del POT, orientación de laderas (aspecto), curvas de nivel y perfiles longitudinales de cauce. | Descarga oficial reproyectada a `EPSG:9377` |
+| **Geoservicios OGC / REST** | **WMS / WMTS / WFS / FeatureServer** | Conexión a Infraestructuras de Datos Espaciales oficiales: GeoMedellín, AMVA, SIATA y Colombia en Mapas (IGAC). | Conexión en vivo en QGIS LTR y ArcGIS Pro |
 
 ---
 
-## Cronograma Semanal
+## 4. Diseño Territorial y Modalidad 100 % Individual
 
-| S | Fecha | Mód. | Bloque 1 · 12:00–3:00 p.m. (Aula / PC) | Bloque 2 · 4:30–6:00 p.m. (Laboratorio PC) | Guía de Taller de Clase | Evaluación / Hito |
-|:---:|:---:|:---:|---|---|:---:|:---:|
-| **1** | 16 jul | M0 | Presentación · Pacto pedagógico · ¿Qué es geomática? · Escala y lectura de mapas · La Cuenca de La Iguaná | Reconocimiento en visores digitales (Google Earth, OSM, Colombia en Mapas) | [**G01**](../03_guias/01_talleres_clase/G01_exploracion_visores_digitales.md) | — |
-| **2** | 23 jul | M0 | Escala numérica/gráfica · Distancias y áreas reales · Píxel y resolución · Coordenadas geográficas (GMS ↔ Decimal) | Medición en visor PDF a zoom calibrado de La Iguaná (longitud, lotes, retiros) | [**G02**](../03_guias/01_talleres_clase/G02_taller_escalas_coordenadas.md) | Repaso sugerido: [TALLER_REPASO_Q1.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q1.md) |
-| **3** | 30 jul | M0 | Geodesia: Datum Bogotá → MAGNA-SIRGAS, CTM12 (`EPSG:9377`), Res. 471/2020 · **Quiz 1** | Georreferenciación de planos y cálculo manual de coordenadas CTM12 | [**G03**](../03_guias/01_talleres_clase/G03_datum_ctm12_georreferenciacion.md) | **Q1 (8%)** |
-| **4** | 06 ago | M1 | Entorno QGIS: interfaz, CRS de proyecto, creación de `proyecto_iguana.gpkg` · **Geoservicios WMS/WMTS** | Conexión a ortofoto GeoMedellín / AMVA · Apertura Recuperación Q1 | [**G04**](../03_guias/01_talleres_clase/G04_interfaz_qgis.md) | *Recuperación Q1 en QGIS* |
-| **5** | 13 ago | M1 | Geometrías vectoriales · Reglas topológicas · Auto-ensamblado (*snapping*) | Trazado guiado de la red hídrica y fajas de retiro de La Iguaná | [**G05**](../03_guias/01_talleres_clase/G05_digitalizacion_topologia.md) | Repaso sugerido: [TALLER_REPASO_Q2.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q2.md) |
-| **6** | 20 ago | M1 | Atributos: tipos de campos, calculadora (`area_m2`, `long_m`), simbología temática, halo y Diseñador A3 | Clasificación urbana de La Iguaná · Maquetación A3 · **Quiz 2** | [**G06**](../03_guias/01_talleres_clase/G06_atributos_simbologia.md) | **Q2 (8%)** |
-| **7** | 27 ago | M1 | Geoprocesamiento (Buffer 30 m, Clip, Dissolve, Intersect) · **Geoservicios WFS** en vivo | Retiros de protección hídrica y cruce predial · Recuperación Q2 | [**G07**](../03_guias/01_talleres_clase/G07_geoprocesamiento_wfs.md) | *Recuperación Q2* |
-| **8** | 03 sep | M1 | Consolidación vectorial para `I1`: integración de capas en GeoPackage, cruces prediales y diseño de lámina A3 | Taller asistido de composición cartográfica A3 y empaquetado con rutas relativas | [**G06**](../03_guias/01_talleres_clase/G06_atributos_simbologia.md) / [**G07**](../03_guias/01_talleres_clase/G07_geoprocesamiento_wfs.md) | Preparación I1 |
-| **9** | 10 sep | M1 | **Plugin Comprobador de topología de QGIS (*Topology Checker*):** reglas de no solapes, no huecos y no *dangles* | Auditoría topológica de `proyecto_iguana.gpkg`, reparación de vértices y cierre de lámina A3 | [**G05**](../03_guias/01_talleres_clase/G05_digitalizacion_topologia.md) / [**G07**](../03_guias/01_talleres_clase/G07_geoprocesamiento_wfs.md) | Anuncio Sustentación I1 |
-| **10** | 17 sep | M1 | **Sustentación Oral de Informe 1 (`I1`, 12% — Parte 1)** y retroalimentación de consultoría sobre láminas A3 | **Sustentación Oral `I1` (Parte 2)** + Simulacro preparatorio para Parcial 1 | [TALLER_REPASO_P1.md](../03_guias/02_talleres_repaso/TALLER_REPASO_P1.md) | **I1 (12%)** |
-| **11** | 24 sep | M1/M2 | **Primer Examen Parcial (`P1`, 15%):** Evaluación práctica individual en PC (100% Vectorial: Geodesia CTM12, Topology Checker, Geoprocesamiento y Layout A3) | **Inicio Módulo 2 (Ráster):** Píxel, resolución, fuentes DEM (SRTM vs. ALOS PALSAR 12.5 m), recorte y reproyección a CTM12 (`EPSG:9377`) | [**G08**](../03_guias/01_talleres_clase/G08_descarga_dem_raster.md) | **P1 (15%)** |
-| **12** | 01 oct | M2 | **Módulo 2 (Morfometría del Relieve):** Derivación de pendientes (grados y %), orientación de laderas (aspecto) y sombreado 3D (*hillshade* 315°/45°) | Modelación de laderas en QGIS, reclasificación por rangos normativos del POT ($<15^\circ, 15^\circ\text{--}30^\circ, >30^\circ$) y visualización 3D | [**G09**](../03_guias/01_talleres_clase/G09_dem_pendientes_hillshade.md) | Avance Ráster |
-| — | **08 oct** | — | **Semana de Receso Estudiantil (Sin actividades presenciales)** | Pausa académica universitaria · Estudio autónomo y preparación | [**TALLER_REPASO_Q3**](../03_guias/02_talleres_repaso/TALLER_REPASO_Q3.md) | *Receso académico* |
-| **13** | 15 oct | M2 | **Módulo 2 (Álgebra Ráster y Perfiles):** Calculadora Ráster booleana de amenaza, extracción de curvas de nivel y perfil longitudinal del cauce | Práctica integradora de álgebra de mapas y perfiles topográficos · **Quiz 3 (`Q3`, 8% — Terreno y Álgebra Ráster)** | [**G10**](../03_guias/01_talleres_clase/G10_raster_calculator_perfiles.md) | **Q3 (8%)** |
-| **14** | 22 oct | M3/M4 | **(a) Cápsula M3 (GNSS Esencial en Gabinete):** Segmentos, constelaciones, trilateración con 4 satélites, DOP, *multipath*, niveles Navegador/DGPS/RTK e importación GPX/CSV (`G11`). **(b) M4 (Teledetección Satelital y Evaluación de Índices en QGIS):** Espectro electromagnético (Visible, NIR, SWIR), firmas espectrales y salto del rojo, misión Sentinel-2 L2A (10 m y 20 m), **descarga directa en QGIS de la zona de interés (`limite_iguana.geojson`) vía `STAC API Browser`**, recorte a `EPSG:9377`, y **cálculo + evaluación de `NDVI` y `NDBI` en QGIS** (estadísticas, histograma, máscaras booleanas y hectáreas). | Taller práctico en QGIS (`G11` + `G12` + `G13`): descarga de bandas Sentinel-2 de La Iguaná en QGIS, recorte por máscara a `EPSG:9377`, auditoría espectral y evaluación de `NDVI` y `NDBI` (estadísticas, umbralización biespectral, poligonización y fusión con *Hillshade*) · Apertura de recuperación activa de `Q3`. | [**G11**](../03_guias/01_talleres_clase/G11_gnss_gabinete_importacion.md) / [**G12**](../03_guias/01_talleres_clase/G12_teledeteccion_sentinel2.md) / [**G13**](../03_guias/01_talleres_clase/G13_indices_espectrales_qgis.md) | *Recuperación Q3*<br>Repaso: [TALLER_REPASO_Q4.md](../03_guias/02_talleres_repaso/TALLER_REPASO_Q4.md) |
-| **15** | 29 oct | M5 | **M5: Presentación de ArcGIS Pro y Automatización Espacial (`G14` + `G15`):** Entorno `.aprx`, estructura de File Geodatabase (`.gdb`), Feature Datasets en `EPSG:9377`, demostración de dominios y servicios ArcGIS REST, y automatización de flujos de geoprocesamiento con **ModelBuilder** y el **Diseñador Gráfico de Modelos de QGIS**. Revisión de avance del **Informe Final (`IF`)**. | **Quiz 4 (`Q4`, 8%, 45 min)** individual en PC en QGIS sobre **Posicionamiento GNSS en Gabinete y Control de Calidad por `HDOP` (`S11/G11`)** + taller asistido de cruce territorial en QGIS para el **Informe Final (`IF`)**. | [**G14**](../03_guias/01_talleres_clase/G14_arcgis_pro_gdb.md) / [**G15**](../03_guias/01_talleres_clase/G15_arcgis_modelbuilder.md) | **Q4 (8%)**<br>Avance `IF`<br>Repaso: [TALLER_REPASO_P2.md](../03_guias/02_talleres_repaso/TALLER_REPASO_P2.md) |
-| **16** | 05 nov | M6 | **Parcial Práctico 2 (`P2`, 15%, 90 min / 1h30m)** individual en PC en **QGIS** (excluyente de evaluaciones anteriores: cálculo directo de `NDVI` y `NDBI`, vectorización `DN = 1`, modelo automatizado `.model3` en QGIS y mapa síntesis PDF) + verificación QA/QC (`G16`). | **Entrega Única y Sustentación Oral (7 min Pitch + 3 min Preguntas Individuales por equipo) del Informe Final (`IF` = 26%)** en QGIS proyectando la Lámina A3 de síntesis y propuesta territorial (`grupoXX_IF.zip`). | [**G16**](../03_guias/01_talleres_clase/G16_cierre_integracion_territorial.md) | **P2 (15%) + IF (26%)** |
+### 4.1. Cuenca Escuela vs. Unidades Territoriales Individuales
+- **Cuenca Escuela del Profesor:** La **Quebrada La Iguaná** (46.25 km²) se reserva exclusivamente para las sesiones guiadas del profesor y los retos interactivos de `GeoLab Iguaná`. Ningún estudiante puede desarrollar sus evaluaciones o proyectos sobre esta cuenca.
+- **Portafolio de 10 Quebradas Metropolitanas:** Las unidades territoriales de los estudiantes se distribuyen en 10 cuencas representativas del Valle de Aburrá:
+  - `Q01`: Quebrada La Ayurá (Envigado)
+  - `Q02`: Quebrada La Presidenta (Medellín - El Poblado)
+  - `Q03`: Quebrada Santa Elena (Medellín - Centro Oriente)
+  - `Q04`: Quebrada Altavista - La Picacha (Medellín - Belén)
+  - `Q05`: Quebrada Doña María (Itagüí / San Antonio de Prado)
+  - `Q06`: Quebrada La Doctora (Sabaneta)
+  - `Q07`: Quebrada La Hueso - Ana Díaz (Medellín - La América / San Javier)
+  - `Q08`: Quebrada La García (Bello)
+  - `Q09`: Quebrada La Madera (Medellín Noroccidente / Bello)
+  - `Q10`: Quebrada La Aguacatala (Medellín - Suroriente)
+
+### 4.2. Matriz de 30 Unidades Territoriales (`U01` a `U30`) y Parámetro Individual $D$
+Cada una de las 10 quebradas metropolitanas se divide en 3 tramos funcionales:
+1. **Tramo Alto-Ladera:** Cabecera, alta pendiente, dinámicas rurales/forestales y susceptibilidad a movimientos en masa.
+2. **Tramo Medio-Transición:** Zona de piedemonte, borde urbano-rural, densificación intermedia y quebradas encañonadas.
+3. **Tramo Bajo-Confluencia:** Zona de valle denso, infraestructura vial/hidráulica masiva, llanuras aluviales y desembocadura en el Río Medellín.
+
+Cada estudiante recibe en la Semana 1 una **Unidad Territorial Única (`U01`–`U30`)** que combina:
+- **Doble escala analítica:** La microcuenca hidrográfica completa para geoprocesos ráster (DEM, pendientes, índices espectrales) y un **Polígono Focal de 15 a 30 ha** dentro de su tramo asignado para digitalización detallada, auditoría topológica y cruces catastrales.
+- **Parámetro del documento de identidad $D \in \{0..9\}$:**
+  $$\text{Retiro Hídrico Normativo } R = 30 + D \text{ metros}$$
+  $$\text{Umbral Espectral de Presión Urbana } U_{\text{NDVI}} = 0.20 + (0.01 \times D)$$
+
+### 4.3. Énfasis Disciplinar Diferenciado (80 % común + 20 % propositivo)
+- **Ruta Ingeniería Civil:** Enfoque en amenazas geotécnicas en laderas, estabilidad de taludes, capacidad hidráulica de drenajes, dimensionamiento de obras de laminación/retención y obras de paso vial.
+- **Ruta Diseño Urbano y Gestión del Hábitat:** Enfoque en espacio público ribereño, corredores biológicos urbanos, fajas de amortiguamiento ambiental, reasentamiento en zonas de alto riesgo no mitigable y mejoramiento integral de barrios.
 
 ---
 
-## Lecturas y Recursos de Consulta
+## 5. Sistema de Evaluación (5 Hitos × 20 % = 100 %) y Niveles de IA
 
-### Cartografía, Geodesia y Geoservicios (Semanas 1–10)
-- **IGAC — DANE.** *Adopción del Marco Geocéntrico Nacional de Referencia MAGNA-SIRGAS como Datum Oficial de Colombia.* Laura Sánchez Rodríguez, División de Geodesia. [redgeodesica.igac.gov.co](https://redgeodesica.igac.gov.co/).
-- **IGAC.** *Resolución 471 de 2020: Adopción del Sistema de Proyección Cartográfica Oficial para Colombia (Origen Nacional CTM12).* [igac.gov.co](https://www.igac.gov.co/).
-- **Infraestructura de Datos Espaciales para el Distrito de Medellín (GeoMedellín):** Catálogo de Geoservicios WMS/WFS/REST. [geomedellin.medellin.gov.co](https://geomedellin.medellin.gov.co/).
-- **Área Metropolitana del Valle de Aburrá (AMVA):** Geocatálogo metropolitano y servicios WMS de coberturas e hidrología. [metropol.gov.co](https://www.metropol.gov.co/).
-- **Documentación Oficial de QGIS (v. 3.x LTR):** Guía de usuario, digitalización avanzada, auto-ensamblado y comprobador de topología. [docs.qgis.org](https://docs.qgis.org/latest/en/docs/user_manual/).
+El sistema evaluativo se estructura en cinco hitos integradores individuales de igual ponderación (**$5 \times 20\,\% = 100\,\%$**), cumpliendo rigurosamente con el Reglamento Académico de Pregrado de la Universidad EAFIT (máximo 20 % por actividad). Cada hito declara su política de Integridad Académica e Inteligencia Artificial bajo el marco institucional (`Tier P / D / O`):
 
-### Relieve, Laderas y Riesgo en La Iguaná (Semanas 11–13)
+- **Tier P (Práctica Supervisada en Sala — Sin IA generativa):** Se evalúa la ejecución autónoma en sala de cómputo operando QGIS y ArcGIS Pro en tiempo real. Prohibido el uso de asistentes generativos de código o soluciones automatizadas externas.
+- **Tier D (Desarrollo Asistido con Declaración y Auditoría Crítica):** Se autoriza el uso de IA como asistente de consulta y documentación sintáctica, exigiendo declaración explícita de prompts y auditoría técnica de los outputs. Las alucinaciones espaciales son penalizadas directamente.
+- **Tier O (Evaluación Abierta / Defensa Oral y Auditoría en Vivo):** Se permite el uso amplio de tecnologías para el diseño de flujos, pero la validez de la calificación depende de la sustentación oral individual y la operación en vivo del proyecto SIG ante el profesor.
+
+| Hito | Nombre Oficial de la Actividad | % | Sem. | Fecha | Tier IA | RAA Asociados | Mecanismo de Mejora Continua | Documento Guía Oficial | Taller de Repaso Previo |
+|:---:|---|:---:|:---:|:---:|:---:|:---:|---|---|---|
+| **H1** | Taller Evaluativo 1 en Sala — Geodesia EPSG:9377 y Bases Espaciales (.gpkg / .gdb) | **20%** | S05 | 18 feb | **Tier P** | RAA1, RAA2 | Ventana de mejora continua en S06 (25 feb): corrección en sala sobre su unidad territorial recupera hasta el 40% de puntos deducidos. | [HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md](../03_guias/03_evaluaciones/HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md) | [REPASO_HITO_1.md](../03_guias/02_talleres_repaso/REPASO_HITO_1.md) |
+| **H2** | Evaluación Práctica Integradora 1 — Topología, Geoprocesamiento Vectorial y Salida A3 | **20%** | S08 | 11 mar | **Tier P** | RAA1, RAA2 | Retroalimentación inmediata antes del H3; sin tareas adicionales en S08 para proteger el presupuesto de 4.5 h autónomas hacia S09. | [HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md](../03_guias/03_evaluaciones/HITO_2_EVALUACION_VECTORIAL_CARTOGRAFIA.md) | [REPASO_HITO_2.md](../03_guias/02_talleres_repaso/REPASO_HITO_2.md) |
+| **H3** | Avance 1 Individual del Proyecto — Línea Base Vectorial (.gpkg + .gdb), Lámina A3 y Estación en Vivo | **20%** | S09 | 18 mar | **Tier D** | RAA1, RAA2, RAA4 | Auditoría en 2 rondas en sala (Estación en Vivo + Revisión por Pares estructurada); entrega matriz de mejora cartográfica subsanable en H5. | [HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md](../03_guias/03_evaluaciones/HITO_3_AVANCE_PROYECTO_INDIVIDUAL_A3.md) | Sesiones prácticas S06–S08 |
+| **H4** | Evaluación Práctica Integradora 2 — Terreno (DEM), GNSS (HDOP) e Índices Sentinel-2 | **20%** | S14 | 29 abr | **Tier P** | RAA3 | Ventana de mejora continua en S15 (06 may): depuración en ModelBuilder (.atbx) recupera hasta el 40% de puntos deducidos. | [HITO_4_EVALUACION_RASTER_GNSS_SENTINEL2.md](../03_guias/03_evaluaciones/HITO_4_EVALUACION_RASTER_GNSS_SENTINEL2.md) | [REPASO_HITO_4.md](../03_guias/02_talleres_repaso/REPASO_HITO_4.md) |
+| **H5** | Proyecto Final Individual Multicriterio — Automatización ModelBuilder (.atbx), Dossier A3 y Pitch Ejecutivo | **20%** | S16 | 13 may | **Tier O** | RAA1, RAA2, RAA3, RAA4 | Pre-chequeo técnico en sala en S15 (06 may) garantizando 0 rutas rotas y 0 archivos bloqueados `.lock` antes del Pitch (4 + 3 min). | [HITO_5_PROYECTO_FINAL_MODELBUILDER_PITCH.md](../03_guias/03_evaluaciones/HITO_5_PROYECTO_FINAL_MODELBUILDER_PITCH.md) | Pre-chequeo técnico S15 |
+| **Total** | | **100%** | | | | | **5 Hitos Individuales × 20% = 100%** | | |
+
+---
+
+## 6. Rúbricas Analíticas Oficiales de Evaluación
+
+Las evaluaciones se valoran mediante descriptores criteriales cuantitativos y cualitativos observables, estructurados en 4 niveles de desempeño (Incompleto $\rightarrow$ Presente $\rightarrow$ Funcional $\rightarrow$ Estratégico), libres de adjetivos evaluativos vagos según el estándar EAFIT / Brookhart & Sadler:
+
+### C1. Rigor Geodésico e Integridad de Contenedores Espaciales (.gpkg y .gdb)
+- **Nivel 1 - Inicial (0.0–2.9):** Las capas carecen de referencia espacial válida, mezclan coordenadas geográficas en grados con etiquetas proyectadas sin transformación real, o el proyecto presenta rutas rotas y capas temporales en memoria.
+- **Nivel 2 - Básico (3.0–3.7):** Homologa las capas al sistema EPSG:9377 y almacena las geometrías en GeoPackage y File Geodatabase con rutas relativas funcionales, pero omite la configuración de Feature Datasets o dominios codificados de atributos.
+- **Nivel 3 - Competente (3.8–4.4):** Ejecuta sin distorsión métrica la asignación y reproyección de capas hacia EPSG:9377 en QGIS LTR y ArcGIS Pro, estructura Feature Datasets con dominios codificados activos y verifica cero rutas rotas tras descomprimir en directorio externo.
+- **Nivel 4 - Avanzado (4.5–5.0):** Cumple todos los indicadores del nivel Competente y además documenta cuantitativamente las discrepancias planas frente a elipsoidales e implementa reglas de validación de dominios y subtipos que previenen inconsistencias de captura.
+
+### C2. Saneamiento Topológico y Geoprocesamiento Vectorial Multicriterio
+- **Nivel 1 - Inicial (0.0–2.9):** Persisten solapes, huecos o geometrías inválidas en el polígono focal, aplica buffers sobre capas erróneas o sin disolución geométrica, o no parametriza el retiro hídrico con su dígito individual D.
+- **Nivel 2 - Básico (3.0–3.7):** Corrige los defectos topológicos primarios y ejecuta la cadena de buffer disuelto e intersección con su parámetro D, aunque conserva polígonos astilla residuales o campos de área sin actualizar tras el recorte.
+- **Nivel 3 - Competente (3.8–4.4):** Entrega el polígono focal con cero errores verificados en Comprobador de Topología y Geodatabase Topology, ejecuta retiros disueltos ($30 + D\text{ m}$) e intersecciones exactas y recalcula áreas y longitudes en unidades métricas oficiales.
+- **Nivel 4 - Avanzado (4.5–5.0):** Cumple todos los indicadores del nivel Competente y contrasta la sensibilidad espacial de la afectación predial frente a variaciones del retiro normativo, desagregando métricas verificables por tipología catastral o funcional.
+
+### C3. Modelación Ráster del Relieve, Control GNSS e Índices Espectrales Sentinel-2
+- **Nivel 1 - Inicial (0.0–2.9):** Procesa escenas sin recortar a la divisoria de su microcuenca, conserva estaciones GNSS con HDOP superior al umbral técnico, invierte bandas en el cálculo de NDVI o NDBI o vectoriza sin filtrar la clase activa DN = 1.
+- **Nivel 2 - Básico (3.0–3.7):** Recorta el DEM y las bandas Sentinel-2 a la máscara de su cuenca (NoData = -9999), filtra estaciones GNSS por HDOP y calcula NDVI y NDBI, pero omite el perfil longitudinal del cauce o presenta imprecisiones en las estadísticas zonales.
+- **Nivel 3 - Competente (3.8–4.4):** Integra en QGIS LTR y Spatial Analyst el recorte por máscara, pendientes reclasificadas, perfil longitudinal del cauce, depuración GNSS con cálculo de RMSE, índices NDVI y NDBI con umbral individual ($0.20 + 0.01 \times D$) y vectorización limpia de DN = 1.
+- **Nivel 4 - Avanzado (4.5–5.0):** Cumple todos los indicadores del nivel Competente y valida físicamente las anomalías espectrales y morfométricas contra ortofotografía de alta resolución, cuantificando la incertidumbre posicional y de resolución de píxel (10 m vs 20 m).
+
+### C4. Automatización Visual (ModelBuilder / .model3), Comunicación Cartográfica A3 y Defensa Oral
+- **Nivel 1 - Inicial (0.0–2.9):** No entrega flujo automatizado ejecutable, la lámina carece de cuadrícula métrica EPSG:9377, escala o leyendas cuantitativas, o durante la defensa en vivo no logra operar ni explicar las capas de su propio proyecto.
+- **Nivel 2 - Básico (3.0–3.7):** Construye un flujo parcial en ModelBuilder o Diseñador de Modelos y compone la lámina A3 con los elementos normativos base, pero emplea simbología sin jerarquía figura-fondo o depende de notas escritas durante su exposición.
+- **Nivel 3 - Competente (3.8–4.4):** Entrega un modelo parametrizado funcional (.atbx y .model3), diseña un Dossier Infográfico A3 legible con cuadrícula EPSG:9377, perfil y gráficas cuantitativas, y responde con solvencia técnica operando QGIS y ArcGIS Pro en vivo.
+- **Nivel 4 - Avanzado (4.5–5.0):** Cumple todos los indicadores del nivel Competente y articula una propuesta rigurosa en su ruta disciplinar (Ingeniería Civil o Diseño Urbano) donde cada intervención está georreferenciada, dimensionada y auditada frente a sesgos de herramientas o IA.
+
+---
+
+## 7. Cronograma Sintético de 16 Semanas (Semestre 2027-1)
+
+| Sem. | Fecha (Jueves) | Eje Temático y Competencia Desarrollada | Sub-bloque 1 (12:00 m. – 1:50 p.m.) · QGIS LTR | Sub-bloque 2 (2:10 p.m. – 4:30 p.m.) · ArcGIS Pro | Hito Evaluativo / Logística |
+|:---:|:---:|---|---|---|:---:|
+| **S01** | 21 ene | Presentación, Pacto Pedagógico y Geodesia Base | Escala, lectura cartográfica y visores en La Iguaná | Entorno ArcGIS Pro, creación de proyecto y asignación de Unidad Territorial (`U01`–`U30`) | Diagnóstico inicial |
+| **S02** | 28 ene | Sistema Oficial MAGNA-SIRGAS CTM12 (`EPSG:9377`) | Asignar proyección vs Reproyectar en QGIS | Herramientas Define Projection y Project en ArcGIS Pro | Repaso hacia H1 |
+| **S03** | 04 feb | Contenedores Espaciales: GeoPackage vs File GDB | Manejo de capas vectoriales en `.gpkg` único | Estructura corporativa File Geodatabase (`.gdb`), Feature Datasets y Dominios | Repaso hacia H1 |
+| **S04** | 11 feb | Digitalización Avanzada y Geoservicios OGC / REST | Snapping y digitalización sobre ortofoto WMS | Edición vectorial en ArcGIS Pro, Subtipos y consumo de FeatureServers oficiales | Simulacro H1 |
+| **S05** | 18 feb | Geoprocesamiento Vectorial 1 y Taller Evaluativo | Fundamentos de Buffer disuelto y Clip en QGIS | **Hito 1 en Sala (H1, 20%, Tier P — S01–S04)** en ArcGIS Pro / QGIS | **H1 (20%)** |
+| **S06** | 25 feb | Geoprocesamiento Vectorial 2 y Cruces Multicriterio | Intersect, Erase y Spatial Join sobre La Iguaná | Cruce predial en ArcGIS Pro sobre polígono focal + **Ventana de Mejora Continua H1** | *Mejora H1 (+40%)* |
+| **S07** | 04 mar | Topología Vectorial y Saneamiento de Geometrías | Comprobador de topología en QGIS LTR | Geodatabase Topology (reglas de no solape ni huecos) en ArcGIS Pro | Repaso hacia H2 |
+| **S08** | 11 mar | Composición Cartográfica A3 y Evaluación Práctica | Reglas de maquetación, cuadrícula métrica y escalas | **Hito 2 en Sala (H2, 20%, Tier P — S05–S07)** en ArcGIS Pro / Layout A3 | **H2 (20%)** |
+| **S09** | 18 mar | Avance 1 de Proyecto y Estación en Vivo | Preparación de estaciones y verificación de capas | **Hito 3 (H3, 20%, Tier D — S01–S08)**: 2 rondas de Estación en Vivo + Revisión de Pares | **H3 (20%)** |
+| — | **25 mar** | **Receso Institucional de Semana Santa** | *Pausa académica universitaria* | *Estudio autónomo y descanso* | *Sin actividad* |
+| **S10** | 01 abr | Modelos Digitales de Elevación (DEM) y Relieve | Estructura matricial, NoData y reproyección ráster | Spatial Analyst en ArcGIS Pro: pendientes normativas POT y sombreado 3D | Retorno lectivo |
+| **S11** | 08 abr | Morfometría Avanzada y Álgebra Ráster | Calculadora Ráster, curvas de nivel y perfiles | Álgebra de mapas condicional y perfil longitudinal en ArcGIS Pro | Avance H4 |
+| **S12** | 15 abr | Posicionamiento Satelital GNSS y Dilución HDOP | Segmentos, constelaciones y filtrado `HDOP <= 2.0` | Importación espacial GPX/CSV y validación de RMSE en ArcGIS Pro | Avance H4 |
+| **S13** | 22 abr | Teledetección Multiespectral Sentinel-2 MSI | Bandas ópticas/infrarrojas y firmas espectrales | Composición multibanda, cálculo de NDVI/NDBI y vectorización de clase $DN = 1$ | Simulacro H4 |
+| **S14** | 29 abr | Evaluación Práctica 2 (Ráster, GNSS e Índices) | Verificación de entorno ráster en QGIS LTR | **Hito 4 en Sala (H4, 20%, Tier P — S10–S13)** en Spatial Analyst / ArcGIS Pro | **H4 (20%)** |
+| **S15** | 06 may | Automatización ModelBuilder y Pre-chequeo Técnico | Diseñador Gráfico de Modelos (`.model3`) en QGIS | ModelBuilder (`.atbx`) en ArcGIS Pro + **Mejora Continua H4** + Pre-chequeo 0 errores H5 | *Mejora H4 (+40%)* |
+| **S16** | 13 may | Pitch Ejecutivo Final y Cierre del Semestre | Ronda A: Pitch Relámpago (4+3 min) y defensa en PC | Ronda B: Pitch Relámpago (4+3 min) y defensa en PC (**H5, 20%, Tier O**) | **H5 (20%)** |
+
+---
+
+## 8. Lecturas y Recursos de Consulta
+
+### Cartografía, Geodesia y Bases Espaciales
+- **IGAC.** *Resolución 471 de 2020: Por la cual se adopta el sistema de proyección cartográfica oficial para Colombia (Origen Nacional CTM12).* Instituto Geográfico Agustín Codazzi, Bogotá D.C.
+- **Sánchez, L. & Martínez, W.** *Adopción del Marco Geocéntrico Nacional de Referencia MAGNA-SIRGAS como datum oficial de Colombia.* Instituto Geográfico Agustín Codazzi (IGAC).
+- **QGIS Development Team.** *QGIS Documentation: Vector Data, Topology Checker and Print Layout.* [docs.qgis.org](https://docs.qgis.org/).
+- **ESRI.** *ArcGIS Pro Help: An overview of the Geodatabase, Subtypes, Attribute Domains, and Geodatabase Topology.* [pro.arcgis.com](https://pro.arcgis.com/).
+
+### Morfometría del Relieve, GNSS y Teledetección
+- **Chuvieco, E.** *Teledetección Ambiental: La observación de la Tierra desde el espacio.* Ediciones Rialp, Madrid.
+- **European Space Agency (ESA).** *Sentinel-2 User Handbook.* European Space Agency / Copernicus Data Space Ecosystem [dataspace.copernicus.eu](https://dataspace.copernicus.eu/).
+- **Hofmann-Wellenhof, B., Lichtenegger, H. & Wasle, E.** *GNSS – Global Navigation Satellite Systems: GPS, GLONASS, Galileo, and more.* Springer, Wien.
 - **Aristizábal, E. et al.** *A landslide susceptibility assessment in urban areas based on existing data: An example from the Iguaná Valley, Medellín City, Colombia.* Natural Hazards and Earth System Sciences.
 
-### GNSS y Teledetección Multiespectral en QGIS (Semana 14)
-- **Mendoza Dueñas, J.** *Topografía y Geodesia* (capítulo sobre posicionamiento satelital GNSS y corrección diferencial).
-- **ESA — European Space Agency.** *Sentinel-2 User Handbook & MSI Spectral Bands.* Copernicus Data Space Ecosystem: [browser.dataspace.copernicus.eu](https://browser.dataspace.copernicus.eu/).
-- **Chuvieco, E.** *Teledetección Ambiental: La observación de la Tierra desde el espacio.* Fundamentos físicos, firmas espectrales e índices de vegetación y urbanización (`NDVI`, `NDBI`).
-
-### ArcGIS Pro y Automatización Espacial (Semanas 15–16)
-- **ESRI.** *ArcGIS Pro Documentation: An overview of ModelBuilder.* [pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/what-is-modelbuilder.htm](https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/modelbuilder/what-is-modelbuilder.htm).
-- **QGIS Documentation.** *Graphical Modeler (Diseñador Gráfico de Modelos).* [docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html](https://docs.qgis.org/latest/en/docs/user_manual/processing/modeler.html).
-- **Gorr, W. & Kurland, K.** *GIS Tutorial for ArcGIS Pro.* Capítulos sobre geodatabases, simbología y flujos automatizados.
-
-### Diseño Urbano y Territorio
-- **Fang, Y., Shandas, V. & Arriaga, E.** *Spatial Thinking in Planning Practice: An Introduction to GIS.* Acceso abierto: [open.umn.edu/opentextbooks/textbooks/234](https://open.umn.edu/opentextbooks/textbooks/234).
+### Automatización Espacial y Diseño Territorial
+- **ESRI.** *Automating your analysis with ModelBuilder in ArcGIS Pro.* Esri Training & Documentation.
+- **Fang, Y., Shandas, V. & Arriaga, E.** *Spatial Thinking in Planning Practice: An Introduction to GIS.* Open Textbook Library, University of Minnesota.

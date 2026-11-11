@@ -4,7 +4,8 @@
  * rangos académicos, estado de vistas, lecciones teóricas y guías de laboratorio.
  */
 
-const STORAGE_KEY = 'geolab_iguana_course_v3';
+const STORAGE_KEY = 'geolab_iguana_state_2027_1';
+const LEGACY_STORAGE_KEYS = ['geolab_iguana_course_v3', 'geolab_iguana_state'];
 
 export const RANKS = [
   { minXp: 0, level: 1, title: 'Iniciado Territorial', badge: '🌱' },
@@ -35,7 +36,7 @@ export const UNLOCK_ELEMENTS = {
 const DEFAULT_STATE = {
   student: {
     name: 'Estudiante EAFIT',
-    code: '202610001010',
+    code: '202710001010',
     institution: 'Universidad EAFIT · Escuela de Ciencias Aplicadas e Ingeniería',
     program: 'Ingeniería Civil'
   },
@@ -52,15 +53,11 @@ const DEFAULT_STATE = {
     0: 5.0
   },
   officialGrades: {
-    Q1: null,
-    Q2: null,
-    I1: null,
-    P1: null,
-    Q3: null,
-    IF1: null,
-    Q4: null,
-    P2: null,
-    IF: null
+    H1: null,
+    H2: null,
+    H3: null,
+    H4: null,
+    H5: null
   },
   workshopProgress: {
     stage_0: { completed: true, score: 5.0, timestamp: new Date().toISOString() }
@@ -87,10 +84,31 @@ class StateStore {
 
   loadState() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      let saved = localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        for (const legacyKey of LEGACY_STORAGE_KEYS) {
+          const legacyData = localStorage.getItem(legacyKey);
+          if (legacyData) {
+            saved = legacyData;
+            break;
+          }
+        }
+      }
       if (saved) {
         const parsed = JSON.parse(saved);
-        return { ...DEFAULT_STATE, ...parsed };
+        const migratedGrades = {
+          H1: null,
+          H2: null,
+          H3: null,
+          H4: null,
+          H5: null,
+          ...(parsed.officialGrades && ('H1' in parsed.officialGrades) ? parsed.officialGrades : {})
+        };
+        return {
+          ...DEFAULT_STATE,
+          ...parsed,
+          officialGrades: migratedGrades
+        };
       }
     } catch (e) {
       console.warn('No se pudo acceder a LocalStorage, usando estado en memoria:', e);

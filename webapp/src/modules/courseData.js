@@ -1,22 +1,42 @@
 /**
- * courseData.js · Base de Conocimiento Completa del Curso
- * Pregrados: Ingeniería Civil & Diseño Urbano y Gestión del Territorio (EAFIT)
- * Proyecto Territorial Central: Cuenca Quebrada La Iguaná (Medellín · 46.25 km²)
+ * courseData.js · Base de Conocimiento Completa del Curso (Semestre 2027-1)
+ * Pregrados: Ingeniería Civil & Diseño Urbano y Gestión del Hábitat (EAFIT)
+ * Cuenca Escuela Oficial: Cuenca Quebrada La Iguaná (Medellín · 46.25 km²)
+ * Portafolio Evaluativo Individual: 30 Unidades Territoriales (U01 a U30)
  * Marco Oficial: MAGNA-SIRGAS Origen Nacional CTM12 (EPSG:9377, Res. IGAC 471/2020)
+ * Horario: Jueves 12:00 m. – 4:30 p.m. (Sub-bloque 1 QGIS LTR + Pausa Activa + Sub-bloque 2 Espejo ArcGIS Pro)
  * 7 Módulos (M0–M6) · 16 Clases Teóricas (S01–S16) · 16 Talleres Prácticos (G01–G16)
- * 9 Actividades Evaluativas Oficiales (100% Calificación)
+ * 5 Hitos Evaluativos Oficiales 100% Individuales (5 × 20% = 100%)
  */
 
 export const COURSE_INFO = {
   name: 'Geomática, Ingeniería y Sistemas de Información Geográfica',
+  code: 'GEOMATICA-SIG-EAFIT',
+  semester: '2027-1',
   institution: 'Universidad EAFIT · Escuela de Ciencias Aplicadas e Ingeniería',
-  programs: ['Ingeniería Civil', 'Diseño Urbano y Gestión del Territorio'],
-  territory: 'Cuenca de la Quebrada La Iguaná (Medellín, Colombia · 46.25 km²)',
+  programs: ['Ingeniería Civil', 'Diseño Urbano y Gestión del Hábitat'],
+  territory: 'Cuenca de la Quebrada La Iguaná (Cuenca Escuela Oficial · 46.25 km²)',
   crs: 'MAGNA-SIRGAS / Origen Nacional CTM12 (EPSG:9377)',
   resolution: 'Resolución IGAC 471 de 2020',
   durationWeeks: 16,
   totalHours: 72,
-  weeklyHours: 4.5
+  weeklyHours: 4.5,
+  schedule: {
+    day: 'Jueves',
+    nominalWindow: '12:00 m. – 4:30 p.m.',
+    roomType: 'Sala de Cómputo EAFIT (QGIS LTR + ArcGIS Pro)',
+    subblock1: '12:00 m. – 1:50 p.m. (110 min: Fundamento conceptual + Modelado en QGIS LTR sobre Cuenca Escuela La Iguaná)',
+    activeBreak: '1:50 p.m. – 2:10 p.m. (20 min: Pausa activa pedagógica y almuerzo ligero)',
+    subblock2: '2:10 p.m. – 4:30 p.m. (140 min: Espejo corporativo en ArcGIS Pro + Aplicación a unidad territorial individual U01–U30 + Cierre C:\\Temp -> .zip)',
+    startDate: '2027-01-21',
+    endDate: '2027-05-13'
+  },
+  territorialDesign: {
+    modality: '100% Individual',
+    teachingWatershed: 'Cuenca de la Quebrada La Iguaná (Medellín, 46.25 km² — exclusiva para demostraciones del profesor y GeoLab WebGIS; prohibida como asignación estudiantil)',
+    portfolioUnits: '30 Unidades Territoriales Únicas (U01 a U30 sobre 10 Quebradas del Valle de Aburrá)',
+    crs: 'EPSG:9377'
+  }
 };
 
 export const MODULES_DATA = [
@@ -31,63 +51,114 @@ export const MODULES_DATA = [
   {
     id: 'M1',
     number: 1,
-    title: 'SIG Vectorial, Topología y Geoservicios con QGIS',
-    weeks: [4, 5, 6, 7, 8, 9, 10],
+    title: 'SIG Vectorial, Topología y Bases Espaciales (.gpkg & .gdb)',
+    weeks: [4, 5, 6, 7, 8, 9],
     badgeColor: '#3B82F6',
-    description: 'Entorno QGIS LTR, GeoPackage (.gpkg), geoservicios WMS/WFS, digitalización con auto-ensamblado (snapping), atributos, geoprocesamiento (Buffer 30 m, Intersect) y auditoría topológica.'
+    description: 'Arquitectura en espejo QGIS LTR (.gpkg) + ArcGIS Pro (File Geodatabase .gdb, Feature Datasets, Subtipos y Dominios), geoservicios WMS/WFS/REST, snapping, geoprocesamiento (Buffer 30+D m, Intersect) y auditoría topológica.'
   },
   {
     id: 'M2',
     number: 2,
-    title: 'SIG Ráster y Análisis del Relieve en Cuencas',
-    weeks: [8, 9, 10],
+    title: 'SIG Ráster y Morfometría del Relieve (QGIS + Spatial Analyst)',
+    weeks: [10, 11],
     badgeColor: '#F59E0B',
-    description: 'Modelos Digitales de Elevación (DEM SRTM y ALOS PALSAR 12.5 m), reproyección a CTM12, cálculo de pendientes (° y %), sombreado hillshade y álgebra de mapas.'
+    description: 'Modelos Digitales de Elevación (DEM Copernicus y ALOS PALSAR 12.5 m), control estricto NoData = -9999, reproyección bilineal a EPSG:9377, pendientes POT, sombreado hillshade, álgebra ráster y perfiles longitudinales.'
   },
   {
     id: 'M3',
     number: 3,
-    title: 'Fundamentos GNSS y Posicionamiento Satelital (Cápsula Esencial)',
-    weeks: [11],
+    title: 'Posicionamiento Satelital GNSS y Control de Calidad (HDOP / RMSE)',
+    weeks: [12],
     badgeColor: '#8B5CF6',
-    description: 'Cápsula esencial de sistemas GNSS (constelaciones, trilateración, errores atmosféricos, DOP, multipath, niveles de precisión RTK) e importación demostrativa en QGIS.'
+    description: 'Constelaciones GNSS, trilateración, dilución de precisión (HDOP <= 2.0), multipath en cañones urbanos, importación en QGIS y ArcGIS Pro (XY Table To Point) y validación posicional RMSE contra vértices IGAC.'
   },
   {
     id: 'M4',
     number: 4,
-    title: 'Teledetección Satelital e Índices Espectrales en QGIS',
-    weeks: [12, 13],
+    title: 'Teledetección Sentinel-2 (18NVL) e Índices Espectrales (NDVI / NDBI)',
+    weeks: [13, 14],
     badgeColor: '#EC4899',
-    description: 'Física de la teledetección, firmas espectrales, Sentinel-2 MSI (10 m y 20 m), Ráster Virtual (.vrt), combinaciones RGB/CIR e índices biofísicos NDVI y NDBI en la Calculadora Ráster de QGIS.'
+    description: 'Física de la teledetección, firmas espectrales, escena Sentinel-2 MSI L2A MGRS 18NVL (10 m y 20 m), combinaciones RGB/CIR e índices NDVI y NDBI en QGIS y Spatial Analyst de ArcGIS Pro (Hito 4).'
   },
   {
     id: 'M5',
     number: 5,
-    title: 'SIG Corporativo y Automatización (ArcGIS Pro / QGIS)',
-    weeks: [14, 15],
+    title: 'Automatización Espacial Visual (ModelBuilder .atbx & .model3)',
+    weeks: [15],
     badgeColor: '#06B6D4',
-    description: 'Estructura de File Geodatabase (.gdb), Feature Datasets en EPSG:9377, dominios de atributos, servicios REST y automatización con ModelBuilder o Diseñador Gráfico de Modelos de QGIS.'
+    description: 'Grafos dirigidos de geoprocesamiento reproducible: diseño, parametrización y validación de flujos multicriterio en ModelBuilder de ArcGIS Pro (.atbx) y Diseñador Gráfico de Modelos de QGIS (.model3).'
   },
   {
     id: 'M6',
     number: 6,
-    title: 'Cierre Integrador, Parcial Final (P2) y Sustentación del Informe Final (IF)',
+    title: 'Cierre Integrador: Hito 5 Proyecto Final Individual y Pitch Ejecutivo',
     weeks: [16],
     badgeColor: '#EF4444',
-    description: 'Integración interdisciplinar sobre La Iguaná, Parcial Práctico 2 en QGIS (P2 · 1h30m) y sustentación ejecutiva del Informe Final (IF · 26%: Diagnóstico Territorial, Propuesta y Lámina A3).'
+    description: 'Integración interdisciplinar sobre la unidad territorial asignada, automatización dual con ModelBuilder (.atbx) y Diseñador Gráfico (.model3), Dossier Infográfico A3 y Pitch Ejecutivo Relámpago (4 + 3 min).'
   }
 ];
 
 export const EVALUATIONS_DATA = [
-  { code: 'Q1', title: 'Quiz 1: Fundamentos cartográficos y CTM12', weight: 8, week: 3, type: 'individual', recoveryWeek: 4, guideRef: 'G03' },
-  { code: 'Q2', title: 'Quiz 2: SIG vectorial y atributos', weight: 8, week: 6, type: 'individual', recoveryWeek: 7, guideRef: 'G06' },
-  { code: 'I1', title: 'Informe 1: Diagnóstico Cartográfico y Propuesta A3', weight: 12, week: 10, type: 'grupal', recoveryWeek: null, guideRef: 'G07' },
-  { code: 'P1', title: 'Parcial 1: SIG Vectorial y Topología (PC)', weight: 15, week: 11, type: 'individual', recoveryWeek: null, guideRef: 'G07' },
-  { code: 'Q3', title: 'Quiz 3: Terreno y Álgebra Ráster', weight: 8, week: 13, type: 'individual', recoveryWeek: 14, guideRef: 'G10' },
-  { code: 'IF1', title: 'Informe Final (IF · Rubro 1 - 12%): Diagnóstico Territorial Integrado en QGIS + Sustentación Oral', weight: 12, week: 16, type: 'grupal', recoveryWeek: null, guideRef: 'G16' },
-  { code: 'Q4', title: 'Quiz 4: Posicionamiento GNSS en Gabinete y Control de Calidad (HDOP)', weight: 8, week: 15, type: 'individual', recoveryWeek: 16, guideRef: 'G11' },
-  { code: 'P2', title: 'Parcial 2: Índices Sentinel-2 (NDVI/NDBI), Modelo Automatizado .model3 y Mapa en QGIS (1h30m)', weight: 15, week: 16, type: 'individual', recoveryWeek: null, guideRef: 'G16' },
-  { code: 'IF', title: 'Informe Final (IF · Rubro 2 - 14%): Propuesta de Intervención, Lámina A3 + Sustentación Oral en QGIS', weight: 14, week: 16, type: 'grupal', recoveryWeek: null, guideRef: 'G16' }
+  {
+    code: 'H1',
+    title: 'Hito 1: Taller Evaluativo 1 en Sala — Geodesia EPSG:9377 y Bases Espaciales (.gpkg / .gdb)',
+    weight: 20,
+    week: 5,
+    type: 'individual',
+    date: '2027-02-18',
+    coveredWeeks: 'S01–S04',
+    aiTier: 'P',
+    outcomes: ['RAA1', 'RAA2'],
+    guideRef: 'G05'
+  },
+  {
+    code: 'H2',
+    title: 'Hito 2: Evaluación Práctica Integradora 1 — Topología, Geoprocesamiento Vectorial y Salida A3',
+    weight: 20,
+    week: 8,
+    type: 'individual',
+    date: '2027-03-11',
+    coveredWeeks: 'S05–S07',
+    aiTier: 'P',
+    outcomes: ['RAA1', 'RAA2'],
+    guideRef: 'G08'
+  },
+  {
+    code: 'H3',
+    title: 'Hito 3: Avance 1 Individual del Proyecto — Línea Base Vectorial (.gpkg + .gdb), Lámina A3 y Estación en Vivo',
+    weight: 20,
+    week: 9,
+    type: 'individual',
+    date: '2027-03-18',
+    coveredWeeks: 'S01–S08',
+    aiTier: 'D',
+    outcomes: ['RAA1', 'RAA2', 'RAA4'],
+    guideRef: 'G09'
+  },
+  {
+    code: 'H4',
+    title: 'Hito 4: Evaluación Práctica Integradora 2 — Terreno (DEM), GNSS (HDOP) e Índices Sentinel-2',
+    weight: 20,
+    week: 14,
+    type: 'individual',
+    date: '2027-04-29',
+    coveredWeeks: 'S10–S13',
+    aiTier: 'P',
+    outcomes: ['RAA3'],
+    guideRef: 'G14'
+  },
+  {
+    code: 'H5',
+    title: 'Hito 5: Proyecto Final Individual Multicriterio — Automatización ModelBuilder (.atbx), Dossier A3 y Pitch Ejecutivo',
+    weight: 20,
+    week: 16,
+    type: 'individual',
+    date: '2027-05-13',
+    coveredWeeks: 'S01–S15',
+    aiTier: 'O',
+    outcomes: ['RAA1', 'RAA2', 'RAA3', 'RAA4'],
+    guideRef: 'G16'
+  }
 ];
 
 export const BADGES_CATALOG = [
@@ -549,10 +620,10 @@ export const THEORY_WEEKS = [
     week: 8,
     moduleId: 'M2',
     title: 'Consolidación Vectorial & Introducción al Modelo Ráster',
-    subtitle: 'Cierre del modelo vectorial, preparación de I1 y fundamentos de campos continuos matriciales',
+    subtitle: 'Cierre del modelo vectorial, preparación de Hito 3 y fundamentos de campos continuos matriciales',
     readingTime: '15 min',
     objectives: [
-      'Preparar y consolidar la base de datos espacial y la lámina técnica A3 del Informe 1 (I1).',
+      'Preparar y consolidar la base de datos espacial (.gpkg + .gdb) y la lámina técnica A3 del Hito 3 (S09).',
       'Comprender la transición física del modelo vectorial discreto al modelo ráster continuo.',
       'Identificar las fuentes globales de elevación (SRTM y ALOS PALSAR 12.5 m RTC).'
     ],
@@ -640,7 +711,7 @@ export const THEORY_WEEKS = [
       'Operar la Calculadora Ráster de QGIS mediante expresiones lógicas y condicionales booleanas.',
       'Generar curvas de nivel equidistantes cada 25 metros a partir del DEM ALOS PALSAR.',
       'Construir el perfil topográfico longitudinal de la Cuenca de La Iguaná (1.500 m de desnivel).',
-      'Sustentar oralmente la lámina técnica A3 del Informe 1 (I1) ante el grupo y el docente.'
+      'Auditar la base de datos espacial (.gpkg + .gdb) y la lámina técnica A3 del Hito 3 en la estación en vivo.'
     ],
     contentHtml: `
       <div class="theory-rich-article">
@@ -857,18 +928,18 @@ export const THEORY_WEEKS = [
     week: 15,
     moduleId: 'M5',
     title: 'Automatización con ModelBuilder (ArcGIS Pro) y Diseñador de Modelos (QGIS)',
-    subtitle: 'Flujos encadenados, parámetros de usuario (P), equivalencia multiplataforma y Quiz 4 (GNSS en Gabinete)',
+    subtitle: 'Flujos encadenados, parámetros de usuario (P), equivalencia multiplataforma y pre-chequeo técnico para Hito 5',
     readingTime: '19 min',
     objectives: [
       'Construir un diagrama de flujo espacial encadenando herramientas en ModelBuilder o en el Diseñador Gráfico de Modelos de QGIS.',
       'Definir parámetros de entrada y salida dinámicos y exportar a Python (ArcPy / PyQGIS).',
-      'Presentar el Quiz 4 (8%) sobre Posicionamiento GNSS en Gabinete y Control de Calidad por HDOP.'
+      'Realizar el pre-chequeo técnico en sala garantizando 0 rutas rotas y 0 corrupción en .gdb para el Hito 5.'
     ],
     contentHtml: `
       <div class="theory-rich-article">
         <h3>1. ¿Qué es ModelBuilder y su equivalente en QGIS?</h3>
         <p>
-          <strong>ModelBuilder</strong> (en ArcGIS Pro) y el <strong>Diseñador Gráfico de Modelos</strong> (en QGIS) son interfaces de programación visual basadas en grafos acíclicos dirigidos (DAG). Permiten encadenar datos de entrada, herramientas de geoprocesamiento y salidas en un lienzo gráfico. Para la Entrega Final y el Parcial 2 pueden elegir cualquiera de las dos plataformas.
+          <strong>ModelBuilder</strong> (en ArcGIS Pro) y el <strong>Diseñador Gráfico de Modelos</strong> (en QGIS) son interfaces de programación visual basadas en grafos acíclicos dirigidos (DAG). Permiten encadenar datos de entrada, herramientas de geoprocesamiento y salidas en un lienzo gráfico. Para el Hito 5 Proyecto Final integran el flujo automatizado en ambas herramientas (ModelBuilder .atbx y Diseñador Gráfico .model3).
         </p>
 
         <h3>2. Elementos de un Modelo</h3>
@@ -879,9 +950,9 @@ export const THEORY_WEEKS = [
           <li><strong>Parámetros (P):</strong> Al marcar un elemento como Parámetro, el modelo se convierte en una herramienta reutilizable con cuadro de diálogo propio.</li>
         </ul>
 
-        <h3>3. Salidas Cartográficas A3 y Quiz 4</h3>
+        <h3>3. Salidas Cartográficas A3 y Pre-chequeo Técnico Hito 5</h3>
         <p>
-          El flujo automatizado alimenta la lámina técnica A3 en EPSG:9377 y será evaluado en el Parcial 2. Al cierre de la sesión se presenta el <strong>Quiz 4 (8%)</strong> evaluando Posicionamiento GNSS en Gabinete (GPX/CSV, filtro HDOP &lt;= 2.0 y contraste contra vértices IGAC en EPSG:9377).
+          El flujo automatizado alimenta el Dossier Infográfico A3 en EPSG:9377 y será sustentado en el Hito 5. Al cierre de la sesión se realiza el pre-chequeo técnico en sala garantizando 0 rutas rotas, integridad de la File Geodatabase (.gdb) y verificación del modelo ejecutable.
         </p>
       </div>
     `,
@@ -901,13 +972,13 @@ export const THEORY_WEEKS = [
   {
     week: 16,
     moduleId: 'M6',
-    title: 'Cierre Integrador: Parcial 2 (P2 · 1h30m) y Sustentación Oral del Informe Final (IF)',
-    subtitle: 'Examen práctico individual P2 (15%, 90 min) en QGIS y sustentación oral del Informe Final (IF = 26%)',
+    title: 'Cierre Integrador: Hito 5 Proyecto Final Individual y Pitch Ejecutivo',
+    subtitle: 'Sustentación individual en vivo: Pitch Ejecutivo Relámpago (4 + 3 min), Dossier A3 y automatización ModelBuilder / .model3 (Hito 5 · 20%)',
     readingTime: '15 min',
     objectives: [
-      'Resolver el Parcial Práctico 2 (P2, 15%, 90 min / 1h30m) en QGIS: cálculo directo de NDVI y NDBI, vectorización DN=1, Modelo Automatizado (.model3) y Mapa PDF.',
-      'Entregar y sustentar en equipo (7 min Pitch + 3 min Defensa Individual) el Informe Final (IF = 26%) en QGIS enfocado en análisis territorial y propuesta de intervención.',
-      'Consolidar el 100% de las notas del curso.'
+      'Ejecutar en vivo el modelo automatizado (.atbx / .model3) sobre la unidad territorial asignada garantizando 0 errores.',
+      'Sustentar de forma individual en vivo el Pitch Ejecutivo Relámpago (4 min exposición + 3 min preguntas) operando QGIS LTR y ArcGIS Pro ante el docente.',
+      'Consolidar el 100% de las notas del curso (5 Hitos × 20%).'
     ],
     contentHtml: `
       <div class="theory-rich-article">
@@ -930,13 +1001,14 @@ export const THEORY_WEEKS = [
           </div>
         </div>
 
-        <h3>2. Informe Final Simplificado (IF · 26%) y Parcial 2 (P2 · 15%, 1h30m) en QGIS</h3>
+        <h3>2. Estructura de la Sesión Final: Hito 5 (20%)</h3>
         <p>
-          La sesión final del curso se divide en dos bloques:
+          La sesión de cierre del semestre se estructura en el horario oficial de Sala de Cómputo (12:00 m. – 4:30 p.m.):
         </p>
         <ol>
-          <li><strong>Bloque 1 — Parcial Práctico 2 (P2, 15%, 90 min / 1h30m):</strong> Evaluación individual en QGIS sobre cálculo directo de NDVI y NDBI, vectorización de presión urbana, Modelo Automatizado (.model3) y Mapa PDF.</li>
-          <li><strong>Bloque 2 — Entrega y Sustentación Oral del Informe Final (IF, 26% = 12% + 14%, 10 min/grupo):</strong> Paquete simplificado en QGIS (<code>grupoXX_IF.zip</code>: proyecto QGIS, Lámina A3 a 300 dpi e Informe Territorial de 4–5 páginas) enfocado en diagnóstico y propuesta de intervención.</li>
+          <li><strong>Sub-bloque 1 (12:00 m. – 1:50 p.m.):</strong> Verificación final de empaquetado, apertura de proyectos en limpio (.qgz y .aprx) y comprobación de rutas relativas con 0 enlaces rotos.</li>
+          <li><strong>Pausa Activa Pedagógica (1:50 p.m. – 2:10 p.m.):</strong> Transición y preparación de la estación individual de sustentación.</li>
+          <li><strong>Sub-bloque 2 (2:10 p.m. – 4:30 p.m.):</strong> Pitch Ejecutivo Relámpago individual (4 min de demostración en vivo operando QGIS LTR + ArcGIS Pro y defendiendo el Dossier A3 + 3 min de preguntas técnicas sobre geoprocesamiento e integridad espacial).</li>
         </ol>
       </div>
     `,
@@ -1000,17 +1072,17 @@ export const LAB_GUIDES = [
     moduleId: 'M0',
     title: 'Datum, Origen Nacional CTM12 y Georreferenciación Manual',
     duration: '90 min',
-    modality: 'Individual (evaluado con Quiz 1)',
+    modality: '100% Individual (Preparación Hito 1)',
     software: 'Calculadora / QGIS preliminar',
     dataRequired: 'Puntos geodésicos del IGAC en el Valle de Aburrá',
-    summary: 'Cálculo manual de proyecciones cartográficas, comprensión de la Res. IGAC 471/2020 y preparación para el Quiz 1.',
+    summary: 'Cálculo manual de proyecciones cartográficas, comprensión de la Res. IGAC 471/2020 y preparación para el Hito 1 en Sala.',
     steps: [
       'Estudiar los parámetros del Origen Nacional CTM12: EPSG 9377, Falso Este 5.000.000 m, Falso Norte 2.000.000 m.',
       'Calcular la distancia euclidiana entre dos puntos de control en coordenadas planas métricas.',
-      'Presentar el Quiz 1 individual (8% de la nota del curso).',
+      'Consolidar las transformaciones geodésicas y cálculo de distancias métricas hacia EPSG:9377.',
       'Verificar la georreferenciación de una imagen aérea sobre el campus EAFIT / La Iguaná.'
     ],
-    deliverable: 'Quiz 1 resuelto y comprobación de coordenadas CTM12.'
+    deliverable: 'Memoria de cálculo geodésico y comprobación de coordenadas CTM12 (EPSG:9377).'
   },
   {
     code: 'G04',
@@ -1018,16 +1090,16 @@ export const LAB_GUIDES = [
     moduleId: 'M1',
     title: 'Interfaz de QGIS, Creación de GeoPackage y Conexión a Servicios WMS',
     duration: '90 min',
-    modality: 'En equipo',
+    modality: '100% Individual',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Ortofoto WMS de GeoMedellín y cartografía base IGAC',
-    summary: 'Montaje del entorno de trabajo profesional, fijación estricta de EPSG:9377, creación de proyecto_iguana.gpkg y consumo de geoservicios WMS.',
+    summary: 'Montaje del entorno de trabajo profesional en C:\\Temp, fijación estricta de EPSG:9377, creación de proyecto_iguana.gpkg y consumo de geoservicios WMS.',
     steps: [
       'Abrir QGIS y configurar el CRS del proyecto en MAGNA-SIRGAS Origen Nacional (EPSG:9377).',
       'Configurar el guardado con rutas relativas en Propiedades del Proyecto.',
-      'Crear la base de datos espacial proyecto_iguana.gpkg dentro de la carpeta del equipo.',
+      'Crear la base de datos espacial proyecto_iguana.gpkg dentro de su directorio de trabajo individual.',
       'Conectar el servicio WMS de GeoMedellín para desplegar la ortofoto de alta resolución de la ciudad.',
-      'Habilitar el proceso de Recuperación Activa del Quiz 1 contrastando el cálculo manual con QGIS.'
+      'Validar la precisión de coordenadas contrastando el cálculo manual con QGIS LTR.'
     ],
     deliverable: 'Archivo proyecto_iguana.gpkg inicializado y proyecto .qgz con WMS configurado.'
   },
@@ -1037,10 +1109,10 @@ export const LAB_GUIDES = [
     moduleId: 'M1',
     title: 'Digitalización Vectorial, Auto-ensamblado y Control Topológico',
     duration: '90 min',
-    modality: 'En equipo',
+    modality: '100% Individual (Hito 1 · 20%)',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Ortofoto WMS y capa proyecto_iguana.gpkg',
-    summary: 'Digitalización rigurosa de líneas y polígonos sobre La Iguaná, uso del imán de auto-ensamblado a 12 px y verificación de topología limpia sin dangles.',
+    summary: 'Digitalización rigurosa de líneas y polígonos sobre La Iguaná y unidad territorial, uso del imán de auto-ensamblado a 12 px y presentación del Hito 1 en Sala.',
     steps: [
       'Crear en el GeoPackage las capas red_hidrica (Línea) y zonas_cobertura (Polígono) en EPSG:9377.',
       'Activar la barra de autoensamblado (Snapping) en modo "Todas las capas" con tolerancia de 12 píxeles.',
@@ -1048,7 +1120,7 @@ export const LAB_GUIDES = [
       'Digitalizar polígonos colindantes activando "Evitar solapamiento" (Avoid Overlap) para garantizar linderos perfectos.',
       'Ejecutar el Comprobador de topología para confirmar cero solapes y cero geometrías inválidas.'
     ],
-    deliverable: 'Capas vectoriales digitalizadas con topología limpia en proyecto_iguana.gpkg.'
+    deliverable: 'Capas vectoriales digitalizadas con topología limpia en proyecto_iguana.gpkg (Hito 1).'
   },
   {
     code: 'G06',
@@ -1056,18 +1128,18 @@ export const LAB_GUIDES = [
     moduleId: 'M1',
     title: 'Tablas de Atributos, Calculadora de Campos y Simbología Temática',
     duration: '90 min',
-    modality: 'Individual (evaluado con Quiz 2)',
+    modality: '100% Individual (Preparación Hito 2)',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Capa de predios y equipamientos de La Iguaná',
-    summary: 'Diseño de campos en snake_case, cálculo automático de áreas en km² y longitudes en metros, simbología clasificada y presentación del Quiz 2.',
+    summary: 'Diseño de campos en snake_case, cálculo automático de áreas en m²/ha y longitudes en metros, simbología clasificada y preparación para el Hito 2.',
     steps: [
       'Normalizar la tabla de atributos eliminando tildes y caracteres especiales en los nombres de campo.',
       'Usar la Calculadora de Campos para crear <code>area_ha</code> con la expresión <code>$area / 10000</code> y <code>long_m</code> con <code>$length</code>.',
       'Configurar simbología temática categorizada según el tipo de equipamiento (salud, educación, comunitario).',
       'Configurar etiquetas automáticas con buffer / halo protector de 1 mm.',
-      'Presentar el Quiz 2 individual (8% de la nota).'
+      'Consolidar el esquema de atributos y geoprocesamiento vectorial en EPSG:9377.'
     ],
-    deliverable: 'Quiz 2 completado y tabla de atributos enriquecida con métricas geométricas.'
+    deliverable: 'Tabla de atributos normalizada y enriquecida con métricas geométricas en EPSG:9377.'
   },
   {
     code: 'G07',
@@ -1075,18 +1147,18 @@ export const LAB_GUIDES = [
     moduleId: 'M1',
     title: 'Geoprocesamiento Vectorial y Consumo de Geoservicios WFS',
     duration: '90 min',
-    modality: 'En equipo',
+    modality: '100% Individual',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Red hídrica de La Iguaná y predios catastrales',
-    summary: 'Generación de la Faja de Retiro de 30 metros del POT, intersección espacial con predios en conflicto y conexión a geoservicios WFS en vivo.',
+    summary: 'Generación de la Faja de Retiro legal (30 + D m), intersección espacial con predios en conflicto y conexión a geoservicios WFS en vivo.',
     steps: [
       'Conectarse al servicio WFS de GeoMedellín para descargar la capa de predios de la Comuna 7 (Robledo).',
-      'Ejecutar la herramienta Buffer con distancia de 30 metros sobre la red hídrica activando la opción Disolver.',
+      'Ejecutar la herramienta Buffer con distancia de retiro parametrizada (30 + D m) sobre la red hídrica activando Disolver.',
       'Ejecutar Intersección entre la faja de retiro y los predios catastrales para identificar invasiones.',
       'Calcular el área total de afectación y cuantificar los predios en zona de riesgo.',
-      'Habilitar el proceso de Recuperación Activa del Quiz 2.'
+      'Auditar y corregir la coherencia de métricas geométricas en la tabla de atributos.'
     ],
-    deliverable: 'Capa faja_retiro_30m e interseccion_predios guardadas en proyecto_iguana.gpkg.'
+    deliverable: 'Capa faja_retiro e interseccion_predios guardadas en proyecto_iguana.gpkg.'
   },
   {
     code: 'G08',
@@ -1094,18 +1166,18 @@ export const LAB_GUIDES = [
     moduleId: 'M2',
     title: 'Descarga y Preprocesamiento de Modelos DEM Ráster',
     duration: '90 min',
-    modality: 'En equipo',
+    modality: '100% Individual (Hito 2 · 20%)',
     software: 'QGIS 3.x LTR / GDAL',
     dataRequired: 'DEM ALOS PALSAR 12.5 m / DEM SRTM 30 m de la Cuenca La Iguaná',
-    summary: 'Descarga de datos de elevación, reproyección estricta con GDAL Warp a MAGNA-SIRGAS CTM12 (EPSG:9377) con remuestreo bilineal y recorte por polígono de cuenca.',
+    summary: 'Descarga de datos de elevación, reproyección estricta con GDAL Warp a MAGNA-SIRGAS CTM12 (EPSG:9377) con remuestreo bilineal y entrega de Hito 2.',
     steps: [
       'Cargar el DEM crudo descargado de Alaska Satellite Facility (ALOS PALSAR 12.5 m).',
       'Ejecutar Raster → Proyecciones → Combar (Reproyectar) asignando el CRS EPSG:9377 y remuestreo Bilineal.',
       'Recortar el DEM reproyectado utilizando como máscara el polígono oficial de la cuenca (46.25 km²).',
       'Inspeccionar el rango altimétrico: valor mínimo 1.450 msnm y valor máximo 2.950 msnm.',
-      'Verificar que el tamaño de celda sea exactamente de 12.5 x 12.5 metros.'
+      'Presentar la Evaluación Práctica Integradora 1 (Hito 2 · 20%) en Sala de Cómputo.'
     ],
-    deliverable: 'Archivo dem_iguana_ctm12.tif preprocesado y recortado en EPSG:9377.'
+    deliverable: 'Archivo dem_iguana_ctm12.tif preprocesado y evaluación de Hito 2.'
   },
   {
     code: 'G09',
@@ -1132,7 +1204,7 @@ export const LAB_GUIDES = [
     moduleId: 'M2',
     title: 'Álgebra de Mapas (Raster Calculator) y Perfil Longitudinal del Cauce',
     duration: '90 min',
-    modality: 'En equipo',
+    modality: '100% Individual',
     software: 'QGIS 3.x LTR / Plugin Profile Tool',
     dataRequired: 'dem_iguana_ctm12.tif y eje_cauce_iguana.shp',
     summary: 'Formulación booleana condicional en Raster Calculator para zonificación de amenaza y trazado del perfil de elevación desde Boquerón hasta el Río Medellín.',
@@ -1143,7 +1215,7 @@ export const LAB_GUIDES = [
       'Extraer el desnivel vertical: 1.500 metros (cota inicial 2.950 msnm, cota final 1.450 msnm).',
       'Calcular la pendiente media del cauce: S = (1500 / 15000) * 100 = 10.0%.'
     ],
-    deliverable: 'Gráfico exportado del perfil longitudinal del cauce y mapa de amenaza por alta pendiente (insumos para IF).'
+    deliverable: 'Gráfico exportado del perfil longitudinal del cauce y mapa de amenaza por alta pendiente (insumos para Hito 4 e Hito 5).'
   },
   {
     code: 'G11',
@@ -1151,7 +1223,7 @@ export const LAB_GUIDES = [
     moduleId: 'M3',
     title: 'Cápsula Esencial GNSS y Verificación Espacial de Datos GPX/CSV en QGIS',
     duration: '45 min',
-    modality: 'Práctica en clase (insumos_g11_gnss/)',
+    modality: '100% Individual (Cápsula GNSS)',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Paquete insumos_g11_gnss/ (traza_cruda_eafit.gpx, campo_garmin_crudo.gpx, campo_smartphone_crudo.csv, vertices_control_igac.gpkg)',
     summary: 'Síntesis práctica de posicionamiento satelital GNSS, importación de waypoints y tracks en QGIS, filtrado por HDOP y reproyección a CTM12.',
@@ -1161,7 +1233,7 @@ export const LAB_GUIDES = [
       'Filtrar registros con HDOP <= 2.0 descartando saltos por multitrayectoria en cañones urbanos.',
       'Reproyectar de WGS84 (EPSG:4326) a MAGNA-SIRGAS CTM12 (EPSG:9377) y contrastar con vértices IGAC.'
     ],
-    deliverable: 'Capas GNSS depuradas en EPSG:9377 (evaluado en el Quiz 4).'
+    deliverable: 'Capas GNSS depuradas en EPSG:9377 con cálculo de RMSE horizontal (insumos para Hito 4).'
   },
   {
     code: 'G12',
@@ -1169,7 +1241,7 @@ export const LAB_GUIDES = [
     moduleId: 'M4',
     title: 'Teledetección Satelital en QGIS I: Bandas Sentinel-2, Ráster Virtual y Compuestos RGB/CIR',
     duration: '60 min',
-    modality: 'En equipo',
+    modality: '100% Individual',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Bandas Sentinel-2 Nivel 2A de La Iguaná en EPSG:9377 (insumos_g12_g13_sentinel2/: s2_b02_azul.tif, s2_b03_verde.tif, s2_b04_rojo.tif, s2_b08_nir.tif, s2_b11_swir1.tif)',
     summary: 'Construcción de Ráster Virtual (.vrt) en QGIS con bandas de Sentinel-2 L2A y renderizado multibanda en Color Verdadero (4-3-2) y Falso Color Infrarrojo (8-4-3).',
@@ -1188,7 +1260,7 @@ export const LAB_GUIDES = [
     moduleId: 'M4',
     title: 'Teledetección Satelital en QGIS II: Índices Espectrales NDVI / NDBI y Fusión 3D',
     duration: '75 min',
-    modality: 'En equipo',
+    modality: '100% Individual',
     software: 'QGIS 3.x LTR',
     dataRequired: 'Bandas Sentinel-2 en insumos_g12_g13_sentinel2/ (s2_b04_rojo.tif, s2_b08_nir.tif, s2_b11_swir1.tif) y Hillshade 3D de La Iguaná',
     summary: 'Cálculo directo de NDVI y NDBI en la Calculadora Ráster de QGIS, generación de máscaras booleanas (vegetacion_densa_ndvi.tif), estadísticas de capa ráster y fusión Multiplicar con el Hillshade.',
@@ -1199,7 +1271,7 @@ export const LAB_GUIDES = [
       'Ejecutar Estadísticas de capa ráster para obtener mínimo, máximo, media y porcentaje de vegetación densa.',
       'Renderizar el NDVI con rampa RdYlGn y modo de mezcla Multiplicar sobre el Hillshade del DEM.'
     ],
-    deliverable: 'Rásteres ndvi_iguana_10m.tif (ndvi_iguana_9377.tif), vegetacion_densa_ndvi.tif y ndbi_iguana_9377.tif listos para P2 e IF.'
+    deliverable: 'Rásteres ndvi_iguana_10m.tif (ndvi_iguana_9377.tif), vegetacion_densa_ndvi.tif y ndbi_iguana_9377.tif listos para Hito 4 e Hito 5.'
   },
   {
     code: 'G14',
@@ -1207,53 +1279,53 @@ export const LAB_GUIDES = [
     moduleId: 'M5',
     title: 'ArcGIS Pro: Entorno Corporativo, File Geodatabases y Servicios REST',
     duration: '60 min',
-    modality: 'En equipo',
+    modality: '100% Individual (Hito 4 · 20% en S14)',
     software: 'ArcGIS Pro / QGIS 3.x LTR',
     dataRequired: 'Capas de proyecto_iguana.gpkg e insumos ráster',
-    summary: 'Exploración de ArcGIS Pro (.aprx), estructura de File Geodatabase (.gdb), Feature Datasets en EPSG:9377, dominios de atributos, servicios REST e interoperabilidad con GeoPackage.',
+    summary: 'Exploración de ArcGIS Pro (.aprx), estructura de File Geodatabase (.gdb), Feature Datasets en EPSG:9377, dominios de atributos, servicios REST y entrega de Hito 4.',
     steps: [
       'Explorar la interfaz de ArcGIS Pro (.aprx) y su equivalencia directa con QGIS (.qgz).',
       'Crear la File Geodatabase Iguana_Corporativo.gdb y un Feature Dataset en EPSG:9377.',
       'Configurar dominios de atributos (valores codificados y rangos) para validación de tablas.',
       'Conectarse a servicios ArcGIS REST de GeoMedellín / AMVA / SIATA.',
-      'Practicar la lectura cruzada entre GeoPackage (.gpkg) y File Geodatabase (.gdb).'
+      'Presentar la Evaluación Práctica Integradora 2 (Hito 4 · 20%) en Sala de Cómputo.'
     ],
-    deliverable: 'Conexión REST y práctica de interoperabilidad .gpkg / .gdb.'
+    deliverable: 'File Geodatabase (.gdb) y Evaluación Práctica Integradora 2 (Hito 4).'
   },
   {
     code: 'G15',
     week: 15,
     moduleId: 'M5',
-    title: 'Automatización Espacial (ModelBuilder / Diseñador QGIS) y Quiz 4',
+    title: 'Automatización Espacial Dual (ModelBuilder .atbx & Diseñador QGIS .model3)',
     duration: '120 min',
-    modality: 'En equipo y Evaluación Individual (Quiz 4 · 8%)',
-    software: 'ArcGIS Pro o QGIS 3.x LTR',
-    dataRequired: 'Capas de La Iguaná y paquete insumos_q4/',
-    summary: 'Construcción de un flujo automatizado encadenado en ModelBuilder (ArcGIS Pro) o en el Diseñador Gráfico de Modelos (QGIS), y presentación del Quiz 4 sobre Posicionamiento GNSS en Gabinete (S11/G11).',
+    modality: '100% Individual (Pre-chequeo técnico para Hito 5)',
+    software: 'ArcGIS Pro & QGIS 3.x LTR',
+    dataRequired: 'Capas de la unidad territorial asignada e insumos ráster',
+    summary: 'Construcción de flujos automatizados encadenados en ModelBuilder (ArcGIS Pro) y Diseñador Gráfico de Modelos (QGIS), y pre-chequeo técnico de rutas y geodatabases para el Hito 5.',
     steps: [
-      'Abrir ModelBuilder en ArcGIS Pro o el Diseñador Gráfico de Modelos en QGIS.',
+      'Abrir ModelBuilder en ArcGIS Pro y el Diseñador Gráfico de Modelos en QGIS.',
       'Encadenar entradas vectoriales/ráster, Buffer de retiro hídrico y cruce con zonas críticas.',
-      'Configurar parámetros de usuario reutilizables y validar el flujo completo.',
-      'Presentar de forma individual el Quiz 4 (8%, 45 min): Posicionamiento GNSS en Gabinete y Control de Calidad por HDOP.'
+      'Configurar parámetros de usuario reutilizables (P) y validar la ejecución limpia del flujo en ambas herramientas.',
+      'Realizar el pre-chequeo técnico en sala asegurando 0 rutas rotas y 0 corrupción en la File Geodatabase (.gdb).'
     ],
-    deliverable: 'Modelo automatizado (.model3) y Quiz 4 presentado.'
+    deliverable: 'Modelos automatizados (.model3 y .atbx) validados y pre-chequeo técnico aprobado para Hito 5.'
   },
   {
     code: 'G16',
     week: 16,
     moduleId: 'M6',
-    title: 'Cierre Integrador: Parcial 2 (P2 · 1h30m) y Sustentación Oral del Informe Final (IF)',
-    duration: '180 min',
-    modality: 'Individual en QGIS (P2 · 15%, 90 min) y Grupal en QGIS con Sustentación (IF · 26%)',
-    software: 'QGIS 3.x LTR',
-    dataRequired: 'Paquete del Parcial 2 (insumos_p2/) y paquete grupoXX_IF.zip del equipo',
-    summary: 'Bloque 1: Parcial Práctico 2 (P2, 15%, 90 min / 1h30m) en QGIS sobre NDVI/NDBI, Modelo Automatizado (.model3) y Mapa PDF. Bloque 2: Entrega única y Sustentación Oral (7 min Pitch + 3 min Preguntas) del Informe Final (IF) en QGIS.',
+    title: 'Cierre Integrador: Hito 5 Proyecto Final Individual y Pitch Ejecutivo',
+    duration: '270 min (12:00 m. – 4:30 p.m.)',
+    modality: '100% Individual (Hito 5 · 20%: Modelo + Dossier A3 + Pitch Ejecutivo 4+3 min)',
+    software: 'QGIS 3.x LTR & ArcGIS Pro',
+    dataRequired: 'Paquete individual Hito 5: modelos (.atbx / .model3), Dossier A3 (PDF 300 dpi) y geodatabases (.gpkg y .gdb)',
+    summary: 'Sub-bloque 1 (12:00 m. – 1:50 p.m.): Verificación final de empaquetado y apertura de proyectos en limpio. Pausa activa (1:50 p.m. – 2:10 p.m.). Sub-bloque 2 (2:10 p.m. – 4:30 p.m.): Pitch Ejecutivo Relámpago individual (4+3 min) operando QGIS LTR y ArcGIS Pro en vivo.',
     steps: [
-      'Bloque 1 (90 min / 1h30m): Resolver individualmente en QGIS el Parcial 2 (cálculo directo de NDVI y NDBI, vectorización DN=1, Modelo Automatizado .model3 y Mapa PDF).',
-      'Bloque 2 (10 min/grupo): Sustentar oralmente el Informe Final (IF = 26%) en QGIS proyectando la Lámina A3 y defendiendo el análisis territorial y propuesta de intervención.',
+      'Sub-bloque 1 (110 min): Abrir proyectos (.qgz y .aprx) desde carpeta descomprimida verificando cero rutas rotas y ejecución del modelo.',
+      'Sub-bloque 2 (140 min): Sustentar individualmente el Pitch Ejecutivo (4 min de exposición con Dossier A3 + 3 min de preguntas del docente operando el software en vivo).',
       'Emitir el Acta Oficial de Calificación y Comprobante SHA-256 desde la plataforma GeoLab Iguaná.'
     ],
-    deliverable: 'Parcial P2 individual (.zip) e Informe Final grupal grupoXX_IF.zip + Sustentación Oral.'
+    deliverable: 'Dossier Infográfico A3 (PDF 300 dpi), modelos (.atbx y .model3), geodatabases (.gpkg y .gdb) y sustentación oral individual (Hito 5 · 20%).'
   }
 ];
 

@@ -20,6 +20,8 @@ export const GLOSSARY_TERMS = [
   { term: 'Escala Gráfica', def: 'Línea segmentada graduada dibujada sobre el mapa que mantiene la relación proporcional exacta incluso cuando el documento sufre reducciones o ampliaciones (fotocopias o pantallas).' },
   { term: 'Criterio de Nyquist', def: 'Principio cartográfico que establece que el tamaño del píxel o resolución espacial (R) debe ser como máximo la mitad del tamaño característico del objeto a detectar (W): R <= W/2.' },
   { term: 'GeoPackage (.gpkg)', def: 'Estándar abierto del OGC (Open Geospatial Consortium) basado en SQLite que almacena múltiples capas vectoriales y ráster en un único archivo portable, superando las limitaciones históricas del Shapefile.' },
+  { term: 'File Geodatabase (.gdb)', def: 'Contenedor espacial nativo de ArcGIS Pro estructurado como directorio de alto rendimiento que soporta Feature Datasets en EPSG:9377, Subtipos, Dominios Codificados de atributos y reglas de Geodatabase Topology.' },
+  { term: 'ModelBuilder (.atbx)', def: 'Entorno visual de programación por grafos dirigidos en ArcGIS Pro (equivalente al Diseñador Gráfico .model3 en QGIS) que encadena y parametriza flujos reproducibles de geoprocesamiento.' },
   { term: 'WMS', def: 'Web Map Service. Geoservicio estándar del OGC que entrega mapas georreferenciados en formato de imagen ráster (PNG/JPEG), ideal para visualización rápida de ortofotos o cartografía base.' },
   { term: 'WFS', def: 'Web Feature Service. Geoservicio estándar del OGC que transfiere las geometrías vectoriales crudas y sus tablas de atributos completas, permitiendo edición y geoprocesamiento.' },
   { term: 'Snapping (Auto-ensamblado)', def: 'Mecanismo asistido de digitalización que atrae magnéticamente el cursor del usuario al vértice, nodo o segmento más cercano dentro de un radio de tolerancia en píxeles.' },
@@ -276,9 +278,11 @@ En La Iguaná:
 * **Desembocadura:** Río Medellín ($1.450\\text{ msnm}$) en Puente Colombia / Plaza Minorista.`
       },
       {
-        title: '2. GeoPackage (.gpkg) frente a Shapefile (.shp)',
-        content: `El formato Shapefile de 1990 tiene serias limitaciones técnicas: corta nombres de columnas a 10 caracteres, no soporta nulos verdaderos y requiere múltiples archivos (.shp, .shx, .dbf, .prj).
-El estándar abierto **GeoPackage (.gpkg)** del OGC almacena múltiples capas vectoriales y ráster en un único archivo SQLite relacional, con índices espaciales R-Tree de alto rendimiento.`
+        title: '2. Contenedores Modernos: GeoPackage (.gpkg) y File Geodatabase (.gdb)',
+        content: `El formato Shapefile de 1990 tiene serias limitaciones técnicas: corta nombres de columnas a 10 caracteres, no soporta nulos verdaderos y dispersa múltiples archivos (.shp, .shx, .dbf, .prj).
+En el curso operamos en espejo dos estándares profesionales:
+* **GeoPackage (.gpkg) en QGIS LTR:** Estándar abierto SQLite del OGC en un único archivo portable con índices espaciales R-Tree.
+* **File Geodatabase (.gdb) en ArcGIS Pro:** Contenedor corporativo con *Feature Datasets* homologados a \`EPSG:9377\`, *Dominios Codificados* y *Geodatabase Topology* (debe operarse en \`C:\\Temp\` y cerrarse antes de comprimir para liberar archivos \`.lock\`).`
       }
     ],
     exercises: [

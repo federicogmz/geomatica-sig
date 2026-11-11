@@ -1,145 +1,232 @@
-# G06: Tablas de atributos, calculadora de campos, simbología temática y salida cartográfica A3
+# G06: Tablas de atributos, métricas geométricas ($area vs area($geometry)), Kit de Diseño de Infografías Cartográficas A3 y Ventana de Mejora Continua H1
 
-**Módulo 1 · Semana 6.** Tercera sesión de acompañamiento intensivo y aplicación del **Quiz 2 (8%)**. En esta sesión dominarán la componente alfanumérica y analítica del SIG: tipos de datos en la tabla de atributos, cálculo de métricas geométricas en metros y kilómetros cuadrados, diseño de simbología temática profesional, etiquetado con halo protector y creación de composiciones cartográficas en el Diseñador de Impresión de QGIS.
+> **Semestre / Ciclo:** 2027-1  
+> **Semana / Fecha:** Semana 6 (`S06`) · Jueves 25 de febrero de 2027  
+> **Horario oficial:** 12:00 m. – 4:30 p.m. (4.5 h presenciales en Sala de Cómputo EAFIT)  
+> **Modalidad:** 100 % Individual  
+> **Software en Sala:** QGIS LTR + ArcGIS Pro (Licencia institucional Advanced)  
+> **Cuenca Escuela de Demostración:** Cuenca de la Quebrada La Iguaná (Medellín)  
+> **Área de Aplicación Individual:** Unidad Territorial Única (`U01` a `U30`)  
+> **Mecanismo Pedagógico Especial:** **Ventana de Mejora Continua del Hito 1 (Recuperación de hasta el 40 % de puntos deducidos)** habilitada en el Sub-bloque 2  
 
 ---
 
-## 1. El Modelo de Atributos en SIG
+## 1. Presupuesto de Tiempo Semanal (Dedicación Total: hasta 9.0 h)
 
-Un Sistema de Información Geográfica no es un programa de dibujo vectorial: cada punto, línea o polígono está indisolublemente vinculado a una fila (registro) en una base de datos tabular.
+| Bloque de Actividad | Franja Horaria / Duración | Entorno y Enfoque Pedagógico |
+|---|:---:|---|
+| **Sub-bloque 1: Atributos y Diseño A3 en QGIS** | `12:00 m. – 1:50 p.m.` (110 min) | Sala de Cómputo: Tipo de datos, `$area` vs. `area($geometry)`, paletas perceptualmente uniformes (*Viridis*/*ColorBrewer*), etiquetado con halo y maquetación A3 con los 8 elementos de ley. |
+| **Pausa Activa Pedagógica** | `1:50 p.m. – 2:10 p.m.` (20 min) | Descanso cognitivo y almuerzo ligero integrado. |
+| **Sub-bloque 2: ArcGIS Pro y Mejora Hito 1** | `2:10 p.m. – 4:25 p.m.` (135 min) | Sala de Cómputo: **Calculate Geometry Attributes** y **Layout View A3** en ArcGIS Pro + **Ventana de Mejora Continua H1 (+40 %)** + Transferencia a la unidad `U01`–`U30`. |
+| **Protocolo de Cierre en Sala** | `4:25 p.m. – 4:30 p.m.` (5 min) | Empaquetado `C:\Temp\SIG_Usuario\ -> .zip`, copia a USB/Drive institucional y purga local. |
+| **Trabajo Autónomo Independiente** | $\le 4.5\text{ h}$ semanales | PC Personal / Casa: Ajuste fino de la composición cartográfica A3 y exportación a PDF vectorial de 300 ppp. |
 
-### Tipos de datos fundamentales:
-- **Texto / Cadena (*String*):** Nombres propios, códigos catastrales, categorías (ej. `"San Cristóbal"`, `"Robledo"`, `"Residencial"`).
-- **Entero (*Integer*):** Conteo discreto sin decimales (ej. número de pisos `3`, código de comuna `7`).
-- **Número Real / Decimal (*Double / Real*):** Mediciones continuas y cálculos matemáticos (ej. área en $km^2$ `46.25`, longitud `15234.8`). **Obligatorio para cualquier cálculo geométrico.**
-- **Fecha (*Date*):** Fechas de levantamiento o actualización (ej. `2026-09-10`).
+---
+
+## 2. Rigor Matemático en la Calculadora de Campos: `$area` frente a `area($geometry)`
+
+Una de las fuentes de discrepancia más graves en informes técnicos radica en no comprender cómo calcula áreas el motor geométrico de QGIS:
+
+```
++-----------------------------------------------------------------------------------+
+| COMPARACIÓN CRÍTICA EN QGIS LTR:                                                 |
+|                                                                                   |
+| 1. $area:                                                                         |
+|    - Es una función dependiente del contexto del PROYECTO.                        |
+|    - Si el proyecto tiene configurado un elipsoide (ej. GRS80 o WGS 84), $area     |
+|      calcula el área GEODÉSICA/ELIPSOIDAL considerando la curvatura de la Tierra. |
+|    - Si en 'Propiedades del proyecto -> General -> Mediciones' el elipsoide está   |
+|      fijado en "Ninguno / Planimétrico", $area devuelve el área PLANAR plana.     |
+|                                                                                   |
+| 2. area($geometry):                                                               |
+|    - Es una función PLANAR ESTRICTA que opera directamente sobre las coordenadas  |
+|      euclidianas (X, Y) de los vértices almacenados en la CAPA.                   |
+|    - Si la capa está en EPSG:9377 (metros), devuelve metros cuadrados planos sin  |
+|      considerar deformación por escala cartográfica.                              |
+|    - Si la capa estuviera por error en EPSG:4326 (grados), ¡devolvería grados²!   |
++-----------------------------------------------------------------------------------+
+```
 
 > [!WARNING]
-> Nunca guarden un área o longitud en un campo de tipo *Texto*. Si lo hacen, QGIS no podrá calcular estadísticas, ordenar numéricamente ni clasificar por rangos de magnitud.
+> Para la ingeniería civil y el catastro urbano en Colombia bajo `EPSG:9377`, ambas métricas discrepan ligeramente debido a la variación del factor de escala puntual ($k$) en la proyección Transversa de Mercator según la distancia angular al meridiano central ($\lambda_0 = 73^\circ\text{ W}$):
+> $$k \approx k_0 \left(1 + \frac{(\Delta \lambda)^2 \cos^2(\varphi)}{2}\right)$$
+> *(donde $\Delta \lambda = \lambda - \lambda_0$ debe convertirse obligatoriamente a radianes: $2.58^\circ \times \pi / 180 \approx 0.0450\text{ rad}$).*  
+> Mientras que en el meridiano central ($73^\circ\text{ W}$) el factor es $k_0 = 0.9992$, en el Valle de Aburrá ($\lambda \approx 75.58^\circ\text{ W}$, a $\approx 285\text{ km}$ al oeste), el factor de escala puntual asciende a $k \approx 1.0002$. En consecuencia, el área planar calculada directamente sobre las coordenadas de la capa proyectada resulta aproximadamente un $0.04\,\%$ mayor que el área geodésica elipsoidal ($k^2 \approx 1.0004$). Debes reportar siempre explícitamente en el membrete si tu métrica es elipsoidal (`$area`) o planar (`area($geometry)`).
 
 ---
 
-## 2. Normalización de Campos en la Tabla de Atributos
+## 3. Secuencia Didáctica: Worked-Example Fading
 
-Abran su proyecto `proyecto_iguana.qgz` y la capa `zonas_cobertura` o `red_hidrica` dentro de `proyecto_iguana.gpkg`.
+```
+[Etapa 1: Ejemplo Resuelto] ──> [Etapa 2: Completación] ──> [Etapa 3: Caso Roto] ──> [Etapa 4: Transferencia + Mejora]
+ ($area vs. area($geometry))     (Composición A3 Cuadrícula) (Plano con Semiótica Rota) (Layout Pro + Mejora Hito 1)
+```
 
-1. Abran la tabla de atributos: clic derecho sobre la capa → **Abrir tabla de atributos** (o tecla `F6`).
-2. Conmuten el lápiz de edición (esquina superior izquierda de la tabla).
-3. **Regla de nomenclatura técnica:**
-   - Todos los nombres de columnas en **minúsculas** sin tildes, sin espacios y sin caracteres especiales.
-   - Usar formato `snake_case` (ej. `tipo_cobertura`, `area_km2`, `orden_drenaje`, `nombre_afluente`).
+### Etapa 1: Ejemplo Trabajado con "Por Qué" (12:00 m. – 12:45 p.m.)
 
----
+#### Demostración del Profesor sobre La Iguaná en QGIS LTR:
 
-## 3. Uso de la Calculadora de Campos para Métricas Geométricas
+1. **Normalización de Campos en la Tabla de Atributos:**
+   - Abran la tabla de atributos de `zonas_cobertura` (`F6`).
+   - Conmuten el lápiz de edición.
+   - **Regla estricta de nomenclatura:** Todos los nombres de columna en **minúsculas**, sin espacios, sin tildes ni caracteres especiales, utilizando formato `snake_case` (ej. `tipo_cobertura`, `area_ha`, `area_km2`, `porc_ocupacion`).
 
-Calcularemos métricas matemáticas exactas a partir de la geometría física de los polígonos:
-
-1. En la barra de la tabla de atributos, hagan clic en el ícono de ábaco (**Abrir calculadora de campos**, `Ctrl + I` / `Cmd + I`).
-2. Marquen la casilla **Crear un campo nuevo**.
-3. Configuren los parámetros:
-   - **Nombre del campo de salida:** `area_km2`
-   - **Tipo del campo de salida:** **Número real (decimal)**.
-   - **Longitud:** `10`, **Precisión:** `3` (tres cifras decimales).
-4. En el panel central de expresión:
-   - Desplieguen la categoría **Geometría** y busquen `$area`.
-   - Recuerden que como el proyecto está en EPSG:9377 (coordenadas planas en metros), `$area` devuelve metros cuadrados ($m^2$).
-   - Para convertir a kilómetros cuadrados ($km^2$), dividan entre $1\,000\,000$:
+2. **Cálculo de Área y Conversión de Unidades:**
+   - Abran la **Calculadora de campos** (`Ctrl + I` / `Cmd + I`).
+   - Marquen: **Crear un campo nuevo**.
+   - Nombre: `area_ha`.
+   - Tipo: **Número real (decimal)** con Longitud = `12` y Precisión = `3`.
+   - Como `$area` o `area($geometry)` devuelven metros cuadrados ($m^2$) al estar en `EPSG:9377`, convertimos a hectáreas ($1\text{ ha} = 10\,000\text{ m}^2$):
      ```sql
-     $area / 1000000
+     round(area($geometry) / 10000, 3)
      ```
-5. Hagan clic en *Aceptar*. Noten cómo toda la columna se llena automáticamente con el área precisa de cada polígono.
-6. **Para capas de líneas (`red_hidrica`):**
-   - Creen un campo `long_m` (Número real, precisión 1).
-   - Expresión: `$length` (devuelve la longitud en metros).
+   - Creen un segundo campo `area_km2` dividiendo entre $1\,000\,000$:
+     ```sql
+     round(area($geometry) / 1000000, 4)
+     ```
 
----
+3. **Simbología Temática y Jerarquía Figura-Fondo:**
+   - En las propiedades de la capa $\rightarrow$ **Simbología**, cambien de *Símbolo único* a **Categorizado**.
+   - Campo de valor: `tipo_cobertura`.
+   - **Paleta de colores armónica:** Utilicen rampas perceptualmente uniformes (*Viridis*, *Magma* o familias cualitativas de *ColorBrewer*). Eviten colores estridentes no asociados a la realidad física (verde para cobertura vegetal, tonos ocres/grises para tejido urbano, azul para drenajes).
+   - Hagan clic en **Clasificar** y eliminen la fila residual con valor vacío `""`.
 
-## 4. Simbología Temática Profesional
-
-La simbología transforma tablas de números en comunicación visual inteligible:
-
-1. Clic derecho sobre `zonas_cobertura` → **Propiedades... → pestaña Simbología**.
-2. Cambien de *Símbolo único* a **Categorizado**:
-   - **Valor:** Seleccionen el campo `tipo_cobertura` (ej. Bosque, Urbano, Agropecuario).
-   - **Rampa de color:** Seleccionen una paleta armónica (eviten la rampa *Spectral* o arcoíris; usen verdes para vegetación, tonos cálidos/grises para urbano).
-   - Hagan clic en el botón inferior **Clasificar**.
-3. Eliminen la última fila residual con valor vacío `""`.
-4. **Simbología graduada (para magnitudes cuantitativas):**
-   - Para visualizar el tamaño de los polígonos o el orden de caudal, elijan **Graduado**, seleccionen la columna numérica (`area_km2`) y configuren el método en **Cuantiles** o **Cortes Naturales (Jenks)** con 4 o 5 clases.
-
----
-
-## 5. Etiquetado Técnico con Halo Protector
-
-Las etiquetas permiten identificar toponimia crítica sin saturar el mapa:
-
-1. En las propiedades de la capa, vayan a la pestaña **Etiquetas**.
-2. Cambien a **Etiquetas sencillas (*Single Labels*)**.
-3. En **Valor**, elijan la columna que contiene los nombres (ej. `nombre_afluente`).
-4. **Configuración tipográfica:**
+4. **Etiquetado Técnico con Halo Protector:**
+   - Vayan a la pestaña **Etiquetas $\rightarrow$ Etiquetas sencillas (*Single labels*)**.
+   - Valor: `nombre_sector`.
    - Fuente: *Inter*, *Roboto* o *Helvetica*, tamaño 8 a 9 pt.
-5. **El Halo Protector (Indispensable para legibilidad):**
-   - Vayan a la sub-pestaña **Buffer / Halo**.
-   - Marquen la casilla **Dibujar halo de texto**.
-   - Tamaño: `1.0` a `1.5` **milímetros**.
-   - Color: Blanco con opacidad del 85-100%.
-   - Esto genera un contorno limpio que separa las letras del fondo satelital o de las curvas de nivel.
+   - **Sub-pestaña Buffer / Halo (Obligatorio para legibilidad):**
+     - Activen: **Dibujar halo de texto**.
+     - Tamaño: `1.2 mm`.
+     - Color: Blanco puro (`#FFFFFF`) con 90 % de opacidad.
+     - *Por qué:* El halo aísla ópticamente la tipografía de las curvas de nivel o de la ortofoto satelital, garantizando legibilidad sin importar la complejidad del fondo.
+
+> [!NOTE]
+> **Prompt de Auto-Explicación Obligatorio 1:**
+> *¿Por qué guardar un valor métrico de área o longitud en un campo de tipo "Texto / String" destruye la capacidad analítica del SIG en operaciones de clasificación y resúmenes estadísticos?*
 
 ---
 
-## 6. Salidas Cartográficas en el Diseñador de Impresión (Preparación I1)
+### Etapa 2: Ejemplo de Completación — Fading del Último Paso (12:45 p.m. – 1:15 p.m.)
 
-La salida cartográfica es el producto formal de ingeniería y diseño urbano:
+#### Kit de Maquetación Cartográfica A3 en el Diseñador de Impresión de QGIS:
+Se suministran las capas preparadas de la Cuenca Escuela. El estudiante completa la configuración de los **8 Elementos de Ley**:
 
-1. Vayan a **Proyecto → Nueva composición de impresión...** (Asignen el nombre `Lamina_Diagnostico_A3`).
-2. Clic derecho sobre el lienzo en blanco → **Propiedades de la página...**
+1. Menú **Proyecto $\rightarrow$ Nueva composición de impresión...** (Nombre: `Lamina_Iguana_A3`).
+2. Clic derecho sobre el lienzo en blanco $\rightarrow$ **Propiedades de la página**:
    - Tamaño: **A3 (420 × 297 mm)**.
    - Orientación: **Horizontal**.
-3. **Añadir el Mapa Principal:**
-   - Herramienta lateral *Añadir mapa* (ícono de hoja de mapa).
-   - Tracen una ventana ocupando el 75% del espacio central.
-   - En *Propiedades del elemento*, ajusten la **Escala** a un número redondo estándar (ej. `15000` o `20000`).
-4. **Añadir la Cuadrícula / Grilla:**
-   - En propiedades del mapa, desplieguen **Cuadrículas** → clic en `+`.
-   - Modificar cuadrícula:
-     - Tipo de cuadrícula: *Cruz* o *Sólido* suave.
-     - CRS: `EPSG:9377`.
-     - Intervalo X e Y: `1000` **metros**.
-     - Dibujar coordenadas: Activar, formato decimal sin ceros sobrantes.
-5. **Añadir Elementos Esenciales:**
-   - **Barra de Escala:** Menú *Añadir elemento → Añadir barra de escala*. Ajustar unidades en metros/kilómetros.
-   - **Flecha de Norte:** *Añadir flecha de norte*.
-   - **Leyenda:** *Añadir leyenda*, desmarcar *Auto-actualizar* y remover capas auxiliares.
-   - **Membrete Técnico:** Usar la herramienta *Añadir etiqueta de texto* para colocar: Título, Autor(es), Asignatura, Fecha, Escala numérica y Declaración del CRS: `MAGNA-SIRGAS / Origen Nacional CTM12 (EPSG:9377)`.
-
----
-
-## 7. Práctica Autónoma para Repasar Durante la Semana
-
-Para afianzar lo aprendido y preparar la entrega del Informe 1:
-
-1. **Clasificación condicional:**
-   - En la capa de vías o predios, abre la calculadora de campos y crea una columna `prioridad_intervencion` (Texto):
-     ```sql
-     CASE 
-       WHEN "area_km2" > 0.05 THEN 'Alta extensión'
-       WHEN "area_km2" BETWEEN 0.01 AND 0.05 THEN 'Media extensión'
-       ELSE 'Menor'
-     END
+3. **Pasos dados:**
+   - Se insertó el *Mapa Principal* ocupando el 75 % del espacio visual central a escala redonda fija ($1 : 15\,000$).
+   - Se insertó la *Flecha de Norte*, la *Barra de escala gráfica* con subdivisiones métricas enteras y la *Leyenda* filtrada sin capas residuales.
+4. **Paso a completar por el estudiante: Configuración de la Cuadrícula Métrica CTM12 (`EPSG:9377`)**:
+   - Seleccionen el marco del mapa y en *Propiedades del elemento*, desplieguen **Cuadrículas $\rightarrow$ + (Añadir cuadrícula)**.
+   - Clic en **Modificar cuadrícula...**:
+     - Tipo de cuadrícula: **Cruz (*Cross*)** o **Líneas sólidas tenues** con opacidad al 30 %.
+     - Sistema de referencia (SRC): Asignen explícitamente `EPSG:9377`.
+     - Intervalo X: `1000` **metros**.
+     - Intervalo Y: `1000` **metros**.
+   - Desplieguen **Dibujar coordenadas**:
+     - Formato: Decimal sin decimales (`Precisión: 0`).
+     - Coordenadas izquierda y derecha: Configúrenlas en **Vertical ascendente** para que no invadan el margen de la página.
+   - Añadan el **Membrete Técnico Oficial** con un cuadro de texto que contenga:
+     ```text
+     TÍTULO: Diagnóstico Territorial y Fajas de Protección - Cuenca La Iguaná
+     AUTOR: [Tu Nombre Completo]
+     ESCALA: 1:15.000 | FECHA: Febrero 2027
+     SISTEMA DE REFERENCIA: MAGNA-SIRGAS 2018 / Origen Nacional CTM12 (EPSG:9377)
+     FUENTE: Ortofoto GeoMedellín / Cartografía Base IGAC
      ```
-2. **Control de duplicados:**
-   - Ordena la tabla de atributos por nombre y verifica que no existan polígonos duplicados.
-3. **Exportación de lámina preliminar:**
-   - En el Diseñador de Impresión, exporta a PDF a **300 ppp** y revisa en un visor PDF que los textos sean perfectamente legibles y no se corten los bordes.
 
 ---
 
-## Checklist de Finalización de Clase y Repaso Semanal
+### Etapa 3: Diagnóstico y Reparación de Caso Roto de Consultoría (1:15 p.m. – 1:50 p.m.)
 
-- [ ] Todos los campos de las tablas de atributos están en minúsculas y `snake_case`.
-- [ ] Se calcularon `area_km2` en polígonos y `long_m` en líneas con tipo de dato Decimal.
-- [ ] La simbología está categorizada con colores acordes a la semiótica cartográfica.
-- [ ] Las etiquetas tienen halo protector blanco activado.
-- [ ] Se configuró una composición de impresión en formato A3 horizontal con grilla CTM12, escala gráfica y membrete.
-- [ ] Se guardaron los cambios en el GeoPackage y en el proyecto `.qgz` con rutas relativas.
+#### El Caso Roto:
+Un informe de consultoría para una licitación pública incluyó una lámina cartográfica que fue rechazada de plano por la interventoría técnica. Al examinar el documento PDF entregado se detectaron cuatro fallas graves:
+1. Se empleó una rampa de color tipo arcoíris (*Rainbow / Spectral*): zonas de bajo riesgo aparecían en azul oscuro y zonas contiguas de riesgo medio en verde fosforescente, creando límites artificiales inexistentes y distorsión perceptual.
+2. Los textos de las quebradas se colocaron en color rojo sin halo protector directamente sobre una ortofoto con sombras densas, resultando ilegibles al 100 % de zoom.
+3. El campo `area` de la tabla se configuró como tipo `String` ("Texto") conteniendo valores con comas y letras (ej. `"12,4 ha"`), impidiendo calcular la sumatoria total del área afectada.
+4. La lámina carecía de cuadrícula métrica, escala gráfica y declaración del sistema de coordenadas, indicando únicamente: *"Escala: 1 cm = 1 cuadra en el monitor"*.
+
+```
++-----------------------------------------------------------------------------------+
+| PATOLOGÍAS CRÍTICAS DEL PLANO DEFECTUOSO:                                         |
+| 1. Violación de semiología gráfica (paleta Spectral no uniforme).                 |
+| 2. Contraste figura-fondo nulo (etiquetas sin halo sobre ortofoto oscura).         |
+| 3. Campo de área degradado a tipo Texto (bloqueo de análisis cuantitativo).       |
+| 4. Ausencia de los 8 elementos normativos de ley cartográfica.                    |
++-----------------------------------------------------------------------------------+
+```
+
+#### Andamiaje de Análisis del Error (Responde en tu libreta técnica):
+1. **Detectar:** Identifica los 4 elementos obligatorios de la cartografía normativa que fueron omitidos en el plano del consultor.
+2. **Explicar:** ¿Por qué la literatura científica de percepción visual (Borland & Taylor, Crameri et al.) prohíbe el uso de rampas arcoíris (*Rainbow*) en cartografía cuantitativa de ingeniería?
+3. **Corregir:** Plantea la reestructuración completa del mapa:
+   - Selección de paleta (*Viridis* / *Cividis*).
+   - Aplicación de halo de 1.2 mm.
+   - Conversión de atributos con la Calculadora de campos a tipo `Real (Double)`.
+   - Adición de cuadrícula CTM12 a 1.000 m y membrete normativo.
+
+---
+
+*(1:50 p.m. – 2:10 p.m. · Pausa Activa Pedagógica / Almuerzo Ligero)*
+
+---
+
+### Etapa 4: Espejo Corporativo en ArcGIS Pro y Ventana de Mejora Continua H1 (2:10 p.m. – 4:25 p.m.)
+
+#### A. Espejo en ArcGIS Pro: Calculate Geometry Attributes y Layout View A3:
+1. En ArcGIS Pro, abran la tabla de atributos de su clase de entidad `zonas_cobertura`.
+2. Hagan clic derecho sobre el encabezado de un nuevo campo numérico (`Double`) $\rightarrow$ **Calculate Geometry Attributes**:
+   - *Geometry Property:* **Area (geodesic)** frente a **Area (planar)**.
+   - *Area Unit:* **Hectares** o **Square Meters**.
+   - *Coordinate System:* **Current Map (EPSG:9377)**.
+   - Comprueben la rapidez con la que ArcGIS Pro actualiza los valores.
+3. Vayan a la pestaña **Insert $\rightarrow$ New Layout**:
+   - Elijan formato: **ISO A3 Landscape (420 × 297 mm)**.
+4. En la pestaña *Insert*, incorporen los componentes:
+   - **Map Frame:** Tracen el recuadro del mapa principal vinculándolo a su vista.
+   - **Grid:** Hagan clic en *Add Grid* y seleccionen **Measured Grid**:
+     - Verifiquen que el sistema sea `EPSG:9377` con intervalo de `1000 m`.
+   - **North Arrow**, **Scale Bar** (con unidades métricas enteras) y **Legend**.
+   - **Dynamic Text:** Incorporen metadatos automáticos de fecha, sistema de coordenadas y autor.
+
+#### B. Ventana de Mejora Continua del Hito 1 (En Sala):
+
+> [!TIP]
+> **PROTOCOLO DE MEJORA CONTINUA (RECUPERACIÓN DE HASTA EL 40 %):**
+> Los estudiantes que hayan recibido deducciones de puntaje en la entrega del [Hito 1](../03_evaluaciones/HITO_1_TALLER_GEODESIA_BASES_ESPACIALES.md) (Semana 5) disponen de esta franja en sala para:
+> 1. Identificar las fallas señaladas en la retroalimentación del profesor (rutas rotas, coordenadas no homologadas a `EPSG:9377`, errores de dominio o campos mal parametrizados).
+> 2. Ejecutar la corrección asistida directamente sobre su base espacial en `C:\Temp\SIG_Usuario\`.
+> 3. Sustentar ante el profesor en sala la corrección verificada. Quienes validen la subsanación recuperarán **hasta el 40 % de los puntos deducidos** en la nota oficial del Hito 1.
+
+#### C. Transferencia a su Unidad Territorial `U01` a `U30`:
+- Apliquen el Kit de Diseño Cartográfico A3 sobre su polígono focal asignado.
+- Generen la composición cartográfica completa garantizando los 8 elementos de ley.
+- Exporten una versión preliminar en PDF a **300 ppp** en `C:\Temp\SIG_Usuario\05_salidas_graficas\`.
+
+---
+
+## 4. Protocolo Obligatorio de Cierre en Sala (4:25 p.m. – 4:30 p.m. · 5 min)
+
+1. Cierren QGIS LTR y ArcGIS Pro guardando cambios en los proyectos y maquetaciones.
+2. En `C:\Temp\`, compriman su carpeta de trabajo en:
+   ```text
+   SIG_Uxx_Apellido_Nombre_S06.zip
+   ```
+3. Cópienlo a su USB y cáguenlo a OneDrive institucional.
+4. Borren la carpeta local `C:\Temp\SIG_Usuario\` antes de salir de la sala.
+
+---
+
+## 5. Checklist de Verificación y Entrega
+
+- [ ] Calculé áreas mediante `$area` y `area($geometry)` comprendiendo la diferencia entre métricas elipsoidales y planares en `EPSG:9377`.
+- [ ] Parametricé todos los nombres de campos en `snake_case` y tipos numéricos reales.
+- [ ] Apliqué simbología temática con paletas perceptualmente uniformes (*Viridis* / *ColorBrewer*).
+- [ ] Activé etiquetas con halo protector blanco de 1.2 mm para garantizar legibilidad figura-fondo.
+- [ ] Maqueté la lámina en formato A3 horizontal con los **8 elementos de ley** y cuadrícula CTM12 cada 1.000 m.
+- [ ] Ejecuté las herramientas homólogas en ArcGIS Pro (*Calculate Geometry Attributes* y *Layout View*).
+- [ ] Aproveché la ventana de mejora continua del Hito 1 (si aplicaba).
+- [ ] Ejecuté el cierre seguro de 5 minutos en `C:\Temp`.
